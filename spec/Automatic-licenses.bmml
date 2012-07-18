@@ -1,0 +1,51 @@
+<mockup version="1.0" skin="sketch" measuredW="1360" measuredH="630" mockupW="1269" mockupH="602">
+  <controls>
+    <control controlID="4" controlTypeID="com.balsamiq.mockups::SubTitle" x="91" y="28" w="668" h="37" measuredW="484" measuredH="37" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Automatic%20License%20Generation%20%26%20Validation</text>
+      </controlProperties>
+    </control>
+    <control controlID="6" controlTypeID="com.balsamiq.mockups::TextArea" x="884" y="236" w="476" h="340" measuredW="200" measuredH="140" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>The%20server%20receives%20the%20list%20in%20a%20single%20request%2C%20and%20for%20each%20domain%3A%0A%20%0A1.%20The%20server%20looks%20up%20the%20Application%20by%20the%20ApplicationKey%20%0A2.%20The%20server%20joins%20the%20matching%20ApplicationLicenses%20with%20DomainLicenses%20which%20also%20match%20the%20requested%20domain%20and%20feature%20code.%0A3.%20If%20a%20matching%20DomainLicense%20exists%2C%20it%20is%20queued%20for%20being%20returned.%0A4.%20Otherwise%20%28if%20any%20license%20permits%29%2C%20a%20new%20%28expiring%29%20DomainLicense%20entry%20is%20generated%20with%20the%20private%20key%20and%20queued%20for%20being%20returned.%20%0A%20%0AThe%20results%20are%20returned%20in%20a%20JSON%20or%20XML%20list.%20%0A%20%0ADomains%20fail%20licensing%20individually%3B%20otherwise%20subdomain%20typos%20could%20break%20entire%20sites.%0A%20%0ALicensing%20failures%20will%20cause%20an%20e-mail%20notification%20to%20be%20sent%20to%20the%20users%20tied%20to%20the%20Application%20in%20the%20db%20as%20well%20as%20the%20e-mail%20addresses%20included%20in%20the%20POST.</text>
+      </controlProperties>
+    </control>
+    <control controlID="7" controlTypeID="com.balsamiq.mockups::TextArea" x="258" y="415" w="466" h="215" measuredW="200" measuredH="140" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>The%20application%20parses%20the%20XML%2C%20and%20caches%20all%20valid%20licenses%20on%20disk.%20%0AIt%20verifies%20them%20by%20decrypting%20them%20with%20the%20public%20key%20and%20comparing%20the%20expiration%20date%20to%20the%20current%20time.%0A%20%0ADomains%20that%20failed%20license%20generation%20or%20decryption%20are%20marked%20as%20%27unlicensed%27%20in%20a%20collection.%20Future%20image%20requests%20to%20these%20domains%20display%20a%20watermark.%20%0A%20%0AHTTP%20500%20or%20404%20errors%20do%20not%20cause%20domain%20failure%20or%20watermarking%2C%20but%20should%20trigger%20a%20e-mail%20to%20the%20Web.config%20e-mail%20addresses.</text>
+      </controlProperties>
+    </control>
+    <control controlID="8" controlTypeID="com.balsamiq.mockups::TextArea" x="258" y="199" w="460" h="167" measuredW="200" measuredH="140" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>A%20list%20of%20the%20unlicensed%20domains%20are%20sent%20to%20the%20licensing%20server%20over%20HTTPS%20along%20with%0A%20%0A*%20Its%20feature%20code%28s%29%20%28such%20as%20%27Creative%27%2C%20%27Performance%27%2C%20%27Picaris%27%2C%20or%20%27Creative%2CPerformance%27%20%28for%20plugins%20that%20are%20included%20in%20both%29%20%0A*%20The%20ApplicationKey%20from%20Web.config%20%28The%20user%20gets%20this%20from%20the%20portal.%20It%20can%20be%20regenerated%20if%20compromised%29%0A*%20A%20list%20of%20notification%20e-mail%20addresses%20from%20Web.config.</text>
+      </controlProperties>
+    </control>
+    <control controlID="9" controlTypeID="com.balsamiq.mockups::TextArea" x="91" y="80" w="407" h="95" measuredW="200" measuredH="140" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Every%205%20minutes%2C%20%27ImageResizer.PaidPlugin%27%20verifies%20that%20%0Athere%20are%20no%20unlicensed%20domains%20in%20use%20by%20comparing%20the%20license%20store%20with%20the%20set%20of%20%27used%20domains%27.%0A%20</text>
+      </controlProperties>
+    </control>
+    <control controlID="10" controlTypeID="com.balsamiq.mockups::Arrow" x="513" y="90" w="-1" h="-1" measuredW="150" measuredH="100" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <leftArrow>false</leftArrow>
+        <text>Unlicensed%20domains%20found%3F</text>
+      </controlProperties>
+    </control>
+    <control controlID="11" controlTypeID="com.balsamiq.mockups::Arrow" x="731" y="267" w="143" h="84" measuredW="150" measuredH="100" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <curvature>0</curvature>
+        <direction>bottom</direction>
+        <leftArrow>false</leftArrow>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="12" controlTypeID="com.balsamiq.mockups::Arrow" x="739" y="456" w="135" h="74" measuredW="150" measuredH="100" zOrder="7" locked="false" isInGroup="-1">
+      <controlProperties>
+        <curvature>0</curvature>
+        <direction>top</direction>
+        <rightArrow>false</rightArrow>
+        <text/>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>
