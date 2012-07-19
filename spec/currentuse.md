@@ -21,9 +21,9 @@ With V4, we plan to simplify into two editions: Performance and Creative. We wil
 
 
 | License Type | Performance Edition | Creative Edition |
-Domain | $90 | $275 
-Developer | $199 | $399
-Enterprise | $375 | $750
+1 Domain | $90 | $275 
+1 Developer - 100 domains | $199 | $399
+1 Enterprise - 100 domains | $375 | $750
 
 None will include support, however, and the $50 Personal support incident will be going away due to abuse.
 Also, high-maintenance plugins will only be available to support contract customers.

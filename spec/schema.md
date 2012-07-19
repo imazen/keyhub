@@ -6,6 +6,9 @@ str = nvarchar(128)
 f = foreign key
 All date/time values are in UTC
 
+
+[View diagram here](http://www.gliffy.com/go/publish/3744282/)
+
 ### Users
 
 * nvarchar(1024) OpenId
