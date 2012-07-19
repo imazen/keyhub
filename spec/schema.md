@@ -1,5 +1,7 @@
 # Data model
 
+`under construction`
+
 str = nvarchar(128)
 f = foreign key
 All date/time values are in UTC
