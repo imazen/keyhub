@@ -2,107 +2,213 @@
 
 `under construction`
 
-str = nvarchar(128)
-f = foreign key
+### Diagram
+
+![Schema Diagram](http://www.gliffy.com/pubdoc/3744282/L.png)
+[View diagram here](http://www.gliffy.com/go/publish/3744282/)
+[Edit diagram here](http://www.gliffy.com/gliffy/#d=3744282&t=KeyHub_Schema)
+
+
+#### Abbreviations
+
+str = nvarchar(256)
+str2 = nvarchar(4096)
+fk = foreign key
+pk = primary key
+n = nullable
+
+
+### Notes
+
 All date/time values are in UTC
 
-
-[View diagram here](http://www.gliffy.com/go/publish/3744282/)
-
-### Users
-
-* nvarchar(1024) OpenId
-
-### UserOrganizationRoles
-
-* f User
-* f Org
-* f Role
-
-## Roles
-
-* id
-* str Name
-
-(Roles 'Admin')
-
-### Orgs/Vendors
-
-* id
-* str name
-
-### PrivateKeys
-
-* int id
-* str name
-* binary(4096) private key (password-encoded)
-* f Org
+## Data Model 
 
 ### SKUs
 
-* int id
-* f Org - The organization
-* f PrivateKey - The private key to use
-* int MaxDelegatedUsers - The number of delegated users to permit
-* int HoursBeforeLockingOwnershipData - The number of hours after purchase that ownership information can be editied by the end user. 
-* int HoursAutoKeyLasts - The number of hours auto-generated license codes last before expiring.
-* int MaxDomains - The maximum number of domains permitted.
-* int NewDomainsPerSpan - The maximum number of new domains permitted in a given amount of time
-* int NewDomainSpanHours - The number of hours 
-* int MaxSubdomainsPerDomain - The 
-* bool PermitManualKeyEdits
-* datetime 
+* pk id
+* fk private_key_id
+* fk vendor_id
+* str sku
+* n int max_domains
+* n int edit_ownership_duration
+* n int max_support_contacts
+* n int change_support_contacts_duration
+* n int license_duration
+* n int auto_domain_duration
+* n int manual_domain_duration
+* bool can_delete_manual_domains
+* bool can_delete_auto_domains
+* n datetime2 release_date
+* n datetime2 expiration_date
 
 
-### SKUFeatures
+### FeatureIDs
 
-* f SKU
-* f Feature
+* pk id
+* str code
 
-### Features
+### SKUFeatureIDs
 
-Features are abilities unlocked by license codes. 
+* fk sku_id
+* fk feature_id
 
-* int id
-* str Name
+### PrivateKeys
 
-### License
-
-* id
-* f SKU
-* f Transaction
-* guid secretkey
+* pk id
+* fk vendor_id
+* str display_name
+* binary(4096) private_key_bytes (password-encoded)
 
 
+### Vendors
 
-### DomainLicense
+* pk id
+* nvarchar(1024) name
+* //TODO: Phyiscal address, legal info for invoices, etc
+
+### VendorRoles
+
+* pk id
+* str role  Ex. ('Admin')
+
+### LicenseRoles
+
+* pk id
+* str role  Ex. ('Owner', 'SupportContact')
+
+### UserVendorRoles
+
+* fk user_id
+* fk vendor_role_id
+* fk vendor_id
+
+### UserLicenseRoles
+
+* fk user_id
+* fk license_role_id
+* fk license_id
+
+### Users
+
+* pk id
+* str name
+* str email
+
+* //TODO: OpenID integration fields
+
+### Licenses
+
+* pk id
+* fk sku_id
+* fk transaction_item_id
+* str owner_name
+* //TODO: owner address fields
+* datetime2 issued
+* n datetime2 expires
+
+### Apps
+
+* pk id
+* str display_name
+
+## AppKeys
+
+* pk id
+* fk app_id
+* unique_identifier value
 
 
+### AppLicenses
 
-### Application
+The interface must prevent an application from deleting its last license, as it would become orphaned.
+Applications can have multiple licenses.
 
-An application is a web.config instance, basically. You can have multiple web.config instances use the same application, but their errors will be pooled together.
+* fk license_id
+* fk app_id
 
-* id 
-* str DisplayName
+### DomainLicenses
 
-### ApplicationKeys
+Both automatic and manual licenses keys are stored here. 
+For simplicity, we do not differentiate between domains and subdomains. In the .dll, we automatically strip "www." off domains, but other subdomains will require separate licenses.
 
-These are not assymetric keys, they are keys that identify the application
+* pk id
+* fk license_id
+* str domain_name
+* datetime2 issued - The date the row was automatically or manually created
+* n datetime2 expires - Manually created licenses may or may not have an expiration date. If there is no expiration, it should be null.
+* bool is_automatic - Should be true if automatically generated
+* binary(4096) license_bytes
 
-* f Applicaiton
-* str SecretKey
 
-### UserApplicationSettings
+### Packages
 
-* f User
-* f Application
-* b NotifyLicensingFailures
-* b NotifyInsecureVersionInstalled
-* b NotifyOutdatedVersionInstalled
-* b NotifyUnresolvedErrors
+* pk id
+* fk vendor_id
+* str display_name
 
-### Transactions
+### PackageReleases
+
+As an alternative to this table, Packages could simply reference an RSS XML feed... 
+
+* pk id
+* fk package_id
+* str display_name
+* str version 
+* int stability
+* str2 notes_url
+* str2 download_url
+* datetime2 release_date
+
+### SKUPackages
+
+* pk id
+* fk package_id
+* fk sku_id
+
+### AppIssues
+
+* pk id
+* fk app_id
+* str Severity
+* str2 Message
+* str2 Details
+* datetime2 time
+
+### AppStats
+
+* pk id
+* fk app_id
+* datetime2 time
+* int stat_kind
+* bigint stat_value
+
+### AppNotificationKind
+
+* pk id
+* str kind Ex. LicensingFailure, InsecureVersion, OutdatedVersion, CriticalErrors, Errors, Warnings
+
+## UserAppNotifications
+
+* pk id
+* fk user_id
+* fk app_id
+* fk app_notification_kind_id
+
+## TransactionItems
+
+`In progress`
+
+* pk id
+* fk sku_id
+* int quantity
+* e_item_name
+* e_item_number
+
+
+## Transactions
+
+`In progress`
 
 Similar to PayPal IPN. See http://www.e-junkie.com/ej/help.integration.htm
 
