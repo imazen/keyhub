@@ -31,15 +31,36 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="SystemWrapper">
+      <HintPath>..\packages\SystemWrapper.0.4\lib\SystemWrapper.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Caching\CacheModes.cs" />
+    <Compile Include="Caching\ICacheProvider.cs" />
+    <Compile Include="Caching\IPerRequestCacheProvider.cs" />
+    <Compile Include="Caching\IRuntimeCacheProvider.cs" />
+    <Compile Include="Dependency\IGenericImportOrder.cs" />
+    <Compile Include="Issues\GenericIssue.cs" />
+    <Compile Include="Issues\IIssue.cs" />
+    <Compile Include="Issues\IssueSeverity.cs" />
+    <Compile Include="Kernel\IKernelEvent.cs" />
+    <Compile Include="Kernel\KernelEventCompletedArguments.cs" />
+    <Compile Include="Kernel\KernelEventIncompleteException.cs" />
+    <Compile Include="Kernel\KernelEventsTypes.cs" />
+    <Compile Include="Logging\ILogger.cs" />
+    <Compile Include="Logging\LogTypes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings\ISettingsFile.cs" />
+    <Compile Include="Settings\SettingsFileBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\KeyHub.Common\KeyHub.Common.csproj">
@@ -54,6 +75,9 @@
       <Project>{6d9ba48a-476e-4288-b3ad-0cae9008317c}</Project>
       <Name>KeyHub.Model</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

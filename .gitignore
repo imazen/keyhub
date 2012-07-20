@@ -98,3 +98,6 @@ UpgradeLog*.XML
 # LocalDB files
 *.ldf
 *.mdf
+
+# Application log folder
+Logs
