@@ -46,6 +46,7 @@ All date/time values are in UTC
 ### FeatureIDs
 
 * pk id
+* fk vendor_id
 * str code
 
 ### SKUFeatureIDs
@@ -112,7 +113,9 @@ All date/time values are in UTC
 * pk id
 * str display_name
 
-## AppKeys
+### AppKeys
+
+App keys can be created and deleted, but not edited.
 
 * pk id
 * fk app_id
@@ -188,16 +191,18 @@ As an alternative to this table, Packages could simply reference an RSS XML feed
 * pk id
 * str kind Ex. LicensingFailure, InsecureVersion, OutdatedVersion, CriticalErrors, Errors, Warnings
 
-## UserAppNotifications
+### UserAppNotifications
 
 * pk id
 * fk user_id
 * fk app_id
 * fk app_notification_kind_id
 
-## TransactionItems
+### TransactionItems
 
 `In progress`
+
+Questions - do we duplicate rows based on quantity, or tie many Licenses to a single transaction item?
 
 * pk id
 * fk sku_id
@@ -206,7 +211,9 @@ As an alternative to this table, Packages could simply reference an RSS XML feed
 * e_item_number
 
 
-## Transactions
+### Transactions
+
+We may want to store all the original data in an XML column and only keep certain fields in the schema. 
 
 `In progress`
 
