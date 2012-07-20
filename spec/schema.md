@@ -191,16 +191,18 @@ As an alternative to this table, Packages could simply reference an RSS XML feed
 * pk id
 * str kind Ex. LicensingFailure, InsecureVersion, OutdatedVersion, CriticalErrors, Errors, Warnings
 
-## UserAppNotifications
+### UserAppNotifications
 
 * pk id
 * fk user_id
 * fk app_id
 * fk app_notification_kind_id
 
-## TransactionItems
+### TransactionItems
 
 `In progress`
+
+Questions - do we duplicate rows based on quantity, or tie many Licenses to a single transaction item?
 
 * pk id
 * fk sku_id
@@ -209,7 +211,9 @@ As an alternative to this table, Packages could simply reference an RSS XML feed
 * e_item_number
 
 
-## Transactions
+### Transactions
+
+We may want to store all the original data in an XML column and only keep certain fields in the schema. 
 
 `In progress`
 
