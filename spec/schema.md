@@ -46,6 +46,7 @@ All date/time values are in UTC
 ### FeatureIDs
 
 * pk id
+* fk vendor_id
 * str code
 
 ### SKUFeatureIDs
@@ -112,7 +113,9 @@ All date/time values are in UTC
 * pk id
 * str display_name
 
-## AppKeys
+### AppKeys
+
+App keys can be created and deleted, but not edited.
 
 * pk id
 * fk app_id
