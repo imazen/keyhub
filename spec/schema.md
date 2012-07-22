@@ -30,17 +30,17 @@ All date/time values are in UTC
 * fk private_key_id
 * fk vendor_id
 * str sku
-* n int max_domains
-* n int edit_ownership_duration
-* n int max_support_contacts
-* n int change_support_contacts_duration
-* n int license_duration
-* n int auto_domain_duration
-* n int manual_domain_duration
-* bool can_delete_manual_domains
-* bool can_delete_auto_domains
-* n datetime2 release_date
-* n datetime2 expiration_date
+* n int max_domains - The maximum number of domain licenses permitted by this license
+* n int edit_ownership_duration - How long the Owner_* fields are editable after license is issued
+* n int max_support_contacts - Maxmimum number of users listed as a support contact
+* n int change_support_contacts_duration - How long the assigned support contact can be changed
+* n int license_duration - How long the license is valid for
+* n int auto_domain_duration - How long auto-generated domain licenses are valid before they must be auto-renewed
+* n int manual_domain_duration - How long manually generated domain licenses are valid for
+* bool can_delete_manual_domains - If true, users can delete manual licenses to make room for more or do cleanup
+* bool can_delete_auto_domains - If true, users can delete auto-generated licenses to make room for more or do cleanup
+* n datetime2 release_date - When this SKY is first offered for purchase
+* n datetime2 expiration_date - When this SKU is no longer available for purchase
 
 
 ### FeatureIDs
@@ -115,11 +115,11 @@ All date/time values are in UTC
 
 ### AppKeys
 
-App keys can be created and deleted, but not edited.
+App keys can be created and deleted, but not edited. Simple.
 
 * pk id
 * fk app_id
-* unique_identifier value
+* unique_identifier value - A GUID - can even be SQL-generated if easier.
 
 
 ### AppLicenses
@@ -156,12 +156,12 @@ As an alternative to this table, Packages could simply reference an RSS XML feed
 
 * pk id
 * fk package_id
-* str display_name
-* str version 
-* int stability
-* str2 notes_url
-* str2 download_url
-* datetime2 release_date
+* str display_name - Will usually be something like "Resizer 4 alpha 1"
+* str version - The official version, like "4.0.1"
+* int stability - A stability rating, where 0 is stable, 1 is RC, 2 is beta, 3 is alpha, 4 is preview, etc.
+* str2 notes_url - URL of release notes
+* str2 download_url - URL of download. May need to be signed for public access if private on S3. 
+* datetime2 release_date - When this release becomes visible
 
 ### SKUPackages
 
