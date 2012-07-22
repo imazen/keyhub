@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<nlog xmlns="http://www.nlog-project.org/schemas/NLog.xsd"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <variable name="logDirectory" value="${basedir}/Logs/"/>
+  <targets>
+    <target name="logfile" xsi:type="File" fileName="${logDirectory}/${shortdate}_log.txt" layout="${longdate} | ${level} | ${message}" />
+    <target name="console" xsi:type="Console"  layout="${level} | ${message}"/>
+  </targets>
+  <rules>
+    <logger name="*" writeTo="logfile,console"/>
+  </rules>
+</nlog>
