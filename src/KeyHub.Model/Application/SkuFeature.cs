@@ -9,23 +9,26 @@ using System.Threading.Tasks;
 namespace KeyHub.Model
 {
     /// <summary>
-    /// Represents additional OpenAuth information for each user (1 user can have multiple OpenAuth entries)
+    /// Provides the join table between SKU's and Features
     /// </summary>
-    public class OpenAuthUser
+    public class SkuFeature
     {
         /// <summary>
-        /// Unique user ID
+        /// Unqiue SkuId
         /// </summary>
         [Key]
         [Column(Order = 1)]
-        public Guid UserId { get; set; }
+        public int SkuId { get; set; }
 
+        /// <summary>
+        /// Unique FeatureId
+        /// </summary>
         [Key]
         [Column(Order = 2)]
-        [StringLength(1024)]
-        public string OpenAuthIdentifier { get; set; }
+        public Guid FeatureId { get; set; }
 
-        [ForeignKey("UserId")]
-        public virtual User User { get; set; }
+        public virtual SKU Sku { get; set; }
+
+        public virtual Feature Feature { get; set; }
     }
 }

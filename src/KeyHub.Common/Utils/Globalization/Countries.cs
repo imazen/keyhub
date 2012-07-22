@@ -19,7 +19,7 @@ namespace KeyHub.Common.Utils.Globalization
         /// A dictionary with countries using the two-letter country indentifier as key,
         /// and the English name as value
         /// </returns>
-        public Dictionary<string, string> GetAllCountries()
+        public static Dictionary<string, string> GetAllCountries()
         {
             Dictionary<string, string> countryDictionary = new Dictionary<string, string>();
 

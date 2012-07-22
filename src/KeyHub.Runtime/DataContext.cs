@@ -25,6 +25,14 @@ namespace KeyHub.Runtime
 
         public DbSet<OpenAuthUser> OpenAuthUsers { get; set; }
 
+        public DbSet<Feature> Features { get; set; }
+
+        public DbSet<PrivateKey> PrivateKeys { get; set; }
+
+        public DbSet<SKU> SKUs { get; set; }
+
+        public DbSet<Vendor> Vendors { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             // Membership tables
@@ -34,7 +42,15 @@ namespace KeyHub.Runtime
             modelBuilder.Entity<UserInRole>().ToTable("UsersInRoles");
 
             modelBuilder.Entity<Role>().HasMany(x => x.UsersInRoles).WithRequired(x => x.Role).WillCascadeOnDelete(false);
-            modelBuilder.Entity<User>().HasMany(x => x.UsersInRoles).WithRequired(x => x.User).WillCascadeOnDelete(false);
+            modelBuilder.Entity<User>().HasMany(x => x.UsersInRoles).WithRequired(x => x.User).WillCascadeOnDelete(true);
+
+            // Keyhub tables
+            modelBuilder.Entity<PrivateKey>().HasMany(x => x.SKUs).WithRequired(x => x.PrivateKey).WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<SkuFeature>().ToTable("SkuFeatures");
+
+            modelBuilder.Entity<SKU>().HasMany(x => x.SkuFeatures).WithRequired(x => x.Sku).WillCascadeOnDelete(false);
+            modelBuilder.Entity<Feature>().HasMany(x => x.SkuFeatures).WithRequired(x => x.Feature).WillCascadeOnDelete(true);
         }
     }
 }

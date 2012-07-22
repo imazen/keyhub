@@ -44,14 +44,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application\Feature.cs" />
+    <Compile Include="Application\License.cs" />
+    <Compile Include="Application\PrivateKey.cs" />
+    <Compile Include="Application\SkuFeature.cs" />
+    <Compile Include="Application\Vendor.cs" />
     <Compile Include="Membership\Application.cs" />
     <Compile Include="Membership\Membership.cs" />
     <Compile Include="Membership\OpenAuthUser.cs" />
     <Compile Include="Membership\Profile.cs" />
     <Compile Include="Membership\Role.cs" />
     <Compile Include="Membership\User.cs" />
-    <Compile Include="Membership\UserInRole.cs" />
+    <Compile Include="Membership\UserInRole.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Application\SKU.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -38,6 +38,9 @@ namespace KeyHub.Model
         [ForeignKey("ApplicationId")]
         public virtual Application Application { get; set; }
 
+        /// <summary>
+        /// Gets a list of the users in this role
+        /// </summary>
         public virtual ICollection<UserInRole> UsersInRoles { get; set; }
     }
 }
