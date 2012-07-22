@@ -57,7 +57,6 @@
     <Compile Include="Boot\SettingsBoot.cs" />
     <Compile Include="Caching\PerRequestCacheProvider.cs" />
     <Compile Include="Caching\RuntimeCacheProvider.cs" />
-    <Compile Include="Membership\KeyHubMembershipProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

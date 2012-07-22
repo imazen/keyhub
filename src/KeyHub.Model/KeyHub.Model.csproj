@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Membership\Application.cs" />
     <Compile Include="Membership\Membership.cs" />
+    <Compile Include="Membership\OpenAuthUser.cs" />
     <Compile Include="Membership\Profile.cs" />
     <Compile Include="Membership\Role.cs" />
     <Compile Include="Membership\User.cs" />

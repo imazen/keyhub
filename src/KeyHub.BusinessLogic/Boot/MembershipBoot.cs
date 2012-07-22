@@ -23,6 +23,11 @@ namespace KeyHub.BusinessLogic.Boot
         /// <returns></returns>
         public KernelEventCompletedArguments Execute()
         {
+            // Create administator Role if not already present
+            var currentRoles = System.Web.Security.Roles.GetAllRoles();
+            if (!currentRoles.Contains("Sys_Administrator"))
+                System.Web.Security.Roles.CreateRole("Sys_Administrator");
+
             // Create an administator of not already present
             var administrator = System.Web.Security.Membership.GetUser("admin");
             if (administrator == null)

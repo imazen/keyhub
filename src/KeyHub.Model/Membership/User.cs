@@ -51,5 +51,7 @@ namespace KeyHub.Model
         public virtual Application Application { get; set; }
 
         public virtual ICollection<UserInRole> UsersInRoles { get; set; }
+
+        public virtual ICollection<OpenAuthUser> OpenAuthUsers { get; set; }
     }
 }
