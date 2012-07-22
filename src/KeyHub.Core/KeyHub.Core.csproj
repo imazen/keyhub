@@ -67,10 +67,6 @@
       <Project>{cabf1962-0677-497f-b4a8-41edf551d6d3}</Project>
       <Name>KeyHub.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\KeyHub.Data\KeyHub.Data.csproj">
-      <Project>{bea22d53-d7ac-4175-91a7-0e6412c19c54}</Project>
-      <Name>KeyHub.Data</Name>
-    </ProjectReference>
     <ProjectReference Include="..\KeyHub.Model\KeyHub.Model.csproj">
       <Project>{6d9ba48a-476e-4288-b3ad-0cae9008317c}</Project>
       <Name>KeyHub.Model</Name>

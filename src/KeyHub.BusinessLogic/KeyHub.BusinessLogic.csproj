@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataInitializers\DropCreateDatabaseIfModelChangesInitializer.cs" />
     <Compile Include="Boot\EnitityBoot.cs" />
     <Compile Include="Boot\MembershipBoot.cs" />
     <Compile Include="Boot\SettingsBoot.cs" />
@@ -67,10 +68,6 @@
     <ProjectReference Include="..\KeyHub.Core\KeyHub.Core.csproj">
       <Project>{982ddf31-5d75-4194-99b4-fcc95cd4be7f}</Project>
       <Name>KeyHub.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\KeyHub.Data\KeyHub.Data.csproj">
-      <Project>{bea22d53-d7ac-4175-91a7-0e6412c19c54}</Project>
-      <Name>KeyHub.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\KeyHub.Model\KeyHub.Model.csproj">
       <Project>{6d9ba48a-476e-4288-b3ad-0cae9008317c}</Project>

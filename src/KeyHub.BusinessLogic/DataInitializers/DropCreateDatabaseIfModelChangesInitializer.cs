@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Data.Entity;
 using KeyHub.Model;
+using KeyHub.Runtime;
 
-namespace KeyHub.Data.Initializers
+namespace KeyHub.BusinessLogic.DataInitializers
 {
 #if DEBUG
 

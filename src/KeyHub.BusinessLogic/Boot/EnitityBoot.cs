@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.Composition;
 using System.Data.Entity;
+using KeyHub.BusinessLogic.DataInitializers;
 using KeyHub.Core.Kernel;
-using KeyHub.Data;
-using KeyHub.Data.Initializers;
+using KeyHub.Runtime;
 
 namespace KeyHub.BusinessLogic.Boot
 {

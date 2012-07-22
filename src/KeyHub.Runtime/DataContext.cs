@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using KeyHub.Model;
 
-namespace KeyHub.Data
+namespace KeyHub.Runtime
 {
     /// <summary>
     /// Provides data access to all tables and collections
