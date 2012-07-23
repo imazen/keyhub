@@ -21,6 +21,7 @@ n = nullable
 ### Notes
 
 All date/time values are in UTC
+All date/time columns will be in 'new' style (date, time, datetime2)
 
 ## Data Model 
 
