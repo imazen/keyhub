@@ -4,9 +4,9 @@
 
 ### Diagram
 
-![Schema Diagram](http://www.gliffy.com/pubdoc/3744282/L.png)
-[View diagram here](http://www.gliffy.com/go/publish/3744282/)
-[Edit diagram here](http://www.gliffy.com/gliffy/#d=3744282&t=KeyHub_Schema)
+![Schema Diagram](http://www.gliffy.com/pubdoc/3749127/L.png)
+[View diagram here](http://www.gliffy.com/go/publish/3749127/)
+[Edit diagram here](http://www.gliffy.com/gliffy/#d=3749127&t=KeyHub_Schema)
 
 
 #### Abbreviations
