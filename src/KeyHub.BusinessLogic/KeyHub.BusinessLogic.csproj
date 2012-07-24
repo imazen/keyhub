@@ -52,12 +52,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataInitializers\CountrySeed.cs" />
+    <Compile Include="DataInitializers\DatabaseSeeder.cs" />
     <Compile Include="DataInitializers\DropCreateDatabaseIfModelChangesInitializer.cs" />
     <Compile Include="Boot\EnitityBoot.cs" />
     <Compile Include="Boot\MembershipBoot.cs" />
     <Compile Include="Boot\SettingsBoot.cs" />
     <Compile Include="Caching\PerRequestCacheProvider.cs" />
     <Compile Include="Caching\RuntimeCacheProvider.cs" />
+    <Compile Include="Data\Application\UserVendorRightConfiguration.cs" />
+    <Compile Include="Data\Application\LicenseConfiguration.cs" />
+    <Compile Include="Data\Application\CustomerConfiguration.cs" />
+    <Compile Include="Data\Application\VendorConfiguration.cs" />
+    <Compile Include="Data\Application\UserObjectRightConfiguration.cs" />
+    <Compile Include="Data\Application\SkuConfiguration.cs" />
+    <Compile Include="Data\Application\PrivateKeyConfiguration.cs" />
+    <Compile Include="Data\Application\FeatureConfiguration.cs" />
+    <Compile Include="Data\Membership\RoleConfiguration.cs" />
+    <Compile Include="Data\Membership\UserInRoleConfiguration.cs" />
+    <Compile Include="Data\Membership\UserConfiguration.cs" />
+    <Compile Include="Data\Membership\MembershipConfiguration.cs" />
+    <Compile Include="Data\Application\SkuFeatureConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -82,6 +97,7 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

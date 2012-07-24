@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 namespace KeyHub.Model
 {
     /// <summary>
-    /// Represents a purchased SKU for storing owner and license information
+    /// Defines the basic object for KeyHub to indicate this object needs rights
     /// </summary>
-    public class License : RightObject
+    public abstract class RightObject
     {
         /// <summary>
-        /// The SKU bought with this license
+        /// The primary key and identifier for this object
         /// </summary>
-        [Required]
-        public virtual SKU Sku { get; set; }
+        [Key]
+        public Guid ObjectId { get; set; }
     }
 }

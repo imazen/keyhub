@@ -12,6 +12,10 @@ namespace KeyHub.BusinessLogic.DataInitializers
     /// </summary>
     public class DropCreateDatabaseIfModelChangesInitializer : DropCreateDatabaseIfModelChanges<DataContext>
     {
+        protected override void Seed(DataContext context)
+        {
+            DatabaseSeeder.SeedDatabase(context);
+        }
     }
 
 #endif

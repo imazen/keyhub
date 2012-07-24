@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using KeyHub.Core.Data;
 using KeyHub.Model;
 
 namespace KeyHub.Runtime
@@ -25,6 +27,8 @@ namespace KeyHub.Runtime
 
         public DbSet<OpenAuthUser> OpenAuthUsers { get; set; }
 
+        public DbSet<Country> Countries { get; set; }
+
         public DbSet<Feature> Features { get; set; }
 
         public DbSet<PrivateKey> PrivateKeys { get; set; }
@@ -33,24 +37,27 @@ namespace KeyHub.Runtime
 
         public DbSet<Vendor> Vendors { get; set; }
 
+        public DbSet<Customer> Customers { get; set; }
+
+        public DbSet<License> Licenses { get; set; }
+
+        public DbSet<Right> Rights { get; set; }
+
+        public DbSet<UserVendorRight> UserVendorRights { get; set; }
+
+        public DbSet<UserCustomerRight> UserCustomerRights { get; set; }
+
+        public DbSet<UserLicenseRight> UserLicenseRights { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            // Membership tables
-            modelBuilder.Entity<Membership>().HasRequired<User>(p => p.User);
-            modelBuilder.Entity<User>().HasOptional<Profile>(p => p.Profile).WithRequired(x => x.User);
+            // Get all IEntityConfiguration classes and register the configuration classes
+            foreach (var modelConfiguration in DependencyContext.Instance.GetExportedValues<IEntityConfiguration>())
+            {
+                modelConfiguration.AddConfiguration(modelBuilder.Configurations);
+            }
 
-            modelBuilder.Entity<UserInRole>().ToTable("UsersInRoles");
-
-            modelBuilder.Entity<Role>().HasMany(x => x.UsersInRoles).WithRequired(x => x.Role).WillCascadeOnDelete(false);
-            modelBuilder.Entity<User>().HasMany(x => x.UsersInRoles).WithRequired(x => x.User).WillCascadeOnDelete(true);
-
-            // Keyhub tables
-            modelBuilder.Entity<PrivateKey>().HasMany(x => x.SKUs).WithRequired(x => x.PrivateKey).WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<SkuFeature>().ToTable("SkuFeatures");
-
-            modelBuilder.Entity<SKU>().HasMany(x => x.SkuFeatures).WithRequired(x => x.Sku).WillCascadeOnDelete(false);
-            modelBuilder.Entity<Feature>().HasMany(x => x.SkuFeatures).WithRequired(x => x.Feature).WillCascadeOnDelete(true);
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

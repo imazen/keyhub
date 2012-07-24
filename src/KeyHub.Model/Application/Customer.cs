@@ -8,55 +8,63 @@ using System.Threading.Tasks;
 namespace KeyHub.Model
 {
     /// <summary>
-    /// Vendor entity to physically split company plugins (Lucrasoft and Imazen)
+    /// Represents the basic buying entity for KeyHub. A Customer can either be a Reseller or an Owner.
     /// </summary>
-    public class Vendor : RightObject
+    public class Customer : RightObject
     {
         /// <summary>
-        /// The public name for this vendor/organisation
+        /// The name of the customer (single line)
         /// </summary>
         [Required]
-        [StringLength(1024)]
-        public string OrganisationName { get; set; }
+        [StringLength(256)]
+        public string Name { get; set; }
 
         /// <summary>
-        /// The street this vendor is located at.
+        /// The department this Customer is buying for/from
+        /// </summary>
+        [Required]
+        [StringLength(512)]
+        public string Department { get; set; }
+
+        /// <summary>
+        /// The street this customer is located at.
         /// </summary>
         [Required]
         [StringLength(512)]
         public string Street { get; set; }
 
         /// <summary>
-        /// The postal code this vendor is located in.
+        /// The postal code this customer is located in.
         /// </summary>
         [Required]
         [StringLength(24)]
         public string PostalCode { get; set; }
 
         /// <summary>
-        /// The city this vendor is located in.
+        /// The city this customer is located in.
         /// </summary>
         [Required]
         [StringLength(256)]
         public string City { get; set; }
 
         /// <summary>
-        /// The region this vendor is located in (for Americans it's the state, for Dutch it's province)
+        /// The region this customer is located in (for Americans it's the state, for Dutch it's province)
         /// </summary>
         [Required]
         [StringLength(256)]
         public string Region { get; set; }
 
         /// <summary>
-        /// Country of the vendor. We use the English name from the RegionInfo classes as identifier
+        /// Country of the customer. We use the English name from the RegionInfo classes as identifier
         /// </summary>
         [Required]
         [StringLength(256)]
         public Country Country { get; set; }
 
         /// <summary>
-        /// A list of private keys this vendor owns
+        /// Paypal ID for this customer
         /// </summary>
-        public virtual ICollection<PrivateKey> PrivateKeys { get; set; }
+        [StringLength(256)]
+        public string PayPalId { get; set; }
     }
 }

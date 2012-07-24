@@ -27,8 +27,14 @@ namespace KeyHub.Model
         [Column(Order = 2)]
         public Guid FeatureId { get; set; }
 
+        /// <summary>
+        /// Relation to SKU
+        /// </summary>
         public virtual SKU Sku { get; set; }
 
+        /// <summary>
+        /// Relation to Feature
+        /// </summary>
         public virtual Feature Feature { get; set; }
     }
 }

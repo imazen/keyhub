@@ -44,10 +44,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application\Country.cs" />
+    <Compile Include="Application\UserLicenseRight.cs" />
+    <Compile Include="Application\UserCustomerRight.cs" />
+    <Compile Include="Application\Customer.cs" />
     <Compile Include="Application\Feature.cs" />
+    <Compile Include="Application\IRightObject.cs" />
     <Compile Include="Application\License.cs" />
+    <Compile Include="Application\ObjectTypes.cs" />
     <Compile Include="Application\PrivateKey.cs" />
+    <Compile Include="Application\Right.cs" />
     <Compile Include="Application\SkuFeature.cs" />
+    <Compile Include="Application\UserObjectRight.cs" />
+    <Compile Include="Application\UserVendorRight.cs" />
     <Compile Include="Application\Vendor.cs" />
     <Compile Include="Membership\Application.cs" />
     <Compile Include="Membership\Membership.cs" />
