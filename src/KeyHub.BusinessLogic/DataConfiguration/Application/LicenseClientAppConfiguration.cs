@@ -8,20 +8,16 @@ using System.Threading.Tasks;
 using KeyHub.Core.Data;
 using KeyHub.Model;
 
-namespace KeyHub.BusinessLogic.Data
+namespace KeyHub.BusinessLogic.DataConfiguration
 {
     /// <summary>
-    /// Configures the SkuFeatures table
+    /// Configures the <see cref="KeyHub.Model.LicenseClientApp"/> table
     /// </summary>
-    public class VendorConfiguration : EntityTypeConfiguration<Vendor>, IEntityConfiguration
+    public class LicenseClientAppConfiguration : EntityTypeConfiguration<LicenseClientApp>, IEntityConfiguration
     {
-        public VendorConfiguration()
+        public LicenseClientAppConfiguration()
         {
-            Map(m =>
-            {
-                m.MapInheritedProperties();
-                m.ToTable("Vendors");
-            });
+            ToTable("LicenseClientApps");
         }
 
         public void AddConfiguration(System.Data.Entity.ModelConfiguration.Configuration.ConfigurationRegistrar registrar)

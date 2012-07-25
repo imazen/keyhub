@@ -8,16 +8,16 @@ using System.Threading.Tasks;
 using KeyHub.Core.Data;
 using KeyHub.Model;
 
-namespace KeyHub.BusinessLogic.Data
+namespace KeyHub.BusinessLogic.DataConfiguration
 {
     /// <summary>
-    /// Configures the membership table
+    /// Configures the <see cref="KeyHub.Model.Feature"/> table
     /// </summary>
-    public class MembershipConfiguration : EntityTypeConfiguration<Membership>, IEntityConfiguration
+    public class FeatureConfiguration : EntityTypeConfiguration<Feature>, IEntityConfiguration
     {
-        public MembershipConfiguration()
+        public FeatureConfiguration()
         {
-            HasRequired<User>(p => p.User);
+            HasMany(x => x.SkuFeatures).WithRequired(x => x.Feature).WillCascadeOnDelete(true);
         }
 
         public void AddConfiguration(System.Data.Entity.ModelConfiguration.Configuration.ConfigurationRegistrar registrar)

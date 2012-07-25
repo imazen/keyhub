@@ -8,15 +8,17 @@ using System.Threading.Tasks;
 using KeyHub.Core.Data;
 using KeyHub.Model;
 
-namespace KeyHub.BusinessLogic.Data
+namespace KeyHub.BusinessLogic.DataConfiguration
 {
     /// <summary>
-    /// Configures the SkuFeatures table
+    /// Configures the <see cref="KeyHub.Model.User"/> table
     /// </summary>
-    public class UserVendorRightConfiguration : EntityTypeConfiguration<UserVendorRight>, IEntityConfiguration
+    public class UserConfiguration : EntityTypeConfiguration<User>, IEntityConfiguration
     {
-        public UserVendorRightConfiguration()
+        public UserConfiguration()
         {
+            HasOptional<Profile>(p => p.Profile).WithRequired(x => x.User);
+            HasMany(x => x.UsersInRoles).WithRequired(x => x.User).WillCascadeOnDelete(true);
         }
 
         public void AddConfiguration(System.Data.Entity.ModelConfiguration.Configuration.ConfigurationRegistrar registrar)

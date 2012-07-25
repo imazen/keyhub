@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,7 +17,7 @@ namespace KeyHub.Model
         /// The public name for this vendor/organisation
         /// </summary>
         [Required]
-        [StringLength(1024)]
+        [StringLength(512)]
         public string OrganisationName { get; set; }
 
         /// <summary>
@@ -48,10 +49,17 @@ namespace KeyHub.Model
         public string Region { get; set; }
 
         /// <summary>
-        /// Country of the vendor. We use the English name from the RegionInfo classes as identifier
+        /// CountryCode of the customer.
         /// </summary>
         [Required]
-        [StringLength(256)]
+        [StringLength(12)]
+        [Column(TypeName = "varchar")]
+        public string CountryCode { get; set; }
+
+        /// <summary>
+        /// Country of the customer. We use the English name from the RegionInfo classes as identifier
+        /// </summary>
+        [ForeignKey("CountryCode")]
         public Country Country { get; set; }
 
         /// <summary>

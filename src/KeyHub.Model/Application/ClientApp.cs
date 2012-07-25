@@ -9,23 +9,27 @@ using System.Threading.Tasks;
 namespace KeyHub.Model
 {
     /// <summary>
-    /// Represents a right-type. These types will be used to allow users to specific parts of KeyHub.
-    /// Each right has a unique GUID to identity itself. These GUIDS are system defined, and cannot be changed.
+    /// Provides registration of client application (the developers who use it)
     /// </summary>
-    public class Right
+    public class ClientApp
     {
         /// <summary>
-        /// The unique right type GUID to identity what kind of right this entry is
+        /// Indentifier for the ClientApp entity
         /// </summary>
         [Key]
         [DatabaseGenerated(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity)]
-        public Guid RightId { get; set; }
+        public Guid ClientAppId { get; set; }
 
         /// <summary>
-        /// Display name for human readability
+        /// The name of the client application
         /// </summary>
+        [Required]
         [StringLength(256)]
-        [Column(TypeName = "varchar")]
-        public string DisplayName { get; set; }
+        public string ApplicationName { get; set; }
+
+        /// <summary>
+        /// A list of licenses (<see cref="License"/>) this application is associated with
+        /// </summary>
+        public virtual ICollection<License> Licenses { get; set; }
     }
 }

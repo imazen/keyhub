@@ -44,12 +44,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application\ClientApp.cs" />
+    <Compile Include="Application\ClientAppKey.cs" />
+    <Compile Include="Application\LicenseClientApp.cs" />
+    <Compile Include="Application\Transaction.cs" />
+    <Compile Include="Application\TransactionItem.cs" />
     <Compile Include="Application\Country.cs" />
+    <Compile Include="Application\DomainLicense.cs" />
     <Compile Include="Application\UserLicenseRight.cs" />
     <Compile Include="Application\UserCustomerRight.cs" />
     <Compile Include="Application\Customer.cs" />
     <Compile Include="Application\Feature.cs" />
-    <Compile Include="Application\IRightObject.cs" />
+    <Compile Include="Application\RightObject.cs" />
     <Compile Include="Application\License.cs" />
     <Compile Include="Application\ObjectTypes.cs" />
     <Compile Include="Application\PrivateKey.cs" />

@@ -18,7 +18,7 @@ namespace KeyHub.Model
         /// </summary>
         [Key]
         [Column(Order = 1)]
-        public int SkuId { get; set; }
+        public Guid SkuId { get; set; }
 
         /// <summary>
         /// Unique FeatureId
@@ -30,11 +30,13 @@ namespace KeyHub.Model
         /// <summary>
         /// Relation to SKU
         /// </summary>
+        [ForeignKey("SkuId")]
         public virtual SKU Sku { get; set; }
 
         /// <summary>
         /// Relation to Feature
         /// </summary>
+        [ForeignKey("FeatureId")]
         public virtual Feature Feature { get; set; }
     }
 }

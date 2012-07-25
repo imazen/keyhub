@@ -8,16 +8,20 @@ using System.Threading.Tasks;
 using KeyHub.Core.Data;
 using KeyHub.Model;
 
-namespace KeyHub.BusinessLogic.Data
+namespace KeyHub.BusinessLogic.DataConfiguration
 {
     /// <summary>
-    /// Configures the SkuFeatures table
+    /// Configures the <see cref="KeyHub.Model.Vendor"/> table
     /// </summary>
-    public class PrivateKeyConfiguration : EntityTypeConfiguration<PrivateKey>, IEntityConfiguration
+    public class VendorConfiguration : EntityTypeConfiguration<Vendor>, IEntityConfiguration
     {
-        public PrivateKeyConfiguration()
+        public VendorConfiguration()
         {
-            HasMany(x => x.SKUs).WithRequired(x => x.PrivateKey).WillCascadeOnDelete(false);
+            Map(m =>
+            {
+                m.MapInheritedProperties();
+                m.ToTable("Vendors");
+            });
         }
 
         public void AddConfiguration(System.Data.Entity.ModelConfiguration.Configuration.ConfigurationRegistrar registrar)

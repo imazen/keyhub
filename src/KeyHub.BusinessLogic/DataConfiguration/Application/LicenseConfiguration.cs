@@ -8,17 +8,20 @@ using System.Threading.Tasks;
 using KeyHub.Core.Data;
 using KeyHub.Model;
 
-namespace KeyHub.BusinessLogic.Data
+namespace KeyHub.BusinessLogic.DataConfiguration
 {
     /// <summary>
-    /// Configures the membership table
+    /// Configures the <see cref="KeyHub.Model.License"/> table
     /// </summary>
-    public class UserConfiguration : EntityTypeConfiguration<User>, IEntityConfiguration
+    public class LicenseConfiguration : EntityTypeConfiguration<License>, IEntityConfiguration
     {
-        public UserConfiguration()
+        public LicenseConfiguration()
         {
-            HasOptional<Profile>(p => p.Profile).WithRequired(x => x.User);
-            HasMany(x => x.UsersInRoles).WithRequired(x => x.User).WillCascadeOnDelete(true);
+            Map(m =>
+            {
+                m.MapInheritedProperties();
+                m.ToTable("Licenses");
+            });
         }
 
         public void AddConfiguration(System.Data.Entity.ModelConfiguration.Configuration.ConfigurationRegistrar registrar)

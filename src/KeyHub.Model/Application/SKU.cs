@@ -19,25 +19,39 @@ namespace KeyHub.Model
         /// Indentifier for the SKU entity
         /// </summary>
         [Key]
-        public int SkuId { get; set; }
+        [DatabaseGenerated(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity)]
+        public Guid SkuId { get; set; }
 
         /// <summary>
         /// The vendor for this SKU
         /// </summary>
         [Required]
-        public Vendor Vendor { get; set; }
+        public Guid VendorId { get; set; }
+
+        /// <summary>
+        /// The vendor for this SKU
+        /// </summary>
+        [ForeignKey("VendorId")]
+        public virtual Vendor Vendor { get; set; }
 
         /// <summary>
         /// The private key for this SKU
         /// </summary>
         [Required]
-        public PrivateKey PrivateKey { get; set; }
+        public Guid PrivateKeyId { get; set; }
+
+        /// <summary>
+        /// The private key for this SKU
+        /// </summary>
+        [ForeignKey("PrivateKeyId")]
+        public virtual PrivateKey PrivateKey { get; set; }
 
         /// <summary>
         /// The unique (per vendor) SKU indentifier string
         /// </summary>
         [Required]
         [StringLength(256)]
+        [Column(TypeName = "varchar")]
         public string SkuCode { get; set; }
 
         /// <summary>

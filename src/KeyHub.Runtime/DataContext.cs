@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration;
+using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -48,6 +49,12 @@ namespace KeyHub.Runtime
         public DbSet<UserCustomerRight> UserCustomerRights { get; set; }
 
         public DbSet<UserLicenseRight> UserLicenseRights { get; set; }
+
+        public DbSet<DomainLicense> DomainLicenses { get; set; }
+
+        public DbSet<ClientApp> ClientApps { get; set; }
+
+        public DbSet<ClientAppKey> ClientAppKeys { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

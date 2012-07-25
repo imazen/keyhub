@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,12 +17,19 @@ namespace KeyHub.Model
         /// Indentifier for the PrivateKey entity.
         /// </summary>
         [Key]
-        public int PrivateKeyId { get; set; }
+        [DatabaseGenerated(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity)]
+        public Guid PrivateKeyId { get; set; }
 
         /// <summary>
         /// The vendor this key is owned by.
         /// </summary>
         [Required]
+        public Guid VendorId { get; set; }
+
+        /// <summary>
+        /// The vendor this key is owned by.
+        /// </summary>
+        [ForeignKey("VendorId")]
         public virtual Vendor Vendor { get; set; }
 
         /// <summary>
@@ -29,6 +37,7 @@ namespace KeyHub.Model
         /// </summary>
         [Required]
         [StringLength(256)]
+        [Column(TypeName = "varchar")]
         public string DisplayName { get; set; }
 
         /// <summary>

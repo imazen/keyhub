@@ -8,20 +8,16 @@ using System.Threading.Tasks;
 using KeyHub.Core.Data;
 using KeyHub.Model;
 
-namespace KeyHub.BusinessLogic.Data
+namespace KeyHub.BusinessLogic.DataConfiguration
 {
     /// <summary>
-    /// Configures the SkuFeatures table
+    /// Configures the <see cref="KeyHub.Model.Membership"/> table
     /// </summary>
-    public class LicenseConfiguration : EntityTypeConfiguration<License>, IEntityConfiguration
+    public class MembershipConfiguration : EntityTypeConfiguration<Membership>, IEntityConfiguration
     {
-        public LicenseConfiguration()
+        public MembershipConfiguration()
         {
-            Map(m =>
-            {
-                m.MapInheritedProperties();
-                m.ToTable("Licenses");
-            });
+            HasRequired<User>(p => p.User);
         }
 
         public void AddConfiguration(System.Data.Entity.ModelConfiguration.Configuration.ConfigurationRegistrar registrar)

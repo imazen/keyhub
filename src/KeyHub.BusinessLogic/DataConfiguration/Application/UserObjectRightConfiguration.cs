@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 using KeyHub.Core.Data;
 using KeyHub.Model;
 
-namespace KeyHub.BusinessLogic.Data
+namespace KeyHub.BusinessLogic.DataConfiguration
 {
     /// <summary>
-    /// Configures the SkuFeatures table
+    /// Configures the <see cref="KeyHub.Model.UserObjectRight"/> table
     /// </summary>
     public class UserObjectRightConfiguration : EntityTypeConfiguration<UserObjectRight>, IEntityConfiguration
     {

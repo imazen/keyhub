@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,7 @@ namespace KeyHub.Model
         /// </summary>
         [Key]
         [StringLength(12)]
+        [Column(TypeName = "varchar")]
         public string CountryCode { get; set; }
 
         /// <summary>
@@ -24,6 +26,7 @@ namespace KeyHub.Model
         /// </summary>
         [Required]
         [StringLength(512)]
+        [Column(TypeName = "varchar")]
         public string CountryName { get; set; }
 
         /// <summary>

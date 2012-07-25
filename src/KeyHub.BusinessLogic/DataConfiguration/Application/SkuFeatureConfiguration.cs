@@ -8,16 +8,16 @@ using System.Threading.Tasks;
 using KeyHub.Core.Data;
 using KeyHub.Model;
 
-namespace KeyHub.BusinessLogic.Data
+namespace KeyHub.BusinessLogic.DataConfiguration
 {
     /// <summary>
-    /// Configures the SkuFeatures table
+    /// Configures the <see cref="KeyHub.Model.SkuFeature"/> table
     /// </summary>
-    public class FeatureConfiguration : EntityTypeConfiguration<Feature>, IEntityConfiguration
+    public class SkuFeatureConfiguration : EntityTypeConfiguration<SkuFeature>, IEntityConfiguration
     {
-        public FeatureConfiguration()
+        public SkuFeatureConfiguration()
         {
-            HasMany(x => x.SkuFeatures).WithRequired(x => x.Feature).WillCascadeOnDelete(true);
+            ToTable("SkuFeatures");
         }
 
         public void AddConfiguration(System.Data.Entity.ModelConfiguration.Configuration.ConfigurationRegistrar registrar)
