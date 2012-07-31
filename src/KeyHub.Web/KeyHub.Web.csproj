@@ -134,12 +134,15 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\VendorController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Logging\NLogLogger.cs" />
-    <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="ViewModels\AccountModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\CountryViewModel.cs" />
+    <Compile Include="ViewModels\VendorViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -237,6 +240,9 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="web.nlog" />
+    <Content Include="Views\Vendor\Index.cshtml" />
+    <Content Include="Views\Vendor\Details.cshtml" />
+    <Content Include="Views\Vendor\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -256,6 +262,10 @@
     <ProjectReference Include="..\KeyHub.Core\KeyHub.Core.csproj">
       <Project>{982ddf31-5d75-4194-99b4-fcc95cd4be7f}</Project>
       <Name>KeyHub.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\KeyHub.DataExtensions\KeyHub.DataExtensions.csproj">
+      <Project>{d44ce009-6c7e-4e7f-912c-11a34cd094ee}</Project>
+      <Name>KeyHub.DataExtensions</Name>
     </ProjectReference>
     <ProjectReference Include="..\KeyHub.Model\KeyHub.Model.csproj">
       <Project>{6d9ba48a-476e-4288-b3ad-0cae9008317c}</Project>
@@ -282,7 +292,7 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerPort>55491</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:63436/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

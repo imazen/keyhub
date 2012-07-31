@@ -56,7 +56,7 @@ namespace KeyHub.Runtime
         /// <summary>
         /// Provides access to the current Runtime cache provider
         /// </summary>
-        [Import(typeof(IPerRequestCacheProvider))]
+        [Import(typeof(IRuntimeCacheProvider))]
         public IRuntimeCacheProvider RuntimeCache { get; private set; }
 
         #endregion "Cache providers"

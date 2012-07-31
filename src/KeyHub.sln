@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyHub.Common", "KeyHub.Com
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyHub.Runtime", "KeyHub.Runtime\KeyHub.Runtime.csproj", "{361E7979-9B23-4703-B43E-816B193EBB4E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyHub.DataExtensions", "KeyHub.DataExtensions\KeyHub.DataExtensions.csproj", "{D44CE009-6C7E-4E7F-912C-11A34CD094EE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +61,10 @@ Global
 		{CABF1962-0677-497F-B4A8-41EDF551D6D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CABF1962-0677-497F-B4A8-41EDF551D6D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CABF1962-0677-497F-B4A8-41EDF551D6D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D44CE009-6C7E-4E7F-912C-11A34CD094EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D44CE009-6C7E-4E7F-912C-11A34CD094EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D44CE009-6C7E-4E7F-912C-11A34CD094EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D44CE009-6C7E-4E7F-912C-11A34CD094EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -71,5 +77,6 @@ Global
 		{7FA54424-5866-4A33-AB6B-01A59D0843C7} = {354EFFCD-5192-48FE-AD6E-3ADCF2E94BCD}
 		{982DDF31-5D75-4194-99B4-FCC95CD4BE7F} = {5E3515CB-4E0D-4ADD-BFB9-CFECA873CFB5}
 		{CABF1962-0677-497F-B4A8-41EDF551D6D3} = {354EFFCD-5192-48FE-AD6E-3ADCF2E94BCD}
+		{D44CE009-6C7E-4E7F-912C-11A34CD094EE} = {69F6CA52-E353-4C2B-B44A-48E7D8666D81}
 	EndGlobalSection
 EndGlobal

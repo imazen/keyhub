@@ -108,16 +108,16 @@ namespace KeyHub.Runtime
             // Create a new aggregate catalog to support multiple catalogs
             catalog = new AggregateCatalog();
 
+            // Get all parts from the configuration file
+            configCatalog = new ConventionCatalog(new ConfigurationPartRegistry("Mef.Configuration"));
+
             // Get all parts from the current appdomain
             foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
                 if (!assembly.GlobalAssemblyCache)
                     catalog.Catalogs.Add(new AssemblyCatalog(assembly));
             }
-
-            // Get all parts from the configuration file
-            configCatalog = new ConventionCatalog(new ConfigurationPartRegistry("Mef.Configuration"));
-
+            
             // Add them to the catalog
             catalog.Catalogs.Add(configCatalog);
 
