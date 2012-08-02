@@ -141,8 +141,11 @@
     <Compile Include="Logging\NLogLogger.cs" />
     <Compile Include="ViewModels\AccountModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModels\CountryViewModel.cs" />
-    <Compile Include="ViewModels\VendorViewModel.cs" />
+    <Compile Include="ViewModels\Vendor\VendorCreateViewModel.cs" />
+    <Compile Include="ViewModels\Vendor\VendorEditViewModel.cs" />
+    <Compile Include="ViewModels\Vendor\VendorIndexViewModel.cs" />
+    <Compile Include="ViewModels\Vendor\VendorViewModel.cs" />
+    <Compile Include="ViewModels\BaseViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -241,8 +244,8 @@
     <Content Include="Views\Web.config" />
     <Content Include="web.nlog" />
     <Content Include="Views\Vendor\Index.cshtml" />
-    <Content Include="Views\Vendor\Details.cshtml" />
     <Content Include="Views\Vendor\Edit.cshtml" />
+    <Content Include="Views\Vendor\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

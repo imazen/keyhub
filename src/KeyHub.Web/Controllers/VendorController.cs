@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -21,93 +22,103 @@ namespace KeyHub.Web.Controllers
         public ActionResult Index()
         {
             DataContext context = new DataContext();
+            var vendorQuery = (from v in context.Vendors select v).Include(x => x.Country);
 
-            return View(context.Vendors.ToList());
-        }
-
-        /// <summary>
-        /// View a single vendor's details
-        /// </summary>
-        /// <param name="id">GUID of vendor</param>
-        /// <returns>Vendor details view</returns>
-        public ActionResult Details(Guid id)
-        {
-            DataContext context = new DataContext();
-
-            Vendor vendor = (from v in context.Vendors where v.ObjectId == id select v).FirstOrDefault();
-
-            return View(vendor);
-        }
-
-        /// <summary>
-        /// Edit a single vendor
-        /// </summary>
-        /// <param name="id">GUID of vendor to edit</param>
-        /// <returns>Vendor edit view</returns>
-        public ActionResult Edit(Guid id)
-        {
-            DataContext context = new DataContext();
-
-            Vendor vendor = (from v in context.Vendors where v.ObjectId == id select v).FirstOrDefault();
-
-            VendorViewModel viewModel = new VendorViewModel();
-            //viewModel.FillFromEntity(vendor);
+            VendorIndexViewModel viewModel = new VendorIndexViewModel(vendorQuery.ToList());
 
             return View(viewModel);
         }
 
         /// <summary>
-        /// Edit a single vendor
+        /// Create a single vendor
         /// </summary>
-        /// <param name="id">GUID of vendor to edit</param>
-        /// <returns>Vendor edit view</returns>
-        public ActionResult Insert(VendorViewModel vendorViewModel)
+        /// <returns>Create vendor view</returns>
+        public ActionResult Create()
         {
             DataContext context = new DataContext();
-            var domainVendor = context.Vendors.Find(vendorViewModel.Vendor.ObjectId);
+            var countryQuery = from c in context.Countries select c;
 
-            domainVendor = vendorViewModel.ToEntity(domainVendor);
+            VendorCreateViewModel viewModel = new VendorCreateViewModel(countryQuery.ToList());
 
-            
-            context.Vendors.Add(domainVendor);
+            return View(viewModel);
+        }
 
-            //Vendor vendor = (from v in context.Vendors where v.ObjectId == id select v).FirstOrDefault();
+        /// <summary>
+        /// Save created vendor into db and redirect to vendor index
+        /// </summary>
+        /// <param name="viewModel">Created VendorViewModel</param>
+        /// <returns>Redirectaction to index if successfull</returns>
+        [HttpPost]
+        public ActionResult Create(VendorCreateViewModel viewModel)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    DataContext context = new DataContext();
 
-            return View();
+                    Vendor vendor = viewModel.ToEntity();
+                    context.Vendors.Add(vendor);
+
+                    context.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return View(viewModel);
+                }
+            }
+            catch
+            {
+                return View(viewModel);
+            }
+        }
+
+        /// <summary>
+        /// Edit a single vendor
+        /// </summary>
+        /// <param name="key">GUID of vendor to edit</param>
+        /// <returns>Edit vendor view</returns>
+        public ActionResult Edit(Guid key)
+        {
+            DataContext context = new DataContext();
+            var vendorQuery = from v in context.Vendors where v.ObjectId == key select v;
+            var countryQuery = from c in context.Countries select c;
+
+            VendorEditViewModel viewModel = new VendorEditViewModel(vendorQuery.FirstOrDefault(), countryQuery.ToList());
+
+            return View(viewModel);
         }
 
         /// <summary>
         /// Save edited vendor into db and redirect to vendor index
         /// </summary>
-        /// <param name="id">GUID of edited vendor</param>
-        /// <param name="collection">FormCollection of provided parameters</param>
+        /// <param name="viewModel">Edited VendorViewModel</param>
         /// <returns>Redirectaction to index if successfull</returns>
         [HttpPost]
-        public ActionResult Edit(Guid id, Vendor vendor)
+        public ActionResult Edit(VendorEditViewModel viewModel)
         {
-            //try
-            //{
-            //    DataContext context = new DataContext();
-            //    Vendor vendor = (from v in context.Vendors where v.ObjectId == id select v).FirstOrDefault();
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    DataContext context = new DataContext();
+                    Vendor vendor = (from v in context.Vendors where v.ObjectId == viewModel.Vendor.ObjectId select v).FirstOrDefault();
 
-            //    if (!ModelState.IsValid)
-            //    {
-                    
-            //        vendor.OrganisationName = collection["OrganisationName"];
-            //        context.SaveChanges();
-            //        return RedirectToAction("Index");
-            //    }
-            //    else
-            //    {
-            //        return View(vendor);
-            //    }
-            //}
-            //catch
-            //{
-            //    return RedirectToAction("Edit", id);
-            //}
+                    viewModel.ToEntity(vendor);
 
-            return View();
+                    context.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return View(viewModel);
+                }
+            }
+            catch
+            {
+                return View(viewModel);
+            }
         }
     }
 }

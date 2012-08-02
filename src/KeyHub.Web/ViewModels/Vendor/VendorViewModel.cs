@@ -10,46 +10,51 @@ using KeyHub.Runtime;
 
 namespace KeyHub.Web.ViewModels
 {
-
     /// <summary>
-    /// Generic converter to create a bridge between domain model and view model
+    /// Viewmodel for a single vendor 
     /// </summary>
-    /// <typeparam name="TContext">Type of the DbContext</typeparam>
-    /// <typeparam name="TEntity">Type of the entity to return</typeparam>
-    /// <typeparam name="TPrimaryKey">Type of the primary key</typeparam>
-    public abstract class ViewModelConverter<TContext, TEntity, TPrimaryKey> 
-        where TContext : DbContext where TEntity : class
+    public class VendorViewModel : BaseViewModel<Model.Vendor>
     {
-        public abstract TEntity ToEntity(TEntity original);
+        public VendorViewModel():base(){ }
 
-        public abstract void Build(TPrimaryKey key, TContext context);
-    }
+        /// <summary>
+        /// Construct viewmodel
+        /// </summary>
+        /// <param name="vendor">Vendor that this viewmodel represents</param>
+        public VendorViewModel(Model.Vendor vendor):this()
+        {
+            ObjectId = vendor.ObjectId;
+            OrganisationName = vendor.OrganisationName;
+            Street = vendor.Street;
+            PostalCode = vendor.PostalCode;
+            City = vendor.City;
+            Region = vendor.Region;
+            CountryCode = vendor.CountryCode;
+        }
 
-
-    public class VendorViewModel : ViewModelConverter<DataContext, Model.Vendor, Guid>
-    {
-        public VendorData Vendor { get; set; }
-        public SelectList CountryList { get; set; }
-
+        /// <summary>
+        /// Convert back to Vendor instance
+        /// </summary>
+        /// <param name="original">Original Vendor. If Null a new instance is created.</param>
+        /// <returns>Vendor containing viewmodel data </returns>
         public override Model.Vendor ToEntity(Model.Vendor original)
         {
-            Model.Vendor currentVendor = original ?? new Model.Vendor();
+            Model.Vendor current = original ?? new Model.Vendor();
 
-            // dingen doen met currentvendor -> vullen vanuit ViewModel
+            current.OrganisationName = this.OrganisationName;
+            current.Street = this.Street;
+            current.PostalCode = this.PostalCode;
+            current.City = this.City;
+            current.Region = this.Region;
+            current.CountryCode = this.CountryCode;
 
-            return original;
+            return current;
         }
 
-        public override void Build(Guid key, DataContext context)
-        {
-            
-            
-            throw new NotImplementedException();
-        }
-    }
-
-    public class VendorData
-    {
+        /// <summary>
+        /// Unique identifier
+        /// </summary>
+        [HiddenInput(DisplayValue = false)]
         public Guid ObjectId { get; set; }
 
         /// <summary>
@@ -92,8 +97,9 @@ namespace KeyHub.Web.ViewModels
         /// <summary>
         /// CountryCode of the customer.
         /// </summary>
-        [Required]
+        [Required(ErrorMessage="Please select a country")]
         [StringLength(12)]
+        [DisplayName("Country")]
         public string CountryCode { get; set; }
     }
 }

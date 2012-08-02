@@ -1,4 +1,4 @@
-﻿@model IEnumerable<KeyHub.Model.Vendor>
+﻿@model KeyHub.Web.ViewModels.VendorIndexViewModel
 
 @{
     ViewBag.Title = "Index";
@@ -12,27 +12,27 @@
 <table>
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.OrganisationName)
+            @Html.DisplayNameFor(model => model.Vendors.FirstOrDefault().OrganisationName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Street)
+            @Html.DisplayNameFor(model => model.Vendors.FirstOrDefault().Street)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PostalCode)
+            @Html.DisplayNameFor(model => model.Vendors.FirstOrDefault().PostalCode)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.City)
+            @Html.DisplayNameFor(model => model.Vendors.FirstOrDefault().City)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Region)
+            @Html.DisplayNameFor(model => model.Vendors.FirstOrDefault().Region)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CountryCode)
+            @Html.DisplayNameFor(model => model.Vendors.FirstOrDefault().CountryName)
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model.Vendors) {
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.OrganisationName)
@@ -50,12 +50,10 @@
             @Html.DisplayFor(modelItem => item.Region)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.CountryCode)
+            @Html.DisplayFor(modelItem => item.CountryName)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ObjectId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ObjectId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ObjectId })
+            @Html.ActionLink("Edit", "Edit", new { key = item.ObjectId })
         </td>
     </tr>
 }

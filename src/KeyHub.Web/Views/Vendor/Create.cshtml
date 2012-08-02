@@ -1,16 +1,16 @@
-﻿@model KeyHub.Web.ViewModels.VendorEditViewModel
+﻿@model KeyHub.Web.ViewModels.VendorCreateViewModel
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Create";
 }
 
-<h2>Edit</h2>
+<h2>Create</h2>
 
 @using (Html.BeginForm()) {
     @Html.ValidationSummary(true)
 
     <fieldset>
-        <legend>VendorData</legend>
+        <legend>VendorViewModel</legend>
 
         @Html.HiddenFor(model => model.Vendor.ObjectId)
 
@@ -63,7 +63,7 @@
         </div>
 
         <p>
-            <input type="submit" value="Save" />
+            <input type="submit" value="Create" />
         </p>
     </fieldset>
 }
