@@ -37,6 +37,6 @@ namespace KeyHub.Model
         /// Relation to Feature
         /// </summary>
         [ForeignKey("FeatureId")]
-        public virtual Feature Feature { get; set; }
+        public Feature Feature { get; set; }
     }
 }
