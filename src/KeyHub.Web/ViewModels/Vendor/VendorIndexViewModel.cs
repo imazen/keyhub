@@ -37,7 +37,7 @@ namespace KeyHub.Web.ViewModels
         /// </summary>
         /// <param name="original">Original Vendor. If Null a new instance is created.</param>
         /// <returns>Vendor containing viewmodel data </returns>
-        public Model.Vendor ToEntity(Model.Vendor original)
+        public override Model.Vendor ToEntity(Model.Vendor original)
         {
             throw new NotImplementedException();
         }

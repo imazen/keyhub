@@ -7,7 +7,7 @@ using System.Web.Mvc;
 namespace KeyHub.Web.ViewModels
 {
     /// <summary>
-    /// Viewmodel for Vendor
+    /// Viewmodel for editing a Vendor
     /// </summary>
     public class VendorEditViewModel : BaseViewModel<Model.Vendor>
     {
@@ -39,7 +39,7 @@ namespace KeyHub.Web.ViewModels
         /// </summary>
         /// <param name="original">Original Vendor. If Null a new instance is created.</param>
         /// <returns>Vendor containing viewmodel data </returns>
-        public Model.Vendor ToEntity(Model.Vendor original)
+        public override Model.Vendor ToEntity(Model.Vendor original)
         {
             return Vendor.ToEntity(original);
         }

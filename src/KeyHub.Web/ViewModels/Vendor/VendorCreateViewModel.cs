@@ -7,7 +7,7 @@ using System.Web.Mvc;
 namespace KeyHub.Web.ViewModels
 {
     /// <summary>
-    /// Viewmodel for Vendor
+    /// Viewmodel for creation of a Vendor
     /// </summary>
     public class VendorCreateViewModel : BaseViewModel<Model.Vendor>
     {
@@ -16,8 +16,7 @@ namespace KeyHub.Web.ViewModels
         /// <summary>
         /// Construct the viewmodel
         /// </summary>
-        /// <param name="vendor">Vendor entity</param>
-        /// <param name="countries">Country query for selectionlist</param>
+        /// <param name="countries">Country list for selectionlist</param>
         public VendorCreateViewModel(List<Model.Country> countries)
         {
             Vendor = new VendorViewModel(new Model.Vendor());
@@ -38,7 +37,7 @@ namespace KeyHub.Web.ViewModels
         /// Convert back to Vendor instance
         /// </summary>
         /// <returns>New vendor containing viewmodel data </returns>
-        public Model.Vendor ToEntity()
+        public override Model.Vendor ToEntity(Model.Vendor original)
         {
             return Vendor.ToEntity(null);
         }

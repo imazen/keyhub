@@ -25,7 +25,6 @@ namespace KeyHub.Web.Controllers
             var vendorQuery = (from v in context.Vendors select v).Include(x => x.Country);
 
             VendorIndexViewModel viewModel = new VendorIndexViewModel(vendorQuery.ToList());
-
             return View(viewModel);
         }
 
@@ -57,7 +56,7 @@ namespace KeyHub.Web.Controllers
                 {
                     DataContext context = new DataContext();
 
-                    Vendor vendor = viewModel.ToEntity();
+                    Vendor vendor = viewModel.ToEntity(null);
                     context.Vendors.Add(vendor);
 
                     context.SaveChanges();
