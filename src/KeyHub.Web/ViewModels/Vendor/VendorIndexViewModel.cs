@@ -16,8 +16,7 @@ namespace KeyHub.Web.ViewModels
         /// <summary>
         /// Construct the viewmodel
         /// </summary>
-        /// <param name="vendor">Vendor entity</param>
-        /// <param name="countries">Country query for selectionlist</param>
+        /// <param name="vendorList">List of vendor entities</param>
         public VendorIndexViewModel(List<Model.Vendor> vendorList):this()
         {
             Vendors = new List<VendorIndexViewItem>();

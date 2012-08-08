@@ -30,12 +30,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.5.0.0-rc\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20505.0\lib\net40\System.Web.Helpers.dll</HintPath>
@@ -68,7 +73,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RightsObjectExtensions.cs" />
     <Compile Include="SelectListExtensions.cs" />
+    <Compile Include="UserExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -77,6 +84,14 @@
     <ProjectReference Include="..\KeyHub.Common\KeyHub.Common.csproj">
       <Project>{cabf1962-0677-497f-b4a8-41edf551d6d3}</Project>
       <Name>KeyHub.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\KeyHub.Core\KeyHub.Core.csproj">
+      <Project>{982ddf31-5d75-4194-99b4-fcc95cd4be7f}</Project>
+      <Name>KeyHub.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\KeyHub.Model\KeyHub.Model.csproj">
+      <Project>{6d9ba48a-476e-4288-b3ad-0cae9008317c}</Project>
+      <Name>KeyHub.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

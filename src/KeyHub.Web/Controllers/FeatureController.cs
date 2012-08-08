@@ -20,11 +20,14 @@ namespace KeyHub.Web.Controllers
         /// <returns>Feature index list view</returns>
         public ActionResult Index()
         {
-            DataContext context = new DataContext();
-            var featureQuery = (from f in context.Features select f).Include(x => x.Vendor);
+            using (DataContext context = new DataContext())
+            {
+                var featureQuery = (from f in context.Features select f).Include(x => x.Vendor);
 
-            FeatureIndexViewModel viewModel = new FeatureIndexViewModel(featureQuery.ToList());
-            return View(viewModel);
+                FeatureIndexViewModel viewModel = new FeatureIndexViewModel(featureQuery.ToList());
+            
+                return View(viewModel);
+            }
         }
 
         /// <summary>
@@ -33,12 +36,14 @@ namespace KeyHub.Web.Controllers
         /// <returns>Create feature view</returns>
         public ActionResult Create()
         {
-            DataContext context = new DataContext();
-            var vendorQuery = from c in context.Vendors select c;
+            using (DataContext context = new DataContext())
+            {
+                var vendorQuery = from c in context.Vendors select c;
 
-            FeatureCreateViewModel viewModel = new FeatureCreateViewModel(vendorQuery.ToList());
+                FeatureCreateViewModel viewModel = new FeatureCreateViewModel(vendorQuery.ToList());
 
-            return View(viewModel);
+                return View(viewModel);
+            }
         }
 
         /// <summary>
@@ -53,12 +58,12 @@ namespace KeyHub.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    DataContext context = new DataContext();
-
-                    Model.Feature feature = viewModel.ToEntity(null);
-                    context.Features.Add(feature);
-
-                    context.SaveChanges();
+                    using (DataContext context = new DataContext())
+                    {
+                        Model.Feature feature = viewModel.ToEntity(null);
+                        context.Features.Add(feature);
+                        context.SaveChanges();
+                    }
                     return RedirectToAction("Index");
                 }
                 else
@@ -79,13 +84,15 @@ namespace KeyHub.Web.Controllers
         /// <returns>Edit feature view</returns>
         public ActionResult Edit(Guid key)
         {
-            DataContext context = new DataContext();
-            var featureQuery = from f in context.Features where f.FeatureId == key select f;
-            var vendorQuery = from v in context.Vendors select v;
+            using (DataContext context = new DataContext())
+            {
+                var featureQuery = from f in context.Features where f.FeatureId == key select f;
+                var vendorQuery = from v in context.Vendors select v;
 
-            FeatureEditViewModel viewModel = new FeatureEditViewModel(featureQuery.FirstOrDefault(), vendorQuery.ToList());
+                FeatureEditViewModel viewModel = new FeatureEditViewModel(featureQuery.FirstOrDefault(), vendorQuery.ToList());
 
-            return View(viewModel);
+                return View(viewModel);
+            }
         }
 
         /// <summary>
@@ -100,12 +107,14 @@ namespace KeyHub.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    DataContext context = new DataContext();
-                    Model.Feature feature = (from f in context.Features where f.FeatureId == viewModel.Feature.FeatureId select f).FirstOrDefault();
+                    using (DataContext context = new DataContext())
+                    {
+                        Model.Feature feature = (from f in context.Features where f.FeatureId == viewModel.Feature.FeatureId select f).FirstOrDefault();
 
-                    viewModel.ToEntity(feature);
+                        viewModel.ToEntity(feature);
 
-                    context.SaveChanges();
+                        context.SaveChanges();
+                    }
                     return RedirectToAction("Index");
                 }
                 else

@@ -21,11 +21,14 @@ namespace KeyHub.Web.Controllers
         /// <returns>Vendor index list view</returns>
         public ActionResult Index()
         {
-            DataContext context = new DataContext();
-            var vendorQuery = (from v in context.Vendors select v).Include(x => x.Country);
-
-            VendorIndexViewModel viewModel = new VendorIndexViewModel(vendorQuery.ToList());
-            return View(viewModel);
+            using (DataContext context = new DataContext())
+            {
+                var vendorQuery = (from v in context.Vendors select v).Include(x => x.Country);//.FilterByUser(CurrentUser);
+                
+                VendorIndexViewModel viewModel = new VendorIndexViewModel(vendorQuery.ToList());
+                
+                return View(viewModel);
+            }
         }
 
         /// <summary>
@@ -34,12 +37,14 @@ namespace KeyHub.Web.Controllers
         /// <returns>Create vendor view</returns>
         public ActionResult Create()
         {
-            DataContext context = new DataContext();
-            var countryQuery = from c in context.Countries select c;
-
-            VendorCreateViewModel viewModel = new VendorCreateViewModel(countryQuery.ToList());
-
-            return View(viewModel);
+            using (DataContext context = new DataContext())
+            {
+                var countryQuery = from c in context.Countries select c;
+                
+                VendorCreateViewModel viewModel = new VendorCreateViewModel(countryQuery.ToList());
+                
+                return View(viewModel);
+            }
         }
 
         /// <summary>
@@ -54,12 +59,13 @@ namespace KeyHub.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    DataContext context = new DataContext();
+                    using (DataContext context = new DataContext())
+                    {
+                        Vendor vendor = viewModel.ToEntity(null);
+                        context.Vendors.Add(vendor);
 
-                    Vendor vendor = viewModel.ToEntity(null);
-                    context.Vendors.Add(vendor);
-
-                    context.SaveChanges();
+                        context.SaveChanges();
+                    }
                     return RedirectToAction("Index");
                 }
                 else
@@ -80,13 +86,15 @@ namespace KeyHub.Web.Controllers
         /// <returns>Edit vendor view</returns>
         public ActionResult Edit(Guid key)
         {
-            DataContext context = new DataContext();
-            var vendorQuery = from v in context.Vendors where v.ObjectId == key select v;
-            var countryQuery = from c in context.Countries select c;
+            using (DataContext context = new DataContext())
+            {
+                var vendorQuery = from v in context.Vendors where v.ObjectId == key select v;
+                var countryQuery = from c in context.Countries select c;
 
-            VendorEditViewModel viewModel = new VendorEditViewModel(vendorQuery.FirstOrDefault(), countryQuery.ToList());
+                VendorEditViewModel viewModel = new VendorEditViewModel(vendorQuery.FirstOrDefault(), countryQuery.ToList());
 
-            return View(viewModel);
+                return View(viewModel);
+            }
         }
 
         /// <summary>
@@ -101,12 +109,14 @@ namespace KeyHub.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    DataContext context = new DataContext();
-                    Vendor vendor = (from v in context.Vendors where v.ObjectId == viewModel.Vendor.ObjectId select v).FirstOrDefault();
+                    using (DataContext context = new DataContext())
+                    {
+                        Vendor vendor = (from v in context.Vendors where v.ObjectId == viewModel.Vendor.ObjectId select v).FirstOrDefault();
 
-                    viewModel.ToEntity(vendor);
+                        viewModel.ToEntity(vendor);
 
-                    context.SaveChanges();
+                        context.SaveChanges();
+                    }
                     return RedirectToAction("Index");
                 }
                 else
