@@ -1,0 +1,37 @@
+﻿@model KeyHub.Web.ViewModels.Feature.FeatureIndexViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Features.FirstOrDefault().FeatureCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Features.FirstOrDefault().VendorName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model.Features) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.FeatureCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.VendorName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { key = item.FeatureId })
+        </td>
+    </tr>
+}
+
+</table>
