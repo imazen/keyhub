@@ -9,7 +9,7 @@ namespace KeyHub.Web.ViewModels.SKU
     /// <summary>
     /// Viewmodel for index list of SKUs
     /// </summary>
-    public class SKUIndexViewModel : BaseViewModel<Model.Vendor>
+    public class SKUIndexViewModel : BaseViewModel<Model.SKU>
     {
         public SKUIndexViewModel() : base() { }
 
@@ -17,7 +17,6 @@ namespace KeyHub.Web.ViewModels.SKU
         /// Construct the viewmodel
         /// </summary>
         /// <param name="skuList">List of SKU entities</param>
-        /// <param name="countries">Country query for selectionlist</param>
         public SKUIndexViewModel(List<Model.SKU> skuList)
             : this()
         {
@@ -30,16 +29,16 @@ namespace KeyHub.Web.ViewModels.SKU
         }
 
         /// <summary>
-        /// List of vendors
+        /// List of SKUs
         /// </summary>
         public List<SKUIndexViewItem> SKUs { get; set; }
 
         /// <summary>
-        /// Convert back to Vendor instance
+        /// Convert back to SKU instance
         /// </summary>
-        /// <param name="original">Original Vendor. If Null a new instance is created.</param>
-        /// <returns>Vendor containing viewmodel data </returns>
-        public override Model.Vendor ToEntity(Model.Vendor original)
+        /// <param name="original">Original SKU. If Null a new instance is created.</param>
+        /// <returns>SKU containing viewmodel data </returns>
+        public override Model.SKU ToEntity(Model.SKU original)
         {
             throw new NotImplementedException();
         }

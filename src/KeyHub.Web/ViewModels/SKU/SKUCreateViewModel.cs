@@ -7,23 +7,22 @@ using System.Web.Mvc;
 namespace KeyHub.Web.ViewModels.SKU
 {
     /// <summary>
-    /// Viewmodel for editing an SKU
+    /// Viewmodel for creating an SKU
     /// </summary>
-    public class SKUEditViewModel : BaseViewModel<Model.SKU>
+    public class SKUCreateViewModel : BaseViewModel<Model.SKU>
     {
-        public SKUEditViewModel() : base() { }
+        public SKUCreateViewModel() : base() { }
 
         /// <summary>
         /// Construct the viewmodel
         /// </summary>
-        /// <param name="sku">SKU entity</param>
         /// <param name="vendors">List of vendors to select</param>
         /// <param name="privateKeys">List of privateKeys to select</param>
         /// <param name="features">List of features to select</param>
-        public SKUEditViewModel(Model.SKU sku, List<Model.Vendor> vendors, List<Model.PrivateKey> privateKeys,
+        public SKUCreateViewModel(List<Model.Vendor> vendors, List<Model.PrivateKey> privateKeys,
             List<Model.Feature> features)
         {
-            SKU = new SKUEditViewItem(sku);
+            SKU = new SKUCreateViewItem(new Model.SKU());
 
             VendorList = vendors.ToSelectList(x => x.ObjectId, x => x.OrganisationName);
             PrivateKeyList = privateKeys.ToSelectList(x => x.PrivateKeyId, x => x.DisplayName);
@@ -31,9 +30,9 @@ namespace KeyHub.Web.ViewModels.SKU
         }
 
         /// <summary>
-        /// Edited vendor
+        /// Creating SKU
         /// </summary>
-        public SKUEditViewItem SKU { get; set; }
+        public SKUCreateViewItem SKU { get; set; }
 
         /// <summary>
         /// List of vendors to select
@@ -57,45 +56,30 @@ namespace KeyHub.Web.ViewModels.SKU
         /// <returns>SKU containing viewmodel data </returns>
         public override Model.SKU ToEntity(Model.SKU original)
         {
-            return SKU.ToEntity(original);
+            return SKU.ToEntity(null);
         }
 
         /// <summary>
-        /// Retrieve al list of new features for this SKU
+        /// Retrieve a list of feature Guids
         /// </summary>
-        /// <param name="original">Original SKU</param>
-        /// <returns>List of new feature Guids</returns>
-        public List<Guid> GetNewFeatureGUIDs(Model.SKU original)
+        /// <returns>List of assigned feature Guids</returns>
+        public List<Guid> GetNewFeatureGUIDs()
         {
-            var originalFeatures = (from x in original.SkuFeatures select x.FeatureId);
-            return SKU.SelectedFeatureGUIDs.Except(originalFeatures).ToList();
-        }
-
-        /// <summary>
-        /// Retrieve a list of removed features for this SKU
-        /// </summary>
-        /// <param name="original">Original SKU</param>
-        /// <returns>List of removed feature Guids</returns>
-        public List<Guid> GetRemovedFeatureGUIDs(Model.SKU original)
-        {
-            var originalFeatures = (from x in original.SkuFeatures select x.FeatureId);
-            return originalFeatures.Except(SKU.SelectedFeatureGUIDs).ToList();
+            return SKU.SelectedFeatureGUIDs.ToList();
         }
     }
 
     /// <summary>
     /// SKUViewModel extension that contains a list of SelectedFeature Guids
     /// </summary>
-    public class SKUEditViewItem : SKUViewModel
+    public class SKUCreateViewItem : SKUViewModel
     {
-        public SKUEditViewItem() : base() { }
+        public SKUCreateViewItem() : base() { }
 
-        public SKUEditViewItem(Model.SKU sku)
+        public SKUCreateViewItem(Model.SKU sku)
             : base(sku)
         {
-            SelectedFeatureGUIDs = new List<Guid>(
-                    sku.SkuFeatures.Select(x => x.FeatureId)
-                );
+            SelectedFeatureGUIDs = new List<Guid>();
         }
 
         /// <summary>

@@ -50,21 +50,21 @@ namespace KeyHub.Web.ViewModels.SKU
             Model.SKU current = original ?? new Model.SKU();
 
             //Load properties into entity
-            current.SkuId = SkuId;
-            current.VendorId = VendorId;
-            current.PrivateKeyId = PrivateKeyId;
-            current.SkuCode = SkuCode;
-            current.MaxDomains = MaxDomains;
-            current.EditOwnershipDuration = EditOwnershipDuration;
-            current.MaxSupportContacts = MaxSupportContacts;
-            current.EditSupportContactsDuration = EditSupportContactsDuration;
-            current.LicenseDuration = LicenseDuration;
-            current.AutoDomainDuration = AutoDomainDuration;
-            current.ManualDomainDuration = ManualDomainDuration;
-            current.CanDeleteAutoDomains = CanDeleteAutoDomains;
-            current.CanDeleteManualDomains = CanDeleteManualDomains;
-            current.ReleaseDate = ReleaseDate;
-            current.ExpirationDate = ExpirationDate;
+            current.SkuId = this.SkuId;
+            current.VendorId = this.VendorId;
+            current.PrivateKeyId = this.PrivateKeyId;
+            current.SkuCode = this.SkuCode;
+            current.MaxDomains = this.MaxDomains;
+            current.EditOwnershipDuration = this.EditOwnershipDuration;
+            current.MaxSupportContacts = this.MaxSupportContacts;
+            current.EditSupportContactsDuration = this.EditSupportContactsDuration;
+            current.LicenseDuration = this.LicenseDuration;
+            current.AutoDomainDuration = this.AutoDomainDuration;
+            current.ManualDomainDuration = this.ManualDomainDuration;
+            current.CanDeleteAutoDomains = this.CanDeleteAutoDomains;
+            current.CanDeleteManualDomains = this.CanDeleteManualDomains;
+            current.ReleaseDate = this.ReleaseDate;
+            current.ExpirationDate = this.ExpirationDate;
 
             return current;
         }

@@ -22,12 +22,66 @@ namespace KeyHub.Web.Controllers
         {
             using (DataContext context = new DataContext())
             {
-                //Eager loading Feature
+                //Eager loading SKU
                 var SKUQuery = (from x in context.SKUs select x).Include(x => x.PrivateKey)
                                     .Include(x => x.SkuFeatures.Select(f => f.Feature));
 
                 SKUIndexViewModel viewModel = new SKUIndexViewModel(SKUQuery.ToList());
                 return View(viewModel);
+            }
+        }
+
+        /// <summary>
+        /// Create a single SKU
+        /// </summary>
+        /// <returns>Create SKU view</returns>
+        public ActionResult Create()
+        {
+            using (DataContext context = new DataContext())
+            {
+                var vendorQuery = from x in context.Vendors select x;
+                var privateKeyQuery = from x in context.PrivateKeys select x;
+                var featureQuery = from x in context.Features select x;
+
+                SKUCreateViewModel viewModel = new SKUCreateViewModel(vendorQuery.ToList(), privateKeyQuery.ToList(), 
+                    featureQuery.ToList());
+
+                return View(viewModel);
+            }
+        }
+
+        /// <summary>
+        /// Save created SKU into db and redirect to index
+        /// </summary>
+        /// <param name="viewModel">Created SKUViewModel</param>
+        /// <returns>Redirectaction to index if successfull</returns>
+        [HttpPost]
+        public ActionResult Create(SKUCreateViewModel viewModel)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    using (DataContext context = new DataContext())
+                    {
+                        Model.SKU sku = viewModel.ToEntity(null);
+                        context.SKUs.Add(sku);
+
+                        //Offload adding SKUFeatures to Dynamic SKU Model
+                        sku.AddFeatures(viewModel.GetNewFeatureGUIDs());
+
+                        context.SaveChanges();
+                    }
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return View(viewModel);
+                }
+            }
+            catch
+            {
+                throw;
             }
         }
 
@@ -85,7 +139,7 @@ namespace KeyHub.Web.Controllers
             }
             catch
             {
-                return View(viewModel);
+                throw;
             }
         }
     }
