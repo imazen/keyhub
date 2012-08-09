@@ -68,7 +68,7 @@ namespace KeyHub.Model
         /// </summary>
         [ForeignKey("CountryCode")]
         public Country Country { get; set; }
-
+        
         /// <summary>
         /// Paypal ID for this customer
         /// </summary>

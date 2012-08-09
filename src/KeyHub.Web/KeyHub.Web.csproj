@@ -133,6 +133,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\FeatureController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SKUController.cs" />
@@ -143,10 +144,15 @@
     <Compile Include="Logging\NLogLogger.cs" />
     <Compile Include="ViewModels\AccountModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\Customer\CustomerCreateViewModel.cs" />
+    <Compile Include="ViewModels\Customer\CustomerEditViewModel.cs" />
+    <Compile Include="ViewModels\Customer\CustomerIndexViewModel.cs" />
+    <Compile Include="ViewModels\Customer\CustomerViewModel.cs" />
     <Compile Include="ViewModels\Feature\FeatureCreateViewModel.cs" />
     <Compile Include="ViewModels\Feature\FeatureEditViewModel.cs" />
     <Compile Include="ViewModels\Feature\FeatureIndexViewModel.cs" />
     <Compile Include="ViewModels\Feature\FeatureViewModel.cs" />
+    <Compile Include="ViewModels\SKU\SKUCreateViewModel.cs" />
     <Compile Include="ViewModels\SKU\SKUEditViewModel.cs" />
     <Compile Include="ViewModels\SKU\SKUIndexViewModel.cs" />
     <Compile Include="ViewModels\SKU\SKUViewModel.cs" />
@@ -258,6 +264,10 @@
     <Content Include="Views\Feature\Create.cshtml" />
     <Content Include="Views\SKU\Index.cshtml" />
     <Content Include="Views\SKU\Edit.cshtml" />
+    <Content Include="Views\Customer\Index.cshtml" />
+    <Content Include="Views\SKU\Create.cshtml" />
+    <Content Include="Views\Customer\Create.cshtml" />
+    <Content Include="Views\Customer\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

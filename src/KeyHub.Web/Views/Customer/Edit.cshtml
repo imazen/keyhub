@@ -1,0 +1,93 @@
+﻿@model KeyHub.Web.ViewModels.Customer.CustomerEditViewModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>CustomerViewModel</legend>
+
+        @Html.HiddenFor(model => model.Customer.ObjectId)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Customer.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Customer.Name)
+            @Html.ValidationMessageFor(model => model.Customer.Name)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Customer.Department)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Customer.Department)
+            @Html.ValidationMessageFor(model => model.Customer.Department)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Customer.Street)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Customer.Street)
+            @Html.ValidationMessageFor(model => model.Customer.Street)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Customer.PostalCode)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Customer.PostalCode)
+            @Html.ValidationMessageFor(model => model.Customer.PostalCode)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Customer.City)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Customer.City)
+            @Html.ValidationMessageFor(model => model.Customer.City)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Customer.Region)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Customer.Region)
+            @Html.ValidationMessageFor(model => model.Customer.Region)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Customer.CountryCode)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.Customer.CountryCode, Model.CountryList)
+            @Html.ValidationMessageFor(model => model.Customer.CountryCode)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Customer.PayPalId)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Customer.PayPalId)
+            @Html.ValidationMessageFor(model => model.Customer.PayPalId)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

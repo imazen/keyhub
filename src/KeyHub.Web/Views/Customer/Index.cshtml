@@ -1,0 +1,68 @@
+﻿@model KeyHub.Web.ViewModels.Customer.CustomerIndexViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Customers.FirstOrDefault().Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Customers.FirstOrDefault().Department)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Customers.FirstOrDefault().Street)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Customers.FirstOrDefault().PostalCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Customers.FirstOrDefault().City)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Customers.FirstOrDefault().Region)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Customers.FirstOrDefault().CountryName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model.Customers) {
+    <tr>
+        @Html.DisplayFor(modelItem => item.ObjectId)
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Department)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Street)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PostalCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.City)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Region)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CountryName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { key = item.ObjectId })
+        </td>
+    </tr>
+}
+
+</table>
