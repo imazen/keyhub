@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace KeyHub.Model
 {
     /// <summary>
-    /// SKU logic
+    /// Add processing logic to SKU
     /// </summary>
     public partial class SKU
     {
@@ -22,9 +22,9 @@ namespace KeyHub.Model
         }
 
         /// <summary>
-        /// 
+        /// Remove SKUFeatures from SKU based on removed feature Guids
         /// </summary>
-        /// <param name="RemovedFeatureGuids"></param>
+        /// <param name="RemovedFeatureGuids">List of features Guids to remove</param>
         public void RemoveFeatures(IEnumerable<Guid> RemovedFeatureGuids)
         {
             foreach (Guid removedFeatureGuid in RemovedFeatureGuids)
