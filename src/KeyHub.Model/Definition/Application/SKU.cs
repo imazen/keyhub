@@ -13,7 +13,7 @@ namespace KeyHub.Model
     /// like the Performance Enterprise, Performance Professional, or Cloud Enterprise bundles.
     /// It combines licensing rules with feature codes and packages.
     /// </summary>
-    public class SKU
+    public partial class SKU
     {
         /// <summary>
         /// Indentifier for the SKU entity
