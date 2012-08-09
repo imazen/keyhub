@@ -23,6 +23,7 @@ namespace KeyHub.Web.Controllers
         {
             using (DataContext context = new DataContext())
             {
+                //Eager loading Vendor
                 var vendorQuery = (from v in context.Vendors select v).Include(x => x.Country);//.FilterByUser(CurrentUser);
                 
                 VendorIndexViewModel viewModel = new VendorIndexViewModel(vendorQuery.ToList());
@@ -75,7 +76,7 @@ namespace KeyHub.Web.Controllers
             }
             catch
             {
-                return View(viewModel);
+                throw;
             }
         }
 
@@ -126,7 +127,7 @@ namespace KeyHub.Web.Controllers
             }
             catch
             {
-                return View(viewModel);
+                throw;
             }
         }
     }

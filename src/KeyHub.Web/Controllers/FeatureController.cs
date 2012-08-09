@@ -22,6 +22,7 @@ namespace KeyHub.Web.Controllers
         {
             using (DataContext context = new DataContext())
             {
+                //Eager loading feature
                 var featureQuery = (from f in context.Features select f).Include(x => x.Vendor);
 
                 FeatureIndexViewModel viewModel = new FeatureIndexViewModel(featureQuery.ToList());
@@ -73,7 +74,7 @@ namespace KeyHub.Web.Controllers
             }
             catch
             {
-                return View(viewModel);
+                throw;
             }
         }
 
@@ -124,7 +125,7 @@ namespace KeyHub.Web.Controllers
             }
             catch
             {
-                return View(viewModel);
+                throw;
             }
         }
     }
