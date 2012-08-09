@@ -39,11 +39,11 @@
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.SKU.SkuFeatures)
+            @Html.LabelFor(model => model.SKU.SelectedFeatureGUIDs)
         </div>
         <div class="editor-field">
-            @Html.ListBoxFor(model => model.SKU.SkuFeatures, Model.FeatureList);
-            @Html.ValidationMessageFor(model => model.SKU.SkuFeatures)
+            @Html.ListBoxFor(model => model.SKU.SelectedFeatureGUIDs, Model.FeatureList)
+            @Html.ValidationMessageFor(model => model.SKU.SelectedFeatureGUIDs)
         </div>
 
         <div class="editor-label">
@@ -133,6 +133,8 @@
             @Html.EditorFor(model => model.SKU.ExpirationDate)
             @Html.ValidationMessageFor(model => model.SKU.ExpirationDate)
         </div>
+
+        
 
         <p>
             <input type="submit" value="Save" />

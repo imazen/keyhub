@@ -68,7 +68,7 @@ namespace KeyHub.Web.ViewModels.SKU
             const int MAXLINES = 3;
             const string LINEFEED = ", ";
             string summary = "";
-            
+
             var filteredFeatures = skuFeatures.Take(MAXLINES);
 
             if (filteredFeatures.Count() > 0)

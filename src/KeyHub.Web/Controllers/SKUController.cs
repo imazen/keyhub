@@ -70,6 +70,10 @@ namespace KeyHub.Web.Controllers
 
                         viewModel.ToEntity(sku);
 
+                        //Offload adding and removing SKUFeatures to Dynamic SKU Model
+                        sku.AddFeatures(viewModel.GetNewFeatureGUIDs(sku));
+                        sku.RemoveFeatures(viewModel.GetRemovedFeatureGUIDs(sku));
+
                         context.SaveChanges();
                     }
                     return RedirectToAction("Index");

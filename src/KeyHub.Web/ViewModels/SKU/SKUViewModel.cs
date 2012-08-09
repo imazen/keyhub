@@ -38,17 +38,6 @@ namespace KeyHub.Web.ViewModels.SKU
             CanDeleteManualDomains = sku.CanDeleteManualDomains;
             ReleaseDate = sku.ReleaseDate;
             ExpirationDate = sku.ExpirationDate;
-
-            //Fill SkuFeatures list
-            SkuFeatures = new List<Feature.FeatureViewModel>
-                (
-                    sku.SkuFeatures.Select(x => new Feature.FeatureViewModel(x.Feature))
-                );
-
-            foreach (Model.SkuFeature skuFeature in sku.SkuFeatures)
-            {
-                SkuFeatures.Add((new Feature.FeatureViewModel(skuFeature.Feature)));
-            }
         }
 
         /// <summary>
@@ -76,27 +65,6 @@ namespace KeyHub.Web.ViewModels.SKU
             current.CanDeleteManualDomains = CanDeleteManualDomains;
             current.ReleaseDate = ReleaseDate;
             current.ExpirationDate = ExpirationDate;
-
-            //Add new SkuFeatures to list
-            foreach (Feature.FeatureViewModel feature in SkuFeatures)
-            {
-                var existingFeatures = (from f in current.SkuFeatures where f.FeatureId == feature.FeatureId select f);
-                if (existingFeatures.Count() == 0)
-                {
-                    Model.SkuFeature newFeature = new Model.SkuFeature() { SkuId = current.SkuId, FeatureId= feature.FeatureId };
-                    current.SkuFeatures.Add(newFeature);
-                }
-            }
-
-            //Delete removed SkuFeatures from list
-            foreach (Model.SkuFeature feature in current.SkuFeatures)
-            {
-                var currentFeature = (from f in SkuFeatures where f.FeatureId == feature.FeatureId select f);
-                if (currentFeature.Count() == 0)
-                {
-                    current.SkuFeatures.Remove(feature);
-                }
-            }
 
             return current;
         }
@@ -196,11 +164,5 @@ namespace KeyHub.Web.ViewModels.SKU
         /// </summary>
         [DisplayName("Expires")]
         public DateTime? ExpirationDate { get; set; }
-
-        /// <summary>
-        /// The list of features this SKU consists of.
-        /// </summary>
-        [DisplayName("Features")]
-        public virtual ICollection<Feature.FeatureViewModel> SkuFeatures { get; set; }
     }
 }

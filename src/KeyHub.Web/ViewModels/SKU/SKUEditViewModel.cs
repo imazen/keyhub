@@ -23,16 +23,17 @@ namespace KeyHub.Web.ViewModels.SKU
         public SKUEditViewModel(Model.SKU sku, List<Model.Vendor> vendors, List<Model.PrivateKey> privateKeys,
             List<Model.Feature> features)
         {
-            SKU = new SKUViewModel(sku);
+            SKU = new SKUEditViewItem(sku);
+
             VendorList = vendors.ToSelectList(x => x.ObjectId, x => x.OrganisationName);
             PrivateKeyList = privateKeys.ToSelectList(x => x.PrivateKeyId, x => x.DisplayName);
-            FeatureList = features.ToSelectList(x => x.FeatureId, x => x.FeatureCode);
+            FeatureList = features.ToMultiSelectList(x => x.FeatureId, x => x.FeatureCode);
         }
 
         /// <summary>
         /// Edited vendor
         /// </summary>
-        public SKUViewModel SKU { get; set; }
+        public SKUEditViewItem SKU { get; set; }
 
         /// <summary>
         /// List of vendors to select
@@ -47,7 +48,7 @@ namespace KeyHub.Web.ViewModels.SKU
         /// <summary>
         /// List of features keys to select
         /// </summary>
-        public SelectList FeatureList { get; set; }
+        public MultiSelectList FeatureList { get; set; }
 
         /// <summary>
         /// Convert back to SKU instance
@@ -58,5 +59,35 @@ namespace KeyHub.Web.ViewModels.SKU
         {
             return SKU.ToEntity(original);
         }
+
+        public List<Guid> GetNewFeatureGUIDs(Model.SKU original)
+        {
+            var originalFeatures = (from x in original.SkuFeatures select x.FeatureId);
+            return SKU.SelectedFeatureGUIDs.Except(originalFeatures).ToList();
+        }
+
+        public List<Guid> GetRemovedFeatureGUIDs(Model.SKU original)
+        {
+            var originalFeatures = (from x in original.SkuFeatures select x.FeatureId);
+            return originalFeatures.Except(SKU.SelectedFeatureGUIDs).ToList();
+        }
+    }
+
+    /// <summary>
+    /// SKUViewModel extension that contains a list of SelectedFeature Guids
+    /// </summary>
+    public class SKUEditViewItem : SKUViewModel
+    {
+        public SKUEditViewItem() : base() { }
+
+        public SKUEditViewItem(Model.SKU sku)
+            : base(sku)
+        {
+            SelectedFeatureGUIDs = new List<Guid>(
+                    sku.SkuFeatures.Select(x => x.FeatureId)
+                );
+        }
+
+        public List<Guid> SelectedFeatureGUIDs { get; set; }
     }
 }
