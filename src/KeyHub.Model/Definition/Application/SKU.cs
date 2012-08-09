@@ -15,6 +15,11 @@ namespace KeyHub.Model
     /// </summary>
     public partial class SKU
     {
+        public SKU()
+        {
+            SkuFeatures = new List<SkuFeature>();
+        }
+
         /// <summary>
         /// Indentifier for the SKU entity
         /// </summary>
