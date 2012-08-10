@@ -44,10 +44,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Logic\Application\CustomerApp.cs" />
     <Compile Include="Logic\Application\SKU.cs" />
-    <Compile Include="Definition\Application\ClientApp.cs" />
-    <Compile Include="Definition\Application\ClientAppKey.cs" />
-    <Compile Include="Definition\Application\LicenseClientApp.cs" />
+    <Compile Include="Definition\Application\CustomerApp.cs" />
+    <Compile Include="Definition\Application\CustomerAppKey.cs" />
+    <Compile Include="Definition\Application\LicenseCustomerApp.cs" />
     <Compile Include="Definition\Application\Transaction.cs" />
     <Compile Include="Definition\Application\TransactionItem.cs" />
     <Compile Include="Definition\Application\Country.cs" />

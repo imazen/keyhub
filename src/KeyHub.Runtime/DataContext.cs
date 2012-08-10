@@ -52,9 +52,9 @@ namespace KeyHub.Runtime
 
         public DbSet<DomainLicense> DomainLicenses { get; set; }
 
-        public DbSet<ClientApp> ClientApps { get; set; }
+        public DbSet<CustomerApp> CustomerApps { get; set; }
 
-        public DbSet<ClientAppKey> ClientAppKeys { get; set; }
+        public DbSet<CustomerAppKey> CustomerAppKeys { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

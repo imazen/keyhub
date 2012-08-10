@@ -133,6 +133,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CustomerAppController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\FeatureController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -145,6 +146,10 @@
     <Compile Include="Logging\NLogLogger.cs" />
     <Compile Include="ViewModels\AccountModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\CustomerApp\CustomerAppEditViewModel.cs" />
+    <Compile Include="ViewModels\CustomerApp\CustomerAppViewModel.cs" />
+    <Compile Include="ViewModels\CustomerApp\CustomerAppIndexViewModel.cs" />
+    <Compile Include="ViewModels\CustomerApp\CustomerAppCreateViewModel.cs" />
     <Compile Include="ViewModels\Customer\CustomerCreateViewModel.cs" />
     <Compile Include="ViewModels\Customer\CustomerEditViewModel.cs" />
     <Compile Include="ViewModels\Customer\CustomerIndexViewModel.cs" />
@@ -276,6 +281,9 @@
     <Content Include="Views\License\Index.cshtml" />
     <Content Include="Views\License\Create.cshtml" />
     <Content Include="Views\License\Edit.cshtml" />
+    <Content Include="Views\CustomerApp\Index.cshtml" />
+    <Content Include="Views\CustomerApp\Create.cshtml" />
+    <Content Include="Views\CustomerApp\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

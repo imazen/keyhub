@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 namespace KeyHub.Model
 {
     /// <summary>
-    /// Provides the join table between the <see cref="License"/> and <see cref="ClientApp"/> entities
+    /// Provides the join table between the <see cref="License"/> and <see cref="CustomerApp"/> entities
     /// </summary>
-    public class LicenseClientApp
+    public class LicenseCustomerApp
     {
         /// <summary>
         /// Unqiue LicenseId
@@ -21,11 +21,11 @@ namespace KeyHub.Model
         public Guid LicenseId { get; set; }
 
         /// <summary>
-        /// Unique ClientAppId
+        /// Unique CustomerAppId
         /// </summary>
         [Key]
         [Column(Order = 2)]
-        public Guid ClientAppId { get; set; }
+        public Guid CustomerAppId { get; set; }
 
         /// <summary>
         /// Relation to <see cref="License"/>
@@ -34,9 +34,9 @@ namespace KeyHub.Model
         public virtual License License { get; set; }
 
         /// <summary>
-        /// Relation to <see cref="ClientApp"/>
+        /// Relation to <see cref="CustomerApp"/>
         /// </summary>
-        [ForeignKey("ClientAppId")]
-        public virtual ClientApp ClientApp { get; set; }
+        [ForeignKey("CustomerAppId")]
+        public virtual CustomerApp CustomerApp { get; set; }
     }
 }

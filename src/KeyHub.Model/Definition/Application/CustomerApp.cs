@@ -11,25 +11,25 @@ namespace KeyHub.Model
     /// <summary>
     /// Provides registration of client application (the developers who use it)
     /// </summary>
-    public class ClientApp
+    public partial class CustomerApp
     {
         /// <summary>
-        /// Indentifier for the ClientApp entity
+        /// Indentifier for the CustomerApp entity
         /// </summary>
         [Key]
         [DatabaseGenerated(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity)]
-        public Guid ClientAppId { get; set; }
+        public Guid CustomerAppId { get; set; }
 
         /// <summary>
-        /// The name of the client application
+        /// The name of the customer application
         /// </summary>
         [Required]
         [StringLength(256)]
         public string ApplicationName { get; set; }
 
         /// <summary>
-        /// A list of licenses (<see cref="License"/>) this application is associated with
+        /// A list of LicenseCustomerApp (<see cref="License"/>) this application is associated with
         /// </summary>
-        public virtual ICollection<License> Licenses { get; set; }
+        public virtual ICollection<LicenseCustomerApp> LicenseCustomerApps { get; set; }
     }
 }

@@ -11,13 +11,17 @@ using KeyHub.Model;
 namespace KeyHub.BusinessLogic.DataConfiguration
 {
     /// <summary>
-    /// Configures the <see cref="KeyHub.Model.LicenseClientApp"/> table
+    /// Configures the <see cref="KeyHub.Model.CustomerAppKey"/> table
     /// </summary>
-    public class LicenseClientAppConfiguration : EntityTypeConfiguration<LicenseClientApp>, IEntityConfiguration
+    public class CustomerAppKeyConfiguration : EntityTypeConfiguration<CustomerAppKey>, IEntityConfiguration
     {
-        public LicenseClientAppConfiguration()
+        public CustomerAppKeyConfiguration()
         {
-            ToTable("LicenseClientApps");
+            Map(m =>
+            {
+                m.MapInheritedProperties();
+                m.ToTable("CustomerAppKeys");
+            });
         }
 
         public void AddConfiguration(System.Data.Entity.ModelConfiguration.Configuration.ConfigurationRegistrar registrar)

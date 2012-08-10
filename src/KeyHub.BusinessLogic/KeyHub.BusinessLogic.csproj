@@ -53,6 +53,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataConfiguration\Application\CustomerAppKeyConfiguration.cs" />
+    <Compile Include="DataConfiguration\Application\CustomerAppConfiguration.cs" />
     <Compile Include="DataInitializers\CountrySeed.cs" />
     <Compile Include="DataInitializers\DatabaseSeeder.cs" />
     <Compile Include="DataInitializers\DropCreateDatabaseIfModelChangesInitializer.cs" />
@@ -61,7 +63,7 @@
     <Compile Include="Boot\SettingsBoot.cs" />
     <Compile Include="Caching\PerRequestCacheProvider.cs" />
     <Compile Include="Caching\RuntimeCacheProvider.cs" />
-    <Compile Include="DataConfiguration\Application\LicenseClientAppConfiguration.cs" />
+    <Compile Include="DataConfiguration\Application\LicenseCustomerAppConfiguration.cs" />
     <Compile Include="DataConfiguration\Application\LicenseConfiguration.cs" />
     <Compile Include="DataConfiguration\Application\CustomerConfiguration.cs" />
     <Compile Include="DataConfiguration\Application\VendorConfiguration.cs" />

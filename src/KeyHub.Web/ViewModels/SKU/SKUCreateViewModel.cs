@@ -74,13 +74,14 @@ namespace KeyHub.Web.ViewModels.SKU
     /// </summary>
     public class SKUCreateViewItem : SKUViewModel
     {
-        public SKUCreateViewItem() : base() { }
-
-        public SKUCreateViewItem(Model.SKU sku)
-            : base(sku)
+        public SKUCreateViewItem() : base() 
         {
             SelectedFeatureGUIDs = new List<Guid>();
         }
+
+        public SKUCreateViewItem(Model.SKU sku)
+            : base(sku)
+        { }
 
         /// <summary>
         /// Guid list of assigned features

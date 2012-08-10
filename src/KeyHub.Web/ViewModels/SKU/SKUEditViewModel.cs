@@ -88,7 +88,10 @@ namespace KeyHub.Web.ViewModels.SKU
     /// </summary>
     public class SKUEditViewItem : SKUViewModel
     {
-        public SKUEditViewItem() : base() { }
+        public SKUEditViewItem() : base() 
+        {
+            new List<Guid>();
+        }
 
         public SKUEditViewItem(Model.SKU sku)
             : base(sku)
