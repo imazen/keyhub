@@ -136,6 +136,7 @@
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\FeatureController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LicenseController.cs" />
     <Compile Include="Controllers\SKUController.cs" />
     <Compile Include="Controllers\VendorController.cs" />
     <Compile Include="Global.asax.cs">
@@ -152,6 +153,10 @@
     <Compile Include="ViewModels\Feature\FeatureEditViewModel.cs" />
     <Compile Include="ViewModels\Feature\FeatureIndexViewModel.cs" />
     <Compile Include="ViewModels\Feature\FeatureViewModel.cs" />
+    <Compile Include="ViewModels\License\LicenseIndexViewModel.cs" />
+    <Compile Include="ViewModels\License\LicenseViewModel.cs" />
+    <Compile Include="ViewModels\License\LicenseCreateViewModel.cs" />
+    <Compile Include="ViewModels\License\LicenseEditViewModel.cs" />
     <Compile Include="ViewModels\SKU\SKUCreateViewModel.cs" />
     <Compile Include="ViewModels\SKU\SKUEditViewModel.cs" />
     <Compile Include="ViewModels\SKU\SKUIndexViewModel.cs" />
@@ -268,6 +273,9 @@
     <Content Include="Views\SKU\Create.cshtml" />
     <Content Include="Views\Customer\Create.cshtml" />
     <Content Include="Views\Customer\Edit.cshtml" />
+    <Content Include="Views\License\Index.cshtml" />
+    <Content Include="Views\License\Create.cshtml" />
+    <Content Include="Views\License\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

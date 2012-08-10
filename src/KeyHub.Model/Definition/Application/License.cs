@@ -26,11 +26,35 @@ namespace KeyHub.Model
         public virtual SKU Sku { get; set; }
 
         /// <summary>
-        /// The name of the owner of this license
+        /// The Customer that purchased this license
+        /// </summary>
+        [Required]
+        public Guid PurchasingCustomerId { get; set; }
+
+        /// <summary>
+        /// The Customer that purchased this license
+        /// </summary>
+        [ForeignKey("PurchasingCustomerId")]
+        public virtual Customer PurchasingCustomer { get; set; }
+
+        /// <summary>
+        /// The original name of the purchasing entity that bought this license
         /// </summary>
         [Required]
         [StringLength(256)]
-        public string OwnerName { get; set; }
+        public string PurchasingCustomerName { get; set; }
+
+        /// <summary>
+        /// The Customer that ownes this license
+        /// </summary>
+        /// <remarks>Can be empty if license is unassigned?</remarks>
+        public Guid OwningCustomerId { get; set; }
+
+        /// <summary>
+        /// The Customer that ownes this license
+        /// </summary>
+        [ForeignKey("OwningCustomerId")]
+        public virtual Customer OwningCustomer { get; set; }
 
         /// <summary>
         /// The date this license has been issued

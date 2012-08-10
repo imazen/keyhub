@@ -1,0 +1,77 @@
+﻿@model KeyHub.Web.ViewModels.License.LicenseCreateViewModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>LicenseViewModel</legend>
+
+        @Html.HiddenFor(model => model.License.ObjectId)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.License.SkuId)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.License.SkuId, Model.SKUList)
+            @Html.ValidationMessageFor(model => model.License.SkuId)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.License.PurchasingCustomerId)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.License.PurchasingCustomerId, Model.CustomerList)
+            @Html.ValidationMessageFor(model => model.License.PurchasingCustomerId)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.License.PurchasingCustomerName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.License.PurchasingCustomerName)
+            @Html.ValidationMessageFor(model => model.License.PurchasingCustomerName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.License.OwningCustomerId)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.License.OwningCustomerId, Model.CustomerList)
+            @Html.ValidationMessageFor(model => model.License.OwningCustomerId)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.License.LicenseIssued)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.License.LicenseIssued)
+            @Html.ValidationMessageFor(model => model.License.LicenseIssued)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.License.LicenseExpires)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.License.LicenseExpires)
+            @Html.ValidationMessageFor(model => model.License.LicenseExpires)
+        </div>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
