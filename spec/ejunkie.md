@@ -95,15 +95,10 @@ E-junkie can POST transaction data to any server. 1 POST will occur for each Ite
 This is a 2 item transaction
 
 
-### POST #1 
+### POST
 
 	residence_country=US&payer_business_name=Foliotek+Inc&first_name=Christopher&last_name=Miller&payer_email=dustins%40foliotek.com&payer_phone=&payer_street=5900-B+North+Tower+Dr.&payer_city=Columbia&payer_state=MO&payer_zip=65202&payer_country_code=US&address_name=+&address_business_name=&address_phone=&address_street=&address_city=&address_state=&address_zip=&address_country_code=US&address_country=US&payment_date=13%3A15%3A35+Jul+09%2C+2012+MST&custom=&mc_currency=USD&business=billing%40imazen.co&mc_gross=399&mc_shipping=0&tax=0&txn_type=ppdirect&payment_type=Instant&invoice=wc8dur8mwza1962rxveo8qsg0okc4cog448gs8&buyer_ip=66.112.97.8&card_last_four=xxxx&card_type=Visa&mailing_list_status=true&charset=utf-8
 
 	&item_name1=Resizer+3&item_number1=929356%7C%7CR3Bundle1Ent&mc_gross_1=199.5&quantity1=1&item_name2=Resizer+3&item_number2=929356%7C%7CR3Bundle2Ent&mc_gross_2=199.5&quantity2=1&num_cart_items=2&txn_id=9N0158558A149201K&payment_status=Completed&pending_reason=&handshake=ff35a320762dcec799d9c0bb9831577c&discount_codes=For+Cart+Item+Total%3A+WRONGLICENSE1&from_name=Imazen&from_email=billing%40imazen.co&mailing_list_status=true&client_shipping_method_id=0&item_cart_position=1&item_number=929356&sku=R3Bundle1Ent&expiry_hours=0&max_downloads=9&ej_txn_id=14420604
 
-### Post #2
-
-	residence_country=US&payer_business_name=Foliotek+Inc&first_name=Christopher&last_name=Miller&payer_email=dustins%40foliotek.com&payer_phone=&payer_street=5900-B+North+Tower+Dr.&payer_city=Columbia&payer_state=MO&payer_zip=65202&payer_country_code=US&address_name=+&address_business_name=&address_phone=&address_street=&address_city=&address_state=&address_zip=&address_country_code=US&address_country=US&payment_date=13%3A15%3A35+Jul+09%2C+2012+MST&custom=&mc_currency=USD&business=billing%40imazen.co&mc_gross=399&mc_shipping=0&tax=0&txn_type=ppdirect&payment_type=Instant&invoice=wc8dur8mwza1962rxveo8qsg0okc4cog448gs8&buyer_ip=66.112.97.8&card_last_four=xxxx &card_type=Visa&mailing_list_status=true&charset=utf-8
-
-	&item_name1=Resizer+3&item_number1=929356%7C%7CR3Bundle1Ent&mc_gross_1=199.5&quantity1=1&item_name2=Resizer+3&item_number2=929356%7C%7CR3Bundle2Ent&mc_gross_2=199.5&quantity2=1&num_cart_items=2&txn_id=9N0158558A149201K&payment_status=Completed&pending_reason=&handshake=ff35a320762dcec799d9c0bb9831577c&discount_codes=For+Cart+Item+Total%3A+WRONGLICENSE1&from_name=Imazen&from_email=billing%40imazen.co&mailing_list_status=true&client_shipping_method_id=0&item_cart_position=2&item_number=929356&sku=R3Bundle2Ent&expiry_hours=0&max_downloads=9&ej_txn_id=14420604
 

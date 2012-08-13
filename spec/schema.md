@@ -9,12 +9,18 @@
 [Edit diagram here](http://www.gliffy.com/gliffy/#d=3749127&t=KeyHub_Schema)
 
 
+### Sample transactions
+
+https://docs.google.com/spreadsheet/ccc?key=0AgBQf0FS96bPdG5DM0hBTnA1cmd6UXBCc1F4aF9YMHc
+
+
 #### Abbreviations
 
-* str = nvarchar(256)
-* str2 = nvarchar(4096)
+* str256 = nvarchar(256)
+* str1k = nvarchar(1024)
+* str4k = nvarchar(4096)
 * fk = foreign key
-* pk = primary key
+* pk = primary key)
 * n = nullable
 
 
@@ -30,7 +36,7 @@ All date/time columns will be in 'new' style (date, time, datetime2)
 * pk id
 * fk private_key_id
 * fk vendor_id
-* str sku
+* str256 sku
 * n int max_domains - The maximum number of domain licenses permitted by this license
 * n int edit_ownership_duration - How long the Owner_* fields are editable after license is issued
 * n int max_support_contacts - Maxmimum number of users listed as a support contact
@@ -46,11 +52,15 @@ All date/time columns will be in 'new' style (date, time, datetime2)
 
 ### FeatureIDs
 
-* pk id
+Features are abilities unlocked by a license for a given SKU. 
+
+* pk id (guid)
 * fk vendor_id
-* str code
+* str1k display_name
 
 ### SKUFeatureIDs
+
+Many-to-many relationship between SKUs and FeatureIDs
 
 * fk sku_id
 * fk feature_id
@@ -59,36 +69,64 @@ All date/time columns will be in 'new' style (date, time, datetime2)
 
 * pk id
 * fk vendor_id
-* str display_name
+* str1k display_name
 * binary(4096) private_key_bytes (encrypted by password in web.config)
 
 
 ### Vendors
 
-* pk id
-* nvarchar(1024) name
+* pk id (guid)
+* str1k name
 * street/city/region/postal/country
+* str1k billing_email
 
 ### Rights
 
-* pk id
-* nvarchar(1024) name
+* pk id (guid)
+* str1k display_name
+
+#### Vendor rights:
+
+* VendorAdmin
+* VendorReporting
+
+####Entity rights:
+
+* BelongToEntity (no rights)
+* EditEntityInfo
+* EditEntityMembers
+* GrantUsersEntityRights
+
+##### License and/or Entity Rights
+
+* ViewLicenseInfo (incl. transaction data)
+* EditLicenseInfo
+* ViewApps
+* ViewAppData (enables notifications)
+* EditApps
+* ViewDomains
+* EditDomains
+* GrantUsersLicenseRights
 
 ### UserObjectRights
+
+Connects Users to Objects (Entities, Licenses, Vendors) with Rights
+
 * pk id
-* fk user_id
-* fk right_id
-* fk object_id
-* object_type
+* fk user_id (guid)
+* fk right_id (guid)
+* fk object_id (guid)
+* object_type (?)
 
 
 ### Users
 
-* pk id
-* str name
-* str email
+* pk id (guid)
+* str1k name
+* str1k email
+* bool IsEmailConfirmed (permits display of unclaimed transactions matching the e-mail address)
 
-* //TODO: OpenID integration fields
+* //TODO: OpenID integration fields and e-mail address validation fields
 
 ### Licenses
 
@@ -103,21 +141,21 @@ All date/time columns will be in 'new' style (date, time, datetime2)
 
 ### Apps
 
-* pk guid id
-* str display_name
+* pk id (guid)
+* str1k display_name
 
 ### AppKeys
 
 App keys can be created and deleted, but not edited. Simple. Their guid ID serves as their identifier. 
 
-* pk guid id
+* pk id (guid)
 * fk app_id
 
 
 ### AppLicenses
 
 The interface must prevent an application from deleting its last license, as it would become orphaned.
-Applications can have multiple licenses.
+Applications can have multiple licenses, and licenses can be used on multiple applications.
 
 * fk license_id
 * fk app_id
@@ -129,7 +167,7 @@ For simplicity, we do not differentiate between domains and subdomains. In the .
 
 * pk id
 * fk license_id
-* str domain_name
+* str4k domain_name
 * datetime2 issued - The date the row was automatically or manually created
 * n datetime2 expires - Manually created licenses may or may not have an expiration date. If there is no expiration, it should be null.
 * bool is_automatic - Should be true if automatically generated
@@ -140,7 +178,7 @@ For simplicity, we do not differentiate between domains and subdomains. In the .
 
 * pk id
 * fk vendor_id
-* str display_name
+* str1k display_name
 
 ### PackageReleases
 
@@ -148,11 +186,11 @@ As an alternative to this table, Packages could simply reference an RSS XML feed
 
 * pk id
 * fk package_id
-* str display_name - Will usually be something like "Resizer 4 alpha 1"
-* str version - The official version, like "4.0.1"
+* str1k display_name - Will usually be something like "Resizer 4 alpha 1"
+* str1k version - The official version, like "4.0.1"
 * int stability - A stability rating, where 0 is stable, 1 is RC, 2 is beta, 3 is alpha, 4 is preview, etc.
-* str2 notes_url - URL of release notes
-* str2 download_url - URL of download. May need to be signed for public access if private on S3. 
+* str4k notes_url - URL of release notes
+* str4k download_url - URL of download. May need to be signed for public access if private on S3. 
 * datetime2 release_date - When this release becomes visible
 
 ### SKUPackages
@@ -180,8 +218,8 @@ As an alternative to this table, Packages could simply reference an RSS XML feed
 
 ### AppNotificationKind
 
-* pk id
-* str kind Ex. LicensingFailure, InsecureVersion, OutdatedVersion, CriticalErrors, Errors, Warnings
+* pk id (guid)
+* str display_name Ex. LicensingFailure, InsecureVersion, OutdatedVersion, CriticalErrors, Errors, Warnings
 
 ### UserAppNotifications
 
@@ -190,20 +228,52 @@ As an alternative to this table, Packages could simply reference an RSS XML feed
 * fk app_id
 * fk app_notification_kind_id
 
-### TransactionItems
+### Transaction Overview
 
-`In progress`
+While e-commerce systems generally use a 'quanity' field instead of splitting each item into a separate row, this would complicate evaluation of claimed/unclaimed transaction items. 
 
-Questions - do we duplicate rows based on quantity, or tie many Licenses to a single transaction item?
+Unless anyone objects, it seems that splitting these apart during import will simplify all later phases.
 
-* pk id
-* fk sku_id
-* int quantity
-* e_item_name
-* e_item_number
+To see what data e-junkie will be sending over HTTP, see http://www.e-junkie.com/ej/help.integration.htm
+
+Existing data will be provided in UTF-8 form with a byte-order mark, tab delimited format. 
+
+Example of export format: https://docs.google.com/spreadsheet/ccc?key=0AgBQf0FS96bPdG5DM0hBTnA1cmd6UXBCc1F4aF9YMHc
+
+
+### TransactionItems table
+
+* pk id (guid)
+* n fk sku_id  (nullable, because it's possible that we won't be able to match it up to an SKU)
+* fk transaction_id
+* n float gross (Gross sale price of transaction item. Will need to be divided by quantity during import)
+
+The following fields are recorded, but not displayed unless SKU lookup fails. These can be stored in xml or plain columns, whichever is preferred. These fields may change with e-commerce providers
+
+* str1k sku 
+* str1k item_name 
+* str1k item_number
+* n option_name1 - (if applicable) if you are using any options with your products, then this will contain first option's name
+* n option_selection1 - (if applicable) if you are using any options with your products, then this will contain first option's value that buyer selected
+* n option_name2
+* n option_selection2
+* n option_name3
+* n option_selection3
+
+
+
+Most e-commerce packages do not permit you to specify a different HTTP POST URL for each product, which means KeyHub will need to be able to store and tolerate transactions which cannot map to any SKU.
 
 
 ### Transactions
+
+* pk id (guid)
+* datetime2 payment_date
+* str1k payer_email
+* str1k first_name
+* str1k last_name
+
+`in progress`
 
 We may want to store all the original data in an XML column and only keep certain fields in the schema. 
 
@@ -211,6 +281,7 @@ We may want to store all the original data in an XML column and only keep certai
 
 Similar to PayPal IPN. See http://www.e-junkie.com/ej/help.integration.htm
 
+### Example transaction post.
 
     payment_date=02%3A51%3A26+Jul+18%2C+2012+MST
 	payer_email=angelagube%40photometer.com
@@ -273,7 +344,7 @@ Similar to PayPal IPN. See http://www.e-junkie.com/ej/help.integration.htm
 	ej_txn_id=14521369
 
 
-### TransactionItem
+### E-junkie TransactionItem
 
 	str item_name
 	int item_number - item number you have set in product configuration
@@ -287,4 +358,9 @@ Similar to PayPal IPN. See http://www.e-junkie.com/ej/help.integration.htm
 	option_selection3
 
 
+### Current Transaction Schema (1 row per transaction item):
+
+
+Payment Date (MST)	Processed by E-j (MST)	Transaction ID	Payment Processor	E-j Internal Txn ID	Payment Status	First Name	Last Name	Payer E-mail	Billing Info	Payer Phone	Card Last 4	Card Type	Payer IP	Passed Custom Param.	Discount Codes	Invoice	Shipping Info	Shipping Phone	Shipping	Tax	eBay Auction Buyer ID	Affiliate E-mail	Affiliate Name	Affiliate ID		Currency	Item Name	Variations/Variants	Item Number	SKU	Quantity	Amount	Affiliate Share (per item)	Download Info	Key/Code (if any)	eBay Auction ID	Buyer Country
+6/8/11 2:24	6/8/11 2:24	gc-363976288355594	Google Checkout	9476313	Completed	Andrew	R Ward	Andrew-bjk6pjj1dmn@checkout.google.com	45 Whitfield St, London, LONDON, W1T4HD, United Kingdom (Great Britain)				83.244.237.98		For Cart Item Total: 60OFFLOYALTY, 	3.63976E+14	Andrew R Ward, 45 Whitfield St, London, LONDON, W1T4HD, United Kingdom (Great Britain)		0	0					0	USD	Resizer 3	Bundle:Performance Bundle, License:Pro License	929356	R3Bundle1Pro	1	39.6	0	1 attempt(s), Last by 83.244.237.98 @ 2011-06-08 02:24:23			United Kingdom (Great Britain)
 
