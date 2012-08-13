@@ -11,11 +11,11 @@
 
 #### Abbreviations
 
-str = nvarchar(256)
-str2 = nvarchar(4096)
-fk = foreign key
-pk = primary key
-n = nullable
+* str = nvarchar(256)
+* str2 = nvarchar(4096)
+* fk = foreign key
+* pk = primary key
+* n = nullable
 
 
 ### Notes
@@ -60,36 +60,27 @@ All date/time columns will be in 'new' style (date, time, datetime2)
 * pk id
 * fk vendor_id
 * str display_name
-* binary(4096) private_key_bytes (password-encoded)
+* binary(4096) private_key_bytes (encrypted by password in web.config)
 
 
 ### Vendors
 
 * pk id
 * nvarchar(1024) name
-* //TODO: Phyiscal address, legal info for invoices, etc
+* street/city/region/postal/country
 
-### VendorRoles
-
-* pk id
-* str role  Ex. ('Admin')
-
-### LicenseRoles
+### Rights
 
 * pk id
-* str role  Ex. ('Owner', 'SupportContact')
+* nvarchar(1024) name
 
-### UserVendorRoles
-
+### UserObjectRights
+* pk id
 * fk user_id
-* fk vendor_role_id
-* fk vendor_id
+* fk right_id
+* fk object_id
+* object_type
 
-### UserLicenseRoles
-
-* fk user_id
-* fk license_role_id
-* fk license_id
 
 ### Users
 
@@ -105,22 +96,22 @@ All date/time columns will be in 'new' style (date, time, datetime2)
 * fk sku_id
 * fk transaction_item_id
 * str owner_name
-* //TODO: owner address fields
+* fk purchasing_entity_id
+* fk owning_entity_id
 * datetime2 issued
 * n datetime2 expires
 
 ### Apps
 
-* pk id
+* pk guid id
 * str display_name
 
 ### AppKeys
 
-App keys can be created and deleted, but not edited. Simple.
+App keys can be created and deleted, but not edited. Simple. Their guid ID serves as their identifier. 
 
-* pk id
+* pk guid id
 * fk app_id
-* unique_identifier value - A GUID - can even be SQL-generated if easier.
 
 
 ### AppLicenses
