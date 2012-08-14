@@ -7,29 +7,26 @@ using System.Web;
 namespace KeyHub.Web.ViewModels.Vendor
 {
     /// <summary>
-    /// Viewmodel for index list of a Vendor
+    /// Viewmodel for details a Vendor
     /// </summary>
-    public class VendorIndexViewModel : BaseViewModel<Model.Vendor>
+    public class VendorDetailsViewModel : BaseViewModel<Model.Vendor>
     {
-        public VendorIndexViewModel() : base() { }
+        public VendorDetailsViewModel() : base() { }
 
         /// <summary>
         /// Construct the viewmodel
         /// </summary>
-        /// <param name="vendorList">List of vendor entities</param>
-        public VendorIndexViewModel(List<Model.Vendor> vendorList):this()
+        /// <param name="vendor">Vendor entity</param>
+        public VendorDetailsViewModel(Model.Vendor vendor)
+            : this()
         {
-            Vendors = new List<VendorIndexViewItem>();
-            foreach (Model.Vendor entity in vendorList)
-            {
-                Vendors.Add(new VendorIndexViewItem(entity, entity.Country));
-            }
+            Vendor = new VendorDetailsViewItem(vendor, vendor.Country);
         }
 
         /// <summary>
-        /// List of vendors
+        /// Vendor viewmodel
         /// </summary>
-        public List<VendorIndexViewItem> Vendors { get; set; }
+        public VendorDetailsViewItem Vendor { get; set; }
 
         /// <summary>
         /// Convert back to Vendor instance
@@ -45,9 +42,9 @@ namespace KeyHub.Web.ViewModels.Vendor
     /// <summary>
     /// VendorViewModel extension that includes the name of the countrycode assinged country
     /// </summary>
-    public class VendorIndexViewItem : VendorViewModel
+    public class VendorDetailsViewItem : VendorViewModel
     {
-        public VendorIndexViewItem(Model.Vendor vendor, Model.Country country)
+        public VendorDetailsViewItem(Model.Vendor vendor, Model.Country country)
             : base(vendor)
         {
             CountryName = country.CountryName;

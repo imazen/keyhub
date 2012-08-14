@@ -8,7 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using KeyHub.Runtime;
 
-namespace KeyHub.Web.ViewModels
+namespace KeyHub.Web.ViewModels.Vendor
 {
     /// <summary>
     /// Viewmodel for a single vendor 

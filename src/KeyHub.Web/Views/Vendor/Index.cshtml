@@ -1,4 +1,4 @@
-﻿@model KeyHub.Web.ViewModels.VendorIndexViewModel
+﻿@model KeyHub.Web.ViewModels.Vendor.VendorIndexViewModel
 
 @{
     ViewBag.Title = "Index";
@@ -42,7 +42,7 @@
     <tr>
         <td>
 
-            @Html.ActionLink(item.Name, "Edit", new { key = item.ObjectId })
+            @Html.ActionLink(item.Name, "Details", new { key = item.ObjectId })
 
         </td>
         <td>

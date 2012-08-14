@@ -6,7 +6,8 @@ using System.Web;
 using System.Web.Mvc;
 using KeyHub.Model;
 using KeyHub.Runtime;
-using KeyHub.Web.ViewModels;
+using KeyHub.Web.ViewModels.Vendor;
+
 
 namespace KeyHub.Web.Controllers
 {
@@ -28,6 +29,24 @@ namespace KeyHub.Web.Controllers
                 
                 VendorIndexViewModel viewModel = new VendorIndexViewModel(vendorQuery.ToList());
                 
+                return View(viewModel);
+            }
+        }
+
+        /// <summary>
+        /// Get details of one specific vendor
+        /// </summary>
+        /// <param name="key">GUID of vender to view</param>
+        /// <returns>Vendor details view</returns>
+        public ActionResult Details(Guid key)
+        {
+            using (DataContext context = new DataContext())
+            {
+                //Eager loading Vendor
+                var vendorQuery = (from v in context.Vendors where v.ObjectId == key select v).Include(x => x.Country);
+
+                VendorDetailsViewModel viewModel = new VendorDetailsViewModel(vendorQuery.FirstOrDefault());
+
                 return View(viewModel);
             }
         }
@@ -66,8 +85,8 @@ namespace KeyHub.Web.Controllers
                         context.Vendors.Add(vendor);
 
                         context.SaveChanges();
+                        return RedirectToAction("Details", new { key = vendor.ObjectId });
                     }
-                    return RedirectToAction("Index");
                 }
                 else
                 {
