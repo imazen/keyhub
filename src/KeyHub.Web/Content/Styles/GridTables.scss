@@ -1,4 +1,6 @@
-﻿TABLE{	
+﻿@import "Mixins.scss";
+
+TABLE.GridTable{	
 	width: 100%;
 	background: #ffffff;
 	THEAD{

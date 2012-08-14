@@ -84,14 +84,19 @@ $bgColorActive: $colorActive;
 	top: 0;
 	display: block;
 	height: 100%;
-	width: 22px;
+	width: 24px;
+	padding: 2px;
+	height: 24px;
 
 	B {
-		background: url('../Images/bgChosenSprite.png') no-repeat 0 0;
+		background:  url('../Images/bgChosenSprite.png') no-repeat 4px 0;
 		display: block;
 		width: 100%;
 		height: 100%;
 	}
+}
+.chzn-container-active .chzn-single-with-drop DIV B {
+  background-position: -16px 0px;
 }
 
 .chzn-container-single .chzn-search {
@@ -311,9 +316,7 @@ $bgColorActive: $colorActive;
   background: transparent;
   border-left: none;
 }
-.chzn-container-active .chzn-single-with-drop div b {
-  background-position: -18px 1px;
-}
+
 .chzn-container-active .chzn-choices {
  
   border: 1px solid $borderColorSelected;

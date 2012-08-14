@@ -59,7 +59,7 @@ INPUT.Text, INPUT[type=text], INPUT[type=number], INPUT[type=datetime] {
 INPUT[type=number] {
   padding-bottom: 3px; }
   INPUT[type=number].valid {
-    background: url("../Images/bgSprite.png") 90% -30px no-repeat; }
+    background: url("../Images/bgSprite.png") right -30px no-repeat; }
 
 SELECT {
   width: 380px; }
@@ -67,7 +67,11 @@ SELECT {
 SPAN.field-validation-error {
   color: #ff0000; }
 
-DIV.editor-label {
+DIV.editor-spacer {
+  height: 30px; }
+
+DIV.editor-label,
+DIV.editor-subtitle {
   height: 30px;
   line-height: 40px;
   text-transform: uppercase;
@@ -78,7 +82,7 @@ DIV.editor-field {
   position: relative; }
   DIV.editor-field SPAN.field-validation-error {
     position: absolute;
-    top: 15px;
+    top: -8px;
     left: 100%;
     margin-left: 10px;
     width: 190px;
@@ -93,10 +97,15 @@ DIV.editor-field {
       border: 5px solid transparent;
       position: absolute;
       left: -10px;
-      top: 0px;
       border-right: 5px solid #cc0000;
-      border-top: 0px solid #cc0000;
+      border-bottom: 0px solid #cc0000;
       bottom: 0px; }
+
+DIV.editor-field-checkbox SPAN.prettyradiocheckbox {
+  margin-top: 5px;
+  margin-left: 0px; }
+DIV.editor-field-checkbox LABEL {
+  line-height: 16px; }
 
 FIELDSET {
   border: none;
@@ -143,38 +152,38 @@ DIV.editor-container-sideBySide {
     DIV.editor-container-sideBySide.one-two DIV.editor-field INPUT {
       width: 231.333px; }
 
-TABLE {
+TABLE.GridTable {
   width: 100%;
   background: #ffffff; }
-  TABLE THEAD TH {
+  TABLE.GridTable THEAD TH {
     text-align: left;
     border-bottom: 3px solid #cccccc;
     font-size: 12px;
     font-weight: normal;
     text-transform: uppercase;
     border-left: 1px solid #cccccc; }
-    TABLE THEAD TH:first-child {
+    TABLE.GridTable THEAD TH:first-child {
       border-left: none; }
-  TABLE TD, TABLE TH {
+  TABLE.GridTable TD, TABLE.GridTable TH {
     padding: 0px 10px;
     line-height: 30px; }
-  TABLE TBODY TR TD {
+  TABLE.GridTable TBODY TR TD {
     border-bottom: 1px solid #FFFFFF; }
-    TABLE TBODY TR TD:first-child {
+    TABLE.GridTable TBODY TR TD:first-child {
       background: #ededed;
       padding: 0; }
-      TABLE TBODY TR TD:first-child A {
+      TABLE.GridTable TBODY TR TD:first-child A {
         color: #000000;
         display: block;
         padding: 0px 10px; }
-        TABLE TBODY TR TD:first-child A:hover {
+        TABLE.GridTable TBODY TR TD:first-child A:hover {
           background: #0000cc;
           color: #ffffff; }
-  TABLE TBODY TR:hover TD {
+  TABLE.GridTable TBODY TR:hover TD {
     background: #ededed; }
-    TABLE TBODY TR:hover TD:first-child {
+    TABLE.GridTable TBODY TR:hover TD:first-child {
       background: #cccccc; }
-  TABLE TBODY TR:first-child TD {
+  TABLE.GridTable TBODY TR:first-child TD {
     border-top: 5px solid #FFFFFF; }
 
 SPAN.checkbox,
@@ -321,12 +330,17 @@ SPAN.radio.checked.disabled {
   top: 0;
   display: block;
   height: 100%;
-  width: 22px; }
+  width: 24px;
+  padding: 2px;
+  height: 24px; }
   .chzn-container-single .chzn-single DIV B {
-    background: url("../Images/bgChosenSprite.png") no-repeat 0 0;
+    background: url("../Images/bgChosenSprite.png") no-repeat 4px 0;
     display: block;
     width: 100%;
     height: 100%; }
+
+.chzn-container-active .chzn-single-with-drop DIV B {
+  background-position: -16px 0px; }
 
 .chzn-container-single .chzn-search {
   padding: 3px 4px;
@@ -494,9 +508,6 @@ SPAN.radio.checked.disabled {
   background: transparent;
   border-left: none; }
 
-.chzn-container-active .chzn-single-with-drop div b {
-  background-position: -18px 1px; }
-
 .chzn-container-active .chzn-choices {
   border: 1px solid #0000cc; }
 
@@ -574,6 +585,246 @@ SPAN.radio.checked.disabled {
   direction: rtl; }
 
 /* @end */
+/*
+<div class="tipsy tipsy-n">
+	<div class="tipsy-arrow"></div>
+	<div class="tipsy-inner">Well hello there</div>
+</div>
+*/
+.tipsy {
+  color: #ffffff;
+  font-size: 11px;
+  line-height: 25px;
+  position: absolute;
+  z-index: 100000;
+  padding: 10px;
+  	/*.tipsy-arrow { 
+  		position: absolute;
+  		background: #00cc00; 
+  		background: url("../Images/bg_tooltip_arrow.png") 0px 0px;
+  		width: 10px; 
+  		height: 10px; 
+  	}
+  
+  	&.tipsy-n .tipsy-arrow	{	left:20px;	top: 0px; background-position: -10px 0px;}
+  	&.tipsy-nw .tipsy-arrow	{	left:10px;	top: 0px; background-position: -10px 0px;}
+  	&.tipsy-ne .tipsy-arrow	{	right:10px;	top: 0px; background-position: 0px 0px;}
+  	&.tipsy-s .tipsy-arrow	{	left:20px;	bottom: 0px; background-position: -10px -10px;}
+  	&.tipsy-sw .tipsy-arrow	{	left:10px;	bottom: 0px; background-position: -10px -10px;}
+  	&.tipsy-se .tipsy-arrow	{	right:10px;	bottom: 0px; background-position: 0px -10px;}
+  	&.tipsy-w .tipsy-arrow	{	left:0px;	top: 20px; background-position: 0px -10px;}
+  	&.tipsy-e .tipsy-arrow	{	right:0px;	top: 20px; background-position: -10px -10px;}
+  	*/ }
+  .tipsy .tipsy-inner {
+    background: rgba(0, 0, 0, 0.65);
+    padding: 0px 10px 2px 10px;
+    max-width: 200px;
+    text-align: center; }
+  .tipsy .tipsy-arrow {
+    position: absolute;
+    width: 0px;
+    height: 0px;
+    border: 10px solid transparent; }
+  .tipsy.tipsy-s .tipsy-arrow {
+    border-left: 10px solid rgba(0, 0, 0, 0.65);
+    border-top: 0px solid rgba(0, 0, 0, 0.65);
+    bottom: 0px; }
+  .tipsy.tipsy-n .tipsy-arrow {
+    border-left: 10px solid rgba(0, 0, 0, 0.65);
+    border-bottom: 0px solid rgba(0, 0, 0, 0.65);
+    top: 0px; }
+
+.ui-datepicker {
+  width: 215px;
+  padding: 0px 0px 2px 0px;
+  display: none;
+  background: #666666;
+  color: #ffffff; }
+
+.ui-datepicker .ui-datepicker-header {
+  position: relative;
+  padding: 2px;
+  color: #ffffff;
+  height: 24px; }
+  .ui-datepicker .ui-datepicker-header DIV.ui-datepicker-title {
+    margin: 0;
+    text-align: center;
+    line-height: 24px; }
+  .ui-datepicker .ui-datepicker-header DIV.ui-datepicker-title select {
+    margin: 0; }
+
+.ui-datepicker A.ui-datepicker-prev,
+.ui-datepicker A.ui-datepicker-next {
+  position: absolute;
+  top: 4px;
+  display: block;
+  width: 24px;
+  height: 24px;
+  border: 1px solid #000000; }
+  .ui-datepicker A.ui-datepicker-prev span,
+  .ui-datepicker A.ui-datepicker-next span {
+    display: block;
+    position: absolute;
+    text-indent: -1000px; }
+
+.ui-datepicker .ui-datepicker-prev {
+  left: 4px; }
+
+.ui-datepicker .ui-datepicker-next {
+  right: 4px; }
+
+.ui-datepicker SELECT.ui-datepicker-month-year {
+  width: 100%; }
+
+.ui-datepicker SELECT.ui-datepicker-month,
+.ui-datepicker SELECT.ui-datepicker-year {
+  width: 49%; }
+
+.ui-datepicker TABLE {
+  font-size: 12px;
+  border-collapse: collapse;
+  margin: 2px; }
+  .ui-datepicker TABLE SPAN, .ui-datepicker TABLE A {
+    display: block;
+    padding: 2px;
+    text-align: right;
+    text-decoration: none;
+    border: 1px solid #000000;
+    width: 20px;
+    height: 20px; }
+  .ui-datepicker TABLE TH {
+    padding: 0;
+    font-weight: bold;
+    border: 0;
+    padding: 2px; }
+    .ui-datepicker TABLE TH SPAN {
+      border-color: transparent;
+      text-align: center; }
+  .ui-datepicker TABLE TD {
+    padding: 2px; }
+  .ui-datepicker TABLE A {
+    color: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(0, 0, 0, 0.5); }
+    .ui-datepicker TABLE A:hover {
+      background: rgba(255, 255, 255, 0.2); }
+    .ui-datepicker TABLE A.ui-state-highlight {
+      background: rgba(0, 0, 0, 0.8);
+      border: 1px solid rgba(0, 0, 0, 0.8);
+      color: #cccccc; }
+    .ui-datepicker TABLE A.ui-state-active {
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #000000; }
+
+.ui-datepicker .ui-datepicker-buttonpane {
+  background-image: none;
+  margin: .7em 0 0 0;
+  padding: 0 .2em;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 0; }
+
+.ui-datepicker .ui-datepicker-buttonpane button {
+  float: right;
+  margin: .5em .2em .4em;
+  cursor: pointer;
+  padding: .2em .6em .3em .6em;
+  width: auto;
+  overflow: visible; }
+
+.ui-datepicker .ui-datepicker-buttonpane button.ui-datepicker-current {
+  float: left; }
+
+/* IE6 IFRAME FIX (taken from datepicker 1.5.3 */
+.ui-datepicker-cover {
+  display: none;
+  /*sorry for IE5*/
+  display/**/: block;
+  /*sorry for IE5*/
+  position: absolute;
+  /*must have*/
+  z-index: -1;
+  /*must have*/
+  filter: mask();
+  /*must have*/
+  top: -4px;
+  /*must have*/
+  left: -4px;
+  /*must have*/
+  width: 200px;
+  /*must have*/
+  height: 200px;
+  /*must have*/ }
+
+/*
+
+<div class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" id="ui-datepicker-div" style="position: absolute; top: 608px; left: 156.667px; z-index: 1; display: block;">
+  <div class="ui-datepicker-header ui-widget-header ui-helper-clearfix ui-corner-all"><a title="Prev" onclick="DP_jQuery_1344940460332.datepicker._adjustDate('#SKU_ReleaseDate', -1, 'M');" class="ui-datepicker-prev ui-corner-all"><span class="ui-icon ui-icon-circle-triangle-w">Prev</span></a><a title="Next" onclick="DP_jQuery_1344940460332.datepicker._adjustDate('#SKU_ReleaseDate', +1, 'M');" class="ui-datepicker-next ui-corner-all"><span class="ui-icon ui-icon-circle-triangle-e">Next</span></a>
+    <div class="ui-datepicker-title"><span class="ui-datepicker-month">August</span>&nbsp;<span class="ui-datepicker-year">2012</span></div>
+  </div>
+  <table class="ui-datepicker-calendar">
+    <thead>
+      <tr>
+        <th class="ui-datepicker-week-end"><span title="Sunday">Su</span></th>
+        <th><span title="Monday">Mo</span></th>
+        <th><span title="Tuesday">Tu</span></th>
+        <th><span title="Wednesday">We</span></th>
+        <th><span title="Thursday">Th</span></th>
+        <th><span title="Friday">Fr</span></th>
+        <th class="ui-datepicker-week-end"><span title="Saturday">Sa</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class=" ui-datepicker-week-end ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td>
+        <td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td>
+        <td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">1</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">2</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">3</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" ui-datepicker-week-end "><a href="#" class="ui-state-default">4</a></td>
+      </tr>
+      <tr>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" ui-datepicker-week-end "><a href="#" class="ui-state-default">5</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">6</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">7</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">8</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">9</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">10</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" ui-datepicker-week-end "><a href="#" class="ui-state-default">11</a></td>
+      </tr>
+      <tr>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" ui-datepicker-week-end "><a href="#" class="ui-state-default">12</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">13</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" ui-datepicker-days-cell-over  ui-datepicker-today"><a href="#" class="ui-state-default ui-state-highlight">14</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">15</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">16</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">17</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" ui-datepicker-week-end "><a href="#" class="ui-state-default">18</a></td>
+      </tr>
+      <tr>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" ui-datepicker-week-end "><a href="#" class="ui-state-default">19</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">20</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">21</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">22</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">23</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">24</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" ui-datepicker-week-end "><a href="#" class="ui-state-default">25</a></td>
+      </tr>
+      <tr>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" ui-datepicker-week-end "><a href="#" class="ui-state-default">26</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">27</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">28</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">29</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">30</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">31</a></td>
+        <td class=" ui-datepicker-week-end ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+*/
 HTML, BODY {
   height: 100%; }
 
@@ -605,8 +856,8 @@ H2 {
 A {
   color: #0000cc;
   text-decoration: none; }
-  A:hover {
-    color: #000099; }
+  A:hover, A:focus {
+    color: #000066; }
 
 A.Logo {
   line-height: 30px;
@@ -619,6 +870,8 @@ A.Logo {
   display: inline-block;
   height: 30px;
   width: 110px; }
+  A.Logo:hover, A.Logo:focus {
+    background-position: 0px -30px; }
 
 UL.Menu {
   display: block;
@@ -633,7 +886,7 @@ UL.Menu {
       font-size: 12px;
       color: #7f7f7f;
       padding: 0px 20px; }
-      UL.Menu LI A:hover {
+      UL.Menu LI A:hover, UL.Menu LI A:focus {
         color: #0000cc; }
     UL.Menu LI.Active A {
       color: #333333; }
@@ -665,7 +918,14 @@ A.Btn, INPUT[type=submit] {
   border-radius: 30px;
   display: inline-block;
   padding: 0px 15px; }
-  A.Btn:hover, INPUT[type=submit]:hover {
+  A.Btn:hover, A.Btn:focus, INPUT[type=submit]:hover, INPUT[type=submit]:focus {
     background: #0000cc;
-    color: #ffffff; }
+    color: #ffffff;
+    text-decoration: none; }
+
+INPUT[type=submit] {
+  background: #0000cc;
+  color: #ffffff; }
+  INPUT[type=submit]:hover, INPUT[type=submit]:focus {
+    background: #000066; }
 

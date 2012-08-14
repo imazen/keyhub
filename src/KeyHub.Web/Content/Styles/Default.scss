@@ -4,9 +4,13 @@
 @import "Forms.scss";
 @import "GridTables.scss";
 
-
+// jquery plugin styling 
 @import "jquery.prettyradiocheckbox.scss";
 @import "jquery.chosen.scss";
+@import "jquery.tipsy.scss";
+
+// default jquery ui
+@import "jquery.ui.datepicker.scss";
 
 
 $debug: false;
@@ -23,6 +27,8 @@ BODY{
 		background: url("../Images/bg_body_lines.png");
 	}
 }
+
+
 *:focus{	outline: none;}
 .txtHighlight{ background: #000000; color: #ffffff;}
 
@@ -53,7 +59,10 @@ H2{
 A{	
 	color: $colorActive;
 	text-decoration: none;
-	&:hover{ color: $colorActive2_Hover;}
+	&:hover,&:focus{
+		color: $colorActive2_Hover;
+		//text-decoration: underline;
+	}
 }
 
 A.Logo{
@@ -67,6 +76,9 @@ A.Logo{
 	display: inline-block;
 	height: 30px;
 	width: 110px;
+	&:hover,&:focus{
+	background-position: 0px -30px;
+	}
 }
 
 UL.Menu{
@@ -83,7 +95,7 @@ UL.Menu{
 			font-size: 12px; 
 			color: #7f7f7f;
 			padding: 0px 20px;
-			&:hover{ color: $colorActive;}
+			&:hover,&:focus{ color: $colorActive;}
 		}
 		&.Active A{ color: #333333;}
 	}
@@ -122,9 +134,16 @@ A.Btn, INPUT[type=submit]{
 	border-radius: 30px;
 	display: inline-block;
 	padding: 0px 15px;
-	&:hover{
+	&:hover,&:focus{
 		background: $colorActive;
 		color: #ffffff;
-
+		text-decoration: none;
+	}
+}
+INPUT[type=submit]{
+	background: $colorActive;
+	color: #ffffff;
+	&:hover,&:focus{
+	background: $colorActive_Hover;
 	}
 }

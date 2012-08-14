@@ -191,6 +191,9 @@
     <Content Include="Content\Styles\jquery.prettyradiocheckbox.css">
       <DependentUpon>jquery.prettyradiocheckbox.scss</DependentUpon>
     </Content>
+    <Content Include="Content\Styles\jquery.tipsy.css">
+      <DependentUpon>jquery.tipsy.scss</DependentUpon>
+    </Content>
     <Content Include="Content\Styles\Layout.css">
       <DependentUpon>Layout.scss</DependentUpon>
     </Content>
@@ -274,6 +277,12 @@
     </Content>
     <Content Include="Content\Styles\jquery.prettyradiocheckbox.scss" />
     <Content Include="Content\Styles\jquery.chosen.scss">
+      <Compile>True</Compile>
+      <Minify>True</Minify>
+      <CompileStyle>Nested</CompileStyle>
+      <DebugInfo>False</DebugInfo>
+    </Content>
+    <Content Include="Content\Styles\jquery.tipsy.scss">
       <Compile>True</Compile>
       <Minify>True</Minify>
       <CompileStyle>Nested</CompileStyle>

@@ -2,8 +2,8 @@
 $colorActive: #0000cc;
 $colorActive2: #ff0000;
 
-$colorActive_Hover: darken($colorActive,10);
-$colorActive2_Hover: darken($colorActive,10);
+$colorActive_Hover: darken($colorActive,20);
+$colorActive2_Hover: darken($colorActive,20);
 
 $colorBorderInputTextNotSelected: #cccccc;
 $colorBorderInputTextSelected: $colorActive;
@@ -42,9 +42,9 @@ $colorBorderInputTextDisabled: #ededed;
 	width: 0px; height:0px;
 	border: $s solid transparent;
 	position: absolute;
-	left: -10px; top: 0px;
-	//@if($d == 0){
-		border-right: $s solid $c; border-top: 0px solid $c; bottom: 0px;
+	left: -10px;
+		//@if($d == 0){
+		border-right: $s solid $c; border-bottom: 0px solid $c; bottom: 0px;
 	//}
 	
 }

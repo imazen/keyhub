@@ -24,7 +24,7 @@ INPUT.Text, INPUT[type=text], INPUT[type=number], INPUT[type=datetime] {
 INPUT[type=number] {
   padding-bottom: 3px; }
   INPUT[type=number].valid {
-    background: url("../Images/bgSprite.png") 90% -30px no-repeat; }
+    background: url("../Images/bgSprite.png") right -30px no-repeat; }
 
 SELECT {
   width: 380px; }
@@ -32,7 +32,11 @@ SELECT {
 SPAN.field-validation-error {
   color: #ff0000; }
 
-DIV.editor-label {
+DIV.editor-spacer {
+  height: 30px; }
+
+DIV.editor-label,
+DIV.editor-subtitle {
   height: 30px;
   line-height: 40px;
   text-transform: uppercase;
@@ -43,7 +47,7 @@ DIV.editor-field {
   position: relative; }
   DIV.editor-field SPAN.field-validation-error {
     position: absolute;
-    top: 15px;
+    top: -8px;
     left: 100%;
     margin-left: 10px;
     width: 190px;
@@ -58,10 +62,15 @@ DIV.editor-field {
       border: 5px solid transparent;
       position: absolute;
       left: -10px;
-      top: 0px;
       border-right: 5px solid #cc0000;
-      border-top: 0px solid #cc0000;
+      border-bottom: 0px solid #cc0000;
       bottom: 0px; }
+
+DIV.editor-field-checkbox SPAN.prettyradiocheckbox {
+  margin-top: 5px;
+  margin-left: 0px; }
+DIV.editor-field-checkbox LABEL {
+  line-height: 16px; }
 
 FIELDSET {
   border: none;

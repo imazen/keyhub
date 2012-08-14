@@ -47,7 +47,7 @@
         </div>
 
 
-        <div class="editor-container-sideBySide two-one">
+        <div class="editor-container-sideBySide one-one">
             <div class="editor-label">
                 @Html.LabelFor(model => model.SKU.MaxDomains)
             </div>
@@ -105,38 +105,44 @@
                 @Html.ValidationMessageFor(model => model.SKU.ManualDomainDuration)
             </div>
        </div>
-        <div class="editor-label">
-            @Html.LabelFor(model => model.SKU.CanDeleteAutoDomains)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.SKU.CanDeleteAutoDomains)
-            @Html.ValidationMessageFor(model => model.SKU.CanDeleteAutoDomains)
-        </div>
+        
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.SKU.CanDeleteManualDomains)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.SKU.CanDeleteManualDomains)
-            @Html.ValidationMessageFor(model => model.SKU.CanDeleteManualDomains)
-        </div>
-        <div class="editor-container-sideBySide one-two">
-        <div class="editor-label">
-            @Html.LabelFor(model => model.SKU.ReleaseDate)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.SKU.ReleaseDate)
-            @Html.ValidationMessageFor(model => model.SKU.ReleaseDate)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.SKU.ExpirationDate)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.SKU.ExpirationDate)
-            @Html.ValidationMessageFor(model => model.SKU.ExpirationDate)
-        </div>
+      
+        <div class="editor-subtitle">Some options</div>
+        <div class="editor-field-checkbox">
+            <div class="editor-field">
+                @Html.EditorFor(model => model.SKU.CanDeleteAutoDomains)
+                @Html.LabelFor(model => model.SKU.CanDeleteAutoDomains)
+                @Html.ValidationMessageFor(model => model.SKU.CanDeleteAutoDomains)
             </div>
+        </div>
+        <div class="editor-field-checkbox">
+            <div class="editor-field">
+                @Html.EditorFor(model => model.SKU.CanDeleteManualDomains)
+                @Html.LabelFor(model => model.SKU.CanDeleteManualDomains)
+                @Html.ValidationMessageFor(model => model.SKU.CanDeleteManualDomains)
+            </div>
+
+        </div>
+
+        <div class="editor-container-sideBySide one-one">
+            <div class="editor-label">
+                @Html.LabelFor(model => model.SKU.ReleaseDate)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.SKU.ReleaseDate)
+                @Html.ValidationMessageFor(model => model.SKU.ReleaseDate)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.SKU.ExpirationDate)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.SKU.ExpirationDate)
+                @Html.ValidationMessageFor(model => model.SKU.ExpirationDate)
+            </div>
+        </div>
+
         <p>
             <input type="submit" value="Create" />
         </p>

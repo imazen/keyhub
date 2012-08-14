@@ -55,6 +55,7 @@
         @Scripts.Render("~/bundles/jquery")
         @RenderSection("scripts", required: false)
 
+        <script type="text/javascript" src="/Scripts/jquery-ui-1.8.11.js"></script>
         <script type="text/javascript" src="/Scripts/jquery.prettyradiocheckbox.js"></script>
         <script type="text/javascript" src="/Scripts/jquery.chosen.min.js"></script>
         <script type="text/javascript" >
@@ -63,9 +64,16 @@
              $(document).ready(function () {
                  $("SELECT").chosen({ no_results_text: "No results matched: " });
                  $("INPUT[type=checkbox]").prettyradiocheckbox();
+                 form_focusFirstField();
 
+                 $("INPUT[type=datetime]").datepicker({ dateFormat: 'DD, d MM, yy' });
+                
              });
+             function form_focusFirstField() {
+                 $("INPUT:visible:first").focus();
+             }
 
+             
             </script>
     </body>
 </html>
