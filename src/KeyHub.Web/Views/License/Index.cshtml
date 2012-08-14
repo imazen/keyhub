@@ -29,7 +29,6 @@
         </thead>
 @foreach (var item in Model.Licenses) {
     <tr>
-        @Html.HiddenFor(modelItem => item.ObjectId)
         <td>
             @Html.DisplayFor(modelItem => item.SKUName)
             @*@Html.ActionLink("Edit", "Edit", new { key = item.ObjectId })*@
