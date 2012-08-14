@@ -4,12 +4,13 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Customer Overview</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New Customer", "Create", null,  new { @class = "Btn New"})
 </p>
-<table>
+<table border="0" border="0" cellspacing="0" cellpadding="0" class="GridTable">
+    <thead>
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Customers.FirstOrDefault().Name)
@@ -34,12 +35,14 @@
         </th>
         <th></th>
     </tr>
+        </thead>
 
 @foreach (var item in Model.Customers) {
     <tr>
         @Html.DisplayFor(modelItem => item.ObjectId)
         <td>
             @Html.DisplayFor(modelItem => item.Name)
+            @*@Html.ActionLink("Edit", "Edit", new { key = item.ObjectId })*@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Department)

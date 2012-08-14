@@ -1,10 +1,10 @@
 ﻿@model KeyHub.Web.ViewModels.License.LicenseCreateViewModel
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Create New License";
 }
 
-<h2>Create</h2>
+<h2>@ViewBag.Title</h2>
 
 @using (Html.BeginForm()) {
     @Html.ValidationSummary(true)

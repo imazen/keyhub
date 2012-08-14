@@ -1,0 +1,21 @@
+DIV.LayoutContainer DIV.LayoutHeaderContainer,
+DIV.LayoutContainer DIV.LayoutFooterContainer {
+  position: fixed;
+  left: 0px;
+  right: 0px;
+  z-index: 999; }
+DIV.LayoutContainer DIV.LayoutHeaderContainer {
+  background: #333333;
+  top: 0px;
+  height: 30px; }
+  DIV.LayoutContainer DIV.LayoutHeaderContainer DIV.LoginPartial {
+    position: absolute;
+    right: 0px;
+    top: 0px; }
+DIV.LayoutContainer DIV.LayoutContentContainer {
+  padding: 60px 30px; }
+DIV.LayoutContainer DIV.LayoutFooterContainer {
+  background: #333333;
+  bottom: 0px;
+  height: 30px; }
+

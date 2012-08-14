@@ -1,10 +1,10 @@
 ﻿@model KeyHub.Web.ViewModels.SKU.SKUCreateViewModel
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Create New SKU";
 }
 
-<h2>Create</h2>
+<h2>@ViewBag.Title</h2>
 
 @using (Html.BeginForm()) {
     @Html.ValidationSummary(true)
@@ -46,62 +46,65 @@
             @Html.ValidationMessageFor(model => model.SKU.SelectedFeatureGUIDs)
         </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.SKU.MaxDomains)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.SKU.MaxDomains)
-            @Html.ValidationMessageFor(model => model.SKU.MaxDomains)
-        </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.SKU.EditOwnershipDuration)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.SKU.EditOwnershipDuration)
-            @Html.ValidationMessageFor(model => model.SKU.EditOwnershipDuration)
-        </div>
+        <div class="editor-container-sideBySide two-one">
+            <div class="editor-label">
+                @Html.LabelFor(model => model.SKU.MaxDomains)
+            </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.SKU.MaxSupportContacts)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.SKU.MaxSupportContacts)
-            @Html.ValidationMessageFor(model => model.SKU.MaxSupportContacts)
-        </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.SKU.MaxDomains)
+                @Html.ValidationMessageFor(model => model.SKU.MaxDomains)
+            </div>
+        
+            <div class="editor-label">
+                @Html.LabelFor(model => model.SKU.EditOwnershipDuration)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.SKU.EditOwnershipDuration)
+                @Html.ValidationMessageFor(model => model.SKU.EditOwnershipDuration)
+            </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.SKU.EditSupportContactsDuration)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.SKU.EditSupportContactsDuration)
-            @Html.ValidationMessageFor(model => model.SKU.EditSupportContactsDuration)
-        </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.SKU.MaxSupportContacts)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.SKU.MaxSupportContacts)
+                @Html.ValidationMessageFor(model => model.SKU.MaxSupportContacts)
+            </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.SKU.LicenseDuration)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.SKU.LicenseDuration)
-            @Html.ValidationMessageFor(model => model.SKU.LicenseDuration)
-        </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.SKU.EditSupportContactsDuration)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.SKU.EditSupportContactsDuration)
+                @Html.ValidationMessageFor(model => model.SKU.EditSupportContactsDuration)
+            </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.SKU.AutoDomainDuration)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.SKU.AutoDomainDuration)
-            @Html.ValidationMessageFor(model => model.SKU.AutoDomainDuration)
-        </div>
+            <div class="editor-label">
+                @Html.LabelFor(model => model.SKU.LicenseDuration)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.SKU.LicenseDuration)
+                @Html.ValidationMessageFor(model => model.SKU.LicenseDuration)
+            </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.SKU.ManualDomainDuration)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.SKU.ManualDomainDuration)
-            @Html.ValidationMessageFor(model => model.SKU.ManualDomainDuration)
-        </div>
-
+            <div class="editor-label">
+                @Html.LabelFor(model => model.SKU.AutoDomainDuration)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.SKU.AutoDomainDuration)
+                @Html.ValidationMessageFor(model => model.SKU.AutoDomainDuration)
+            </div>
+        
+            <div class="editor-label">
+                @Html.LabelFor(model => model.SKU.ManualDomainDuration)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.SKU.ManualDomainDuration)
+                @Html.ValidationMessageFor(model => model.SKU.ManualDomainDuration)
+            </div>
+       </div>
         <div class="editor-label">
             @Html.LabelFor(model => model.SKU.CanDeleteAutoDomains)
         </div>
@@ -117,7 +120,7 @@
             @Html.EditorFor(model => model.SKU.CanDeleteManualDomains)
             @Html.ValidationMessageFor(model => model.SKU.CanDeleteManualDomains)
         </div>
-
+        <div class="editor-container-sideBySide one-two">
         <div class="editor-label">
             @Html.LabelFor(model => model.SKU.ReleaseDate)
         </div>
@@ -133,7 +136,7 @@
             @Html.EditorFor(model => model.SKU.ExpirationDate)
             @Html.ValidationMessageFor(model => model.SKU.ExpirationDate)
         </div>
-
+            </div>
         <p>
             <input type="submit" value="Create" />
         </p>

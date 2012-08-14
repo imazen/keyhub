@@ -173,6 +173,27 @@
     <Compile Include="ViewModels\BaseViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Styles\Default.css">
+      <DependentUpon>Default.scss</DependentUpon>
+    </Content>
+    <Content Include="Content\Styles\Fonts.css">
+      <DependentUpon>Fonts.scss</DependentUpon>
+    </Content>
+    <Content Include="Content\Styles\Forms.css">
+      <DependentUpon>Forms.scss</DependentUpon>
+    </Content>
+    <Content Include="Content\Styles\GridTables.css">
+      <DependentUpon>GridTables.scss</DependentUpon>
+    </Content>
+    <Content Include="Content\Styles\Layout.css">
+      <DependentUpon>Layout.scss</DependentUpon>
+    </Content>
+    <Content Include="Content\Styles\Mixins.css">
+      <DependentUpon>Mixins.scss</DependentUpon>
+    </Content>
+    <Content Include="Content\Styles\Reset.css">
+      <DependentUpon>Reset.scss</DependentUpon>
+    </Content>
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -203,6 +224,48 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Config\Mef.config" />
+    <Content Include="Content\Styles\Default.scss">
+      <Compile>True</Compile>
+      <Minify>True</Minify>
+      <CompileStyle>Nested</CompileStyle>
+      <DebugInfo>False</DebugInfo>
+    </Content>
+    <Content Include="Content\Styles\Mixins.scss">
+      <Compile>True</Compile>
+      <Minify>True</Minify>
+      <CompileStyle>Nested</CompileStyle>
+      <DebugInfo>False</DebugInfo>
+    </Content>
+    <Content Include="Content\Styles\Fonts.scss">
+      <Compile>True</Compile>
+      <Minify>True</Minify>
+      <CompileStyle>Nested</CompileStyle>
+      <DebugInfo>False</DebugInfo>
+    </Content>
+    <Content Include="Content\Styles\Forms.scss">
+      <Compile>True</Compile>
+      <Minify>True</Minify>
+      <CompileStyle>Nested</CompileStyle>
+      <DebugInfo>False</DebugInfo>
+    </Content>
+    <Content Include="Content\Styles\Layout.scss">
+      <Compile>True</Compile>
+      <Minify>True</Minify>
+      <CompileStyle>Nested</CompileStyle>
+      <DebugInfo>False</DebugInfo>
+    </Content>
+    <Content Include="Content\Styles\Reset.scss">
+      <Compile>True</Compile>
+      <Minify>True</Minify>
+      <CompileStyle>Nested</CompileStyle>
+      <DebugInfo>False</DebugInfo>
+    </Content>
+    <Content Include="Content\Styles\GridTables.scss">
+      <Compile>True</Compile>
+      <Minify>True</Minify>
+      <CompileStyle>Nested</CompileStyle>
+      <DebugInfo>False</DebugInfo>
+    </Content>
     <None Include="Scripts\jquery-1.6.2-vsdoc.js" />
     <Content Include="Scripts\jquery-1.6.2.js" />
     <Content Include="Scripts\jquery-1.6.2.min.js">
@@ -287,6 +350,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\Fonts\" />
+    <Folder Include="Content\Images\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

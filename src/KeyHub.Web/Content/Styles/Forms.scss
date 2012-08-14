@@ -1,0 +1,157 @@
+﻿@import "Mixins.scss";
+
+$debug: false;
+$formWidth: 380px;
+
+INPUT.Text, INPUT[type=text], INPUT[type=number], INPUT[type=datetime]{
+	border: 1px solid $colorBorderInputTextNotSelected;
+	background: #ffffff;
+	color: #666666;
+	width: $formWidth - 22px;
+	height: 22px;
+	line-height: 16px;
+	padding: 3px 10px 4px 10px;
+
+	&.Active,&:focus{
+		border-color: $colorBorderInputTextSelected;
+		color: #333333;
+	}
+	&.CopyPaste{
+		font-family: Courier New;
+		border: 1px dashed #999999;
+		color: #333333;
+	}
+
+	
+	&.input-validation-error{
+		border-color: #cc0000;
+		background: url("../Images/bgSprite.png") right 0px no-repeat;
+	}
+	&.valid{
+		background: url("../Images/bgSprite.png") right -30px no-repeat;
+	}
+	&:focus{ outline: none;}
+}
+INPUT[type=number]{
+	padding-bottom: 3px;
+	&.valid{
+		background: url("../Images/bgSprite.png") 90% -30px no-repeat;
+	}
+}
+SELECT{
+	width: $formWidth;
+}
+
+SPAN.field-validation-error{ color: #ff0000;}
+
+
+DIV.editor-label{
+	height: 30px;
+	line-height: 40px;
+	text-transform: uppercase;
+	width: $formWidth
+}
+DIV.editor-field{
+	width: $formWidth;
+	position: relative;
+	SPAN.field-validation-error{ 
+		position: absolute;
+		top: 15px; left: 100%;
+		margin-left: 10px;
+		width: $formWidth / 2;
+		background: #cc0000;
+		line-height: 14px;
+		color: #ffffff;
+		padding: 5px 10px;
+		&:after{
+			content: "";
+			@include arrow(5px,0,#cc0000);
+		}
+	}
+}
+
+
+FIELDSET {
+    border: none;
+    margin: 0;
+    padding: 0;
+	LEGEND {
+		display: none;
+	}
+}
+
+INPUT[type=submit]{
+border: none;
+background: none;
+cursor: pointer;
+
+}
+
+DIV.editor-container-sideBySide{
+	
+	$rightColWidth: $formWidth / 2;
+	$leftColWidth: $formWidth - $rightColWidth;
+	
+	width: $formWidth;
+	//background: #dddddd;
+	margin: 20px 0;
+	display: inline-block;
+	> DIV{
+	display: inline;
+	float: left;
+	}
+	DIV.editor-label{
+		width: $leftColWidth - 10px;
+		//background: #cccccc;
+		text-align: right;
+		
+		margin-bottom: 10px;
+		clear: both;
+		padding: 0px 10px 0 0;
+		line-height: 32px;
+	}
+	DIV.editor-field{
+		width: $rightColWidth;
+		INPUT{
+			width: $rightColWidth - 22px;
+		}
+		SPAN.field-validation-error{ 
+
+			width: $formWidth / 2;
+		}
+	}
+		
+
+
+	&.two-one{
+		$rightColWidth: $formWidth / 3;
+		$leftColWidth: $formWidth - $rightColWidth;
+
+		DIV.editor-label{
+			width: $leftColWidth - 10px;
+		}
+		DIV.editor-field{
+			width: $rightColWidth;
+			INPUT{
+				width: $rightColWidth - 22px;
+			}
+		}
+	}
+	
+	&.one-two{
+		$rightColWidth: $formWidth / 3 * 2;
+		$leftColWidth: $formWidth - $rightColWidth;
+
+		DIV.editor-label{
+			width: $leftColWidth - 10px;
+		}
+		DIV.editor-field{
+			width: $rightColWidth;
+			INPUT{
+				width: $rightColWidth - 22px;
+			}
+		}
+
+	}
+
+}

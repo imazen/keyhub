@@ -4,38 +4,42 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Vendor Overview</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New Vendor", "Create", null,  new { @class = "Btn New"})
 </p>
-<table>
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Vendors.FirstOrDefault().OrganisationName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Vendors.FirstOrDefault().Street)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Vendors.FirstOrDefault().PostalCode)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Vendors.FirstOrDefault().City)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Vendors.FirstOrDefault().Region)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Vendors.FirstOrDefault().CountryName)
-        </th>
-        <th></th>
-    </tr>
+
+<table border="0" border="0" cellspacing="0" cellpadding="0" class="GridTable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Vendors.FirstOrDefault().OrganisationName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Vendors.FirstOrDefault().Street)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Vendors.FirstOrDefault().PostalCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Vendors.FirstOrDefault().City)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Vendors.FirstOrDefault().Region)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Vendors.FirstOrDefault().CountryName)
+            </th>
+            <th></th>
+        
+        </tr>
+    </thead>
 
 @foreach (var item in Model.Vendors) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.OrganisationName)
+            @Html.ActionLink(item.OrganisationName, "Edit", new { key = item.ObjectId })
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Street)

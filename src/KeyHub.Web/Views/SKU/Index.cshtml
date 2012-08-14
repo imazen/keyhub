@@ -4,12 +4,13 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>SKU Overview</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New SKU", "Create", null,  new { @class = "Btn New"})
 </p>
-<table>
+<table border="0" border="0" cellspacing="0" cellpadding="0" class="GridTable">
+    <thead>
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.SKUs.FirstOrDefault().VendorName)
@@ -31,11 +32,12 @@
         </th>
         <th></th>
     </tr>
-
+</thead>
 @foreach (var item in Model.SKUs) {
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.VendorName)
+            @*@Html.ActionLink("Edit", "Edit", new { key=item.SkuId })*@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.PrivateKeyName)

@@ -1,0 +1,110 @@
+INPUT.Text, INPUT[type=text], INPUT[type=number], INPUT[type=datetime] {
+  border: 1px solid #cccccc;
+  background: #ffffff;
+  color: #666666;
+  width: 358px;
+  height: 22px;
+  line-height: 16px;
+  padding: 3px 10px 4px 10px; }
+  INPUT.Text.Active, INPUT.Text:focus, INPUT[type=text].Active, INPUT[type=text]:focus, INPUT[type=number].Active, INPUT[type=number]:focus, INPUT[type=datetime].Active, INPUT[type=datetime]:focus {
+    border-color: #0000cc;
+    color: #333333; }
+  INPUT.Text.CopyPaste, INPUT[type=text].CopyPaste, INPUT[type=number].CopyPaste, INPUT[type=datetime].CopyPaste {
+    font-family: Courier New;
+    border: 1px dashed #999999;
+    color: #333333; }
+  INPUT.Text.input-validation-error, INPUT[type=text].input-validation-error, INPUT[type=number].input-validation-error, INPUT[type=datetime].input-validation-error {
+    border-color: #cc0000;
+    background: url("../Images/bgSprite.png") right 0px no-repeat; }
+  INPUT.Text.valid, INPUT[type=text].valid, INPUT[type=number].valid, INPUT[type=datetime].valid {
+    background: url("../Images/bgSprite.png") right -30px no-repeat; }
+  INPUT.Text:focus, INPUT[type=text]:focus, INPUT[type=number]:focus, INPUT[type=datetime]:focus {
+    outline: none; }
+
+INPUT[type=number] {
+  padding-bottom: 3px; }
+  INPUT[type=number].valid {
+    background: url("../Images/bgSprite.png") 90% -30px no-repeat; }
+
+SELECT {
+  width: 380px; }
+
+SPAN.field-validation-error {
+  color: #ff0000; }
+
+DIV.editor-label {
+  height: 30px;
+  line-height: 40px;
+  text-transform: uppercase;
+  width: 380px; }
+
+DIV.editor-field {
+  width: 380px;
+  position: relative; }
+  DIV.editor-field SPAN.field-validation-error {
+    position: absolute;
+    top: 15px;
+    left: 100%;
+    margin-left: 10px;
+    width: 190px;
+    background: #cc0000;
+    line-height: 14px;
+    color: #ffffff;
+    padding: 5px 10px; }
+    DIV.editor-field SPAN.field-validation-error:after {
+      content: "";
+      width: 0px;
+      height: 0px;
+      border: 5px solid transparent;
+      position: absolute;
+      left: -10px;
+      top: 0px;
+      border-right: 5px solid #cc0000;
+      border-top: 0px solid #cc0000;
+      bottom: 0px; }
+
+FIELDSET {
+  border: none;
+  margin: 0;
+  padding: 0; }
+  FIELDSET LEGEND {
+    display: none; }
+
+INPUT[type=submit] {
+  border: none;
+  background: none;
+  cursor: pointer; }
+
+DIV.editor-container-sideBySide {
+  width: 380px;
+  margin: 20px 0;
+  display: inline-block; }
+  DIV.editor-container-sideBySide > DIV {
+    display: inline;
+    float: left; }
+  DIV.editor-container-sideBySide DIV.editor-label {
+    width: 180px;
+    text-align: right;
+    margin-bottom: 10px;
+    clear: both;
+    padding: 0px 10px 0 0;
+    line-height: 32px; }
+  DIV.editor-container-sideBySide DIV.editor-field {
+    width: 190px; }
+    DIV.editor-container-sideBySide DIV.editor-field INPUT {
+      width: 168px; }
+    DIV.editor-container-sideBySide DIV.editor-field SPAN.field-validation-error {
+      width: 190px; }
+  DIV.editor-container-sideBySide.two-one DIV.editor-label {
+    width: 243.333px; }
+  DIV.editor-container-sideBySide.two-one DIV.editor-field {
+    width: 126.667px; }
+    DIV.editor-container-sideBySide.two-one DIV.editor-field INPUT {
+      width: 104.667px; }
+  DIV.editor-container-sideBySide.one-two DIV.editor-label {
+    width: 116.667px; }
+  DIV.editor-container-sideBySide.one-two DIV.editor-field {
+    width: 253.333px; }
+    DIV.editor-container-sideBySide.one-two DIV.editor-field INPUT {
+      width: 231.333px; }
+

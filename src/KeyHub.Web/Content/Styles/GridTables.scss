@@ -1,0 +1,49 @@
+﻿TABLE{	
+	width: 100%;
+	background: #ffffff;
+	THEAD{
+		TH{
+			text-align: left;
+
+			border-bottom: 3px solid #cccccc;
+			font-size: 12px;
+			font-weight: normal;
+			text-transform: uppercase;
+			border-left: 1px solid #cccccc;
+			&:first-child{border-left: none;}
+		}
+	}
+	TD,TH{
+		padding: 0px 10px;
+		line-height: 30px;
+	}
+	TBODY{
+		TR{
+			TD{
+				border-bottom: 1px solid #FFFFFF;
+				&:first-child{
+					background: #ededed; 
+					padding: 0;
+						A{
+							color: #000000;
+							display: block;
+							padding: 0px 10px;
+					&:hover{
+						background: $colorActive;
+						color: #ffffff;
+					}
+				}
+				}
+
+				
+			}
+			&:hover{
+				TD{
+					background: #ededed;
+					&:first-child{background: #cccccc; }
+				}
+			}
+			&:first-child{ TD{border-top: 5px solid #FFFFFF; }}
+		}
+	}
+}

@@ -2,57 +2,70 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>@ViewBag.Title - My ASP.NET MVC Application</title>
+        <title>KeyHub - @ViewBag.Title</title>
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         <meta name="viewport" content="width=device-width" />
-        @Styles.Render("~/Content/themes/base/css", "~/Content/css")
+        @*@Styles.Render("~/Content/themes/base/css", "~/Content/css")*@
+       <link href="/Content/Styles/Default.css" rel="stylesheet" type="text/css" />
+
         @Scripts.Render("~/bundles/modernizr")
+
+
+
     </head>
     <body>
-        <header>
-            <div class="content-wrapper">
-                <div class="float-left">
-                    <p class="site-title">@Html.ActionLink("Your logo here", "Index", "Home")</p>
-                </div>
-                <div class="float-right">
-                    <section id="login">
-                        @Html.Partial("_LoginPartial")
-                    </section>
-                    <nav>
-                        <ul id="menu">
-                            <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                            <li>@Html.ActionLink("Vendors", "Index", "Vendor")</li>
-                            <li>@Html.ActionLink("Features", "Index", "Feature")</li>
-                            <li>@Html.ActionLink("SKUs", "Index", "SKU")</li>
-                            <li>@Html.ActionLink("Customers", "Index", "Customer")</li>
-                            <li>@Html.ActionLink("Licenses", "Index", "License")</li>
-                            <li>@Html.ActionLink("Licensed applications", "Index", "CustomerApp")</li>
-                        </ul>
-                    </nav>
+        <div class="LayoutContainer">
+            <div class="LayoutHeaderContainer">
+                @Html.ActionLink("KeyHub", "Index", "Home", null, new { @class= "Logo"})
+
+
+                <div class="LoginPartial">
+                    @Html.Partial("_LoginPartial")
                 </div>
             </div>
-        </header>
-        <div id="body">
-            @RenderSection("featured", required: false)
-            <section class="content-wrapper main-content clear-fix">
+            <div class="LayoutContentContainer">
+
+                <ul id="menu" class="Menu">
+                    <li>@Html.ActionLink("Vendors", "Index", "Vendor")</li>
+                    <li>@Html.ActionLink("Features", "Index", "Feature")</li>
+                    <li>@Html.ActionLink("SKUs", "Index", "SKU")</li>
+                </ul>
+
+                <ul class="Menu">
+                    
+                    <li>@Html.ActionLink("Customers", "Index", "Customer")</li>
+                    <li>@Html.ActionLink("Licenses", "Index", "License")</li>
+                    <li>@Html.ActionLink("Licensed applications", "Index", "CustomerApp")</li>
+                </ul>
+                   
+              
+        
+                @RenderSection("featured", required: false)
+            
                 @RenderBody()
-            </section>
-        </div>
-        <footer>
-            <div class="content-wrapper">
-                <div class="float-left">
-                    <p>&copy; @DateTime.Now.Year - My ASP.NET MVC Application</p>
-                </div>
-                <div class="float-right">
-                    <ul id="social">
-                        <li><a href="http://facebook.com" class="facebook">Facebook</a></li>
-                        <li><a href="http://twitter.com" class="twitter">Twitter</a></li>
-                    </ul>
-                </div>
+            
+       
+
             </div>
-        </footer>
+            <div class="LayoutFooterContainer">
+                footer
+            </div>
+       </div>
 
         @Scripts.Render("~/bundles/jquery")
         @RenderSection("scripts", required: false)
+
+        <script type="text/javascript" src="/Scripts/jquery.prettyradiocheckbox.js"></script>
+        <script type="text/javascript" src="/Scripts/jquery.chosen.min.js"></script>
+        <script type="text/javascript" >
+
+
+             $(document).ready(function () {
+                 $("SELECT").chosen({ no_results_text: "No results matched: " });
+                 $("INPUT[type=checkbox]").prettyradiocheckbox();
+
+             });
+
+            </script>
     </body>
 </html>

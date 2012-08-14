@@ -58,7 +58,7 @@
             @Html.LabelFor(model => model.Vendor.CountryCode)
         </div>
         <div class="editor-field">
-            @Html.DropDownListFor(model => model.Vendor.CountryCode, Model.CountryList)
+            @Html.DropDownListFor(model => model.Vendor.CountryCode, Model.CountryList, null,new { @class="search"})
             @Html.ValidationMessageFor(model => model.Vendor.CountryCode)
         </div>
 
