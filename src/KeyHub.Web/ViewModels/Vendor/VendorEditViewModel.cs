@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace KeyHub.Web.ViewModels
+namespace KeyHub.Web.ViewModels.Vendor
 {
     /// <summary>
     /// Viewmodel for editing a Vendor

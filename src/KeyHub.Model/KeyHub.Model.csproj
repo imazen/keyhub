@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Logic\Application\CustomerApp.cs" />
+    <Compile Include="Logic\Application\PrivateKey.cs" />
     <Compile Include="Logic\Application\SKU.cs" />
     <Compile Include="Definition\Application\CustomerApp.cs" />
     <Compile Include="Definition\Application\CustomerAppKey.cs" />

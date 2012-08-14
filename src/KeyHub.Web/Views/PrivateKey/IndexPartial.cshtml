@@ -1,0 +1,26 @@
+﻿@model KeyHub.Web.ViewModels.PrivateKey.PrivateKeyIndexViewModel
+
+<h2>Private Keys</h2>
+<p>
+    @Html.ActionLink("Create New", "Create", new { parentVendor = Model.ParentVendorGUID })
+</p>
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.PrivateKeys.FirstOrDefault().DisplayName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model.PrivateKeys) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.DisplayName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { key=item.PrivateKeyId })
+        </td>
+    </tr>
+}
+
+</table>
