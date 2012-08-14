@@ -52,7 +52,7 @@ namespace KeyHub.Web.ViewModels.Feature
         public FeatureIndexViewItem(Model.Feature feature, Model.Vendor vendor)
             : base(feature)
         {
-            VendorName = vendor.OrganisationName;
+            VendorName = vendor.Name;
         }
 
         /// <summary>

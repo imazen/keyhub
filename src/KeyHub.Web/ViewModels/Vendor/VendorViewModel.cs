@@ -23,13 +23,13 @@ namespace KeyHub.Web.ViewModels
         /// <param name="vendor">Vendor that this viewmodel represents</param>
         public VendorViewModel(Model.Vendor vendor):this()
         {
-            ObjectId = vendor.ObjectId;
-            OrganisationName = vendor.OrganisationName;
-            Street = vendor.Street;
-            PostalCode = vendor.PostalCode;
-            City = vendor.City;
-            Region = vendor.Region;
-            CountryCode = vendor.CountryCode;
+            this.ObjectId = vendor.ObjectId;
+            this.Name = vendor.Name;
+            this.Street = vendor.Street;
+            this.PostalCode = vendor.PostalCode;
+            this.City = vendor.City;
+            this.Region = vendor.Region;
+            this.CountryCode = vendor.CountryCode;
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace KeyHub.Web.ViewModels
         {
             Model.Vendor current = original ?? new Model.Vendor();
 
-            current.OrganisationName = this.OrganisationName;
+            current.Name = this.Name;
             current.Street = this.Street;
             current.PostalCode = this.PostalCode;
             current.City = this.City;
@@ -58,12 +58,12 @@ namespace KeyHub.Web.ViewModels
         public Guid ObjectId { get; set; }
 
         /// <summary>
-        /// The public name for this vendor/organisation
+        /// The public name for this vendor
         /// </summary>
         [Required]
         [StringLength(512)]
-        [DisplayName("Organisation name")]
-        public string OrganisationName { get; set; }
+        [DisplayName("Name")]
+        public string Name { get; set; }
 
         /// <summary>
         /// The street this vendor is located at.

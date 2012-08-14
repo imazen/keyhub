@@ -24,7 +24,7 @@ namespace KeyHub.Web.ViewModels.Feature
         public FeatureEditViewModel(Model.Feature feature, List<Model.Vendor> vendors)
         {
             Feature = new FeatureViewModel(feature);
-            VendorList = vendors.ToSelectList(v => v.ObjectId, v => v.OrganisationName);
+            VendorList = vendors.ToSelectList(v => v.ObjectId, v => v.Name);
         }
 
         /// <summary>

@@ -15,11 +15,11 @@
         @Html.HiddenFor(model => model.Vendor.ObjectId)
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.Vendor.OrganisationName)
+            @Html.LabelFor(model => model.Vendor.Name)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.Vendor.OrganisationName)
-            @Html.ValidationMessageFor(model => model.Vendor.OrganisationName)
+            @Html.EditorFor(model => model.Vendor.Name)
+            @Html.ValidationMessageFor(model => model.Vendor.Name)
         </div>
 
         <div class="editor-label">
