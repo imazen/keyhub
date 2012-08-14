@@ -77,6 +77,7 @@ namespace KeyHub.Web.ViewModels.CustomerApp
             SelectedLicenseGUIDs = new List<Guid>();
         }
 
+
         public CustomerAppEditViewItem(Model.CustomerApp customerApp)
             : base(customerApp)
         {
