@@ -24,14 +24,14 @@ namespace KeyHub.Web.Controllers
 
                 PrivateKeyIndexViewModel viewModel = new PrivateKeyIndexViewModel(privateKeyQuery.ToList(), vendorQuery.FirstOrDefault());
 
-                return View(viewModel);
+                return PartialView(viewModel);
             }
         }
 
         /// <summary>
         /// Create a single privateKey
         /// </summary>
-        /// <param name="vendorQuery">GUID of assiciated vendor</param>
+        /// <param name="parentVendor">GUID of assiciated vendor</param>
         /// <returns>Create privateKey view</returns>
         public ActionResult Create(Guid parentVendor)
         {
