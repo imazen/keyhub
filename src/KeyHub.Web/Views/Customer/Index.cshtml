@@ -39,7 +39,6 @@
 
 @foreach (var item in Model.Customers) {
     <tr>
-        @Html.DisplayFor(modelItem => item.ObjectId)
         <td>
             @Html.DisplayFor(modelItem => item.Name)
             @*@Html.ActionLink("Edit", "Edit", new { key = item.ObjectId })*@
