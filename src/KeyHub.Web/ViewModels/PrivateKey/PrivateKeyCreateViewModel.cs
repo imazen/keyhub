@@ -19,10 +19,7 @@ namespace KeyHub.Web.ViewModels.PrivateKey
         /// <param name="vendor">Vendor of this PrivateKey</param>
         public PrivateKeyCreateViewModel(Model.Vendor vendor)
         {
-            Model.PrivateKey privateKey = new Model.PrivateKey();
-            privateKey.SetKeyBytes();
-
-            PrivateKey = new PrivateKeyViewModel(privateKey);
+            PrivateKey = new PrivateKeyViewModel(new Model.PrivateKey());
             PrivateKey.VendorId = vendor.ObjectId;
         }
         

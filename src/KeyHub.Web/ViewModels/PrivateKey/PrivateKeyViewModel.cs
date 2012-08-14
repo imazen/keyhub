@@ -26,7 +26,6 @@ namespace KeyHub.Web.ViewModels.PrivateKey
             this.PrivateKeyId = privateKey.PrivateKeyId;
             this.VendorId = privateKey.VendorId;
             this.DisplayName = privateKey.DisplayName;
-            this.KeyBytes = privateKey.KeyBytes;
         }
 
         /// <summary>
@@ -36,12 +35,16 @@ namespace KeyHub.Web.ViewModels.PrivateKey
         /// <returns>PrivateKey containing viewmodel data </returns>
         public override Model.PrivateKey ToEntity(Model.PrivateKey original)
         {
-            Model.PrivateKey current = original ?? new Model.PrivateKey();
+            if (original == null)
+            {
+                original = new Model.PrivateKey();
+                original.SetKeyBytes();
+            }
+            Model.PrivateKey current = original;
 
             current.PrivateKeyId = this.PrivateKeyId;
             current.VendorId = this.VendorId;
             current.DisplayName = this.DisplayName;
-            current.KeyBytes = this.KeyBytes;
 
             return current;
         }
@@ -64,12 +67,5 @@ namespace KeyHub.Web.ViewModels.PrivateKey
         [Required]
         [StringLength(256)]
         public string DisplayName { get; set; }
-
-        /// <summary>
-        /// The private key in bytes
-        /// </summary>
-        [Required]
-        [MaxLength(4096)]
-        public byte[] KeyBytes { get; set; }
     }
 }
