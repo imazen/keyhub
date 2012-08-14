@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,7 +12,7 @@ namespace KeyHub.Model
     /// <summary>
     /// Private key entity for encryption/decryption purposes of license keys.
     /// </summary>
-    public class PrivateKey
+    public partial class PrivateKey
     {
         /// <summary>
         /// Indentifier for the PrivateKey entity.

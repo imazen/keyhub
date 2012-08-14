@@ -1,0 +1,39 @@
+﻿@model KeyHub.Web.ViewModels.PrivateKey.PrivateKeyCreateViewModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>PrivateKeyViewModel</legend>
+
+        @Html.HiddenFor(model => model.PrivateKey.PrivateKeyId)
+        @Html.HiddenFor(model => model.PrivateKey.VendorId)
+        @Html.HiddenFor(model => model.PrivateKey.KeyBytes)
+        
+        <div class="editor-label">
+            @Html.LabelFor(model => model.PrivateKey.DisplayName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.PrivateKey.DisplayName)
+            @Html.ValidationMessageFor(model => model.PrivateKey.DisplayName)
+        </div>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Details", "Vendor", new { key = Model.PrivateKey.VendorId }, null)
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

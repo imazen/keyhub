@@ -138,6 +138,7 @@
     <Compile Include="Controllers\FeatureController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LicenseController.cs" />
+    <Compile Include="Controllers\PrivateKeyController.cs" />
     <Compile Include="Controllers\SKUController.cs" />
     <Compile Include="Controllers\VendorController.cs" />
     <Compile Include="Global.asax.cs">
@@ -162,11 +163,16 @@
     <Compile Include="ViewModels\License\LicenseViewModel.cs" />
     <Compile Include="ViewModels\License\LicenseCreateViewModel.cs" />
     <Compile Include="ViewModels\License\LicenseEditViewModel.cs" />
+    <Compile Include="ViewModels\PrivateKey\PrivateKeyViewModel.cs" />
+    <Compile Include="ViewModels\PrivateKey\PrivateKeyIndexViewModel.cs" />
+    <Compile Include="ViewModels\PrivateKey\PrivateKeyCreateViewModel.cs" />
+    <Compile Include="ViewModels\PrivateKey\PrivateKeyEditViewModel.cs" />
     <Compile Include="ViewModels\SKU\SKUCreateViewModel.cs" />
     <Compile Include="ViewModels\SKU\SKUEditViewModel.cs" />
     <Compile Include="ViewModels\SKU\SKUIndexViewModel.cs" />
     <Compile Include="ViewModels\SKU\SKUViewModel.cs" />
     <Compile Include="ViewModels\Vendor\VendorCreateViewModel.cs" />
+    <Compile Include="ViewModels\Vendor\VendorDetailsViewModel.cs" />
     <Compile Include="ViewModels\Vendor\VendorEditViewModel.cs" />
     <Compile Include="ViewModels\Vendor\VendorIndexViewModel.cs" />
     <Compile Include="ViewModels\Vendor\VendorViewModel.cs" />
@@ -363,6 +369,10 @@
     <Content Include="Views\CustomerApp\Index.cshtml" />
     <Content Include="Views\CustomerApp\Create.cshtml" />
     <Content Include="Views\CustomerApp\Edit.cshtml" />
+    <Content Include="Views\Vendor\Details.cshtml" />
+    <Content Include="Views\PrivateKey\IndexPartial.cshtml" />
+    <Content Include="Views\PrivateKey\Edit.cshtml" />
+    <Content Include="Views\PrivateKey\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
