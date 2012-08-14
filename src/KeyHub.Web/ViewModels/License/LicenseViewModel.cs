@@ -25,7 +25,7 @@ namespace KeyHub.Web.ViewModels.License
             this.ObjectId = license.ObjectId;
             this.SkuId = license.SkuId;
             this.PurchasingCustomerId = license.PurchasingCustomerId;
-            this.PurchasingCustomerName = license.PurchasingCustomerName;
+            this.OwnerName = license.OwnerName;
             this.OwningCustomerId = license.OwningCustomerId;
             this.LicenseIssued = license.LicenseIssued;
             this.LicenseExpires = license.LicenseExpires;
@@ -43,7 +43,7 @@ namespace KeyHub.Web.ViewModels.License
             current.ObjectId = this.ObjectId;
             current.SkuId = this.SkuId;
             current.PurchasingCustomerId = this.PurchasingCustomerId;
-            current.PurchasingCustomerName = this.PurchasingCustomerName;
+            current.OwnerName = this.OwnerName;
             current.OwningCustomerId = this.OwningCustomerId;
             current.LicenseIssued = this.LicenseIssued;
             current.LicenseExpires = this.LicenseExpires;
@@ -76,7 +76,7 @@ namespace KeyHub.Web.ViewModels.License
         /// </summary>
         [Required]
         [StringLength(256)]
-        public string PurchasingCustomerName { get; set; }
+        public string OwnerName { get; set; }
 
         /// <summary>
         /// The Customer that ownes this license

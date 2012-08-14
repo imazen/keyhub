@@ -10,11 +10,12 @@
     @Html.ActionLink("Create New Vendor", "Create", null,  new { @class = "Btn New"})
 </p>
 
+
 <table border="0" border="0" cellspacing="0" cellpadding="0" class="GridTable">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Vendors.FirstOrDefault().OrganisationName)
+                @Html.DisplayNameFor(model => model.Vendors.FirstOrDefault().Name)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Vendors.FirstOrDefault().Street)
@@ -36,10 +37,13 @@
         </tr>
     </thead>
 
+
 @foreach (var item in Model.Vendors) {
     <tr>
         <td>
-            @Html.ActionLink(item.OrganisationName, "Edit", new { key = item.ObjectId })
+
+            @Html.ActionLink(item.Name, "Edit", new { key = item.ObjectId })
+
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Street)

@@ -52,7 +52,7 @@ namespace KeyHub.Web.ViewModels.SKU
         public SKUIndexViewItem(Model.SKU sku, Model.Vendor vendor, Model.PrivateKey privateKey, IEnumerable<Model.SkuFeature> skuFeatures)
             : base(sku)
         {
-            VendorName = vendor.OrganisationName;
+            VendorName = vendor.Name;
             PrivateKeyName = privateKey.DisplayName;
             FeatureSummary = BuildFeatureSummary(skuFeatures);
         }

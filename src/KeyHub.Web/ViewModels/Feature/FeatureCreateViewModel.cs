@@ -20,7 +20,7 @@ namespace KeyHub.Web.ViewModels.Feature
         public FeatureCreateViewModel(List<Model.Vendor> vendors)
         {
             Feature = new FeatureViewModel(new Model.Feature());
-            VendorList = vendors.ToSelectList(v => v.ObjectId, v => v.OrganisationName);
+            VendorList = vendors.ToSelectList(v => v.ObjectId, v => v.Name);
         }
 
         /// <summary>

@@ -24,7 +24,7 @@ namespace KeyHub.Web.ViewModels.SKU
         {
             SKU = new SKUCreateViewItem(new Model.SKU());
 
-            VendorList = vendors.ToSelectList(x => x.ObjectId, x => x.OrganisationName);
+            VendorList = vendors.ToSelectList(x => x.ObjectId, x => x.Name);
             PrivateKeyList = privateKeys.ToSelectList(x => x.PrivateKeyId, x => x.DisplayName);
             FeatureList = features.ToMultiSelectList(x => x.FeatureId, x => x.FeatureCode);
         }

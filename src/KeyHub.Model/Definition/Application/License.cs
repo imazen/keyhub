@@ -38,11 +38,12 @@ namespace KeyHub.Model
         public virtual Customer PurchasingCustomer { get; set; }
 
         /// <summary>
-        /// The original name of the purchasing entity that bought this license
+        /// The original name of the purchasing entity that bought this license.
+        /// Value cannot be edited after SKU.EditOwnershipDuration has expired.
         /// </summary>
         [Required]
-        [StringLength(256)]
-        public string PurchasingCustomerName { get; set; }
+        [StringLength(1024)]
+        public string OwnerName { get; set; }
 
         /// <summary>
         /// The Customer that ownes this license

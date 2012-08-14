@@ -14,11 +14,11 @@ namespace KeyHub.Model
     public class Vendor : RightObject
     {
         /// <summary>
-        /// The public name for this vendor/organisation
+        /// The public name for this vendor
         /// </summary>
         [Required]
         [StringLength(512)]
-        public string OrganisationName { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// The street this vendor is located at.
