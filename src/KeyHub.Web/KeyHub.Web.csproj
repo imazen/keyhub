@@ -185,6 +185,12 @@
     <Content Include="Content\Styles\GridTables.css">
       <DependentUpon>GridTables.scss</DependentUpon>
     </Content>
+    <Content Include="Content\Styles\jquery.chosen.css">
+      <DependentUpon>jquery.chosen.scss</DependentUpon>
+    </Content>
+    <Content Include="Content\Styles\jquery.prettyradiocheckbox.css">
+      <DependentUpon>jquery.prettyradiocheckbox.scss</DependentUpon>
+    </Content>
     <Content Include="Content\Styles\Layout.css">
       <DependentUpon>Layout.scss</DependentUpon>
     </Content>
@@ -266,6 +272,13 @@
       <CompileStyle>Nested</CompileStyle>
       <DebugInfo>False</DebugInfo>
     </Content>
+    <Content Include="Content\Styles\jquery.prettyradiocheckbox.scss" />
+    <Content Include="Content\Styles\jquery.chosen.scss">
+      <Compile>True</Compile>
+      <Minify>True</Minify>
+      <CompileStyle>Nested</CompileStyle>
+      <DebugInfo>False</DebugInfo>
+    </Content>
     <None Include="Scripts\jquery-1.6.2-vsdoc.js" />
     <Content Include="Scripts\jquery-1.6.2.js" />
     <Content Include="Scripts\jquery-1.6.2.min.js">
@@ -276,6 +289,9 @@
     <Content Include="Scripts\jquery-ui-1.8.11.min.js">
       <DependentUpon>jquery-ui-1.8.11.js</DependentUpon>
     </Content>
+    <Content Include="Scripts\jquery.chosen.min.js" />
+    <Content Include="Scripts\jquery.prettyradiocheckbox.js" />
+    <Content Include="Scripts\jquery.tipsy.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js">
       <DependentUpon>jquery.unobtrusive-ajax.js</DependentUpon>
