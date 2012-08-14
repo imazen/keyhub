@@ -1,10 +1,11 @@
 ﻿@model KeyHub.Web.ViewModels.CustomerApp.CustomerAppIndexViewModel
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.ItemName = "CustomerApp";
+    ViewBag.Title = "Overview";
 }
 
-<h2>CustomerApp Overview</h2>
+<h2>@ViewBag.ItemName <span>@ViewBag.Title</span></h2>
 
 <p>
     @Html.ActionLink("Create New CustomerApp", "Create", null,  new { @class = "Btn New"})

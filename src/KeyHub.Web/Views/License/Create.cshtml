@@ -1,6 +1,7 @@
 ﻿@model KeyHub.Web.ViewModels.License.LicenseCreateViewModel
 
 @{
+    ViewBag.ItemName = "License";
     ViewBag.Title = "Create New License";
 }
 
@@ -63,7 +64,7 @@
         </div>
 
         <p>
-            <input type="submit" value="Create" />
+            <input type="submit" value="Create @ViewBag.ItemName" />
         </p>
     </fieldset>
 }

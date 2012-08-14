@@ -61,13 +61,16 @@
         <script type="text/javascript" >
 
 
-             $(document).ready(function () {
+            $(document).ready(function () {
+                form_focusFirstField();
                  $("SELECT").chosen({ no_results_text: "No results matched: " });
                  $("INPUT[type=checkbox]").prettyradiocheckbox();
-                 form_focusFirstField();
-
+                 
                  $("INPUT[type=datetime]").datepicker({ dateFormat: 'DD, d MM, yy' });
                 
+                 $("SELECT#SKU_VendorId").change(function () {
+                    //$("SELECT#SKU_PrivateKeyId").append('<option>ss</option>').trigger("liszt:updated");
+                 })
              });
              function form_focusFirstField() {
                  $("INPUT:visible:first").focus();

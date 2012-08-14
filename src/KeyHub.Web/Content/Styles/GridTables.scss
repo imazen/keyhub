@@ -3,6 +3,7 @@
 TABLE.GridTable{	
 	width: 100%;
 	background: #ffffff;
+	//border-collapse: collapse; 
 	THEAD{
 		TH{
 			text-align: left;
@@ -25,19 +26,26 @@ TABLE.GridTable{
 				border-bottom: 1px solid #FFFFFF;
 				&:first-child{
 					background: #ededed; 
-					padding: 0;
-						A{
-							color: #000000;
-							display: block;
-							padding: 0px 10px;
-					&:hover{
-						background: $colorActive;
-						color: #ffffff;
-					}
+					/*padding: 0;
+					A{
+						color: #000000;
+						display: block;
+						padding: 0px 10px;
+						position: relative;
+						&:hover{
+							background: $colorActive;
+							color: #ffffff;
+						}
+						&:after{
+							content: "";
+							position: absolute;
+							right: 10px; top: 7px;
+							height: 14px; width: 14px;
+							border-radius: 14px;
+							background: #cccccc;
+						}
+					}*/
 				}
-				}
-
-				
 			}
 			&:hover{
 				TD{

@@ -36,18 +36,22 @@ DIV.editor-spacer {
   height: 30px; }
 
 DIV.editor-label,
+DIV.display-label,
 DIV.editor-subtitle {
   height: 30px;
   line-height: 40px;
   text-transform: uppercase;
   width: 380px; }
 
+DIV.display-field {
+  color: #666666; }
+
 DIV.editor-field {
   width: 380px;
   position: relative; }
   DIV.editor-field SPAN.field-validation-error {
     position: absolute;
-    top: -8px;
+    bottom: 15px;
     left: 100%;
     margin-left: 10px;
     width: 190px;
@@ -86,24 +90,31 @@ INPUT[type=submit] {
 
 DIV.editor-container-sideBySide {
   width: 380px;
-  margin: 20px 0;
+  margin: 30px 0 10px 0;
   display: inline-block; }
   DIV.editor-container-sideBySide > DIV {
     display: inline;
     float: left; }
-  DIV.editor-container-sideBySide DIV.editor-label {
+  DIV.editor-container-sideBySide DIV.editor-label, DIV.editor-container-sideBySide DIV.display-label {
     width: 180px;
     text-align: right;
     margin-bottom: 10px;
     clear: both;
     padding: 0px 10px 0 0;
     line-height: 32px; }
-  DIV.editor-container-sideBySide DIV.editor-field {
+  DIV.editor-container-sideBySide DIV.editor-field, DIV.editor-container-sideBySide DIV.display-field {
     width: 190px; }
-    DIV.editor-container-sideBySide DIV.editor-field INPUT {
+    DIV.editor-container-sideBySide DIV.editor-field INPUT, DIV.editor-container-sideBySide DIV.display-field INPUT {
       width: 168px; }
-    DIV.editor-container-sideBySide DIV.editor-field SPAN.field-validation-error {
+    DIV.editor-container-sideBySide DIV.editor-field SPAN.field-validation-error, DIV.editor-container-sideBySide DIV.display-field SPAN.field-validation-error {
       width: 190px; }
+  DIV.editor-container-sideBySide DIV.display-label, DIV.editor-container-sideBySide DIV.display-field {
+    line-height: 20px;
+    padding: 0px;
+    height: 20px; }
+  DIV.editor-container-sideBySide DIV.display-label {
+    text-align: left;
+    margin-bottom: 0px; }
   DIV.editor-container-sideBySide.two-one DIV.editor-label {
     width: 243.333px; }
   DIV.editor-container-sideBySide.two-one DIV.editor-field {

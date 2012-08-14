@@ -17,14 +17,25 @@ TABLE.GridTable {
     border-bottom: 1px solid #FFFFFF; }
     TABLE.GridTable TBODY TR TD:first-child {
       background: #ededed;
-      padding: 0; }
-      TABLE.GridTable TBODY TR TD:first-child A {
-        color: #000000;
-        display: block;
-        padding: 0px 10px; }
-        TABLE.GridTable TBODY TR TD:first-child A:hover {
-          background: #0000cc;
-          color: #ffffff; }
+      /*padding: 0;
+      A{
+      	color: #000000;
+      	display: block;
+      	padding: 0px 10px;
+      	position: relative;
+      	&:hover{
+      		background: $colorActive;
+      		color: #ffffff;
+      	}
+      	&:after{
+      		content: "";
+      		position: absolute;
+      		right: 10px; top: 7px;
+      		height: 14px; width: 14px;
+      		border-radius: 14px;
+      		background: #cccccc;
+      	}
+      }*/ }
   TABLE.GridTable TBODY TR:hover TD {
     background: #ededed; }
     TABLE.GridTable TBODY TR:hover TD:first-child {

@@ -200,6 +200,9 @@
     <Content Include="Content\Styles\jquery.tipsy.css">
       <DependentUpon>jquery.tipsy.scss</DependentUpon>
     </Content>
+    <Content Include="Content\Styles\jquery.ui.datepicker.css">
+      <DependentUpon>jquery.ui.datepicker.scss</DependentUpon>
+    </Content>
     <Content Include="Content\Styles\Layout.css">
       <DependentUpon>Layout.scss</DependentUpon>
     </Content>
@@ -289,6 +292,12 @@
       <DebugInfo>False</DebugInfo>
     </Content>
     <Content Include="Content\Styles\jquery.tipsy.scss">
+      <Compile>True</Compile>
+      <Minify>True</Minify>
+      <CompileStyle>Nested</CompileStyle>
+      <DebugInfo>False</DebugInfo>
+    </Content>
+    <Content Include="Content\Styles\jquery.ui.datepicker.scss">
       <Compile>True</Compile>
       <Minify>True</Minify>
       <CompileStyle>Nested</CompileStyle>

@@ -1,6 +1,7 @@
 ﻿@model KeyHub.Web.ViewModels.CustomerApp.CustomerAppEditViewModel
 
 @{
+    ViewBag.ItemName = "CustomerApp";
     ViewBag.Title = "Edit";
 }
 
@@ -31,7 +32,7 @@
         </div>
 
         <p>
-            <input type="submit" value="Save" />
+            <input type="submit" value="Save @ViewBag.ItemName " />
         </p>
     </fieldset>
 }
