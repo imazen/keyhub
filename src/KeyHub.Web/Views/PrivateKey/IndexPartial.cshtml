@@ -1,8 +1,9 @@
 ﻿@model KeyHub.Web.ViewModels.PrivateKey.PrivateKeyIndexViewModel
 
-<h2>Private Keys</h2>
+
+<h2>Private Key <span>Overview</span></h2>
 <p>
-    @Html.ActionLink("Create New", "Create", new { parentVendor = Model.ParentVendorGUID }, new { @class="Btn New"})
+    @Html.ActionLink("Create New Private Key ", "Create", new { parentVendor = Model.ParentVendorGUID }, new { @class="Btn New"})
 </p>
 <table  border="0" border="0" cellspacing="0" cellpadding="0" class="GridTable">
     <thead>

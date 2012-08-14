@@ -191,6 +191,9 @@
     <Content Include="Content\Styles\GridTables.css">
       <DependentUpon>GridTables.scss</DependentUpon>
     </Content>
+    <Content Include="Content\Styles\Icons.css">
+      <DependentUpon>Icons.scss</DependentUpon>
+    </Content>
     <Content Include="Content\Styles\jquery.chosen.css">
       <DependentUpon>jquery.chosen.scss</DependentUpon>
     </Content>
@@ -303,6 +306,7 @@
       <CompileStyle>Nested</CompileStyle>
       <DebugInfo>False</DebugInfo>
     </Content>
+    <Content Include="Content\Styles\Icons.scss" />
     <None Include="Scripts\jquery-1.6.2-vsdoc.js" />
     <Content Include="Scripts\jquery-1.6.2.js" />
     <Content Include="Scripts\jquery-1.6.2.min.js">
