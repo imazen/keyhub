@@ -33,6 +33,25 @@ namespace KeyHub.Web.Controllers
         }
 
         /// <summary>
+        /// Get details of Licenses
+        /// </summary>
+        /// <param name="key">Guid of license to show</param>
+        /// <returns>License details view</returns>
+        public ActionResult Details(Guid key)
+        {
+            using (DataContext context = new DataContext())
+            {
+                //Eager loading License
+                var licenseQuery = (from x in context.Licenses where x.ObjectId == key select x).Include(x => x.PurchasingCustomer)
+                    .Include(x => x.OwningCustomer).Include(x => x.Sku);
+
+                LicenseDetailsViewModel viewModel = new LicenseDetailsViewModel(licenseQuery.FirstOrDefault());
+
+                return View(viewModel);
+            }
+        }
+
+        /// <summary>
         /// Create a single License
         /// </summary>
         /// <returns>Create License view</returns>

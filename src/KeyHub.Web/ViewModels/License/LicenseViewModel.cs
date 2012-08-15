@@ -76,6 +76,7 @@ namespace KeyHub.Web.ViewModels.License
         /// </summary>
         [Required]
         [StringLength(256)]
+        [DisplayName("Original owner name")]
         public string OwnerName { get; set; }
 
         /// <summary>

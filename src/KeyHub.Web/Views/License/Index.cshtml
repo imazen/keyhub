@@ -30,8 +30,7 @@
 @foreach (var item in Model.Licenses) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.SKUName)
-            @*@Html.ActionLink("Edit", "Edit", new { key = item.ObjectId })*@
+            @Html.ActionLink(item.SKUName, "Details", new { key = item.ObjectId })
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.OwningCustomerName)
