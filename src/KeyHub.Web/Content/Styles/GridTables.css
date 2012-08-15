@@ -14,7 +14,8 @@ TABLE.GridTable {
     padding: 0px 10px;
     line-height: 30px; }
   TABLE.GridTable TBODY TR TD {
-    border-bottom: 1px solid #FFFFFF; }
+    border-bottom: 1px solid #FFFFFF;
+    color: #666666; }
     TABLE.GridTable TBODY TR TD:first-child {
       background: #ededed;
       /*padding: 0;

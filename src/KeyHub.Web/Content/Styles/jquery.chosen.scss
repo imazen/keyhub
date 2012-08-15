@@ -5,6 +5,9 @@ $borderColor: $colorBorderInputTextNotSelected;
 $borderColorSelected: $colorBorderInputTextSelected;
 $bgColorActive: $colorActive;
 
+$highligtedTextColor: transparent;
+$highligtedTextColorSelected: $highligtedTextColor;
+
 /* @group Base */
 DIV.chzn-container {
   font-size: 13px;
@@ -250,13 +253,16 @@ DIV.chzn-container .chzn-results .highlighted {
 
   color: #fff;
 }
+
 DIV.chzn-container .chzn-results li em {
-  background: #feffde;
+  background: $highligtedTextColor;
   font-style: normal;
+  font-weight: bold;
 }
 DIV.chzn-container .chzn-results .highlighted em {
-  background: transparent;
+  background: $highligtedTextColorSelected;
 }
+
 DIV.chzn-container .chzn-results .no-results {
   background: #f4f4f4;
   display: list-item;

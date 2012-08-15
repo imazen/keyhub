@@ -26,14 +26,22 @@ DIV.LayoutContainer DIV.LayoutHeaderContainer {
     position: absolute;
     right: 0px;
     top: 0px; }
+  DIV.LayoutContainer DIV.LayoutHeaderContainer DIV.HeaderMenu {
+    position: absolute;
+    left: 120px;
+    top: 0px; }
 DIV.LayoutContainer DIV.LayoutContentContainer {
   padding: 60px 30px; }
 DIV.LayoutContainer DIV.LayoutFooterContainer {
   background: #333333;
   bottom: 0px;
   height: 30px; }
+DIV.LayoutContainer DIV.LayoutWrapper {
+  width: 960px;
+  margin: 0px auto;
+  position: relative; }
 
-INPUT.Text, INPUT[type=text], INPUT[type=number], INPUT[type=datetime] {
+INPUT.Text, INPUT[type=text], INPUT[type=password], INPUT[type=number], INPUT[type=datetime] {
   border: 1px solid #cccccc;
   background: #ffffff;
   color: #666666;
@@ -41,25 +49,52 @@ INPUT.Text, INPUT[type=text], INPUT[type=number], INPUT[type=datetime] {
   height: 22px;
   line-height: 16px;
   padding: 3px 10px 4px 10px; }
-  INPUT.Text.Active, INPUT.Text:focus, INPUT[type=text].Active, INPUT[type=text]:focus, INPUT[type=number].Active, INPUT[type=number]:focus, INPUT[type=datetime].Active, INPUT[type=datetime]:focus {
-    border-color: #0000cc;
+  INPUT.Text.Active, INPUT.Text:focus, INPUT[type=text].Active, INPUT[type=text]:focus, INPUT[type=password].Active, INPUT[type=password]:focus, INPUT[type=number].Active, INPUT[type=number]:focus, INPUT[type=datetime].Active, INPUT[type=datetime]:focus {
+    border-color: #007acc;
     color: #333333; }
-  INPUT.Text.CopyPaste, INPUT[type=text].CopyPaste, INPUT[type=number].CopyPaste, INPUT[type=datetime].CopyPaste {
+  INPUT.Text.CopyPaste, INPUT[type=text].CopyPaste, INPUT[type=password].CopyPaste, INPUT[type=number].CopyPaste, INPUT[type=datetime].CopyPaste {
     font-family: Courier New;
     border: 1px dashed #999999;
     color: #333333; }
-  INPUT.Text.input-validation-error, INPUT[type=text].input-validation-error, INPUT[type=number].input-validation-error, INPUT[type=datetime].input-validation-error {
+  INPUT.Text.input-validation-error, INPUT[type=text].input-validation-error, INPUT[type=password].input-validation-error, INPUT[type=number].input-validation-error, INPUT[type=datetime].input-validation-error {
     border-color: #cc0000;
     background: url("../Images/bgSprite.png") right 0px no-repeat; }
-  INPUT.Text.valid, INPUT[type=text].valid, INPUT[type=number].valid, INPUT[type=datetime].valid {
+  INPUT.Text.valid, INPUT[type=text].valid, INPUT[type=password].valid, INPUT[type=number].valid, INPUT[type=datetime].valid {
     background: url("../Images/bgSprite.png") right -30px no-repeat; }
-  INPUT.Text:focus, INPUT[type=text]:focus, INPUT[type=number]:focus, INPUT[type=datetime]:focus {
+  INPUT.Text:focus, INPUT[type=text]:focus, INPUT[type=password]:focus, INPUT[type=number]:focus, INPUT[type=datetime]:focus {
     outline: none; }
 
 INPUT[type=number] {
   padding-bottom: 3px; }
   INPUT[type=number].valid {
     background: url("../Images/bgSprite.png") right -30px no-repeat; }
+
+INPUT[type=number]::-webkit-inner-spin-button,
+INPUT[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0; }
+
+DIV.validation-summary-errors {
+  color: #cc0000; }
+
+DIV.prettynumeric {
+  position: relative; }
+  DIV.prettynumeric DIV.prettynumeric_btn {
+    position: absolute;
+    top: 3px;
+    bottom: 3px;
+    width: 25px;
+    background: #ededed;
+    text-indent: -10000px;
+    cursor: pointer; }
+    DIV.prettynumeric DIV.prettynumeric_btn.inc {
+      right: 3px; }
+    DIV.prettynumeric DIV.prettynumeric_btn.dec {
+      right: 30px; }
+    DIV.prettynumeric DIV.prettynumeric_btn:hover {
+      background: #cccccc; }
+  DIV.prettynumeric INPUT[type=number].input-validation-error {
+    background-position: right -60px; }
 
 SELECT {
   width: 380px; }
@@ -179,7 +214,8 @@ TABLE.GridTable {
     padding: 0px 10px;
     line-height: 30px; }
   TABLE.GridTable TBODY TR TD {
-    border-bottom: 1px solid #FFFFFF; }
+    border-bottom: 1px solid #FFFFFF;
+    color: #666666; }
     TABLE.GridTable TBODY TR TD:first-child {
       background: #ededed;
       /*padding: 0;
@@ -945,12 +981,13 @@ DIV.chzn-container .chzn-results .active-result {
   display: list-item; }
 
 DIV.chzn-container .chzn-results .highlighted {
-  background-color: #0000cc;
+  background-color: #007acc;
   color: #fff; }
 
 DIV.chzn-container .chzn-results li em {
-  background: #feffde;
-  font-style: normal; }
+  background: transparent;
+  font-style: normal;
+  font-weight: bold; }
 
 DIV.chzn-container .chzn-results .highlighted em {
   background: transparent; }
@@ -997,10 +1034,10 @@ DIV.chzn-container .chzn-results-scroll-up span {
 /* @end */
 /* @group Active */
 .chzn-container-active A.chzn-single {
-  border: 1px solid #0000cc; }
+  border: 1px solid #007acc; }
 
 .chzn-container-active A.chzn-single-with-drop {
-  border: 1px solid #0000cc;
+  border: 1px solid #007acc;
   background-color: #eee; }
 
 .chzn-container-active A.chzn-single-with-drop div {
@@ -1008,7 +1045,7 @@ DIV.chzn-container .chzn-results-scroll-up span {
   border-left: none; }
 
 .chzn-container-active .chzn-choices {
-  border: 1px solid #0000cc; }
+  border: 1px solid #007acc; }
 
 .chzn-container-active .chzn-choices .search-field input {
   color: #111 !important; }
@@ -1136,41 +1173,60 @@ DIV.chzn-container .chzn-results-scroll-up span {
 .ui-datepicker {
   width: 215px;
   padding: 0px 0px 2px 0px;
+  padding: 10px 20px 20px 20px;
   display: none;
-  background: #666666;
+  background: #007acc;
   color: #ffffff; }
 
 .ui-datepicker .ui-datepicker-header {
   position: relative;
   padding: 2px;
   color: #ffffff;
-  height: 24px; }
+  height: 40px; }
   .ui-datepicker .ui-datepicker-header DIV.ui-datepicker-title {
     margin: 0;
-    text-align: center;
-    line-height: 24px; }
+    line-height: 24px;
+    position: relative;
+    height: 1px; }
+    .ui-datepicker .ui-datepicker-header DIV.ui-datepicker-title SPAN {
+      position: absolute;
+      left: 30px;
+      right: 30px;
+      text-align: center;
+      display: block; }
+    .ui-datepicker .ui-datepicker-header DIV.ui-datepicker-title SPAN.ui-datepicker-month {
+      font-size: 32px;
+      font-weight: 300;
+      top: 16px; }
+    .ui-datepicker .ui-datepicker-header DIV.ui-datepicker-title SPAN.ui-datepicker-year {
+      top: 0px; }
   .ui-datepicker .ui-datepicker-header DIV.ui-datepicker-title select {
     margin: 0; }
 
 .ui-datepicker A.ui-datepicker-prev,
 .ui-datepicker A.ui-datepicker-next {
   position: absolute;
-  top: 4px;
+  top: 15px;
   display: block;
-  width: 24px;
-  height: 24px;
-  border: 1px solid #000000; }
+  width: 20px;
+  height: 20px;
+  border: 1px solid #ffffff;
+  border-radius: 20px;
+  cursor: pointer; }
   .ui-datepicker A.ui-datepicker-prev span,
   .ui-datepicker A.ui-datepicker-next span {
     display: block;
     position: absolute;
     text-indent: -1000px; }
+  .ui-datepicker A.ui-datepicker-prev:hover,
+  .ui-datepicker A.ui-datepicker-next:hover {
+    background: #ffffff; }
 
 .ui-datepicker .ui-datepicker-prev {
-  left: 4px; }
+  left: 0px; }
 
 .ui-datepicker .ui-datepicker-next {
-  right: 4px; }
+  right: 0px; }
 
 .ui-datepicker SELECT.ui-datepicker-month-year {
   width: 100%; }
@@ -1186,11 +1242,13 @@ DIV.chzn-container .chzn-results-scroll-up span {
   .ui-datepicker TABLE SPAN, .ui-datepicker TABLE A {
     display: block;
     padding: 2px;
-    text-align: right;
+    text-align: center;
+    line-height: 20px;
     text-decoration: none;
-    border: 1px solid #000000;
+    border: 1px solid transparent;
     width: 20px;
-    height: 20px; }
+    height: 20px;
+    border-radius: 20px; }
   .ui-datepicker TABLE TH {
     padding: 0;
     font-weight: bold;
@@ -1203,17 +1261,18 @@ DIV.chzn-container .chzn-results-scroll-up span {
     padding: 2px; }
   .ui-datepicker TABLE A {
     color: rgba(255, 255, 255, 0.6);
-    border: 1px solid rgba(0, 0, 0, 0.5); }
+    border: 1px solid transparent; }
     .ui-datepicker TABLE A:hover {
-      background: rgba(255, 255, 255, 0.2); }
+      background: #3f9bd8;
+      border: 1px solid #3f9bd8;
+      color: #ffffff; }
     .ui-datepicker TABLE A.ui-state-highlight {
-      background: rgba(0, 0, 0, 0.8);
-      border: 1px solid rgba(0, 0, 0, 0.8);
-      color: #cccccc; }
+      border: 1px solid #ffffff;
+      color: #ffffff; }
     .ui-datepicker TABLE A.ui-state-active {
-      background: rgba(255, 255, 255, 0.2);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      color: #000000; }
+      background: #ffffff;
+      border: 1px solid #ffffff;
+      color: #007acc; }
 
 .ui-datepicker .ui-datepicker-buttonpane {
   background-image: none;
@@ -1349,16 +1408,14 @@ H1, H2 {
   margin-bottom: 30px;
   margin-top: 0px; }
 
-H2 {
-  margin-top: 30px; }
-  H2 SPAN {
-    color: #999999; }
+H2 SPAN {
+  color: #cccccc; }
 
 A {
-  color: #0000cc;
+  color: #007acc;
   text-decoration: none; }
   A:hover, A:focus {
-    color: #000066; }
+    color: #003d66; }
 
 A.Logo {
   line-height: 30px;
@@ -1388,28 +1445,28 @@ UL.Menu {
       color: #7f7f7f;
       padding: 0px 20px; }
       UL.Menu LI A:hover, UL.Menu LI A:focus {
-        color: #0000cc; }
+        color: #007acc; }
     UL.Menu LI.Active A {
       color: #333333; }
 
-UL.MenuLoginPartial {
+UL.MenuLoginPartial, UL.HeaderMenu {
   display: block;
   clear: both;
   overflow: hidden;
   margin-right: 20px; }
-  UL.MenuLoginPartial LI {
+  UL.MenuLoginPartial LI, UL.HeaderMenu LI {
     float: left; }
-    UL.MenuLoginPartial LI A {
+    UL.MenuLoginPartial LI A, UL.HeaderMenu LI A {
       text-decoration: none;
       text-transform: uppercase;
       font-size: 12px;
       color: #999999;
       padding: 0px 10px;
       line-height: 30px; }
-      UL.MenuLoginPartial LI A:hover {
+      UL.MenuLoginPartial LI A:hover, UL.HeaderMenu LI A:hover {
         color: #ffffff; }
-    UL.MenuLoginPartial LI.Active A {
-      color: #333333; }
+    UL.MenuLoginPartial LI.Active A, UL.HeaderMenu LI.Active A {
+      color: #ffffff; }
 
 A.Btn, INPUT[type=submit] {
   line-height: 30px;
@@ -1420,13 +1477,13 @@ A.Btn, INPUT[type=submit] {
   display: inline-block;
   padding: 0px 15px; }
   A.Btn:hover, A.Btn:focus, INPUT[type=submit]:hover, INPUT[type=submit]:focus {
-    background: #0000cc;
+    background: #007acc;
     color: #ffffff;
     text-decoration: none; }
 
 INPUT[type=submit] {
-  background: #0000cc;
+  background: #007acc;
   color: #ffffff; }
   INPUT[type=submit]:hover, INPUT[type=submit]:focus {
-    background: #000066; }
+    background: #003d66; }
 

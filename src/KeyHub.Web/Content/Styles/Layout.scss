@@ -4,6 +4,7 @@ $debug: false;
 
 
 DIV.LayoutContainer{
+	
 	DIV.LayoutHeaderContainer,
 	DIV.LayoutFooterContainer{
 		position: fixed;
@@ -20,6 +21,11 @@ DIV.LayoutContainer{
 			right: 0px;
 			top: 0px;
 		}
+		DIV.HeaderMenu{
+			position: absolute;
+			left: 120px;
+			top: 0px;
+		}
 	}
 	DIV.LayoutContentContainer{
 	padding: 60px 30px;
@@ -30,4 +36,12 @@ DIV.LayoutContainer{
 		bottom: 0px;
 		height: 30px;
 	}
+
+	DIV.LayoutWrapper{
+		//border: 1px dashed #cc0000;
+		width: 960px;
+		margin: 0px auto;
+		position: relative;
+	}
+
 }

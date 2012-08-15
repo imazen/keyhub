@@ -12,10 +12,18 @@ DIV.LayoutContainer DIV.LayoutHeaderContainer {
     position: absolute;
     right: 0px;
     top: 0px; }
+  DIV.LayoutContainer DIV.LayoutHeaderContainer DIV.HeaderMenu {
+    position: absolute;
+    left: 120px;
+    top: 0px; }
 DIV.LayoutContainer DIV.LayoutContentContainer {
   padding: 60px 30px; }
 DIV.LayoutContainer DIV.LayoutFooterContainer {
   background: #333333;
   bottom: 0px;
   height: 30px; }
+DIV.LayoutContainer DIV.LayoutWrapper {
+  width: 960px;
+  margin: 0px auto;
+  position: relative; }
 
