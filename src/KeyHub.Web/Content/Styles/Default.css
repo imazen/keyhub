@@ -19,7 +19,7 @@ DIV.LayoutContainer DIV.LayoutFooterContainer {
   right: 0px;
   z-index: 999; }
 DIV.LayoutContainer DIV.LayoutHeaderContainer {
-  background: #333333;
+  background: #014051;
   top: 0px;
   height: 30px; }
   DIV.LayoutContainer DIV.LayoutHeaderContainer DIV.LoginPartial {
@@ -33,9 +33,9 @@ DIV.LayoutContainer DIV.LayoutHeaderContainer {
 DIV.LayoutContainer DIV.LayoutContentContainer {
   padding: 60px 30px; }
 DIV.LayoutContainer DIV.LayoutFooterContainer {
-  background: #333333;
+  background: #014051;
   bottom: 0px;
-  height: 30px; }
+  height: 2px; }
 DIV.LayoutContainer DIV.LayoutWrapper {
   width: 960px;
   margin: 0px auto;
