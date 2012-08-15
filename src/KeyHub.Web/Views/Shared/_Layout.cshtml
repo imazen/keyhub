@@ -55,17 +55,28 @@
         @Scripts.Render("~/bundles/jquery")
         @RenderSection("scripts", required: false)
 
+        <script type="text/javascript" src="/Scripts/jquery-ui-1.8.11.js"></script>
         <script type="text/javascript" src="/Scripts/jquery.prettyradiocheckbox.js"></script>
         <script type="text/javascript" src="/Scripts/jquery.chosen.min.js"></script>
         <script type="text/javascript" >
 
 
-             $(document).ready(function () {
+            $(document).ready(function () {
+                form_focusFirstField();
                  $("SELECT").chosen({ no_results_text: "No results matched: " });
                  $("INPUT[type=checkbox]").prettyradiocheckbox();
-
+                 
+                 $("INPUT[type=datetime]").datepicker({ dateFormat: 'DD, d MM, yy' });
+                
+                 $("SELECT#SKU_VendorId").change(function () {
+                    //$("SELECT#SKU_PrivateKeyId").append('<option>ss</option>').trigger("liszt:updated");
+                 })
              });
+             function form_focusFirstField() {
+                 $("INPUT:visible:first").focus();
+             }
 
+             
             </script>
     </body>
 </html>

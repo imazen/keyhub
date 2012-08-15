@@ -1,0 +1,477 @@
+A.IconLink {
+  display: inline-block;
+  position: relative;
+  text-decoration: none; }
+  A.IconLink > I {
+    position: absolute;
+    display: block;
+    background: #cccccc;
+    background: url("../Images/bgIcons.png") 0px 0px no-repeat; }
+  A.IconLink:after {
+    content: "";
+    position: absolute;
+    display: block;
+    background: #cccccc url("../Images/bgIcons.png") 0px 0px no-repeat;
+    height: 14px;
+    width: 14px;
+    border-radius: 14px;
+    top: 1px;
+    left: 0px; }
+  A.IconLink.IconLink48 {
+    line-height: 52px;
+    width: 48px;
+    height: 48px; }
+    A.IconLink.IconLink48 > I {
+      width: 48px;
+      height: 48px;
+      border-radius: 24px;
+      top: 50%;
+      left: 50%;
+      margin-left: -24px;
+      margin-top: -24px;
+      background-position: 0 -0px; }
+    A.IconLink.IconLink48.Text {
+      width: auto;
+      height: auto; }
+      A.IconLink.IconLink48.Text I {
+        top: 2px;
+        left: auto;
+        margin: 0px; }
+    A.IconLink.IconLink48.Text.Left {
+      padding: 0px 58px 0px 0px; }
+      A.IconLink.IconLink48.Text.Left I {
+        right: 0; }
+    A.IconLink.IconLink48.Text.Right {
+      padding: 0px 0px 0px 58px; }
+      A.IconLink.IconLink48.Text.Right I {
+        left: 0; }
+  A.IconLink.IconLink40 {
+    line-height: 44px;
+    width: 40px;
+    height: 40px; }
+    A.IconLink.IconLink40 > I {
+      width: 40px;
+      height: 40px;
+      border-radius: 20px;
+      top: 50%;
+      left: 50%;
+      margin-left: -20px;
+      margin-top: -20px;
+      background-position: 0 -48px; }
+    A.IconLink.IconLink40.Text {
+      width: auto;
+      height: auto; }
+      A.IconLink.IconLink40.Text I {
+        top: 2px;
+        left: auto;
+        margin: 0px; }
+    A.IconLink.IconLink40.Text.Left {
+      padding: 0px 50px 0px 0px; }
+      A.IconLink.IconLink40.Text.Left I {
+        right: 0; }
+    A.IconLink.IconLink40.Text.Right {
+      padding: 0px 0px 0px 50px; }
+      A.IconLink.IconLink40.Text.Right I {
+        left: 0; }
+  A.IconLink.IconLink30 {
+    line-height: 34px;
+    width: 30px;
+    height: 30px; }
+    A.IconLink.IconLink30 > I {
+      width: 30px;
+      height: 30px;
+      border-radius: 15px;
+      top: 50%;
+      left: 50%;
+      margin-left: -15px;
+      margin-top: -15px;
+      background-position: 0 -88px; }
+    A.IconLink.IconLink30.Text {
+      width: auto;
+      height: auto; }
+      A.IconLink.IconLink30.Text I {
+        top: 2px;
+        left: auto;
+        margin: 0px; }
+    A.IconLink.IconLink30.Text.Left {
+      padding: 0px 40px 0px 0px; }
+      A.IconLink.IconLink30.Text.Left I {
+        right: 0; }
+    A.IconLink.IconLink30.Text.Right {
+      padding: 0px 0px 0px 40px; }
+      A.IconLink.IconLink30.Text.Right I {
+        left: 0; }
+  A.IconLink.IconLink24 {
+    line-height: 28px;
+    width: 24px;
+    height: 24px; }
+    A.IconLink.IconLink24 > I {
+      width: 24px;
+      height: 24px;
+      border-radius: 12px;
+      top: 50%;
+      left: 50%;
+      margin-left: -12px;
+      margin-top: -12px;
+      background-position: 0 -118px; }
+    A.IconLink.IconLink24.Text {
+      width: auto;
+      height: auto; }
+      A.IconLink.IconLink24.Text I {
+        top: 2px;
+        left: auto;
+        margin: 0px; }
+    A.IconLink.IconLink24.Text.Left {
+      padding: 0px 34px 0px 0px; }
+      A.IconLink.IconLink24.Text.Left I {
+        right: 0; }
+    A.IconLink.IconLink24.Text.Right {
+      padding: 0px 0px 0px 34px; }
+      A.IconLink.IconLink24.Text.Right I {
+        left: 0; }
+  A.IconLink.IconLink20 {
+    line-height: 22px;
+    width: 20px;
+    height: 20px; }
+    A.IconLink.IconLink20 > I {
+      width: 20px;
+      height: 20px;
+      border-radius: 10px;
+      top: 50%;
+      left: 50%;
+      margin-left: -10px;
+      margin-top: -10px;
+      background-position: 0 -142px; }
+    A.IconLink.IconLink20.Text {
+      width: auto;
+      height: auto; }
+      A.IconLink.IconLink20.Text I {
+        top: 2px;
+        left: auto;
+        margin: 0px; }
+    A.IconLink.IconLink20.Text.Left {
+      padding: 0px 25px 0px 0px; }
+      A.IconLink.IconLink20.Text.Left I {
+        right: 0; }
+    A.IconLink.IconLink20.Text.Right {
+      padding: 0px 0px 0px 25px; }
+      A.IconLink.IconLink20.Text.Right I {
+        left: 0; }
+  A.IconLink.IconLink16 {
+    line-height: 18px;
+    width: 16px;
+    height: 16px; }
+    A.IconLink.IconLink16 > I {
+      width: 16px;
+      height: 16px;
+      border-radius: 8px;
+      top: 50%;
+      left: 50%;
+      margin-left: -8px;
+      margin-top: -8px;
+      background-position: 0 -162px; }
+    A.IconLink.IconLink16.Text {
+      width: auto;
+      height: auto; }
+      A.IconLink.IconLink16.Text I {
+        top: 2px;
+        left: auto;
+        margin: 0px; }
+    A.IconLink.IconLink16.Text.Left {
+      padding: 0px 21px 0px 0px; }
+      A.IconLink.IconLink16.Text.Left I {
+        right: 0; }
+    A.IconLink.IconLink16.Text.Right {
+      padding: 0px 0px 0px 21px; }
+      A.IconLink.IconLink16.Text.Right I {
+        left: 0; }
+  A.IconLink.IconLink14 {
+    line-height: 16px;
+    width: 14px;
+    height: 14px; }
+    A.IconLink.IconLink14 > I {
+      width: 14px;
+      height: 14px;
+      border-radius: 7px;
+      top: 50%;
+      left: 50%;
+      margin-left: -7px;
+      margin-top: -7px;
+      background-position: 0 -178px; }
+    A.IconLink.IconLink14.Text {
+      width: auto;
+      height: auto; }
+      A.IconLink.IconLink14.Text I {
+        top: 2px;
+        left: auto;
+        margin: 0px; }
+    A.IconLink.IconLink14.Text.Left {
+      padding: 0px 19px 0px 0px; }
+      A.IconLink.IconLink14.Text.Left I {
+        right: 0; }
+    A.IconLink.IconLink14.Text.Right {
+      padding: 0px 0px 0px 19px; }
+      A.IconLink.IconLink14.Text.Right I {
+        left: 0; }
+  A.IconLink.IconLink48.ArrowLeft > I {
+    background-position: -50px -0px; }
+  A.IconLink.IconLink40.ArrowLeft > I {
+    background-position: -50px -48px; }
+  A.IconLink.IconLink30.ArrowLeft > I {
+    background-position: -50px -88px; }
+  A.IconLink.IconLink24.ArrowLeft > I {
+    background-position: -50px -118px; }
+  A.IconLink.IconLink20.ArrowLeft > I {
+    background-position: -50px -142px; }
+  A.IconLink.IconLink16.ArrowLeft > I {
+    background-position: -50px -162px; }
+  A.IconLink.IconLink14.ArrowLeft > I {
+    background-position: -50px -178px; }
+  A.IconLink.IconLink48.ArrowRight > I {
+    background-position: -100px -0px; }
+  A.IconLink.IconLink40.ArrowRight > I {
+    background-position: -100px -48px; }
+  A.IconLink.IconLink30.ArrowRight > I {
+    background-position: -100px -88px; }
+  A.IconLink.IconLink24.ArrowRight > I {
+    background-position: -100px -118px; }
+  A.IconLink.IconLink20.ArrowRight > I {
+    background-position: -100px -142px; }
+  A.IconLink.IconLink16.ArrowRight > I {
+    background-position: -100px -162px; }
+  A.IconLink.IconLink14.ArrowRight > I {
+    background-position: -100px -178px; }
+  A.IconLink.IconLink48.Tick > I {
+    background-position: -150px -0px; }
+  A.IconLink.IconLink40.Tick > I {
+    background-position: -150px -48px; }
+  A.IconLink.IconLink30.Tick > I {
+    background-position: -150px -88px; }
+  A.IconLink.IconLink24.Tick > I {
+    background-position: -150px -118px; }
+  A.IconLink.IconLink20.Tick > I {
+    background-position: -150px -142px; }
+  A.IconLink.IconLink16.Tick > I {
+    background-position: -150px -162px; }
+  A.IconLink.IconLink14.Tick > I {
+    background-position: -150px -178px; }
+  A.IconLink.IconLink48.Questionmark > I {
+    background-position: -200px -0px; }
+  A.IconLink.IconLink40.Questionmark > I {
+    background-position: -200px -48px; }
+  A.IconLink.IconLink30.Questionmark > I {
+    background-position: -200px -88px; }
+  A.IconLink.IconLink24.Questionmark > I {
+    background-position: -200px -118px; }
+  A.IconLink.IconLink20.Questionmark > I {
+    background-position: -200px -142px; }
+  A.IconLink.IconLink16.Questionmark > I {
+    background-position: -200px -162px; }
+  A.IconLink.IconLink14.Questionmark > I {
+    background-position: -200px -178px; }
+  A.IconLink.IconLink48.Magnifier > I {
+    background-position: -250px -0px; }
+  A.IconLink.IconLink40.Magnifier > I {
+    background-position: -250px -48px; }
+  A.IconLink.IconLink30.Magnifier > I {
+    background-position: -250px -88px; }
+  A.IconLink.IconLink24.Magnifier > I {
+    background-position: -250px -118px; }
+  A.IconLink.IconLink20.Magnifier > I {
+    background-position: -250px -142px; }
+  A.IconLink.IconLink16.Magnifier > I {
+    background-position: -250px -162px; }
+  A.IconLink.IconLink14.Magnifier > I {
+    background-position: -250px -178px; }
+  A.IconLink.IconLink48.Questionmark-Grey > I {
+    background-position: -300px -0px; }
+  A.IconLink.IconLink40.Questionmark-Grey > I {
+    background-position: -300px -48px; }
+  A.IconLink.IconLink30.Questionmark-Grey > I {
+    background-position: -300px -88px; }
+  A.IconLink.IconLink24.Questionmark-Grey > I {
+    background-position: -300px -118px; }
+  A.IconLink.IconLink20.Questionmark-Grey > I {
+    background-position: -300px -142px; }
+  A.IconLink.IconLink16.Questionmark-Grey > I {
+    background-position: -300px -162px; }
+  A.IconLink.IconLink14.Questionmark-Grey > I {
+    background-position: -300px -178px; }
+  A.IconLink.IconLink48.ArrowLeft-White > I {
+    background-position: -350px -0px; }
+  A.IconLink.IconLink40.ArrowLeft-White > I {
+    background-position: -350px -48px; }
+  A.IconLink.IconLink30.ArrowLeft-White > I {
+    background-position: -350px -88px; }
+  A.IconLink.IconLink24.ArrowLeft-White > I {
+    background-position: -350px -118px; }
+  A.IconLink.IconLink20.ArrowLeft-White > I {
+    background-position: -350px -142px; }
+  A.IconLink.IconLink16.ArrowLeft-White > I {
+    background-position: -350px -162px; }
+  A.IconLink.IconLink14.ArrowLeft-White > I {
+    background-position: -350px -178px; }
+  A.IconLink.IconLink48.Magnifier-NoCircleGrey > I {
+    background-position: -400px -0px; }
+  A.IconLink.IconLink40.Magnifier-NoCircleGrey > I {
+    background-position: -400px -48px; }
+  A.IconLink.IconLink30.Magnifier-NoCircleGrey > I {
+    background-position: -400px -88px; }
+  A.IconLink.IconLink24.Magnifier-NoCircleGrey > I {
+    background-position: -400px -118px; }
+  A.IconLink.IconLink20.Magnifier-NoCircleGrey > I {
+    background-position: -400px -142px; }
+  A.IconLink.IconLink16.Magnifier-NoCircleGrey > I {
+    background-position: -400px -162px; }
+  A.IconLink.IconLink14.Magnifier-NoCircleGrey > I {
+    background-position: -400px -178px; }
+  A.IconLink.IconLink48.Cross > I {
+    background-position: -450px -0px; }
+  A.IconLink.IconLink40.Cross > I {
+    background-position: -450px -48px; }
+  A.IconLink.IconLink30.Cross > I {
+    background-position: -450px -88px; }
+  A.IconLink.IconLink24.Cross > I {
+    background-position: -450px -118px; }
+  A.IconLink.IconLink20.Cross > I {
+    background-position: -450px -142px; }
+  A.IconLink.IconLink16.Cross > I {
+    background-position: -450px -162px; }
+  A.IconLink.IconLink14.Cross > I {
+    background-position: -450px -178px; }
+  A.IconLink.IconLink48.Cross-NoCircleGrey > I {
+    background-position: -500px -0px; }
+  A.IconLink.IconLink40.Cross-NoCircleGrey > I {
+    background-position: -500px -48px; }
+  A.IconLink.IconLink30.Cross-NoCircleGrey > I {
+    background-position: -500px -88px; }
+  A.IconLink.IconLink24.Cross-NoCircleGrey > I {
+    background-position: -500px -118px; }
+  A.IconLink.IconLink20.Cross-NoCircleGrey > I {
+    background-position: -500px -142px; }
+  A.IconLink.IconLink16.Cross-NoCircleGrey > I {
+    background-position: -500px -162px; }
+  A.IconLink.IconLink14.Cross-NoCircleGrey > I {
+    background-position: -500px -178px; }
+  A.IconLink.IconLink48.Cross-Grey > I {
+    background-position: -550px -0px; }
+  A.IconLink.IconLink40.Cross-Grey > I {
+    background-position: -550px -48px; }
+  A.IconLink.IconLink30.Cross-Grey > I {
+    background-position: -550px -88px; }
+  A.IconLink.IconLink24.Cross-Grey > I {
+    background-position: -550px -118px; }
+  A.IconLink.IconLink20.Cross-Grey > I {
+    background-position: -550px -142px; }
+  A.IconLink.IconLink16.Cross-Grey > I {
+    background-position: -550px -162px; }
+  A.IconLink.IconLink14.Cross-Grey > I {
+    background-position: -550px -178px; }
+  A.IconLink.IconLink48.Cross-White > I {
+    background-position: -600px -0px; }
+  A.IconLink.IconLink40.Cross-White > I {
+    background-position: -600px -48px; }
+  A.IconLink.IconLink30.Cross-White > I {
+    background-position: -600px -88px; }
+  A.IconLink.IconLink24.Cross-White > I {
+    background-position: -600px -118px; }
+  A.IconLink.IconLink20.Cross-White > I {
+    background-position: -600px -142px; }
+  A.IconLink.IconLink16.Cross-White > I {
+    background-position: -600px -162px; }
+  A.IconLink.IconLink14.Cross-White > I {
+    background-position: -600px -178px; }
+  A.IconLink.IconLink48.ArrowRight-White > I {
+    background-position: -650px -0px; }
+  A.IconLink.IconLink40.ArrowRight-White > I {
+    background-position: -650px -48px; }
+  A.IconLink.IconLink30.ArrowRight-White > I {
+    background-position: -650px -88px; }
+  A.IconLink.IconLink24.ArrowRight-White > I {
+    background-position: -650px -118px; }
+  A.IconLink.IconLink20.ArrowRight-White > I {
+    background-position: -650px -142px; }
+  A.IconLink.IconLink16.ArrowRight-White > I {
+    background-position: -650px -162px; }
+  A.IconLink.IconLink14.ArrowRight-White > I {
+    background-position: -650px -178px; }
+  A.IconLink.IconLink48.Plus > I {
+    background-position: -700px -0px; }
+  A.IconLink.IconLink40.Plus > I {
+    background-position: -700px -48px; }
+  A.IconLink.IconLink30.Plus > I {
+    background-position: -700px -88px; }
+  A.IconLink.IconLink24.Plus > I {
+    background-position: -700px -118px; }
+  A.IconLink.IconLink20.Plus > I {
+    background-position: -700px -142px; }
+  A.IconLink.IconLink16.Plus > I {
+    background-position: -700px -162px; }
+  A.IconLink.IconLink14.Plus > I {
+    background-position: -700px -178px; }
+  A.IconLink.IconLink48.ArrowDown > I {
+    background-position: -750px -0px; }
+  A.IconLink.IconLink40.ArrowDown > I {
+    background-position: -750px -48px; }
+  A.IconLink.IconLink30.ArrowDown > I {
+    background-position: -750px -88px; }
+  A.IconLink.IconLink24.ArrowDown > I {
+    background-position: -750px -118px; }
+  A.IconLink.IconLink20.ArrowDown > I {
+    background-position: -750px -142px; }
+  A.IconLink.IconLink16.ArrowDown > I {
+    background-position: -750px -162px; }
+  A.IconLink.IconLink14.ArrowDown > I {
+    background-position: -750px -178px; }
+  A.IconLink.IconLink48.ArrowUp > I {
+    background-position: -800px -0px; }
+  A.IconLink.IconLink40.ArrowUp > I {
+    background-position: -800px -48px; }
+  A.IconLink.IconLink30.ArrowUp > I {
+    background-position: -800px -88px; }
+  A.IconLink.IconLink24.ArrowUp > I {
+    background-position: -800px -118px; }
+  A.IconLink.IconLink20.ArrowUp > I {
+    background-position: -800px -142px; }
+  A.IconLink.IconLink16.ArrowUp > I {
+    background-position: -800px -162px; }
+  A.IconLink.IconLink14.ArrowUp > I {
+    background-position: -800px -178px; }
+  A.IconLink.IconLink48.Plus-NoCircleGrey > I {
+    background-position: -850px -0px; }
+  A.IconLink.IconLink40.Plus-NoCircleGrey > I {
+    background-position: -850px -48px; }
+  A.IconLink.IconLink30.Plus-NoCircleGrey > I {
+    background-position: -850px -88px; }
+  A.IconLink.IconLink24.Plus-NoCircleGrey > I {
+    background-position: -850px -118px; }
+  A.IconLink.IconLink20.Plus-NoCircleGrey > I {
+    background-position: -850px -142px; }
+  A.IconLink.IconLink16.Plus-NoCircleGrey > I {
+    background-position: -850px -162px; }
+  A.IconLink.IconLink14.Plus-NoCircleGrey > I {
+    background-position: -850px -178px; }
+  A.IconLink.IconLink48.ArrowRight-Blue > I {
+    background-position: -900px -0px; }
+  A.IconLink.IconLink40.ArrowRight-Blue > I {
+    background-position: -900px -48px; }
+  A.IconLink.IconLink30.ArrowRight-Blue > I {
+    background-position: -900px -88px; }
+  A.IconLink.IconLink24.ArrowRight-Blue > I {
+    background-position: -900px -118px; }
+  A.IconLink.IconLink20.ArrowRight-Blue > I {
+    background-position: -900px -142px; }
+  A.IconLink.IconLink16.ArrowRight-Blue > I {
+    background-position: -900px -162px; }
+  A.IconLink.IconLink14.ArrowRight-Blue > I {
+    background-position: -900px -178px; }
+  A.IconLink:focus, A.IconLink:hover {
+    /*color: $colorActive;
+    > I{ background-color:  $colorActive;}*/
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
+    filter: alpha(opacity=70);
+    -moz-opacity: 0.7;
+    -khtml-opacity: 0.7;
+    opacity: 0.7;
+    outline: none; }
+

@@ -59,7 +59,7 @@ INPUT.Text, INPUT[type=text], INPUT[type=number], INPUT[type=datetime] {
 INPUT[type=number] {
   padding-bottom: 3px; }
   INPUT[type=number].valid {
-    background: url("../Images/bgSprite.png") 90% -30px no-repeat; }
+    background: url("../Images/bgSprite.png") right -30px no-repeat; }
 
 SELECT {
   width: 380px; }
@@ -67,18 +67,26 @@ SELECT {
 SPAN.field-validation-error {
   color: #ff0000; }
 
-DIV.editor-label {
+DIV.editor-spacer {
+  height: 30px; }
+
+DIV.editor-label,
+DIV.display-label,
+DIV.editor-subtitle {
   height: 30px;
   line-height: 40px;
   text-transform: uppercase;
   width: 380px; }
+
+DIV.display-field {
+  color: #666666; }
 
 DIV.editor-field {
   width: 380px;
   position: relative; }
   DIV.editor-field SPAN.field-validation-error {
     position: absolute;
-    top: 15px;
+    bottom: 15px;
     left: 100%;
     margin-left: 10px;
     width: 190px;
@@ -93,10 +101,15 @@ DIV.editor-field {
       border: 5px solid transparent;
       position: absolute;
       left: -10px;
-      top: 0px;
       border-right: 5px solid #cc0000;
-      border-top: 0px solid #cc0000;
+      border-bottom: 0px solid #cc0000;
       bottom: 0px; }
+
+DIV.editor-field-checkbox SPAN.prettyradiocheckbox {
+  margin-top: 5px;
+  margin-left: 0px; }
+DIV.editor-field-checkbox LABEL {
+  line-height: 16px; }
 
 FIELDSET {
   border: none;
@@ -112,24 +125,31 @@ INPUT[type=submit] {
 
 DIV.editor-container-sideBySide {
   width: 380px;
-  margin: 20px 0;
+  margin: 0px 0 10px 0;
   display: inline-block; }
   DIV.editor-container-sideBySide > DIV {
     display: inline;
     float: left; }
-  DIV.editor-container-sideBySide DIV.editor-label {
+  DIV.editor-container-sideBySide DIV.editor-label, DIV.editor-container-sideBySide DIV.display-label {
     width: 180px;
     text-align: right;
     margin-bottom: 10px;
     clear: both;
     padding: 0px 10px 0 0;
     line-height: 32px; }
-  DIV.editor-container-sideBySide DIV.editor-field {
+  DIV.editor-container-sideBySide DIV.editor-field, DIV.editor-container-sideBySide DIV.display-field {
     width: 190px; }
-    DIV.editor-container-sideBySide DIV.editor-field INPUT {
+    DIV.editor-container-sideBySide DIV.editor-field INPUT, DIV.editor-container-sideBySide DIV.display-field INPUT {
       width: 168px; }
-    DIV.editor-container-sideBySide DIV.editor-field SPAN.field-validation-error {
+    DIV.editor-container-sideBySide DIV.editor-field SPAN.field-validation-error, DIV.editor-container-sideBySide DIV.display-field SPAN.field-validation-error {
       width: 190px; }
+  DIV.editor-container-sideBySide DIV.display-label, DIV.editor-container-sideBySide DIV.display-field {
+    line-height: 20px;
+    padding: 0px;
+    height: 20px; }
+  DIV.editor-container-sideBySide DIV.display-label {
+    text-align: left;
+    margin-bottom: 0px; }
   DIV.editor-container-sideBySide.two-one DIV.editor-label {
     width: 243.333px; }
   DIV.editor-container-sideBySide.two-one DIV.editor-field {
@@ -143,39 +163,527 @@ DIV.editor-container-sideBySide {
     DIV.editor-container-sideBySide.one-two DIV.editor-field INPUT {
       width: 231.333px; }
 
-TABLE {
+TABLE.GridTable {
   width: 100%;
   background: #ffffff; }
-  TABLE THEAD TH {
+  TABLE.GridTable THEAD TH {
     text-align: left;
     border-bottom: 3px solid #cccccc;
     font-size: 12px;
     font-weight: normal;
     text-transform: uppercase;
     border-left: 1px solid #cccccc; }
-    TABLE THEAD TH:first-child {
+    TABLE.GridTable THEAD TH:first-child {
       border-left: none; }
-  TABLE TD, TABLE TH {
+  TABLE.GridTable TD, TABLE.GridTable TH {
     padding: 0px 10px;
     line-height: 30px; }
-  TABLE TBODY TR TD {
+  TABLE.GridTable TBODY TR TD {
     border-bottom: 1px solid #FFFFFF; }
-    TABLE TBODY TR TD:first-child {
+    TABLE.GridTable TBODY TR TD:first-child {
       background: #ededed;
-      padding: 0; }
-      TABLE TBODY TR TD:first-child A {
-        color: #000000;
-        display: block;
-        padding: 0px 10px; }
-        TABLE TBODY TR TD:first-child A:hover {
-          background: #0000cc;
-          color: #ffffff; }
-  TABLE TBODY TR:hover TD {
+      /*padding: 0;
+      A{
+      	color: #000000;
+      	display: block;
+      	padding: 0px 10px;
+      	position: relative;
+      	&:hover{
+      		background: $colorActive;
+      		color: #ffffff;
+      	}
+      	&:after{
+      		content: "";
+      		position: absolute;
+      		right: 10px; top: 7px;
+      		height: 14px; width: 14px;
+      		border-radius: 14px;
+      		background: #cccccc;
+      	}
+      }*/ }
+  TABLE.GridTable TBODY TR:hover TD {
     background: #ededed; }
-    TABLE TBODY TR:hover TD:first-child {
+    TABLE.GridTable TBODY TR:hover TD:first-child {
       background: #cccccc; }
-  TABLE TBODY TR:first-child TD {
+  TABLE.GridTable TBODY TR:first-child TD {
     border-top: 5px solid #FFFFFF; }
+
+A.IconLink {
+  display: inline-block;
+  position: relative;
+  text-decoration: none; }
+  A.IconLink > I {
+    position: absolute;
+    display: block;
+    background: #cccccc;
+    background: url("../Images/bgIcons.png") 0px 0px no-repeat; }
+  A.IconLink:after {
+    content: "";
+    position: absolute;
+    display: block;
+    background: #cccccc url("../Images/bgIcons.png") 0px 0px no-repeat;
+    height: 14px;
+    width: 14px;
+    border-radius: 14px;
+    top: 1px;
+    left: 0px; }
+  A.IconLink.IconLink48 {
+    line-height: 52px;
+    width: 48px;
+    height: 48px; }
+    A.IconLink.IconLink48 > I {
+      width: 48px;
+      height: 48px;
+      border-radius: 24px;
+      top: 50%;
+      left: 50%;
+      margin-left: -24px;
+      margin-top: -24px;
+      background-position: 0 -0px; }
+    A.IconLink.IconLink48.Text {
+      width: auto;
+      height: auto; }
+      A.IconLink.IconLink48.Text I {
+        top: 2px;
+        left: auto;
+        margin: 0px; }
+    A.IconLink.IconLink48.Text.Left {
+      padding: 0px 58px 0px 0px; }
+      A.IconLink.IconLink48.Text.Left I {
+        right: 0; }
+    A.IconLink.IconLink48.Text.Right {
+      padding: 0px 0px 0px 58px; }
+      A.IconLink.IconLink48.Text.Right I {
+        left: 0; }
+  A.IconLink.IconLink40 {
+    line-height: 44px;
+    width: 40px;
+    height: 40px; }
+    A.IconLink.IconLink40 > I {
+      width: 40px;
+      height: 40px;
+      border-radius: 20px;
+      top: 50%;
+      left: 50%;
+      margin-left: -20px;
+      margin-top: -20px;
+      background-position: 0 -48px; }
+    A.IconLink.IconLink40.Text {
+      width: auto;
+      height: auto; }
+      A.IconLink.IconLink40.Text I {
+        top: 2px;
+        left: auto;
+        margin: 0px; }
+    A.IconLink.IconLink40.Text.Left {
+      padding: 0px 50px 0px 0px; }
+      A.IconLink.IconLink40.Text.Left I {
+        right: 0; }
+    A.IconLink.IconLink40.Text.Right {
+      padding: 0px 0px 0px 50px; }
+      A.IconLink.IconLink40.Text.Right I {
+        left: 0; }
+  A.IconLink.IconLink30 {
+    line-height: 34px;
+    width: 30px;
+    height: 30px; }
+    A.IconLink.IconLink30 > I {
+      width: 30px;
+      height: 30px;
+      border-radius: 15px;
+      top: 50%;
+      left: 50%;
+      margin-left: -15px;
+      margin-top: -15px;
+      background-position: 0 -88px; }
+    A.IconLink.IconLink30.Text {
+      width: auto;
+      height: auto; }
+      A.IconLink.IconLink30.Text I {
+        top: 2px;
+        left: auto;
+        margin: 0px; }
+    A.IconLink.IconLink30.Text.Left {
+      padding: 0px 40px 0px 0px; }
+      A.IconLink.IconLink30.Text.Left I {
+        right: 0; }
+    A.IconLink.IconLink30.Text.Right {
+      padding: 0px 0px 0px 40px; }
+      A.IconLink.IconLink30.Text.Right I {
+        left: 0; }
+  A.IconLink.IconLink24 {
+    line-height: 28px;
+    width: 24px;
+    height: 24px; }
+    A.IconLink.IconLink24 > I {
+      width: 24px;
+      height: 24px;
+      border-radius: 12px;
+      top: 50%;
+      left: 50%;
+      margin-left: -12px;
+      margin-top: -12px;
+      background-position: 0 -118px; }
+    A.IconLink.IconLink24.Text {
+      width: auto;
+      height: auto; }
+      A.IconLink.IconLink24.Text I {
+        top: 2px;
+        left: auto;
+        margin: 0px; }
+    A.IconLink.IconLink24.Text.Left {
+      padding: 0px 34px 0px 0px; }
+      A.IconLink.IconLink24.Text.Left I {
+        right: 0; }
+    A.IconLink.IconLink24.Text.Right {
+      padding: 0px 0px 0px 34px; }
+      A.IconLink.IconLink24.Text.Right I {
+        left: 0; }
+  A.IconLink.IconLink20 {
+    line-height: 22px;
+    width: 20px;
+    height: 20px; }
+    A.IconLink.IconLink20 > I {
+      width: 20px;
+      height: 20px;
+      border-radius: 10px;
+      top: 50%;
+      left: 50%;
+      margin-left: -10px;
+      margin-top: -10px;
+      background-position: 0 -142px; }
+    A.IconLink.IconLink20.Text {
+      width: auto;
+      height: auto; }
+      A.IconLink.IconLink20.Text I {
+        top: 2px;
+        left: auto;
+        margin: 0px; }
+    A.IconLink.IconLink20.Text.Left {
+      padding: 0px 25px 0px 0px; }
+      A.IconLink.IconLink20.Text.Left I {
+        right: 0; }
+    A.IconLink.IconLink20.Text.Right {
+      padding: 0px 0px 0px 25px; }
+      A.IconLink.IconLink20.Text.Right I {
+        left: 0; }
+  A.IconLink.IconLink16 {
+    line-height: 18px;
+    width: 16px;
+    height: 16px; }
+    A.IconLink.IconLink16 > I {
+      width: 16px;
+      height: 16px;
+      border-radius: 8px;
+      top: 50%;
+      left: 50%;
+      margin-left: -8px;
+      margin-top: -8px;
+      background-position: 0 -162px; }
+    A.IconLink.IconLink16.Text {
+      width: auto;
+      height: auto; }
+      A.IconLink.IconLink16.Text I {
+        top: 2px;
+        left: auto;
+        margin: 0px; }
+    A.IconLink.IconLink16.Text.Left {
+      padding: 0px 21px 0px 0px; }
+      A.IconLink.IconLink16.Text.Left I {
+        right: 0; }
+    A.IconLink.IconLink16.Text.Right {
+      padding: 0px 0px 0px 21px; }
+      A.IconLink.IconLink16.Text.Right I {
+        left: 0; }
+  A.IconLink.IconLink14 {
+    line-height: 16px;
+    width: 14px;
+    height: 14px; }
+    A.IconLink.IconLink14 > I {
+      width: 14px;
+      height: 14px;
+      border-radius: 7px;
+      top: 50%;
+      left: 50%;
+      margin-left: -7px;
+      margin-top: -7px;
+      background-position: 0 -178px; }
+    A.IconLink.IconLink14.Text {
+      width: auto;
+      height: auto; }
+      A.IconLink.IconLink14.Text I {
+        top: 2px;
+        left: auto;
+        margin: 0px; }
+    A.IconLink.IconLink14.Text.Left {
+      padding: 0px 19px 0px 0px; }
+      A.IconLink.IconLink14.Text.Left I {
+        right: 0; }
+    A.IconLink.IconLink14.Text.Right {
+      padding: 0px 0px 0px 19px; }
+      A.IconLink.IconLink14.Text.Right I {
+        left: 0; }
+  A.IconLink.IconLink48.ArrowLeft > I {
+    background-position: -50px -0px; }
+  A.IconLink.IconLink40.ArrowLeft > I {
+    background-position: -50px -48px; }
+  A.IconLink.IconLink30.ArrowLeft > I {
+    background-position: -50px -88px; }
+  A.IconLink.IconLink24.ArrowLeft > I {
+    background-position: -50px -118px; }
+  A.IconLink.IconLink20.ArrowLeft > I {
+    background-position: -50px -142px; }
+  A.IconLink.IconLink16.ArrowLeft > I {
+    background-position: -50px -162px; }
+  A.IconLink.IconLink14.ArrowLeft > I {
+    background-position: -50px -178px; }
+  A.IconLink.IconLink48.ArrowRight > I {
+    background-position: -100px -0px; }
+  A.IconLink.IconLink40.ArrowRight > I {
+    background-position: -100px -48px; }
+  A.IconLink.IconLink30.ArrowRight > I {
+    background-position: -100px -88px; }
+  A.IconLink.IconLink24.ArrowRight > I {
+    background-position: -100px -118px; }
+  A.IconLink.IconLink20.ArrowRight > I {
+    background-position: -100px -142px; }
+  A.IconLink.IconLink16.ArrowRight > I {
+    background-position: -100px -162px; }
+  A.IconLink.IconLink14.ArrowRight > I {
+    background-position: -100px -178px; }
+  A.IconLink.IconLink48.Tick > I {
+    background-position: -150px -0px; }
+  A.IconLink.IconLink40.Tick > I {
+    background-position: -150px -48px; }
+  A.IconLink.IconLink30.Tick > I {
+    background-position: -150px -88px; }
+  A.IconLink.IconLink24.Tick > I {
+    background-position: -150px -118px; }
+  A.IconLink.IconLink20.Tick > I {
+    background-position: -150px -142px; }
+  A.IconLink.IconLink16.Tick > I {
+    background-position: -150px -162px; }
+  A.IconLink.IconLink14.Tick > I {
+    background-position: -150px -178px; }
+  A.IconLink.IconLink48.Questionmark > I {
+    background-position: -200px -0px; }
+  A.IconLink.IconLink40.Questionmark > I {
+    background-position: -200px -48px; }
+  A.IconLink.IconLink30.Questionmark > I {
+    background-position: -200px -88px; }
+  A.IconLink.IconLink24.Questionmark > I {
+    background-position: -200px -118px; }
+  A.IconLink.IconLink20.Questionmark > I {
+    background-position: -200px -142px; }
+  A.IconLink.IconLink16.Questionmark > I {
+    background-position: -200px -162px; }
+  A.IconLink.IconLink14.Questionmark > I {
+    background-position: -200px -178px; }
+  A.IconLink.IconLink48.Magnifier > I {
+    background-position: -250px -0px; }
+  A.IconLink.IconLink40.Magnifier > I {
+    background-position: -250px -48px; }
+  A.IconLink.IconLink30.Magnifier > I {
+    background-position: -250px -88px; }
+  A.IconLink.IconLink24.Magnifier > I {
+    background-position: -250px -118px; }
+  A.IconLink.IconLink20.Magnifier > I {
+    background-position: -250px -142px; }
+  A.IconLink.IconLink16.Magnifier > I {
+    background-position: -250px -162px; }
+  A.IconLink.IconLink14.Magnifier > I {
+    background-position: -250px -178px; }
+  A.IconLink.IconLink48.Questionmark-Grey > I {
+    background-position: -300px -0px; }
+  A.IconLink.IconLink40.Questionmark-Grey > I {
+    background-position: -300px -48px; }
+  A.IconLink.IconLink30.Questionmark-Grey > I {
+    background-position: -300px -88px; }
+  A.IconLink.IconLink24.Questionmark-Grey > I {
+    background-position: -300px -118px; }
+  A.IconLink.IconLink20.Questionmark-Grey > I {
+    background-position: -300px -142px; }
+  A.IconLink.IconLink16.Questionmark-Grey > I {
+    background-position: -300px -162px; }
+  A.IconLink.IconLink14.Questionmark-Grey > I {
+    background-position: -300px -178px; }
+  A.IconLink.IconLink48.ArrowLeft-White > I {
+    background-position: -350px -0px; }
+  A.IconLink.IconLink40.ArrowLeft-White > I {
+    background-position: -350px -48px; }
+  A.IconLink.IconLink30.ArrowLeft-White > I {
+    background-position: -350px -88px; }
+  A.IconLink.IconLink24.ArrowLeft-White > I {
+    background-position: -350px -118px; }
+  A.IconLink.IconLink20.ArrowLeft-White > I {
+    background-position: -350px -142px; }
+  A.IconLink.IconLink16.ArrowLeft-White > I {
+    background-position: -350px -162px; }
+  A.IconLink.IconLink14.ArrowLeft-White > I {
+    background-position: -350px -178px; }
+  A.IconLink.IconLink48.Magnifier-NoCircleGrey > I {
+    background-position: -400px -0px; }
+  A.IconLink.IconLink40.Magnifier-NoCircleGrey > I {
+    background-position: -400px -48px; }
+  A.IconLink.IconLink30.Magnifier-NoCircleGrey > I {
+    background-position: -400px -88px; }
+  A.IconLink.IconLink24.Magnifier-NoCircleGrey > I {
+    background-position: -400px -118px; }
+  A.IconLink.IconLink20.Magnifier-NoCircleGrey > I {
+    background-position: -400px -142px; }
+  A.IconLink.IconLink16.Magnifier-NoCircleGrey > I {
+    background-position: -400px -162px; }
+  A.IconLink.IconLink14.Magnifier-NoCircleGrey > I {
+    background-position: -400px -178px; }
+  A.IconLink.IconLink48.Cross > I {
+    background-position: -450px -0px; }
+  A.IconLink.IconLink40.Cross > I {
+    background-position: -450px -48px; }
+  A.IconLink.IconLink30.Cross > I {
+    background-position: -450px -88px; }
+  A.IconLink.IconLink24.Cross > I {
+    background-position: -450px -118px; }
+  A.IconLink.IconLink20.Cross > I {
+    background-position: -450px -142px; }
+  A.IconLink.IconLink16.Cross > I {
+    background-position: -450px -162px; }
+  A.IconLink.IconLink14.Cross > I {
+    background-position: -450px -178px; }
+  A.IconLink.IconLink48.Cross-NoCircleGrey > I {
+    background-position: -500px -0px; }
+  A.IconLink.IconLink40.Cross-NoCircleGrey > I {
+    background-position: -500px -48px; }
+  A.IconLink.IconLink30.Cross-NoCircleGrey > I {
+    background-position: -500px -88px; }
+  A.IconLink.IconLink24.Cross-NoCircleGrey > I {
+    background-position: -500px -118px; }
+  A.IconLink.IconLink20.Cross-NoCircleGrey > I {
+    background-position: -500px -142px; }
+  A.IconLink.IconLink16.Cross-NoCircleGrey > I {
+    background-position: -500px -162px; }
+  A.IconLink.IconLink14.Cross-NoCircleGrey > I {
+    background-position: -500px -178px; }
+  A.IconLink.IconLink48.Cross-Grey > I {
+    background-position: -550px -0px; }
+  A.IconLink.IconLink40.Cross-Grey > I {
+    background-position: -550px -48px; }
+  A.IconLink.IconLink30.Cross-Grey > I {
+    background-position: -550px -88px; }
+  A.IconLink.IconLink24.Cross-Grey > I {
+    background-position: -550px -118px; }
+  A.IconLink.IconLink20.Cross-Grey > I {
+    background-position: -550px -142px; }
+  A.IconLink.IconLink16.Cross-Grey > I {
+    background-position: -550px -162px; }
+  A.IconLink.IconLink14.Cross-Grey > I {
+    background-position: -550px -178px; }
+  A.IconLink.IconLink48.Cross-White > I {
+    background-position: -600px -0px; }
+  A.IconLink.IconLink40.Cross-White > I {
+    background-position: -600px -48px; }
+  A.IconLink.IconLink30.Cross-White > I {
+    background-position: -600px -88px; }
+  A.IconLink.IconLink24.Cross-White > I {
+    background-position: -600px -118px; }
+  A.IconLink.IconLink20.Cross-White > I {
+    background-position: -600px -142px; }
+  A.IconLink.IconLink16.Cross-White > I {
+    background-position: -600px -162px; }
+  A.IconLink.IconLink14.Cross-White > I {
+    background-position: -600px -178px; }
+  A.IconLink.IconLink48.ArrowRight-White > I {
+    background-position: -650px -0px; }
+  A.IconLink.IconLink40.ArrowRight-White > I {
+    background-position: -650px -48px; }
+  A.IconLink.IconLink30.ArrowRight-White > I {
+    background-position: -650px -88px; }
+  A.IconLink.IconLink24.ArrowRight-White > I {
+    background-position: -650px -118px; }
+  A.IconLink.IconLink20.ArrowRight-White > I {
+    background-position: -650px -142px; }
+  A.IconLink.IconLink16.ArrowRight-White > I {
+    background-position: -650px -162px; }
+  A.IconLink.IconLink14.ArrowRight-White > I {
+    background-position: -650px -178px; }
+  A.IconLink.IconLink48.Plus > I {
+    background-position: -700px -0px; }
+  A.IconLink.IconLink40.Plus > I {
+    background-position: -700px -48px; }
+  A.IconLink.IconLink30.Plus > I {
+    background-position: -700px -88px; }
+  A.IconLink.IconLink24.Plus > I {
+    background-position: -700px -118px; }
+  A.IconLink.IconLink20.Plus > I {
+    background-position: -700px -142px; }
+  A.IconLink.IconLink16.Plus > I {
+    background-position: -700px -162px; }
+  A.IconLink.IconLink14.Plus > I {
+    background-position: -700px -178px; }
+  A.IconLink.IconLink48.ArrowDown > I {
+    background-position: -750px -0px; }
+  A.IconLink.IconLink40.ArrowDown > I {
+    background-position: -750px -48px; }
+  A.IconLink.IconLink30.ArrowDown > I {
+    background-position: -750px -88px; }
+  A.IconLink.IconLink24.ArrowDown > I {
+    background-position: -750px -118px; }
+  A.IconLink.IconLink20.ArrowDown > I {
+    background-position: -750px -142px; }
+  A.IconLink.IconLink16.ArrowDown > I {
+    background-position: -750px -162px; }
+  A.IconLink.IconLink14.ArrowDown > I {
+    background-position: -750px -178px; }
+  A.IconLink.IconLink48.ArrowUp > I {
+    background-position: -800px -0px; }
+  A.IconLink.IconLink40.ArrowUp > I {
+    background-position: -800px -48px; }
+  A.IconLink.IconLink30.ArrowUp > I {
+    background-position: -800px -88px; }
+  A.IconLink.IconLink24.ArrowUp > I {
+    background-position: -800px -118px; }
+  A.IconLink.IconLink20.ArrowUp > I {
+    background-position: -800px -142px; }
+  A.IconLink.IconLink16.ArrowUp > I {
+    background-position: -800px -162px; }
+  A.IconLink.IconLink14.ArrowUp > I {
+    background-position: -800px -178px; }
+  A.IconLink.IconLink48.Plus-NoCircleGrey > I {
+    background-position: -850px -0px; }
+  A.IconLink.IconLink40.Plus-NoCircleGrey > I {
+    background-position: -850px -48px; }
+  A.IconLink.IconLink30.Plus-NoCircleGrey > I {
+    background-position: -850px -88px; }
+  A.IconLink.IconLink24.Plus-NoCircleGrey > I {
+    background-position: -850px -118px; }
+  A.IconLink.IconLink20.Plus-NoCircleGrey > I {
+    background-position: -850px -142px; }
+  A.IconLink.IconLink16.Plus-NoCircleGrey > I {
+    background-position: -850px -162px; }
+  A.IconLink.IconLink14.Plus-NoCircleGrey > I {
+    background-position: -850px -178px; }
+  A.IconLink.IconLink48.ArrowRight-Blue > I {
+    background-position: -900px -0px; }
+  A.IconLink.IconLink40.ArrowRight-Blue > I {
+    background-position: -900px -48px; }
+  A.IconLink.IconLink30.ArrowRight-Blue > I {
+    background-position: -900px -88px; }
+  A.IconLink.IconLink24.ArrowRight-Blue > I {
+    background-position: -900px -118px; }
+  A.IconLink.IconLink20.ArrowRight-Blue > I {
+    background-position: -900px -142px; }
+  A.IconLink.IconLink16.ArrowRight-Blue > I {
+    background-position: -900px -162px; }
+  A.IconLink.IconLink14.ArrowRight-Blue > I {
+    background-position: -900px -178px; }
+  A.IconLink:focus, A.IconLink:hover {
+    /*color: $colorActive;
+    > I{ background-color:  $colorActive;}*/
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
+    filter: alpha(opacity=70);
+    -moz-opacity: 0.7;
+    -khtml-opacity: 0.7;
+    opacity: 0.7;
+    outline: none; }
 
 SPAN.checkbox,
 SPAN.radio {
@@ -258,14 +766,14 @@ SPAN.radio.checked.disabled {
 
   */
 /* @group Base */
-.chzn-container {
+DIV.chzn-container {
   font-size: 13px;
   position: relative;
   display: inline-block;
   zoom: 1;
   *display: inline; }
 
-.chzn-container .chzn-drop {
+DIV.chzn-container DIV.chzn-drop {
   background: #fff;
   border: 1px solid #cccccc;
   border-top: 0;
@@ -276,7 +784,7 @@ SPAN.radio.checked.disabled {
 
 /* @end */
 /* @group Single Chosen */
-.chzn-container-single .chzn-single {
+.chzn-container-single A.chzn-single {
   background-color: #ffffff;
   border: 1px solid #cccccc;
   display: block;
@@ -292,7 +800,7 @@ SPAN.radio.checked.disabled {
 .chzn-container-single .chzn-default {
   color: #999; }
 
-.chzn-container-single .chzn-single span {
+.chzn-container-single A.chzn-single span {
   margin-right: 26px;
   display: block;
   overflow: hidden;
@@ -300,7 +808,7 @@ SPAN.radio.checked.disabled {
   /*-o-text-overflow: ellipsis;
   -ms-text-overflow: ellipsis;
   text-overflow: ellipsis;*/ }
-.chzn-container-single .chzn-single abbr {
+.chzn-container-single A.chzn-single abbr {
   display: block;
   position: absolute;
   right: 26px;
@@ -309,33 +817,38 @@ SPAN.radio.checked.disabled {
   height: 13px;
   font-size: 1px;
   background: url("../Images/bgChosenSprite.png") right top no-repeat; }
-  .chzn-container-single .chzn-single abbr:hover {
+  .chzn-container-single A.chzn-single abbr:hover {
     background-position: right -11px; }
 
-.chzn-container-single.chzn-disabled .chzn-single abbr:hover {
+.chzn-container-single.chzn-disabled A.chzn-single abbr:hover {
   background-position: right top; }
 
-.chzn-container-single .chzn-single DIV {
+.chzn-container-single A.chzn-single DIV {
   position: absolute;
   right: 0;
   top: 0;
   display: block;
   height: 100%;
-  width: 22px; }
-  .chzn-container-single .chzn-single DIV B {
-    background: url("../Images/bgChosenSprite.png") no-repeat 0 0;
+  width: 24px;
+  padding: 2px;
+  height: 24px; }
+  .chzn-container-single A.chzn-single DIV B {
+    background: url("../Images/bgChosenSprite.png") no-repeat 4px 0;
     display: block;
     width: 100%;
     height: 100%; }
 
-.chzn-container-single .chzn-search {
+.chzn-container-active A.chzn-single-with-drop DIV B {
+  background-position: -16px 0px; }
+
+.chzn-container-single DIV.chzn-search {
   padding: 3px 4px;
   position: relative;
   margin: 0;
   white-space: nowrap;
   z-index: 1010; }
 
-.chzn-container-single .chzn-search input {
+.chzn-container-single DIV.chzn-search INPUT {
   background: white url("../Images/bgChosenSprite.png") no-repeat 100% -44px;
   margin: 1px 0;
   padding: 4px 20px 4px 5px;
@@ -344,7 +857,7 @@ SPAN.radio.checked.disabled {
   font-size: 1em; }
 
 /* @end */
-.chzn-container-single-nosearch .chzn-search input {
+.chzn-container-single-nosearch DIV.chzn-search INPUT {
   position: absolute;
   left: -9000px; }
 
@@ -409,7 +922,7 @@ SPAN.radio.checked.disabled {
 
 /* @end */
 /* @group Results */
-.chzn-container .chzn-results {
+DIV.chzn-container .chzn-results {
   max-height: 240px;
   position: relative;
   overflow-x: hidden;
@@ -420,44 +933,44 @@ SPAN.radio.checked.disabled {
   margin: -1px 0 0;
   padding: 0; }
 
-.chzn-container .chzn-results li {
+DIV.chzn-container .chzn-results li {
   display: none;
   line-height: 15px;
   padding: 5px 6px;
   margin: 0;
   list-style: none; }
 
-.chzn-container .chzn-results .active-result {
+DIV.chzn-container .chzn-results .active-result {
   cursor: pointer;
   display: list-item; }
 
-.chzn-container .chzn-results .highlighted {
+DIV.chzn-container .chzn-results .highlighted {
   background-color: #0000cc;
   color: #fff; }
 
-.chzn-container .chzn-results li em {
+DIV.chzn-container .chzn-results li em {
   background: #feffde;
   font-style: normal; }
 
-.chzn-container .chzn-results .highlighted em {
+DIV.chzn-container .chzn-results .highlighted em {
   background: transparent; }
 
-.chzn-container .chzn-results .no-results {
+DIV.chzn-container .chzn-results .no-results {
   background: #f4f4f4;
   display: list-item; }
 
-.chzn-container .chzn-results .group-result {
+DIV.chzn-container .chzn-results .group-result {
   cursor: default;
   color: #999;
   font-weight: bold; }
 
-.chzn-container .chzn-results .group-option {
+DIV.chzn-container .chzn-results .group-option {
   padding-left: 15px; }
 
 .chzn-container-multi .chzn-drop .result-selected {
   display: none; }
 
-.chzn-container .chzn-results-scroll {
+DIV.chzn-container .chzn-results-scroll {
   background: white;
   margin: 0 4px;
   position: absolute;
@@ -466,36 +979,33 @@ SPAN.radio.checked.disabled {
   /* This should by dynamic with js */
   z-index: 1; }
 
-.chzn-container .chzn-results-scroll span {
+DIV.chzn-container .chzn-results-scroll span {
   display: inline-block;
   height: 17px;
   text-indent: -5000px;
   width: 9px; }
 
-.chzn-container .chzn-results-scroll-down {
+DIV.chzn-container .chzn-results-scroll-down {
   bottom: 0; }
 
-.chzn-container .chzn-results-scroll-down span {
+DIV.chzn-container .chzn-results-scroll-down span {
   background: url("../Images/bgChosenSprite.png") no-repeat -4px -3px; }
 
-.chzn-container .chzn-results-scroll-up span {
+DIV.chzn-container .chzn-results-scroll-up span {
   background: url("../Images/bgChosenSprite.png") no-repeat -22px -3px; }
 
 /* @end */
 /* @group Active */
-.chzn-container-active .chzn-single {
+.chzn-container-active A.chzn-single {
   border: 1px solid #0000cc; }
 
-.chzn-container-active .chzn-single-with-drop {
-  border: 1px solid #aaa;
+.chzn-container-active A.chzn-single-with-drop {
+  border: 1px solid #0000cc;
   background-color: #eee; }
 
-.chzn-container-active .chzn-single-with-drop div {
+.chzn-container-active A.chzn-single-with-drop div {
   background: transparent;
   border-left: none; }
-
-.chzn-container-active .chzn-single-with-drop div b {
-  background-position: -18px 1px; }
 
 .chzn-container-active .chzn-choices {
   border: 1px solid #0000cc; }
@@ -509,7 +1019,7 @@ SPAN.radio.checked.disabled {
   cursor: default;
   opacity: 0.5 !important; }
 
-.chzn-disabled .chzn-single {
+.chzn-disabled A.chzn-single {
   cursor: default; }
 
 .chzn-disabled .chzn-choices .search-choice .search-choice-close {
@@ -519,20 +1029,20 @@ SPAN.radio.checked.disabled {
 .chzn-rtl {
   text-align: right; }
 
-.chzn-rtl .chzn-single {
+.chzn-rtl A.chzn-single {
   padding: 0 8px 0 0;
   overflow: visible; }
 
-.chzn-rtl .chzn-single span {
+.chzn-rtl A.chzn-single span {
   margin-left: 26px;
   margin-right: 0;
   direction: rtl; }
 
-.chzn-rtl .chzn-single div {
+.chzn-rtl A.chzn-single div {
   left: 3px;
   right: auto; }
 
-.chzn-rtl .chzn-single abbr {
+.chzn-rtl A.chzn-single abbr {
   left: 26px;
   right: auto; }
 
@@ -559,10 +1069,10 @@ SPAN.radio.checked.disabled {
   padding-left: 0;
   padding-right: 15px; }
 
-.chzn-rtl.chzn-container-active .chzn-single-with-drop div {
+.chzn-rtl.chzn-container-active A.chzn-single-with-drop div {
   border-right: none; }
 
-.chzn-rtl .chzn-search input {
+.chzn-rtl DIV.chzn-search input {
   background: white url("../Images/bgChosenSprite.png") no-repeat -38px -22px;
   background: url("../Images/bgChosenSprite.png") no-repeat -38px -22px, -webkit-gradient(linear, 0% 0%, 0% 100%, color-stop(1%, #eeeeee), color-stop(15%, white));
   background: url("../Images/bgChosenSprite.png") no-repeat -38px -22px, -webkit-linear-gradient(top, #eeeeee 1%, white 15%);
@@ -574,6 +1084,246 @@ SPAN.radio.checked.disabled {
   direction: rtl; }
 
 /* @end */
+/*
+<div class="tipsy tipsy-n">
+	<div class="tipsy-arrow"></div>
+	<div class="tipsy-inner">Well hello there</div>
+</div>
+*/
+.tipsy {
+  color: #ffffff;
+  font-size: 11px;
+  line-height: 25px;
+  position: absolute;
+  z-index: 100000;
+  padding: 10px;
+  	/*.tipsy-arrow { 
+  		position: absolute;
+  		background: #00cc00; 
+  		background: url("../Images/bg_tooltip_arrow.png") 0px 0px;
+  		width: 10px; 
+  		height: 10px; 
+  	}
+  
+  	&.tipsy-n .tipsy-arrow	{	left:20px;	top: 0px; background-position: -10px 0px;}
+  	&.tipsy-nw .tipsy-arrow	{	left:10px;	top: 0px; background-position: -10px 0px;}
+  	&.tipsy-ne .tipsy-arrow	{	right:10px;	top: 0px; background-position: 0px 0px;}
+  	&.tipsy-s .tipsy-arrow	{	left:20px;	bottom: 0px; background-position: -10px -10px;}
+  	&.tipsy-sw .tipsy-arrow	{	left:10px;	bottom: 0px; background-position: -10px -10px;}
+  	&.tipsy-se .tipsy-arrow	{	right:10px;	bottom: 0px; background-position: 0px -10px;}
+  	&.tipsy-w .tipsy-arrow	{	left:0px;	top: 20px; background-position: 0px -10px;}
+  	&.tipsy-e .tipsy-arrow	{	right:0px;	top: 20px; background-position: -10px -10px;}
+  	*/ }
+  .tipsy .tipsy-inner {
+    background: rgba(0, 0, 0, 0.65);
+    padding: 0px 10px 2px 10px;
+    max-width: 200px;
+    text-align: center; }
+  .tipsy .tipsy-arrow {
+    position: absolute;
+    width: 0px;
+    height: 0px;
+    border: 10px solid transparent; }
+  .tipsy.tipsy-s .tipsy-arrow {
+    border-left: 10px solid rgba(0, 0, 0, 0.65);
+    border-top: 0px solid rgba(0, 0, 0, 0.65);
+    bottom: 0px; }
+  .tipsy.tipsy-n .tipsy-arrow {
+    border-left: 10px solid rgba(0, 0, 0, 0.65);
+    border-bottom: 0px solid rgba(0, 0, 0, 0.65);
+    top: 0px; }
+
+.ui-datepicker {
+  width: 215px;
+  padding: 0px 0px 2px 0px;
+  display: none;
+  background: #666666;
+  color: #ffffff; }
+
+.ui-datepicker .ui-datepicker-header {
+  position: relative;
+  padding: 2px;
+  color: #ffffff;
+  height: 24px; }
+  .ui-datepicker .ui-datepicker-header DIV.ui-datepicker-title {
+    margin: 0;
+    text-align: center;
+    line-height: 24px; }
+  .ui-datepicker .ui-datepicker-header DIV.ui-datepicker-title select {
+    margin: 0; }
+
+.ui-datepicker A.ui-datepicker-prev,
+.ui-datepicker A.ui-datepicker-next {
+  position: absolute;
+  top: 4px;
+  display: block;
+  width: 24px;
+  height: 24px;
+  border: 1px solid #000000; }
+  .ui-datepicker A.ui-datepicker-prev span,
+  .ui-datepicker A.ui-datepicker-next span {
+    display: block;
+    position: absolute;
+    text-indent: -1000px; }
+
+.ui-datepicker .ui-datepicker-prev {
+  left: 4px; }
+
+.ui-datepicker .ui-datepicker-next {
+  right: 4px; }
+
+.ui-datepicker SELECT.ui-datepicker-month-year {
+  width: 100%; }
+
+.ui-datepicker SELECT.ui-datepicker-month,
+.ui-datepicker SELECT.ui-datepicker-year {
+  width: 49%; }
+
+.ui-datepicker TABLE {
+  font-size: 12px;
+  border-collapse: collapse;
+  margin: 2px; }
+  .ui-datepicker TABLE SPAN, .ui-datepicker TABLE A {
+    display: block;
+    padding: 2px;
+    text-align: right;
+    text-decoration: none;
+    border: 1px solid #000000;
+    width: 20px;
+    height: 20px; }
+  .ui-datepicker TABLE TH {
+    padding: 0;
+    font-weight: bold;
+    border: 0;
+    padding: 2px; }
+    .ui-datepicker TABLE TH SPAN {
+      border-color: transparent;
+      text-align: center; }
+  .ui-datepicker TABLE TD {
+    padding: 2px; }
+  .ui-datepicker TABLE A {
+    color: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(0, 0, 0, 0.5); }
+    .ui-datepicker TABLE A:hover {
+      background: rgba(255, 255, 255, 0.2); }
+    .ui-datepicker TABLE A.ui-state-highlight {
+      background: rgba(0, 0, 0, 0.8);
+      border: 1px solid rgba(0, 0, 0, 0.8);
+      color: #cccccc; }
+    .ui-datepicker TABLE A.ui-state-active {
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #000000; }
+
+.ui-datepicker .ui-datepicker-buttonpane {
+  background-image: none;
+  margin: .7em 0 0 0;
+  padding: 0 .2em;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 0; }
+
+.ui-datepicker .ui-datepicker-buttonpane button {
+  float: right;
+  margin: .5em .2em .4em;
+  cursor: pointer;
+  padding: .2em .6em .3em .6em;
+  width: auto;
+  overflow: visible; }
+
+.ui-datepicker .ui-datepicker-buttonpane button.ui-datepicker-current {
+  float: left; }
+
+/* IE6 IFRAME FIX (taken from datepicker 1.5.3 */
+.ui-datepicker-cover {
+  display: none;
+  /*sorry for IE5*/
+  display/**/: block;
+  /*sorry for IE5*/
+  position: absolute;
+  /*must have*/
+  z-index: -1;
+  /*must have*/
+  filter: mask();
+  /*must have*/
+  top: -4px;
+  /*must have*/
+  left: -4px;
+  /*must have*/
+  width: 200px;
+  /*must have*/
+  height: 200px;
+  /*must have*/ }
+
+/*
+
+<div class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" id="ui-datepicker-div" style="position: absolute; top: 608px; left: 156.667px; z-index: 1; display: block;">
+  <div class="ui-datepicker-header ui-widget-header ui-helper-clearfix ui-corner-all"><a title="Prev" onclick="DP_jQuery_1344940460332.datepicker._adjustDate('#SKU_ReleaseDate', -1, 'M');" class="ui-datepicker-prev ui-corner-all"><span class="ui-icon ui-icon-circle-triangle-w">Prev</span></a><a title="Next" onclick="DP_jQuery_1344940460332.datepicker._adjustDate('#SKU_ReleaseDate', +1, 'M');" class="ui-datepicker-next ui-corner-all"><span class="ui-icon ui-icon-circle-triangle-e">Next</span></a>
+    <div class="ui-datepicker-title"><span class="ui-datepicker-month">August</span>&nbsp;<span class="ui-datepicker-year">2012</span></div>
+  </div>
+  <table class="ui-datepicker-calendar">
+    <thead>
+      <tr>
+        <th class="ui-datepicker-week-end"><span title="Sunday">Su</span></th>
+        <th><span title="Monday">Mo</span></th>
+        <th><span title="Tuesday">Tu</span></th>
+        <th><span title="Wednesday">We</span></th>
+        <th><span title="Thursday">Th</span></th>
+        <th><span title="Friday">Fr</span></th>
+        <th class="ui-datepicker-week-end"><span title="Saturday">Sa</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class=" ui-datepicker-week-end ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td>
+        <td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td>
+        <td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">1</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">2</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">3</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" ui-datepicker-week-end "><a href="#" class="ui-state-default">4</a></td>
+      </tr>
+      <tr>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" ui-datepicker-week-end "><a href="#" class="ui-state-default">5</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">6</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">7</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">8</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">9</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">10</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" ui-datepicker-week-end "><a href="#" class="ui-state-default">11</a></td>
+      </tr>
+      <tr>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" ui-datepicker-week-end "><a href="#" class="ui-state-default">12</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">13</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" ui-datepicker-days-cell-over  ui-datepicker-today"><a href="#" class="ui-state-default ui-state-highlight">14</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">15</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">16</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">17</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" ui-datepicker-week-end "><a href="#" class="ui-state-default">18</a></td>
+      </tr>
+      <tr>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" ui-datepicker-week-end "><a href="#" class="ui-state-default">19</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">20</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">21</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">22</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">23</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">24</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" ui-datepicker-week-end "><a href="#" class="ui-state-default">25</a></td>
+      </tr>
+      <tr>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" ui-datepicker-week-end "><a href="#" class="ui-state-default">26</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">27</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">28</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">29</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">30</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">31</a></td>
+        <td class=" ui-datepicker-week-end ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+*/
 HTML, BODY {
   height: 100%; }
 
@@ -601,12 +1351,14 @@ H1, H2 {
 
 H2 {
   margin-top: 30px; }
+  H2 SPAN {
+    color: #999999; }
 
 A {
   color: #0000cc;
   text-decoration: none; }
-  A:hover {
-    color: #000099; }
+  A:hover, A:focus {
+    color: #000066; }
 
 A.Logo {
   line-height: 30px;
@@ -619,6 +1371,8 @@ A.Logo {
   display: inline-block;
   height: 30px;
   width: 110px; }
+  A.Logo:hover, A.Logo:focus {
+    background-position: 0px -30px; }
 
 UL.Menu {
   display: block;
@@ -633,7 +1387,7 @@ UL.Menu {
       font-size: 12px;
       color: #7f7f7f;
       padding: 0px 20px; }
-      UL.Menu LI A:hover {
+      UL.Menu LI A:hover, UL.Menu LI A:focus {
         color: #0000cc; }
     UL.Menu LI.Active A {
       color: #333333; }
@@ -665,7 +1419,14 @@ A.Btn, INPUT[type=submit] {
   border-radius: 30px;
   display: inline-block;
   padding: 0px 15px; }
-  A.Btn:hover, INPUT[type=submit]:hover {
+  A.Btn:hover, A.Btn:focus, INPUT[type=submit]:hover, INPUT[type=submit]:focus {
     background: #0000cc;
-    color: #ffffff; }
+    color: #ffffff;
+    text-decoration: none; }
+
+INPUT[type=submit] {
+  background: #0000cc;
+  color: #ffffff; }
+  INPUT[type=submit]:hover, INPUT[type=submit]:focus {
+    background: #000066; }
 

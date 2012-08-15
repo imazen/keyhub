@@ -1,6 +1,6 @@
 ﻿@import "Mixins.scss";
 
-$debug: false;
+$debug: true;
 $formWidth: 380px;
 
 INPUT.Text, INPUT[type=text], INPUT[type=number], INPUT[type=datetime]{
@@ -35,7 +35,7 @@ INPUT.Text, INPUT[type=text], INPUT[type=number], INPUT[type=datetime]{
 INPUT[type=number]{
 	padding-bottom: 3px;
 	&.valid{
-		background: url("../Images/bgSprite.png") 90% -30px no-repeat;
+		background: url("../Images/bgSprite.png") right -30px no-repeat;
 	}
 }
 SELECT{
@@ -44,19 +44,24 @@ SELECT{
 
 SPAN.field-validation-error{ color: #ff0000;}
 
-
-DIV.editor-label{
+DIV.editor-spacer{
+	height: 30px;
+}
+DIV.editor-label,
+DIV.display-label,
+DIV.editor-subtitle{
 	height: 30px;
 	line-height: 40px;
 	text-transform: uppercase;
 	width: $formWidth
 }
+DIV.display-field{ color: #666666;}
 DIV.editor-field{
 	width: $formWidth;
 	position: relative;
 	SPAN.field-validation-error{ 
 		position: absolute;
-		top: 15px; left: 100%;
+		bottom: 15px; left: 100%;
 		margin-left: 10px;
 		width: $formWidth / 2;
 		background: #cc0000;
@@ -69,6 +74,19 @@ DIV.editor-field{
 		}
 	}
 }
+DIV.editor-field-checkbox{
+
+
+	SPAN.prettyradiocheckbox {
+		margin-top: 5px;
+		margin-left: 0px;
+		
+	}
+	LABEL{
+		line-height: 16px;
+	}
+}
+
 
 
 FIELDSET {
@@ -92,15 +110,15 @@ DIV.editor-container-sideBySide{
 	$rightColWidth: $formWidth / 2;
 	$leftColWidth: $formWidth - $rightColWidth;
 	
+	//@if($debug){background: rgba(0,0,0,.2);}
 	width: $formWidth;
-	//background: #dddddd;
-	margin: 20px 0;
+	margin: 0px 0 10px 0;
 	display: inline-block;
 	> DIV{
 	display: inline;
 	float: left;
 	}
-	DIV.editor-label{
+	DIV.editor-label,DIV.display-label{
 		width: $leftColWidth - 10px;
 		//background: #cccccc;
 		text-align: right;
@@ -110,7 +128,7 @@ DIV.editor-container-sideBySide{
 		padding: 0px 10px 0 0;
 		line-height: 32px;
 	}
-	DIV.editor-field{
+	DIV.editor-field,DIV.display-field{
 		width: $rightColWidth;
 		INPUT{
 			width: $rightColWidth - 22px;
@@ -120,6 +138,10 @@ DIV.editor-container-sideBySide{
 			width: $formWidth / 2;
 		}
 	}
+
+	DIV.display-label,DIV.display-field{line-height: 20px; padding: 0px; height: 20px;}
+	DIV.display-label{text-align: left; margin-bottom: 0px;}
+	DIV.display-field{}
 		
 
 

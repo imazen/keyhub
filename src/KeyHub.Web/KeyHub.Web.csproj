@@ -195,11 +195,20 @@
     <Content Include="Content\Styles\GridTables.css">
       <DependentUpon>GridTables.scss</DependentUpon>
     </Content>
+    <Content Include="Content\Styles\Icons.css">
+      <DependentUpon>Icons.scss</DependentUpon>
+    </Content>
     <Content Include="Content\Styles\jquery.chosen.css">
       <DependentUpon>jquery.chosen.scss</DependentUpon>
     </Content>
     <Content Include="Content\Styles\jquery.prettyradiocheckbox.css">
       <DependentUpon>jquery.prettyradiocheckbox.scss</DependentUpon>
+    </Content>
+    <Content Include="Content\Styles\jquery.tipsy.css">
+      <DependentUpon>jquery.tipsy.scss</DependentUpon>
+    </Content>
+    <Content Include="Content\Styles\jquery.ui.datepicker.css">
+      <DependentUpon>jquery.ui.datepicker.scss</DependentUpon>
     </Content>
     <Content Include="Content\Styles\Layout.css">
       <DependentUpon>Layout.scss</DependentUpon>
@@ -289,6 +298,19 @@
       <CompileStyle>Nested</CompileStyle>
       <DebugInfo>False</DebugInfo>
     </Content>
+    <Content Include="Content\Styles\jquery.tipsy.scss">
+      <Compile>True</Compile>
+      <Minify>True</Minify>
+      <CompileStyle>Nested</CompileStyle>
+      <DebugInfo>False</DebugInfo>
+    </Content>
+    <Content Include="Content\Styles\jquery.ui.datepicker.scss">
+      <Compile>True</Compile>
+      <Minify>True</Minify>
+      <CompileStyle>Nested</CompileStyle>
+      <DebugInfo>False</DebugInfo>
+    </Content>
+    <Content Include="Content\Styles\Icons.scss" />
     <None Include="Scripts\jquery-1.6.2-vsdoc.js" />
     <Content Include="Scripts\jquery-1.6.2.js" />
     <Content Include="Scripts\jquery-1.6.2.min.js">

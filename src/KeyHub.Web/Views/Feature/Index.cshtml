@@ -1,10 +1,12 @@
 ﻿@model KeyHub.Web.ViewModels.Feature.FeatureIndexViewModel
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.ItemName = "Feature";
+    ViewBag.Title = "Overview";
 }
 
-<h2>Feature Overview</h2>
+<h2>@ViewBag.ItemName <span>@ViewBag.Title</span></h2>
+
 
 <p>
     @Html.ActionLink("Create New Feature", "Create", null,  new { @class = "Btn New"})

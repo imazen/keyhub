@@ -1,10 +1,12 @@
 ﻿@model KeyHub.Web.ViewModels.SKU.SKUIndexViewModel
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.ItemName = "SKU";
+    ViewBag.Title = "Overview";
 }
 
-<h2>SKU Overview</h2>
+<h2>@ViewBag.ItemName <span>@ViewBag.Title</span></h2>
+
 
 <p>
     @Html.ActionLink("Create New SKU", "Create", null,  new { @class = "Btn New"})

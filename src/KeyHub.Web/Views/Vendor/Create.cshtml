@@ -1,10 +1,11 @@
 ﻿@model KeyHub.Web.ViewModels.Vendor.VendorCreateViewModel
 
 @{
-    ViewBag.Title = "Create New Vendor";
+    ViewBag.ItemName = "Vendor";
+    ViewBag.Title = "Create";
 }
 
-<h2>@ViewBag.Title</h2>
+<h2>@ViewBag.ItemName <span>@ViewBag.Title</span></h2>
 
 @using (Html.BeginForm()) {
     @Html.ValidationSummary(true)
@@ -63,7 +64,7 @@
         </div>
 
         <p>
-            <input type="submit" value="Create" />
+            <input type="submit" value="Create @ViewBag.ItemName" />
         </p>
     </fieldset>
 }

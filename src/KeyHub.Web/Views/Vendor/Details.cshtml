@@ -1,16 +1,17 @@
 ﻿@model KeyHub.Web.ViewModels.Vendor.VendorDetailsViewModel
 
 @{
+    ViewBag.ItemName = "Vendor";
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>@ViewBag.ItemName <span>@ViewBag.Title</span></h2>
 
 <fieldset>
     <legend>VendorDetailsViewItem</legend>
 
     @Html.HiddenFor(model => model.Vendor.ObjectId)
-
+    <div class="editor-container-sideBySide">
     <div class="display-label">
          @Html.DisplayNameFor(model => model.Vendor.Name)
     </div>
@@ -52,6 +53,7 @@
     <div class="display-field">
         @Html.DisplayFor(model => model.Vendor.CountryName)
     </div>
+        </div>
 </fieldset>
 <p>
     @Html.ActionLink("Edit", "Edit", new { key = Model.Vendor.ObjectId }) |

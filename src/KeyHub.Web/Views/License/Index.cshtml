@@ -1,10 +1,12 @@
 ﻿@model KeyHub.Web.ViewModels.License.LicenseIndexViewModel
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.ItemName = "License";
+    ViewBag.Title = "Overview";
 }
 
-<h2>License Overview</h2>
+<h2>@ViewBag.ItemName <span>@ViewBag.Title</span></h2>
+
 
 <p>
     @Html.ActionLink("Create New License", "Create", null,  new { @class = "Btn New"})
