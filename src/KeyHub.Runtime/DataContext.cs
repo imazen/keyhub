@@ -36,6 +36,8 @@ namespace KeyHub.Runtime
 
         public DbSet<SKU> SKUs { get; set; }
 
+        public DbSet<Transaction> Transactions { get; set; }
+
         public DbSet<Vendor> Vendors { get; set; }
 
         public DbSet<Customer> Customers { get; set; }

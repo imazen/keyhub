@@ -18,6 +18,7 @@ namespace KeyHub.Model
         /// Indentifier for the TransactionItem entity.
         /// </summary>
         [Key]
+        [DatabaseGenerated(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity)]
         public int TransactionItemId { get; set; }
 
         /// <summary>
@@ -31,5 +32,28 @@ namespace KeyHub.Model
         /// </summary>
         [ForeignKey("TransactionId")]
         public Transaction Transaction { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public Guid? LicenseId { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [ForeignKey("LicenseId")]
+        public virtual License License { get; set; }
+
+        /// <summary>
+        /// The SKUId this transaction item buys
+        /// </summary>
+        [Required]
+        public Guid SkuId { get; set; }
+
+        /// <summary>
+        /// The SKU this transaction item buys
+        /// </summary>
+        [ForeignKey("SkuId")]
+        public SKU Sku { get; set; }
     }
 }

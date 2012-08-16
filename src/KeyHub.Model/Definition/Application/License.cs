@@ -74,5 +74,10 @@ namespace KeyHub.Model
         /// A list of domains <see cref="DomainLicense"/> associated with this license
         /// </summary>
         public virtual ICollection<DomainLicense> Domains { get; set; }
+
+        /// <summary>
+        /// The TransactionItem that resulted in the purchase of the license
+        /// </summary>
+        public virtual ICollection<TransactionItem> TransactionItems { get; set; }
     }
 }

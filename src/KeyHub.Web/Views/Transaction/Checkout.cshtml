@@ -1,0 +1,96 @@
+﻿@model KeyHub.Web.ViewModels.Transaction.TransactionCheckoutViewModel
+
+@{
+    ViewBag.Title = "Checkout";
+}
+
+<h2>Checkout</h2>
+
+<script type="text/javascript">
+    
+    //Depending on Radiobutton disable (or perhaps hide) the create new purchasing and owning customer
+    //Partial view. If only disabled please take care or clearing any validationmessages upon disable.
+
+    //Also set disabled state on load
+
+    function EnableNewPurchasingCustomer() {
+        $('#NewPurchasingCustomer :input').removeAttr('disabled');
+        $('#NewPurchasingCustomer').removeAttr('disabled');
+        $('#SelectPurchasingCustomer').attr('disabled', true);
+    }
+
+    function DisableNewPurchasingCustomer() {
+        $('#NewPurchasingCustomer :input').attr('disabled', true);
+        $('#NewPurchasingCustomer').attr('disabled', true);
+        $('#SelectPurchasingCustomer').removeAttr('disabled');
+    }
+
+    function EnableNewOwningCustomer() {
+        $('#NewOwningCustomer :input').removeAttr('disabled');
+        $('#NewOwningCustomer').removeAttr('disabled');
+        $('#SelectOwningCustomer').attr('disabled', true);
+    }
+
+    function DisableNewOwningCustomer() {
+        $('#NewOwningCustomer :input').attr('disabled', true);
+        $('#NewOwningCustomer').attr('disabled', true);
+        $('#SelectOwningCustomer').removeAttr('disabled');
+    }
+</script>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+   
+    <fieldset>
+        <legend>TransactionCheckoutViewModel</legend>
+
+        @Html.HiddenFor(model => model.Transaction.TransactionId)
+
+        <div class="editor-label">
+            @Html.RadioButtonFor(model => model.CreatePurchasingCustomer, false, new {@onclick = "DisableNewPurchasingCustomer();"}) @Html.LabelFor(model => model.PurchasingCustomerId)
+        </div>
+        <div class="editor-field" id="SelectPurchasingCustomer">
+            @Html.DropDownListFor(model => model.PurchasingCustomerId, Model.PurchasingCustomers)
+        </div>
+
+        <div class="editor-label">
+            @Html.RadioButtonFor(model => model.CreatePurchasingCustomer, true, new {@onclick = "EnableNewPurchasingCustomer();"}) @Html.LabelFor(model => model.CreatePurchasingCustomer)
+        </div>
+        <div class="editor-field" style="padding-left:20px;" id="NewPurchasingCustomer">
+            @Html.Partial("_CreateCustomer", Model.NewPurchasingCustomer, new ViewDataDictionary(Html.ViewDataContainer.ViewData) { 
+                TemplateInfo = new System.Web.Mvc.TemplateInfo { HtmlFieldPrefix = "NewPurchasingCustomer" } 
+            }) 
+
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.OwingCustomerIsPurchasingCustomerId)
+        </div>
+        <div class="editor-field">
+            @Html.CheckBoxFor(model => model.OwingCustomerIsPurchasingCustomerId)
+        </div>
+
+        <div class="editor-label">
+            @Html.RadioButtonFor(model => model.CreateOwningCustomer, false, new {@onclick = "DisableNewOwningCustomer();"})  @Html.LabelFor(model => model.OwningCustomerId)
+        </div>
+        <div class="editor-field" id="SelectOwningCustomer">
+            @Html.DropDownListFor(model => model.OwningCustomerId, Model.OwningCustomers)
+        </div>
+
+        <div class="editor-label">
+            @Html.RadioButtonFor(model => model.CreateOwningCustomer, true, new {@onclick = "EnableNewOwningCustomer();"})  @Html.LabelFor(model => model.CreateOwningCustomer)
+        </div>
+        <div class="editor-field" style="padding-left:20px;" id="NewOwningCustomer">
+            @Html.Partial("_CreateCustomer", Model.NewOwningCustomer, new ViewDataDictionary(Html.ViewDataContainer.ViewData) { 
+                TemplateInfo = new System.Web.Mvc.TemplateInfo { HtmlFieldPrefix = "NewOwningCustomer" } 
+            }) 
+        </div>
+
+        <p>
+            <input type="submit" value="Continue" />
+        </p>
+    </fieldset>
+    <p>
+        @Html.ActionLink("Back to home", "Index", "Home", null)
+    </p>
+}

@@ -1,0 +1,24 @@
+﻿@model KeyHub.Web.ViewModels.Transaction.TransactionViewModel
+
+@{
+    ViewBag.Title = "Complete";
+}
+
+<h2>Your purchase has completed</h2>
+
+<fieldset>
+    <legend>TransactionViewModel</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.TransactionId)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.TransactionId)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Buy SKUs now!", "Create", "Transaction")
+
+    @Html.ActionLink("Back to home", "Index", "Home", null)
+    
+</p>

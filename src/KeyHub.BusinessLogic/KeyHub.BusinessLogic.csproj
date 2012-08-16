@@ -53,6 +53,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Basket\BasketSteps.cs" />
+    <Compile Include="Basket\BasketWrapper.cs" />
+    <Compile Include="DataConfiguration\Application\TransactionItemConfiguration.cs" />
+    <Compile Include="DataConfiguration\Application\TransactionConfiguration.cs" />
     <Compile Include="DataConfiguration\Application\CustomerAppKeyConfiguration.cs" />
     <Compile Include="DataConfiguration\Application\CustomerAppConfiguration.cs" />
     <Compile Include="DataInitializers\CountrySeed.cs" />

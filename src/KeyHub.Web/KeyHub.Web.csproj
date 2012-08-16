@@ -141,6 +141,7 @@
     <Compile Include="Controllers\LicenseController.cs" />
     <Compile Include="Controllers\PrivateKeyController.cs" />
     <Compile Include="Controllers\SKUController.cs" />
+    <Compile Include="Controllers\TransactionController.cs" />
     <Compile Include="Controllers\VendorController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -175,6 +176,9 @@
     <Compile Include="ViewModels\SKU\SKUEditViewModel.cs" />
     <Compile Include="ViewModels\SKU\SKUIndexViewModel.cs" />
     <Compile Include="ViewModels\SKU\SKUViewModel.cs" />
+    <Compile Include="ViewModels\Transaction\TransactionCheckoutViewModel.cs" />
+    <Compile Include="ViewModels\Transaction\TransactionCreateViewModel.cs" />
+    <Compile Include="ViewModels\Transaction\TransactionViewModel.cs" />
     <Compile Include="ViewModels\Vendor\VendorCreateViewModel.cs" />
     <Compile Include="ViewModels\Vendor\VendorDetailsViewModel.cs" />
     <Compile Include="ViewModels\Vendor\VendorEditViewModel.cs" />
@@ -401,6 +405,10 @@
     <Content Include="Views\PrivateKey\Create.cshtml" />
     <Content Include="Views\License\Details.cshtml" />
     <Content Include="Views\DomainLicense\IndexPartial.cshtml" />
+    <Content Include="Views\Transaction\Create.cshtml" />
+    <Content Include="Views\Transaction\Checkout.cshtml" />
+    <Content Include="Views\Shared\_CreateCustomer.cshtml" />
+    <Content Include="Views\Transaction\Complete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

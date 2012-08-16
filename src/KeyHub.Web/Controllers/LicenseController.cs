@@ -17,15 +17,16 @@ namespace KeyHub.Web.Controllers
         /// <summary>
         /// Get list of Licenses
         /// </summary>
+        /// <param name="transactionID">Optionally show by transactionID</param>
         /// <returns>License index list view</returns>
-        public ActionResult Index()
+        public ActionResult Index(int transactionID = 0)
         {
             using (DataContext context = new DataContext())
             {
                 //Eager loading License
                 var licenseQuery = (from x in context.Licenses select x).Include(x => x.PurchasingCustomer)
                     .Include(x => x.OwningCustomer).Include(x => x.Sku);
-
+                
                 LicenseIndexViewModel viewModel = new LicenseIndexViewModel(licenseQuery.ToList());
 
                 return View(viewModel);

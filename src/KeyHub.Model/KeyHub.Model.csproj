@@ -76,6 +76,7 @@
     <Compile Include="Definition\Membership\UserInRole.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Logic\Application\Transaction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Definition\Application\SKU.cs" />
   </ItemGroup>
