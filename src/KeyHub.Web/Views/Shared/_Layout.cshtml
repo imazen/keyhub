@@ -16,16 +16,28 @@
     <body>
         <div class="LayoutContainer">
             <div class="LayoutHeaderContainer">
-                @Html.ActionLink("KeyHub", "Index", "Home", null, new { @class= "Logo"})
+                <div class="LayoutWrapper">
+                    @Html.ActionLink("KeyHub", "Index", "Home", null, new { @class= "Logo"})
 
-
-                <div class="LoginPartial">
-                    @Html.Partial("_LoginPartial")
+                    <div class="HeaderMenu">
+                        <ul class="HeaderMenu">
+                            <li class="Active">@Html.ActionLink("Vendors", "Index", "Vendor")</li>
+                            <li>@Html.ActionLink("Features", "Index", "Feature")</li>
+                            <li>@Html.ActionLink("SKUs", "Index", "SKU")</li>
+                            <li>@Html.ActionLink("Customers", "Index", "Customer")</li>
+                            <li>@Html.ActionLink("Licenses", "Index", "License")</li>
+                            <li>@Html.ActionLink("Licensed applications", "Index", "CustomerApp")</li>
+                        </ul>
+                    </div>
+                    <div class="LoginPartial">
+                        @Html.Partial("_LoginPartial")
+                    </div>
                 </div>
             </div>
+            <div class="LayoutWrapper">
             <div class="LayoutContentContainer">
-
-                <ul id="menu" class="Menu">
+                
+                @*<ul id="menu" class="Menu">
                     <li>@Html.ActionLink("Vendors", "Index", "Vendor")</li>
                     <li>@Html.ActionLink("Features", "Index", "Feature")</li>
                     <li>@Html.ActionLink("SKUs", "Index", "SKU")</li>
@@ -36,7 +48,7 @@
                     <li>@Html.ActionLink("Customers", "Index", "Customer")</li>
                     <li>@Html.ActionLink("Licenses", "Index", "License")</li>
                     <li>@Html.ActionLink("Licensed applications", "Index", "CustomerApp")</li>
-                </ul>
+                </ul>*@
                    
               
         
@@ -45,7 +57,7 @@
                 @RenderBody()
             
        
-
+                </div>
             </div>
             <div class="LayoutFooterContainer">
                 footer
@@ -62,20 +74,56 @@
 
 
             $(document).ready(function () {
-                form_focusFirstField();
+                
+                setup_form()
                  $("SELECT").chosen({ no_results_text: "No results matched: " });
                  $("INPUT[type=checkbox]").prettyradiocheckbox();
                  
-                 $("INPUT[type=datetime]").datepicker({ dateFormat: 'DD, d MM, yy' });
+                 $("INPUT[type=datetime]").datepicker();
                 
                  $("SELECT#SKU_VendorId").change(function () {
-                    //$("SELECT#SKU_PrivateKeyId").append('<option>ss</option>').trigger("liszt:updated");
-                 })
+                     //$("SELECT#SKU_PrivateKeyId").append('<option>ss</option>').trigger("liszt:updated");
+                 });
+
+                
+
              });
+             
+
+                 
+           
+             function setup_form() {
+                 form_focusFirstField();
+                 $("INPUT[type=number]").prettyNumeric();
+             }
+
              function form_focusFirstField() {
                  $("INPUT:visible:first").focus();
              }
 
+             jQuery.fn.prettyNumeric = function (options) {
+                 var settings = jQuery.extend({ debug: false }, options || {});
+                 $(this).each(function (i) {
+                     var id = $(this).attr('id');
+                    
+                     $(this).keyup(function () { this.value = this.value.replace(/[^0-9\.]/g, ''); });
+
+                     $(this).wrap('<div class="prettynumeric" id="prettynumeric_' + id + '" />');
+                     $(this).after('<div class="prettynumeric_btn inc">+</div><div class="prettynumeric_btn dec">-</div>');
+
+                 });
+
+                 $("DIV.prettynumeric_btn").each(function(){
+                     $(this).click(function () {
+                         var $b = $(this);
+                         var $p = $b.parent().find("INPUT")
+                         var ov = parseFloat($p.val());
+                         ov = ov >  0 ? ov : 0;
+                         $p.val($b.hasClass('inc') ? ov + 1 : (ov >= 1) ? ov - 1 : 0);
+                    });
+                 });
+             }
+            
              
             </script>
     </body>

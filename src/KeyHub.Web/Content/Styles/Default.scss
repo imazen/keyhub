@@ -50,9 +50,9 @@ H1{
 	}
 }
 H2{
-	margin-top: 30px;
+	//margin-bottom: 30px;
 	SPAN{
-		color: #999999;
+		color: #cccccc;
 	}
 }
 
@@ -103,7 +103,7 @@ UL.Menu{
 
 }
 
-UL.MenuLoginPartial{
+UL.MenuLoginPartial,UL.HeaderMenu{
 	display: block;
 	clear: both;
 	overflow: hidden;
@@ -120,10 +120,10 @@ UL.MenuLoginPartial{
 			line-height: 30px;
 			&:hover{ color: #ffffff;}
 		}
-		&.Active A{ color: #333333;}
+		&.Active A{ color: #ffffff;}
 	}
-
 }
+
 
 
 

@@ -1,4 +1,4 @@
-INPUT.Text, INPUT[type=text], INPUT[type=number], INPUT[type=datetime] {
+INPUT.Text, INPUT[type=text], INPUT[type=password], INPUT[type=number], INPUT[type=datetime] {
   border: 1px solid #cccccc;
   background: #ffffff;
   color: #666666;
@@ -6,25 +6,52 @@ INPUT.Text, INPUT[type=text], INPUT[type=number], INPUT[type=datetime] {
   height: 22px;
   line-height: 16px;
   padding: 3px 10px 4px 10px; }
-  INPUT.Text.Active, INPUT.Text:focus, INPUT[type=text].Active, INPUT[type=text]:focus, INPUT[type=number].Active, INPUT[type=number]:focus, INPUT[type=datetime].Active, INPUT[type=datetime]:focus {
-    border-color: #0000cc;
+  INPUT.Text.Active, INPUT.Text:focus, INPUT[type=text].Active, INPUT[type=text]:focus, INPUT[type=password].Active, INPUT[type=password]:focus, INPUT[type=number].Active, INPUT[type=number]:focus, INPUT[type=datetime].Active, INPUT[type=datetime]:focus {
+    border-color: #007acc;
     color: #333333; }
-  INPUT.Text.CopyPaste, INPUT[type=text].CopyPaste, INPUT[type=number].CopyPaste, INPUT[type=datetime].CopyPaste {
+  INPUT.Text.CopyPaste, INPUT[type=text].CopyPaste, INPUT[type=password].CopyPaste, INPUT[type=number].CopyPaste, INPUT[type=datetime].CopyPaste {
     font-family: Courier New;
     border: 1px dashed #999999;
     color: #333333; }
-  INPUT.Text.input-validation-error, INPUT[type=text].input-validation-error, INPUT[type=number].input-validation-error, INPUT[type=datetime].input-validation-error {
+  INPUT.Text.input-validation-error, INPUT[type=text].input-validation-error, INPUT[type=password].input-validation-error, INPUT[type=number].input-validation-error, INPUT[type=datetime].input-validation-error {
     border-color: #cc0000;
     background: url("../Images/bgSprite.png") right 0px no-repeat; }
-  INPUT.Text.valid, INPUT[type=text].valid, INPUT[type=number].valid, INPUT[type=datetime].valid {
+  INPUT.Text.valid, INPUT[type=text].valid, INPUT[type=password].valid, INPUT[type=number].valid, INPUT[type=datetime].valid {
     background: url("../Images/bgSprite.png") right -30px no-repeat; }
-  INPUT.Text:focus, INPUT[type=text]:focus, INPUT[type=number]:focus, INPUT[type=datetime]:focus {
+  INPUT.Text:focus, INPUT[type=text]:focus, INPUT[type=password]:focus, INPUT[type=number]:focus, INPUT[type=datetime]:focus {
     outline: none; }
 
 INPUT[type=number] {
   padding-bottom: 3px; }
   INPUT[type=number].valid {
     background: url("../Images/bgSprite.png") right -30px no-repeat; }
+
+INPUT[type=number]::-webkit-inner-spin-button,
+INPUT[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0; }
+
+DIV.validation-summary-errors {
+  color: #cc0000; }
+
+DIV.prettynumeric {
+  position: relative; }
+  DIV.prettynumeric DIV.prettynumeric_btn {
+    position: absolute;
+    top: 3px;
+    bottom: 3px;
+    width: 25px;
+    background: #ededed;
+    text-indent: -10000px;
+    cursor: pointer; }
+    DIV.prettynumeric DIV.prettynumeric_btn.inc {
+      right: 3px; }
+    DIV.prettynumeric DIV.prettynumeric_btn.dec {
+      right: 30px; }
+    DIV.prettynumeric DIV.prettynumeric_btn:hover {
+      background: #cccccc; }
+  DIV.prettynumeric INPUT[type=number].input-validation-error {
+    background-position: right -60px; }
 
 SELECT {
   width: 380px; }
