@@ -8,16 +8,16 @@ using System.Threading.Tasks;
 using KeyHub.Core.Data;
 using KeyHub.Model;
 
-namespace KeyHub.BusinessLogic.DataConfiguration
+namespace KeyHub.Data.DataConfiguration
 {
     /// <summary>
-    /// Configures the <see cref="KeyHub.Model.Feature"/> table
+    /// Configures the <see cref="KeyHub.Model.PrivateKey"/> table
     /// </summary>
-    public class FeatureConfiguration : EntityTypeConfiguration<Feature>, IEntityConfiguration
+    public class PrivateKeyConfiguration : EntityTypeConfiguration<PrivateKey>, IEntityConfiguration
     {
-        public FeatureConfiguration()
+        public PrivateKeyConfiguration()
         {
-            HasMany(x => x.SkuFeatures).WithRequired(x => x.Feature).WillCascadeOnDelete(true);
+            HasMany(x => x.SKUs).WithRequired(x => x.PrivateKey).WillCascadeOnDelete(false);
         }
 
         public void AddConfiguration(System.Data.Entity.ModelConfiguration.Configuration.ConfigurationRegistrar registrar)

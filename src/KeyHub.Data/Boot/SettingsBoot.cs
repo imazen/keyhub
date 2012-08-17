@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using KeyHub.Core.Kernel;
 
-namespace KeyHub.BusinessLogic.Boot
+namespace KeyHub.Data.Boot
 {
     /// <summary>
     /// Initializes all settings classes supported by the Framework

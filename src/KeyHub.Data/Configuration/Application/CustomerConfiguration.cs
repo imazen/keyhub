@@ -8,19 +8,19 @@ using System.Threading.Tasks;
 using KeyHub.Core.Data;
 using KeyHub.Model;
 
-namespace KeyHub.BusinessLogic.DataConfiguration
+namespace KeyHub.Data.DataConfiguration
 {
     /// <summary>
-    /// Configures the <see cref="KeyHub.Model.Vendor"/> table
+    /// Configures the <see cref="KeyHub.Model.Customer"/> table
     /// </summary>
-    public class VendorConfiguration : EntityTypeConfiguration<Vendor>, IEntityConfiguration
+    public class CustomerConfiguration : EntityTypeConfiguration<Customer>, IEntityConfiguration
     {
-        public VendorConfiguration()
+        public CustomerConfiguration()
         {
             Map(m =>
             {
                 m.MapInheritedProperties();
-                m.ToTable("Vendors");
+                m.ToTable("Customers");
             });
         }
 

@@ -8,19 +8,19 @@ using System.Threading.Tasks;
 using KeyHub.Core.Data;
 using KeyHub.Model;
 
-namespace KeyHub.BusinessLogic.DataConfiguration
+namespace KeyHub.Data.DataConfiguration
 {
     /// <summary>
-    /// Configures the <see cref="KeyHub.Model.License"/> table
+    /// Configures the <see cref="KeyHub.Model.CustomerAppKey"/> table
     /// </summary>
-    public class LicenseConfiguration : EntityTypeConfiguration<License>, IEntityConfiguration
+    public class CustomerAppKeyConfiguration : EntityTypeConfiguration<CustomerAppKey>, IEntityConfiguration
     {
-        public LicenseConfiguration()
+        public CustomerAppKeyConfiguration()
         {
             Map(m =>
             {
                 m.MapInheritedProperties();
-                m.ToTable("Licenses");
+                m.ToTable("CustomerAppKeys");
             });
         }
 

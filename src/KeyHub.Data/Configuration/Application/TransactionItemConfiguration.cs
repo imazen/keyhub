@@ -8,16 +8,17 @@ using System.Threading.Tasks;
 using KeyHub.Core.Data;
 using KeyHub.Model;
 
-namespace KeyHub.BusinessLogic.DataConfiguration
+namespace KeyHub.Data.DataConfiguration
 {
     /// <summary>
-    /// Configures the <see cref="KeyHub.Model.UserInRole"/> table
+    /// Configures the <see cref="KeyHub.Model.Transaction"/> table
     /// </summary>
-    public class UserInRoleConfiguration : EntityTypeConfiguration<UserInRole>, IEntityConfiguration
+    public class TransactionItemConfiguration : EntityTypeConfiguration<TransactionItem>, IEntityConfiguration
     {
-        public UserInRoleConfiguration()
+        public TransactionItemConfiguration()
         {
-            ToTable("UsersInRoles");
+            HasOptional(x => x.License).WithMany(x => x.TransactionItems).WillCascadeOnDelete(false);
+            ToTable("TransactionItems");
         }
 
         public void AddConfiguration(System.Data.Entity.ModelConfiguration.Configuration.ConfigurationRegistrar registrar)

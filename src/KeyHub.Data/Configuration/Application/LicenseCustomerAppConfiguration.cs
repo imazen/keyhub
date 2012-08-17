@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using KeyHub.Core.Data;
 using KeyHub.Model;
 
-namespace KeyHub.BusinessLogic.DataConfiguration
+namespace KeyHub.Data.DataConfiguration
 {
     /// <summary>
     /// Configures the <see cref="KeyHub.Model.LicenseCustomerApp"/> table

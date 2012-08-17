@@ -8,20 +8,16 @@ using System.Threading.Tasks;
 using KeyHub.Core.Data;
 using KeyHub.Model;
 
-namespace KeyHub.BusinessLogic.DataConfiguration
+namespace KeyHub.Data.DataConfiguration
 {
     /// <summary>
-    /// Configures the <see cref="KeyHub.Model.CustomerAppKey"/> table
+    /// Configures the <see cref="KeyHub.Model.Membership"/> table
     /// </summary>
-    public class CustomerAppKeyConfiguration : EntityTypeConfiguration<CustomerAppKey>, IEntityConfiguration
+    public class MembershipConfiguration : EntityTypeConfiguration<Membership>, IEntityConfiguration
     {
-        public CustomerAppKeyConfiguration()
+        public MembershipConfiguration()
         {
-            Map(m =>
-            {
-                m.MapInheritedProperties();
-                m.ToTable("CustomerAppKeys");
-            });
+            HasRequired<User>(p => p.User);
         }
 
         public void AddConfiguration(System.Data.Entity.ModelConfiguration.Configuration.ConfigurationRegistrar registrar)

@@ -8,16 +8,20 @@ using System.Threading.Tasks;
 using KeyHub.Core.Data;
 using KeyHub.Model;
 
-namespace KeyHub.BusinessLogic.DataConfiguration
+namespace KeyHub.Data.DataConfiguration
 {
     /// <summary>
-    /// Configures the <see cref="KeyHub.Model.SKU"/> table
+    /// Configures the <see cref="KeyHub.Model.CustomerApp"/> table
     /// </summary>
-    public class SkuConfiguration : EntityTypeConfiguration<SKU>, IEntityConfiguration
+    public class CustomerAppConfiguration : EntityTypeConfiguration<CustomerApp>, IEntityConfiguration
     {
-        public SkuConfiguration()
+        public CustomerAppConfiguration()
         {
-            HasMany(x => x.SkuFeatures).WithRequired(x => x.Sku).WillCascadeOnDelete(false);
+            Map(m =>
+            {
+                m.MapInheritedProperties();
+                m.ToTable("CustomerApps");
+            });
         }
 
         public void AddConfiguration(System.Data.Entity.ModelConfiguration.Configuration.ConfigurationRegistrar registrar)

@@ -8,16 +8,20 @@ using System.Threading.Tasks;
 using KeyHub.Core.Data;
 using KeyHub.Model;
 
-namespace KeyHub.BusinessLogic.DataConfiguration
+namespace KeyHub.Data.DataConfiguration
 {
     /// <summary>
-    /// Configures the <see cref="KeyHub.Model.PrivateKey"/> table
+    /// Configures the <see cref="KeyHub.Model.License"/> table
     /// </summary>
-    public class PrivateKeyConfiguration : EntityTypeConfiguration<PrivateKey>, IEntityConfiguration
+    public class LicenseConfiguration : EntityTypeConfiguration<License>, IEntityConfiguration
     {
-        public PrivateKeyConfiguration()
+        public LicenseConfiguration()
         {
-            HasMany(x => x.SKUs).WithRequired(x => x.PrivateKey).WillCascadeOnDelete(false);
+            Map(m =>
+            {
+                m.MapInheritedProperties();
+                m.ToTable("Licenses");
+            });
         }
 
         public void AddConfiguration(System.Data.Entity.ModelConfiguration.Configuration.ConfigurationRegistrar registrar)

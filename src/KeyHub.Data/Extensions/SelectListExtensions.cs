@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
-namespace KeyHub
+namespace KeyHub.Data
 {
     /// <summary>
     /// Extension methods to convert a query to a SelectionList

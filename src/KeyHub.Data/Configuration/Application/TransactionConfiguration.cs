@@ -8,16 +8,16 @@ using System.Threading.Tasks;
 using KeyHub.Core.Data;
 using KeyHub.Model;
 
-namespace KeyHub.BusinessLogic.DataConfiguration
+namespace KeyHub.Data.DataConfiguration
 {
     /// <summary>
-    /// Configures the <see cref="KeyHub.Model.Membership"/> table
+    /// Configures the <see cref="KeyHub.Model.Transaction"/> table
     /// </summary>
-    public class MembershipConfiguration : EntityTypeConfiguration<Membership>, IEntityConfiguration
+    public class TransactionConfiguration : EntityTypeConfiguration<Transaction>, IEntityConfiguration
     {
-        public MembershipConfiguration()
+        public TransactionConfiguration()
         {
-            HasRequired<User>(p => p.User);
+            HasMany(x => x.TransactionItems).WithRequired(x => x.Transaction).WillCascadeOnDelete(false);
         }
 
         public void AddConfiguration(System.Data.Entity.ModelConfiguration.Configuration.ConfigurationRegistrar registrar)

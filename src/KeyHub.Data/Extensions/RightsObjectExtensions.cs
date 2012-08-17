@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using KeyHub.Model;
 
-namespace KeyHub
+namespace KeyHub.Data
 {
     public static class RightsObjectExtensions
     {
