@@ -49,6 +49,7 @@
         <legend>TransactionCheckoutViewModel</legend>
 
         @Html.HiddenFor(model => model.Transaction.TransactionId)
+        @Html.HiddenFor(model => model.Transaction.CreatedDateTime)
 
         <div class="editor-label">
             @Html.RadioButtonFor(model => model.CreatePurchasingCustomer, false, new {@onchange = "DisableNewPurchasingCustomer();"}) @Html.LabelFor(model => model.PurchasingCustomerId)

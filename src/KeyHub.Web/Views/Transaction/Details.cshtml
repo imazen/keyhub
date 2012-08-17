@@ -6,23 +6,8 @@
 
 <h2>Details</h2>
 
-<fieldset>
-    <legend>TransactionDetailsViewItem</legend>
+@Html.Partial("DetailsPartial", Model) 
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Transaction.PurchaserName)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Transaction.PurchaserName)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Transaction.SKUSummary)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Transaction.SKUSummary)
-    </div>
-</fieldset>
 <p>
     @Html.ActionLink("Back to List", "Index")
 </p>

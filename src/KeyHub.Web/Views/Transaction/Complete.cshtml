@@ -1,4 +1,4 @@
-﻿@model KeyHub.Web.ViewModels.Transaction.TransactionViewModel
+﻿@model KeyHub.Web.ViewModels.Transaction.TransactionDetailsViewModel
 
 @{
     ViewBag.Title = "Complete";
@@ -10,12 +10,15 @@
     <legend>TransactionViewModel</legend>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.TransactionId)
+         @Html.DisplayNameFor(model => model.Transaction.TransactionId)
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.TransactionId)
+        @Html.DisplayFor(model => model.Transaction.TransactionId)
     </div>
 </fieldset>
+
+@Html.Partial("DetailsPartial", Model) 
+
 <p>
     @Html.ActionLink("Buy SKUs now!", "Create", "Transaction")
 

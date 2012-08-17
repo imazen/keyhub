@@ -1,0 +1,34 @@
+﻿@model KeyHub.Web.ViewModels.Transaction.TransactionDetailsViewModel
+
+<fieldset>
+    <legend>TransactionDetailsViewItem</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Transaction.CreatedDateTime)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Transaction.CreatedDateTime)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Transaction.PurchaserName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Transaction.PurchaserName)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Transaction.SKUSummary)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Transaction.SKUSummary)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Transaction.StatusName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Transaction.StatusName)
+    </div>
+</fieldset>
+
