@@ -8,6 +8,7 @@ using KeyHub.BusinessLogic.Basket;
 using KeyHub.Model;
 using KeyHub.Runtime;
 using KeyHub.Web.ViewModels.Transaction;
+using KeyHub.Data;
 
 namespace KeyHub.Web.Controllers
 {
@@ -22,7 +23,7 @@ namespace KeyHub.Web.Controllers
             using (DataContext context = new DataContext())
             {
                 //Eager loading Transaction
-                var transactionQuery = (from x in context.Transactions select x)
+                var transactionQuery = (from x in context.Transactions orderby x.CreatedDateTime select x)
                     .Include(x => x.TransactionItems.Select(s => s.Sku))
                     .Include(x => x.TransactionItems.Select(s => s.License));
 
@@ -37,7 +38,29 @@ namespace KeyHub.Web.Controllers
         /// </summary>
         /// <param name="key">Id of the transaction to show</param>
         /// <returns>Transaction details view</returns>
-        public ActionResult Details(int key)
+        public ActionResult Details(string key)
+        {
+            int decryptedKey = Common.Utils.SafeConvert.ToInt(key.DecryptUrl(), -1);
+
+            using (DataContext context = new DataContext())
+            {
+                //Eager loading Transaction
+                var transactionQuery = (from x in context.Transactions where x.TransactionId == decryptedKey select x)
+                    .Include(x => x.TransactionItems.Select(s => s.Sku))
+                    .Include(x => x.TransactionItems.Select(s => s.License));
+
+                TransactionDetailsViewModel viewModel = new TransactionDetailsViewModel(transactionQuery.FirstOrDefault());
+
+                return View(viewModel);
+            }
+        }
+
+        /// <summary>
+        /// Partial details view of a single transaction
+        /// </summary>
+        /// <param name="key">Id of the transaction to show</param>
+        /// <returns>Transaction details partial view</returns>
+        public ActionResult DetailsPartial(int key)
         {
             using (DataContext context = new DataContext())
             {
@@ -48,7 +71,7 @@ namespace KeyHub.Web.Controllers
 
                 TransactionDetailsViewModel viewModel = new TransactionDetailsViewModel(transactionQuery.FirstOrDefault());
 
-                return View(viewModel);
+                return PartialView(viewModel);
             }
         }
 
@@ -62,7 +85,7 @@ namespace KeyHub.Web.Controllers
             {
                 BasketWrapper basket = BasketWrapper.GetByCookie();
                 
-                var skuQuery = from x in context.SKUs select x;
+                var skuQuery = from x in context.SKUs orderby x.SkuCode select x;
 
                 TransactionCreateViewModel viewModel = new TransactionCreateViewModel(basket.Transaction, skuQuery.ToList());
 
@@ -83,6 +106,8 @@ namespace KeyHub.Web.Controllers
                 if (ModelState.IsValid)
                 {
                     BasketWrapper basket = BasketWrapper.GetByCookie();
+
+                    viewModel.ToEntity(basket.Transaction);
                     
                     basket.AddSKUs(viewModel.GetSelectedSKUGUIDs());
                     basket.ExecuteStep(BasketSteps.Create);
@@ -111,9 +136,9 @@ namespace KeyHub.Web.Controllers
             {
                 BasketWrapper basket = BasketWrapper.GetByCookie();
 
-                var owningCustomerQuery = (from x in context.Customers select x);
-                var purchasingCustomerQuery = (from x in context.Customers select x);
-                var countryQuery = (from x in context.Countries select x);
+                var owningCustomerQuery = (from x in context.Customers orderby x.Name select x);
+                var purchasingCustomerQuery = (from x in context.Customers orderby x.Name select x);
+                var countryQuery = (from x in context.Countries orderby x.CountryName select x);
 
                 TransactionCheckoutViewModel viewModel = new TransactionCheckoutViewModel(basket.Transaction,
                     owningCustomerQuery.ToList(), purchasingCustomerQuery.ToList(), countryQuery.ToList());
@@ -183,6 +208,8 @@ namespace KeyHub.Web.Controllers
             {
                 BasketWrapper basket = BasketWrapper.GetByCookie();
 
+                basket.ExecuteStep(BasketSteps.PurchaseStart);
+
                 TransactionViewModel viewModel = new TransactionViewModel(basket.Transaction);
 
                 return View(viewModel);
@@ -205,9 +232,9 @@ namespace KeyHub.Web.Controllers
                     {
                         BasketWrapper basket = BasketWrapper.GetByCookie();
 
-                        basket.ExecuteStep(BasketSteps.Purchase);
+                        basket.ExecuteStep(BasketSteps.PurchasePending);
 
-                        return RedirectToAction("Complete");
+                        return RedirectToAction("Complete", new { key = basket.Transaction.TransactionId.ToString().EncryptUrl() });
                     }
                 }
                 else
@@ -224,16 +251,22 @@ namespace KeyHub.Web.Controllers
         /// <summary>
         /// Report transaction complete
         /// </summary>
+        /// <param name="key">Encoded key for the transaction</param>
         /// <returns>Transaction complete view</returns>
-        public ActionResult Complete()
+        /// <remarks>
+        /// Does not use cookie. Cookie is removed before this step so a new transaction can 
+        /// be started once the transaction has become pending.
+        /// </remarks>
+        public ActionResult Complete(string key)
         {
+            int decryptedKey = Common.Utils.SafeConvert.ToInt(key.DecryptUrl(), -1);
             using (DataContext context = new DataContext())
             {
-                BasketWrapper basket = BasketWrapper.GetByCookie();
+                BasketWrapper basket = BasketWrapper.GetByTransactionId(decryptedKey);
                 
                 basket.ExecuteStep(BasketSteps.Complete);
 
-                TransactionViewModel viewModel = new TransactionViewModel(basket.Transaction);
+                TransactionDetailsViewModel viewModel = new TransactionDetailsViewModel(basket.Transaction);
 
                 return View(viewModel);
             }

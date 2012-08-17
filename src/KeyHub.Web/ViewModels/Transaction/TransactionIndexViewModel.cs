@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Web;
+using KeyHub.Data;
+using KeyHub.Model;
 
 namespace KeyHub.Web.ViewModels.Transaction
 {
@@ -53,7 +55,9 @@ namespace KeyHub.Web.ViewModels.Transaction
             PurchaserName = (transactionItems.FirstOrDefault().License != null) ?
                 transactionItems.FirstOrDefault().License.PurchasingCustomer.Name : "None";
 
-            SKUSummary = (from x in transactionItems select x.Sku).ToSummary(x => x.SkuCode, 3, ", ");
+            SKUSummary = transactionItems.ToSummary(x => x.Sku.SkuCode, 3, ", ");
+
+            StatusName = transaction.Status.GetDescription<TransactionStatus>();
         }
 
         /// <summary>
@@ -67,5 +71,11 @@ namespace KeyHub.Web.ViewModels.Transaction
         /// </summary>
         [DisplayName("SKUs")]
         public string SKUSummary { get; set; }
+
+        /// <summary>
+        /// Status of the transaction
+        /// </summary>
+        [DisplayName("Status")]
+        public string StatusName { get; set; }
     }
 }

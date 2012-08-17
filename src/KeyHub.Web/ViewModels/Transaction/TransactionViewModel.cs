@@ -6,6 +6,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using KeyHub.Model;
 using KeyHub.Runtime;
 
 namespace KeyHub.Web.ViewModels.Transaction
@@ -25,6 +26,8 @@ namespace KeyHub.Web.ViewModels.Transaction
             : this()
         {
             this.TransactionId = transaction.TransactionId;
+            this.Status = transaction.Status;
+            this.CreatedDateTime = transaction.CreatedDateTime;
         }
 
         /// <summary>
@@ -37,6 +40,8 @@ namespace KeyHub.Web.ViewModels.Transaction
             Model.Transaction current = original ?? new Model.Transaction();
 
             current.TransactionId = this.TransactionId;
+            current.Status = this.Status;
+            current.CreatedDateTime = this.CreatedDateTime;
 
             return current;
         }
@@ -46,5 +51,17 @@ namespace KeyHub.Web.ViewModels.Transaction
         /// </summary>
         [HiddenInput(DisplayValue = false)]
         public int TransactionId { get; set; }
+
+        /// <summary>
+        /// Status of the transaction
+        /// </summary>
+        [Required]
+        public TransactionStatus Status { get; set; }
+
+        /// <summary>
+        /// Date the transaction was created on
+        /// </summary>
+        [DisplayName("Created on")]
+        public DateTime CreatedDateTime { get; set; }
     }
 }

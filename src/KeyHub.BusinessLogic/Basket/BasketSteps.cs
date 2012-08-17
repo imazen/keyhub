@@ -14,7 +14,8 @@ namespace KeyHub.BusinessLogic.Basket
         None = 0,
         Create,
         Checkout,
-        Purchase,
+        PurchaseStart,
+        PurchasePending,
         Complete
     }
 }

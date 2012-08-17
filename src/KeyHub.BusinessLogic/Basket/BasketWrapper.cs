@@ -10,6 +10,7 @@ using KeyHub.Common;
 using KeyHub.Common.Utils;
 using KeyHub.Model;
 using KeyHub.Runtime;
+using KeyHub.Data;
 
 namespace KeyHub.BusinessLogic.Basket
 {
@@ -96,6 +97,7 @@ namespace KeyHub.BusinessLogic.Basket
                     //Add transaction if none existing
                     if (context.Entry(Transaction).State == System.Data.EntityState.Detached)
                         context.Transactions.Add(Transaction);
+                    Transaction.Status = TransactionStatus.Create;
                     break;
                 case BasketSteps.Checkout:
                     //Add PurchasingCustomer if none existing
@@ -125,18 +127,24 @@ namespace KeyHub.BusinessLogic.Basket
                             item.License = newLicense;
                         }
                     }
+                    Transaction.Status = TransactionStatus.CheckoutComplete;
                     break;
-                case BasketSteps.Purchase:
+                case BasketSteps.PurchaseStart:
+                    Transaction.Status = TransactionStatus.PurchaseStart;
+                    break;
+                case BasketSteps.PurchasePending:
+                    Transaction.Status = TransactionStatus.PurchasePending;
                     break;
                 case BasketSteps.Complete:
-                    //Implement if needed
+                    Transaction.Status = TransactionStatus.Complete;
                     break;
             }
             
             context.SaveChanges();
 
-            //Save cookie while purchase is being processed, if end of Basket pipeline remove cookie
-            if (step != BasketSteps.Complete)
+            //Save cookie while purchase is being created, if pending or higher remove cookie
+            //After status pending is reached, a new transaction can be started by the user
+            if (step < BasketSteps.PurchasePending)
                 SaveBasketId(Transaction.TransactionId);
             else
                 RemoveBasketCookie();
@@ -166,7 +174,7 @@ namespace KeyHub.BusinessLogic.Basket
 
             //No transaction in cookie or transaction was not found
             if (Transaction == null)
-                Transaction = new Transaction();
+                Transaction = new Transaction() { CreatedDateTime = DateTime.Now };
         }
 
         #region "BasketId from Cookie"
