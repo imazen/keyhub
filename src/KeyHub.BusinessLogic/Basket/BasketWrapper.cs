@@ -15,17 +15,46 @@ namespace KeyHub.BusinessLogic.Basket
 {
     /// <summary>
     /// Wrapper around basket.
-    /// Takes care of the order and actual steps a basket goes through during purchase
+    /// Takes care of the order and actual steps a basket goes through during purchase.
+    /// Every step ends with a commit into the DB.
     /// </summary>
     public class BasketWrapper
     {
-        private DataContext context;
-
-        public BasketWrapper()
+        private BasketWrapper()
         {
             context = new DataContext();
+        }
 
-            LoadCurrentstate();
+        /// <summary>
+        /// DataContext the basket is working with
+        /// </summary>
+        private DataContext context;
+
+        /// <summary>
+        /// Get a basketwrapper based the cookievalue
+        /// </summary>
+        /// <returns>An instance of a basketwrapper serving the transaction from the cookie</returns>
+        public static BasketWrapper GetByCookie()
+        {
+            int transactionId = HasBasketCookie() ? GetBasketId() : 0;
+
+            BasketWrapper basket = new BasketWrapper();
+            basket.LoadTransaction(transactionId);
+
+            return basket;
+        }
+
+        /// <summary>
+        /// Get a basketwrapper based on a provided transactionId
+        /// </summary>
+        /// <param name="transactionId">Id of the transaction to load in the basket</param>
+        /// <returns>An instance of a basketwrapper serving the transaction</returns>
+        public static BasketWrapper GetByTransactionId(int transactionId)
+        {
+            BasketWrapper basket = new BasketWrapper();
+            basket.LoadTransaction(transactionId);
+
+            return basket;
         }
 
         /// <summary>
@@ -100,12 +129,13 @@ namespace KeyHub.BusinessLogic.Basket
                 case BasketSteps.Purchase:
                     break;
                 case BasketSteps.Complete:
-
+                    //Implement if needed
                     break;
             }
             
             context.SaveChanges();
 
+            //Save cookie while purchase is being processed, if end of Basket pipeline remove cookie
             if (step != BasketSteps.Complete)
                 SaveBasketId(Transaction.TransactionId);
             else
@@ -113,9 +143,9 @@ namespace KeyHub.BusinessLogic.Basket
         }
 
         /// <summary>
-        /// 
+        /// Add a list of SKUs to the current transaction
         /// </summary>
-        /// <param name="SKUs"></param>
+        /// <param name="SKUs">SKUs to add</param>
         public void AddSKUs(ICollection<Guid> SKUs)
         {
             //Offload adding TransactionItems to Dynamic Transaction Model
@@ -123,12 +153,10 @@ namespace KeyHub.BusinessLogic.Basket
         }
 
         /// <summary>
-        /// 
+        /// Load a certain transaction into the BasketWrapper
         /// </summary>
-        private void LoadCurrentstate()
+        private void LoadTransaction(int transactionId)
         {
-            int transactionId = HasBasketCookie() ? GetBasketId() : 0;
-
             //Select transaction
             if (transactionId > 0)
                 Transaction = (from x in context.Transactions where x.TransactionId == transactionId select x)
@@ -157,7 +185,7 @@ namespace KeyHub.BusinessLogic.Basket
                                     Constants.BasketCookieName);
         }
 
-        private int GetBasketId()
+        private static int GetBasketId()
         {
             string basketCookie = CookieUtil.GetCookieValue(HttpContext.Current,
                                                               Constants.BasketCookieName,
@@ -172,6 +200,5 @@ namespace KeyHub.BusinessLogic.Basket
             return CookieUtil.CookieExists(HttpContext.Current, Constants.BasketCookieName);
         }
         #endregion
-
     }
 }
