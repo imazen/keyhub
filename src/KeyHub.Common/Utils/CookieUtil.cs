@@ -44,6 +44,8 @@ namespace KeyHub.Common.Utils
 
         public static void DeleteCookie(HttpContext Context, string cookieName)
         {
+            //Delete cookie by setting the Expire date to the past
+            //See: http://msdn.microsoft.com/en-us/library/ms178195.aspx
             if (Context.Request.Cookies[cookieName] != null)
             {
                 HttpCookie myCookie = new HttpCookie(cookieName);
