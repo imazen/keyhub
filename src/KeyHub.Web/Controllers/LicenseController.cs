@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using KeyHub.Runtime;
 using KeyHub.Web.ViewModels.License;
+using KeyHub.Data;
 
 namespace KeyHub.Web.Controllers
 {

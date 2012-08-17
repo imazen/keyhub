@@ -1,4 +1,5 @@
 ﻿@model KeyHub.Web.ViewModels.Transaction.TransactionIndexViewModel
+@using KeyHub;
 
 @{
     ViewBag.Title = "Index";
@@ -12,15 +13,24 @@
 <table>
     <tr>
         <th>
+            @Html.DisplayNameFor(model => model.Transactions.FirstOrDefault().CreatedDateTime)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Transactions.FirstOrDefault().PurchaserName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Transactions.FirstOrDefault().SKUSummary)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Transactions.FirstOrDefault().StatusName)
+        </th>
     </tr>
 
 @foreach (var item in Model.Transactions) {
     <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreatedDateTime)
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.PurchaserName)
         </td>
@@ -28,7 +38,10 @@
             @Html.DisplayFor(modelItem => item.SKUSummary)
         </td>
         <td>
-            @Html.ActionLink("Details", "Details", new { key = item.TransactionId } )
+            @Html.DisplayFor(modelItem => item.StatusName)
+        </td>
+        <td>
+            @Html.ActionLink("Details", "Details", new { key = item.TransactionId.ToString().EncryptUrl() } )
         </td>
     </tr>
 }

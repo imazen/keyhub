@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Data.Objects;
 
 namespace KeyHub.Common.Utils
 {
@@ -196,6 +197,71 @@ namespace KeyHub.Common.Utils
                 throw new ArgumentNullException("propertyInfo");
 
             return propertyInfo.GetCustomAttributes(attributeType, true);
+        }
+
+        /// <summary>
+        /// Creates a new instance of a typename
+        /// </summary>
+        /// <typeparam name="TType">The type of the return instance</typeparam>
+        /// <param name="typeName">The full name (including assembly and namespaces) of the type to create</param>
+        /// <returns>
+        /// A new instance of the type if it is (or boxable to) <typeparamref name="TType"/>, 
+        /// otherwise the default of <typeparamref name="TType"/>
+        /// </returns>
+        public static TType CreateTypeInstance<TType>(string typeName) where TType : class
+        {
+            Type classType = Type.GetType(typeName, false);
+
+            if (classType == null)
+                return default(TType);
+
+            object newType = Activator.CreateInstance(classType);
+
+            return newType as TType;
+        }
+
+        /// <summary>
+        /// Returns the <c>System.Type</c> corresponding to the type string
+        /// </summary>
+        /// <param name="type">The input type string</param>
+        /// <returns>A <c>System.Type</c> object if the type was found, otherwise null</returns>
+        public static Type GetTypeFromString(string type)
+        {
+            return Type.GetType(type, false);
+        }
+
+        /// <summary>
+        /// Determines wheter the object is actualy a proxy, or the real POCO class
+        /// </summary>
+        /// <param name="type">The object you want to check</param>
+        /// <returns></returns>
+        public static bool IsProxy(object type)
+        {
+            return type != null && ObjectContext.GetObjectType(type.GetType()) != type.GetType();
+        }
+
+        /// <summary>
+        /// Returns the underlying type from a Proxy class
+        /// </summary>
+        /// <param name="type">The object to get the underlying type for</param>
+        /// <returns>The underlying type of the proxy class</returns>
+        public static Type GetProxyUnderlyingType(object type)
+        {
+            if (type == null)
+                throw new ArgumentNullException("type");
+
+            return ObjectContext.GetObjectType(type.GetType());
+        }
+
+        /// <summary>
+        /// Returns all the generic types from the underlying interface
+        /// </summary>
+        public static IEnumerable<Type> GetGenericParameters(object type)
+        {
+            return type.GetType()
+                            .GetInterfaces()
+                            .SelectMany(i => i.GetGenericArguments())
+                            .ToArray();
         }
     }
 }

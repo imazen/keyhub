@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using KeyHub.Runtime;
 using KeyHub.Web.ViewModels.DomainLicense;
+using KeyHub.Data;
 
 namespace KeyHub.Web.Controllers
 {

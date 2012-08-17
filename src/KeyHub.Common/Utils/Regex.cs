@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace KeyHub.Common.Utils
 {
-    public static class Regex
+    public static class RegexUtils
     {
         public const string REGEX_EMAIL = @"([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,8}|[0-9]{1,8})(\]?)";
 

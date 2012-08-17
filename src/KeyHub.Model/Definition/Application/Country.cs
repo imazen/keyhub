@@ -11,7 +11,7 @@ namespace KeyHub.Model
     /// <summary>
     /// Represents a country. Prefilled from system
     /// </summary>
-    public class Country
+    public class Country : IModelItem
     {
         /// <summary>
         /// Unique Country code

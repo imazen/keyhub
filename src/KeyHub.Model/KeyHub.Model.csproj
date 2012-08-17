@@ -44,6 +44,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Definition\Application\TransactionStatus.cs" />
+    <Compile Include="IModelItem.cs" />
     <Compile Include="Logic\Application\CustomerApp.cs" />
     <Compile Include="Logic\Application\PrivateKey.cs" />
     <Compile Include="Logic\Application\SKU.cs" />

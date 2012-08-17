@@ -55,31 +55,8 @@
   <ItemGroup>
     <Compile Include="Basket\BasketSteps.cs" />
     <Compile Include="Basket\BasketWrapper.cs" />
-    <Compile Include="DataConfiguration\Application\TransactionItemConfiguration.cs" />
-    <Compile Include="DataConfiguration\Application\TransactionConfiguration.cs" />
-    <Compile Include="DataConfiguration\Application\CustomerAppKeyConfiguration.cs" />
-    <Compile Include="DataConfiguration\Application\CustomerAppConfiguration.cs" />
-    <Compile Include="DataInitializers\CountrySeed.cs" />
-    <Compile Include="DataInitializers\DatabaseSeeder.cs" />
-    <Compile Include="DataInitializers\DropCreateDatabaseIfModelChangesInitializer.cs" />
-    <Compile Include="Boot\EnitityBoot.cs" />
-    <Compile Include="Boot\MembershipBoot.cs" />
-    <Compile Include="Boot\SettingsBoot.cs" />
     <Compile Include="Caching\PerRequestCacheProvider.cs" />
     <Compile Include="Caching\RuntimeCacheProvider.cs" />
-    <Compile Include="DataConfiguration\Application\LicenseCustomerAppConfiguration.cs" />
-    <Compile Include="DataConfiguration\Application\LicenseConfiguration.cs" />
-    <Compile Include="DataConfiguration\Application\CustomerConfiguration.cs" />
-    <Compile Include="DataConfiguration\Application\VendorConfiguration.cs" />
-    <Compile Include="DataConfiguration\Application\UserObjectRightConfiguration.cs" />
-    <Compile Include="DataConfiguration\Application\SkuConfiguration.cs" />
-    <Compile Include="DataConfiguration\Application\PrivateKeyConfiguration.cs" />
-    <Compile Include="DataConfiguration\Application\FeatureConfiguration.cs" />
-    <Compile Include="DataConfiguration\Membership\RoleConfiguration.cs" />
-    <Compile Include="DataConfiguration\Membership\UserInRoleConfiguration.cs" />
-    <Compile Include="DataConfiguration\Membership\UserConfiguration.cs" />
-    <Compile Include="DataConfiguration\Membership\MembershipConfiguration.cs" />
-    <Compile Include="DataConfiguration\Application\SkuFeatureConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -90,6 +67,10 @@
     <ProjectReference Include="..\KeyHub.Core\KeyHub.Core.csproj">
       <Project>{982ddf31-5d75-4194-99b4-fcc95cd4be7f}</Project>
       <Name>KeyHub.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\KeyHub.Data\KeyHub.Data.csproj">
+      <Project>{d44ce009-6c7e-4e7f-912c-11a34cd094ee}</Project>
+      <Name>KeyHub.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\KeyHub.Model\KeyHub.Model.csproj">
       <Project>{6d9ba48a-476e-4288-b3ad-0cae9008317c}</Project>

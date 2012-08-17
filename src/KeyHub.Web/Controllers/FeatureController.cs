@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using KeyHub.Runtime;
 using KeyHub.Web.ViewModels.Feature;
+using KeyHub.Data;
 
 namespace KeyHub.Web.Controllers
 {
@@ -23,7 +24,7 @@ namespace KeyHub.Web.Controllers
             using (DataContext context = new DataContext())
             {
                 //Eager loading feature
-                var featureQuery = (from f in context.Features select f).Include(x => x.Vendor);
+                var featureQuery = (from f in context.Features orderby f.FeatureCode select f).Include(x => x.Vendor);
 
                 FeatureIndexViewModel viewModel = new FeatureIndexViewModel(featureQuery.ToList());
             

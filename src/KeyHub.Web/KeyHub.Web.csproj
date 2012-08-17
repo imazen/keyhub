@@ -414,6 +414,7 @@
     <Content Include="Views\Transaction\Purchase.cshtml" />
     <Content Include="Views\Transaction\Index.cshtml" />
     <Content Include="Views\Transaction\Details.cshtml" />
+    <Content Include="Views\Transaction\DetailsPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -436,9 +437,9 @@
       <Project>{982ddf31-5d75-4194-99b4-fcc95cd4be7f}</Project>
       <Name>KeyHub.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\KeyHub.DataExtensions\KeyHub.DataExtensions.csproj">
+    <ProjectReference Include="..\KeyHub.Data\KeyHub.Data.csproj">
       <Project>{d44ce009-6c7e-4e7f-912c-11a34cd094ee}</Project>
-      <Name>KeyHub.DataExtensions</Name>
+      <Name>KeyHub.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\KeyHub.Model\KeyHub.Model.csproj">
       <Project>{6d9ba48a-476e-4288-b3ad-0cae9008317c}</Project>

@@ -22,12 +22,12 @@ namespace KeyHub.Common.Utils
 
         public static bool IsNumeric(object input)
         {
-            return Regex.IsExactMatch(CutWhitespace(Convert.ToString(input)), Regex.REGEX_NUMERIC);
+            return RegexUtils.IsExactMatch(CutWhitespace(Convert.ToString(input)), RegexUtils.REGEX_NUMERIC);
         }
 
         public static bool IsEmail(string input)
         {
-            return Regex.IsExactMatch(input, Regex.REGEX_EMAIL);
+            return RegexUtils.IsExactMatch(input, RegexUtils.REGEX_EMAIL);
         }
 
         //just to take nulls into consideration

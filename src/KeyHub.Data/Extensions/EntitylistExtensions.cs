@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KeyHub
+namespace KeyHub.Data
 {
     public static class EntitylistExtensions
     {
@@ -24,13 +24,14 @@ namespace KeyHub
         {
             string summary = "";
 
+            int totalCountDatabase = query.Count();
             var filteredItems = query.Take(maxItems);
 
             if (filteredItems.Count() > 0)
             {
                 summary = string.Join(separator, filteredItems.Select(displayNavigator));
-                if (query.Count() > maxItems)
-                    summary += string.Format(" and {0} more...", query.Count() - maxItems);
+                if (totalCountDatabase > maxItems)
+                    summary += string.Format(" and {0} more...", totalCountDatabase - maxItems);
             }
             else
                 summary = "None";

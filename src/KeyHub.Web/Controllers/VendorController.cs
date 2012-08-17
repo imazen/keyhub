@@ -7,7 +7,7 @@ using System.Web.Mvc;
 using KeyHub.Model;
 using KeyHub.Runtime;
 using KeyHub.Web.ViewModels.Vendor;
-
+using KeyHub.Data;
 
 namespace KeyHub.Web.Controllers
 {

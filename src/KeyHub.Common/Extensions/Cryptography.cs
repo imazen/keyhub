@@ -12,6 +12,16 @@ namespace KeyHub
             return KeyHub.Common.Utils.Cryptography.Hashing.Hash(str);
         }
 
+        public static string EncryptUrl(this string InputString)
+        {
+            return KeyHub.Common.Utils.UrlService.Base64UrlEncode(KeyHub.Common.Utils.Cryptography.Encryption.EncryptText(InputString, KeyHub.Common.Utils.Cryptography.Encryption.EncryptionTypes.Rijndael));
+        }
+
+        public static string DecryptUrl(this string InputString)
+        {
+            return KeyHub.Common.Utils.Cryptography.Encryption.DecryptText(KeyHub.Common.Utils.UrlService.Base64UrlDecode(InputString), KeyHub.Common.Utils.Cryptography.Encryption.EncryptionTypes.Rijndael);
+        }
+
         public static string Encrypt(this string InputString)
         {
             return KeyHub.Common.Utils.Cryptography.Encryption.EncryptText(InputString, KeyHub.Common.Utils.Cryptography.Encryption.EncryptionTypes.Rijndael);

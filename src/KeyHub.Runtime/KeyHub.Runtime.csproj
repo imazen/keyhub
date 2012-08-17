@@ -53,7 +53,6 @@
   <ItemGroup>
     <Compile Include="ApplicationContext.cs" />
     <Compile Include="CacheContext.cs" />
-    <Compile Include="DataContext.cs" />
     <Compile Include="DependencyContext.cs" />
     <Compile Include="KernelContext.cs" />
     <Compile Include="LogContext.cs" />
