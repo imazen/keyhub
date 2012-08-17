@@ -5,7 +5,7 @@ using System.Web.Security;
 using KeyHub.Core.Issues;
 using KeyHub.Core.Kernel;
 
-namespace KeyHub.BusinessLogic.Boot
+namespace KeyHub.Data.Boot
 {
     /// <summary>
     /// Holds the boot procedure for the Membership provider.

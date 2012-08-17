@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Data.Entity.ModelConfiguration;
 using System.Data.Entity.ModelConfiguration.Conventions;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using KeyHub.Core.Data;
+using KeyHub.Data.BusinessRules;
 using KeyHub.Model;
+using KeyHub.Runtime;
 
-namespace KeyHub.Runtime
+namespace KeyHub.Data
 {
     /// <summary>
     /// Provides data access to all tables and collections
@@ -68,5 +72,22 @@ namespace KeyHub.Runtime
 
             base.OnModelCreating(modelBuilder);
         }
+
+        protected override DbEntityValidationResult ValidateEntity(DbEntityEntry entityEntry, IDictionary<object, object> items)
+        {
+            IModelItem entity = entityEntry.Entity as IModelItem;
+
+            if (entity != null)
+            {
+                var validationResults = BusinessRuleExecutor.ExecuteBusinessResult<DataContext>(entity, this, entityEntry);
+                if (!validationResults.All(x => x == BusinessRuleValidationResult.Success))
+                {
+                    throw new BusinessRuleValidationException(validationResults.ToArray());
+                }
+            }
+
+            return base.ValidateEntity(entityEntry, items);
+        }
+
     }
 }
