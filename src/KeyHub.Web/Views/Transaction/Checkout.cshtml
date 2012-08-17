@@ -13,27 +13,28 @@
 
     //Also set disabled state on load
 
+
     function EnableNewPurchasingCustomer() {
+        $('#NewPurchasingCustomer').slideToggle();
         $('#NewPurchasingCustomer :input').removeAttr('disabled');
-        $('#NewPurchasingCustomer').removeAttr('disabled');
         $('#SelectPurchasingCustomer').attr('disabled', true);
     }
 
     function DisableNewPurchasingCustomer() {
+        $('#NewPurchasingCustomer').slideToggle();
         $('#NewPurchasingCustomer :input').attr('disabled', true);
-        $('#NewPurchasingCustomer').attr('disabled', true);
         $('#SelectPurchasingCustomer').removeAttr('disabled');
     }
 
     function EnableNewOwningCustomer() {
+        $('#NewOwningCustomer').slideToggle();
         $('#NewOwningCustomer :input').removeAttr('disabled');
-        $('#NewOwningCustomer').removeAttr('disabled');
         $('#SelectOwningCustomer').attr('disabled', true);
     }
 
     function DisableNewOwningCustomer() {
+        $('#NewOwningCustomer').slideToggle();
         $('#NewOwningCustomer :input').attr('disabled', true);
-        $('#NewOwningCustomer').attr('disabled', true);
         $('#SelectOwningCustomer').removeAttr('disabled');
     }
 </script>
@@ -47,16 +48,16 @@
         @Html.HiddenFor(model => model.Transaction.TransactionId)
 
         <div class="editor-label">
-            @Html.RadioButtonFor(model => model.CreatePurchasingCustomer, false, new {@onclick = "DisableNewPurchasingCustomer();"}) @Html.LabelFor(model => model.PurchasingCustomerId)
+            @Html.RadioButtonFor(model => model.CreatePurchasingCustomer, false, new {@onchange = "DisableNewPurchasingCustomer();"}) @Html.LabelFor(model => model.PurchasingCustomerId)
         </div>
         <div class="editor-field" id="SelectPurchasingCustomer">
             @Html.DropDownListFor(model => model.PurchasingCustomerId, Model.PurchasingCustomers)
         </div>
 
         <div class="editor-label">
-            @Html.RadioButtonFor(model => model.CreatePurchasingCustomer, true, new {@onclick = "EnableNewPurchasingCustomer();"}) @Html.LabelFor(model => model.CreatePurchasingCustomer)
+            @Html.RadioButtonFor(model => model.CreatePurchasingCustomer, true, new {@onchange = "EnableNewPurchasingCustomer();"}) @Html.LabelFor(model => model.CreatePurchasingCustomer)
         </div>
-        <div class="editor-field" style="padding-left:20px;" id="NewPurchasingCustomer">
+        <div class="editor-field" style="padding-left:20px; display:none;" id="NewPurchasingCustomer">
             @Html.Partial("_CreateCustomer", Model.NewPurchasingCustomer, new ViewDataDictionary(Html.ViewDataContainer.ViewData) { 
                 TemplateInfo = new System.Web.Mvc.TemplateInfo { HtmlFieldPrefix = "NewPurchasingCustomer" } 
             }) 
@@ -71,16 +72,16 @@
         </div>
 
         <div class="editor-label">
-            @Html.RadioButtonFor(model => model.CreateOwningCustomer, false, new {@onclick = "DisableNewOwningCustomer();"})  @Html.LabelFor(model => model.OwningCustomerId)
+            @Html.RadioButtonFor(model => model.CreateOwningCustomer, false, new {@onchange = "DisableNewOwningCustomer();"})  @Html.LabelFor(model => model.OwningCustomerId)
         </div>
         <div class="editor-field" id="SelectOwningCustomer">
             @Html.DropDownListFor(model => model.OwningCustomerId, Model.OwningCustomers)
         </div>
 
         <div class="editor-label">
-            @Html.RadioButtonFor(model => model.CreateOwningCustomer, true, new {@onclick = "EnableNewOwningCustomer();"})  @Html.LabelFor(model => model.CreateOwningCustomer)
+            @Html.RadioButtonFor(model => model.CreateOwningCustomer, true, new {@onchange = "EnableNewOwningCustomer();"})  @Html.LabelFor(model => model.CreateOwningCustomer)
         </div>
-        <div class="editor-field" style="padding-left:20px;" id="NewOwningCustomer">
+        <div class="editor-field" style="padding-left:20px;display:none;" id="NewOwningCustomer">
             @Html.Partial("_CreateCustomer", Model.NewOwningCustomer, new ViewDataDictionary(Html.ViewDataContainer.ViewData) { 
                 TemplateInfo = new System.Web.Mvc.TemplateInfo { HtmlFieldPrefix = "NewOwningCustomer" } 
             }) 
