@@ -21,12 +21,32 @@ namespace KeyHub.Web.Controllers
         {
             using (DataContext context = new DataContext())
             {
-                //Eager loading Vendor
+                //Eager loading Transaction
                 var transactionQuery = (from x in context.Transactions select x)
                     .Include(x => x.TransactionItems.Select(s => s.Sku))
                     .Include(x => x.TransactionItems.Select(s => s.License));
 
                 TransactionIndexViewModel viewModel = new TransactionIndexViewModel(transactionQuery.ToList());
+
+                return View(viewModel);
+            }
+        }
+
+        /// <summary>
+        /// Details of a single transaction
+        /// </summary>
+        /// <param name="key">Id of the transaction to show</param>
+        /// <returns>Transaction details view</returns>
+        public ActionResult Details(int key)
+        {
+            using (DataContext context = new DataContext())
+            {
+                //Eager loading Transaction
+                var transactionQuery = (from x in context.Transactions where x.TransactionId == key select x)
+                    .Include(x => x.TransactionItems.Select(s => s.Sku))
+                    .Include(x => x.TransactionItems.Select(s => s.License));
+
+                TransactionDetailsViewModel viewModel = new TransactionDetailsViewModel(transactionQuery.FirstOrDefault());
 
                 return View(viewModel);
             }
@@ -162,7 +182,6 @@ namespace KeyHub.Web.Controllers
             using (DataContext context = new DataContext())
             {
                 BasketWrapper basket = BasketWrapper.GetByCookie();
-                basket.ExecuteStep(BasketSteps.Complete);
 
                 TransactionViewModel viewModel = new TransactionViewModel(basket.Transaction);
 
@@ -219,5 +238,6 @@ namespace KeyHub.Web.Controllers
                 return View(viewModel);
             }
         }
+
     }
 }

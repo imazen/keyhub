@@ -54,32 +54,7 @@ namespace KeyHub.Web.ViewModels.SKU
         {
             VendorName = vendor.Name;
             PrivateKeyName = privateKey.DisplayName;
-            FeatureSummary = BuildFeatureSummary(skuFeatures);
-        }
-
-        /// <summary>
-        /// Builds a summary of features assigned to an SKU
-        /// </summary>
-        /// <param name="skuFeatures">List of assigned features</param>
-        /// <returns>Summary</returns>
-        private string BuildFeatureSummary(IEnumerable<Model.SkuFeature> skuFeatures)
-        {
-            const int MAXLINES = 3;
-            const string LINEFEED = ", ";
-            string summary = "";
-
-            var filteredFeatures = skuFeatures.Take(MAXLINES);
-
-            if (filteredFeatures.Count() > 0)
-            {
-                summary = string.Join(LINEFEED, filteredFeatures.Select(x => x.Feature.FeatureCode));
-                if (skuFeatures.Count() > MAXLINES)
-                    summary += string.Format(" and {0} more...", skuFeatures.Count() - MAXLINES);
-            }
-            else
-                summary = "No features assigned";
-
-            return summary;
+            FeatureSummary = skuFeatures.ToSummary(x => x.Feature.FeatureCode, 3, ", ");
         }
 
         /// <summary>

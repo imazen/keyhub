@@ -12,7 +12,10 @@
     //Partial view. If only disabled please take care or clearing any validationmessages upon disable.
 
     //Also set disabled state on load
-
+    $(function () {
+        $('#NewPurchasingCustomer :input').attr('disabled', true);
+        $('#NewOwningCustomer :input').attr('disabled', true);
+    });
 
     function EnableNewPurchasingCustomer() {
         $('#NewPurchasingCustomer').slideToggle();

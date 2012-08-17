@@ -52,32 +52,7 @@ namespace KeyHub.Web.ViewModels.CustomerApp
         public CustomerAppIndexViewItem(Model.CustomerApp customerApp, IEnumerable<Model.License> customerAppLicenses)
             : base(customerApp)
         {
-            LicenseSummary = BuildFeatureSummary(customerAppLicenses);
-        }
-
-        /// <summary>
-        /// Builds a summary of licenses assigned to an CustomerApp
-        /// </summary>
-        /// <param name="customerAppFeatures">List of assigned features</param>
-        /// <returns>Summary</returns>
-        private string BuildFeatureSummary(IEnumerable<Model.License> customerAppLicenses)
-        {
-            const int MAXLINES = 3;
-            const string LINEFEED = ", ";
-            string summary = "";
-
-            var filteredLicenses = customerAppLicenses.Take(MAXLINES);
-
-            if (filteredLicenses.Count() > 0)
-            {
-                summary = string.Join(LINEFEED, filteredLicenses.Select(x => x.Sku.SkuCode));
-                if (customerAppLicenses.Count() > MAXLINES)
-                    summary += string.Format(" and {0} more...", customerAppLicenses.Count() - MAXLINES);
-            }
-            else
-                summary = "No license assigned";
-
-            return summary;
+            LicenseSummary = customerAppLicenses.ToSummary(x => x.Sku.SkuCode, 3, ", ");
         }
 
         /// <summary>

@@ -13,6 +13,11 @@ namespace KeyHub.Model
     /// </summary>
     public partial class CustomerApp
     {
+        public CustomerApp()
+        {
+            LicenseCustomerApps = new List<LicenseCustomerApp>();
+        }
+
         /// <summary>
         /// Indentifier for the CustomerApp entity
         /// </summary>

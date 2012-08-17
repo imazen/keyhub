@@ -7,29 +7,26 @@ using System.Web;
 namespace KeyHub.Web.ViewModels.Transaction
 {
     /// <summary>
-    /// Viewmodel for index list of a Transaction
+    /// Viewmodel for details of a single Transaction
     /// </summary>
-    public class TransactionIndexViewModel : BaseViewModel<Model.Transaction>
+    public class TransactionDetailsViewModel : BaseViewModel<Model.Transaction>
     {
-        public TransactionIndexViewModel() : base() { }
+        public TransactionDetailsViewModel() : base() { }
 
         /// <summary>
         /// Construct the viewmodel
         /// </summary>
-        /// <param name="transactionList">List of transaction entities</param>
-        public TransactionIndexViewModel(List<Model.Transaction> transactionList):this()
+        /// <param name="transaction">Transaction entity</param>
+        public TransactionDetailsViewModel(Model.Transaction transaction)
+            : this()
         {
-            Transactions = new List<TransactionIndexViewItem>();
-            foreach (Model.Transaction entity in transactionList)
-            {
-                Transactions.Add(new TransactionIndexViewItem(entity, entity.TransactionItems));
-            }
+            Transaction = new TransactionDetailsViewItem(transaction, transaction.TransactionItems);
         }
 
         /// <summary>
-        /// List of transactions
+        /// Transaction viewmodel
         /// </summary>
-        public List<TransactionIndexViewItem> Transactions { get; set; }
+        public TransactionDetailsViewItem Transaction { get; set; }
 
         /// <summary>
         /// Convert back to Transaction instance
@@ -45,15 +42,15 @@ namespace KeyHub.Web.ViewModels.Transaction
     /// <summary>
     /// TransactionViewModel extension that includes the name of the countrycode assinged country
     /// </summary>
-    public class TransactionIndexViewItem : TransactionViewModel
+    public class TransactionDetailsViewItem : TransactionViewModel
     {
-        public TransactionIndexViewItem(Model.Transaction transaction, IEnumerable<Model.TransactionItem> transactionItems)
+        public TransactionDetailsViewItem(Model.Transaction transaction, IEnumerable<Model.TransactionItem> transactionItems)
             : base(transaction)
         {
             PurchaserName = (transactionItems.FirstOrDefault().License != null) ?
                 transactionItems.FirstOrDefault().License.PurchasingCustomer.Name : "None";
 
-            SKUSummary = (from x in transactionItems select x.Sku).ToSummary(x => x.SkuCode, 3, ", ");
+            SKUSummary = (from x in transactionItems select x.Sku).ToSummary(x => x.SkuCode, 99, ", ");
         }
 
         /// <summary>
@@ -63,9 +60,9 @@ namespace KeyHub.Web.ViewModels.Transaction
         public string PurchaserName { get; set; }
 
         /// <summary>
-        /// SKU summary.
+        /// SKUs bought by this transaction.
         /// </summary>
-        [DisplayName("SKUs")]
+        [DisplayName("Purchased SKUs")]
         public string SKUSummary { get; set; }
     }
 }

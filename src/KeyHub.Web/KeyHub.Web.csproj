@@ -180,6 +180,7 @@
     <Compile Include="ViewModels\Transaction\TransactionCreateViewModel.cs" />
     <Compile Include="ViewModels\Transaction\TransactionViewModel.cs" />
     <Compile Include="ViewModels\Transaction\TransactionIndexViewModel.cs" />
+    <Compile Include="ViewModels\Transaction\TransactionDetailsViewModel.cs" />
     <Compile Include="ViewModels\Vendor\VendorCreateViewModel.cs" />
     <Compile Include="ViewModels\Vendor\VendorDetailsViewModel.cs" />
     <Compile Include="ViewModels\Vendor\VendorEditViewModel.cs" />
@@ -412,6 +413,7 @@
     <Content Include="Views\Transaction\Complete.cshtml" />
     <Content Include="Views\Transaction\Purchase.cshtml" />
     <Content Include="Views\Transaction\Index.cshtml" />
+    <Content Include="Views\Transaction\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

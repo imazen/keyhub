@@ -21,7 +21,9 @@ namespace KeyHub.Web.ViewModels.CustomerApp
         {
             this.CustomerApp = new CustomerAppEditViewItem(currentCustomerApp);
 
-            this.LicenseList = licenses.ToMultiSelectList(x => x.ObjectId, x => x.Sku.SkuCode);
+            var licenseQuery = from x in licenses select new { ObjectId = x.ObjectId, Name = x.Sku.SkuCode };
+
+            this.LicenseList = licenseQuery.ToList().ToMultiSelectList(x => x.ObjectId, x => x.Name);
         }
 
         /// <summary>

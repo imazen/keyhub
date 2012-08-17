@@ -21,7 +21,9 @@ namespace KeyHub.Web.ViewModels.CustomerApp
         {
             CustomerApp = new CustomerAppCreateViewItem(new Model.CustomerApp());
 
-            LicenseList = licenses.ToMultiSelectList(x => x.ObjectId, x => x.Sku.SkuCode);
+            var licenseQuery = from x in licenses select new { ObjectId = x.ObjectId, Name = x.Sku.SkuCode };
+
+            this.LicenseList = licenseQuery.ToList().ToMultiSelectList(x => x.ObjectId, x => x.Name);
         }
 
         /// <summary>
@@ -67,7 +69,9 @@ namespace KeyHub.Web.ViewModels.CustomerApp
 
         public CustomerAppCreateViewItem(Model.CustomerApp customerApp)
             : base(customerApp)
-        { }
+        {
+            SelectedLicenseGUIDs = new List<Guid>();
+        }
 
         /// <summary>
         /// Guid list of assigned licenses
