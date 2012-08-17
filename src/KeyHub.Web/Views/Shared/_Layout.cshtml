@@ -8,8 +8,7 @@
         @*@Styles.Render("~/Content/themes/base/css", "~/Content/css")*@
        <link href="/Content/Styles/Default.css" rel="stylesheet" type="text/css" />
 
-        @Scripts.Render("~/bundles/modernizr")
-
+        @Scripts.Render("~/bundles/modernizr", "~/bundles/jquery", "~/bundles/jqueryval")
 
 
     </head>
@@ -25,8 +24,9 @@
                             <li>@Html.ActionLink("Features", "Index", "Feature")</li>
                             <li>@Html.ActionLink("SKUs", "Index", "SKU")</li>
                             <li>@Html.ActionLink("Customers", "Index", "Customer")</li>
-                            <li>@Html.ActionLink("Licenses", "Index", "License")</li>
+                            <li>@Html.ActionLink("Transactions", "Index", "Transaction")</li>
                             <li>@Html.ActionLink("Licensed applications", "Index", "CustomerApp")</li>
+                            <li>@Html.ActionLink("Individual licenses", "Index", "License")</li>
                         </ul>
                     </div>
                     <div class="LoginPartial">
