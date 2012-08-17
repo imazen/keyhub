@@ -1,0 +1,36 @@
+﻿@model KeyHub.Web.ViewModels.Transaction.TransactionIndexViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Transactions.FirstOrDefault().PurchaserName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Transactions.FirstOrDefault().SKUSummary)
+        </th>
+    </tr>
+
+@foreach (var item in Model.Transactions) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.PurchaserName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SKUSummary)
+        </td>
+        <td>
+            @Html.ActionLink("Details", "Details", new { id = item.TransactionId } )
+        </td>
+    </tr>
+}
+
+</table>

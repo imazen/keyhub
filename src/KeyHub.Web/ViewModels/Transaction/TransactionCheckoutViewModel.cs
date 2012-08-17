@@ -32,8 +32,8 @@ namespace KeyHub.Web.ViewModels.Transaction
             //Set default selected Owning and Purchasing Customer
             //PurchasingCustomerId=..
             //OwningCustomerId=..
-            CreatePurchasingCustomer = true;
-            CreateOwningCustomer = true;
+            CreatePurchasingCustomer = false;
+            CreateOwningCustomer = false;
             OwingCustomerIsPurchasingCustomerId = true;
             NewPurchasingCustomer = new CustomerCreateViewModel(countries);
             NewOwningCustomer = new CustomerCreateViewModel(countries);
