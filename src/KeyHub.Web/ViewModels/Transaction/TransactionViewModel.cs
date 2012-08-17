@@ -41,7 +41,9 @@ namespace KeyHub.Web.ViewModels.Transaction
 
             current.TransactionId = this.TransactionId;
             current.Status = this.Status;
-            current.CreatedDateTime = this.CreatedDateTime;
+            
+            //Do not update createdDateTime from viewmodel
+            //current.CreatedDateTime = this.CreatedDateTime;
 
             return current;
         }

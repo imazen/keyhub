@@ -98,6 +98,7 @@ namespace KeyHub.BusinessLogic.Basket
                     if (context.Entry(Transaction).State == System.Data.EntityState.Detached)
                         context.Transactions.Add(Transaction);
                     Transaction.Status = TransactionStatus.Create;
+                    Transaction.CreatedDateTime = DateTime.Now;
                     break;
                 case BasketSteps.Checkout:
                     //Add PurchasingCustomer if none existing
