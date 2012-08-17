@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace KeyHub.Model
 {
-    // TODO: Finish this entity
     /// <summary>
     /// Transaction for storing transaction information
     /// </summary>
@@ -17,6 +16,7 @@ namespace KeyHub.Model
         public Transaction()
         {
             TransactionItems = new List<TransactionItem>();
+            Status = TransactionStatus.Create;
         }
 
         /// <summary>
@@ -25,6 +25,18 @@ namespace KeyHub.Model
         [Key]
         [DatabaseGenerated(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity)]
         public int TransactionId { get; set; }
+
+        /// <summary>
+        /// Status of the transaction
+        /// </summary>
+        [Required]
+        public TransactionStatus Status { get; set; }
+
+        /// <summary>
+        /// Date the transaction was created on
+        /// </summary>
+        [Column(TypeName = "datetime2")]
+        public DateTime CreatedDateTime { get; set; }
 
         /// <summary>
         /// The list of transaction items this SKU consists of.

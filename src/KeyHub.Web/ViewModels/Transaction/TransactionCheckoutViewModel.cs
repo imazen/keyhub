@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using KeyHub.Web.ViewModels.Customer;
+using KeyHub.Data;
 
 namespace KeyHub.Web.ViewModels.Transaction
 {
