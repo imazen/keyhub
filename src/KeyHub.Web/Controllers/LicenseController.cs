@@ -18,9 +18,8 @@ namespace KeyHub.Web.Controllers
         /// <summary>
         /// Get list of Licenses
         /// </summary>
-        /// <param name="transactionID">Optionally show by transactionID</param>
         /// <returns>License index list view</returns>
-        public ActionResult Index(int transactionID = 0)
+        public ActionResult Index()
         {
             using (DataContext context = new DataContext())
             {
@@ -31,6 +30,26 @@ namespace KeyHub.Web.Controllers
                 LicenseIndexViewModel viewModel = new LicenseIndexViewModel(licenseQuery.ToList());
 
                 return View(viewModel);
+            }
+        }
+
+        /// <summary>
+        /// Get list of Licenses
+        /// </summary>
+        /// <param name="transactionID">TransactionID to show licenses for</param>
+        /// <returns>License index list view</returns>
+        public ActionResult IndexPartial(int transactionID)
+        {
+            using (DataContext context = new DataContext())
+            {
+                //Eager loading License
+                var licenseQuery = (from l in context.Licenses
+                                    where l.TransactionItems.FirstOrDefault().TransactionId == transactionID
+                                    select l).Include(x => x.PurchasingCustomer).Include(x => x.OwningCustomer).Include(x => x.Sku);
+
+                LicenseIndexViewModel viewModel = new LicenseIndexViewModel(licenseQuery.ToList());
+
+                return PartialView(viewModel);
             }
         }
 

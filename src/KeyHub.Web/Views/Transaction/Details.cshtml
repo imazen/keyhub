@@ -8,6 +8,11 @@
 
 @Html.Partial("DetailsPartial", Model) 
 
+<br />
+
+<h3>Licenses</h3>
+@Html.Action("IndexPartial", "License", new {transactionID = Model.Transaction.TransactionId }) 
+
 <p>
     @Html.ActionLink("Back to List", "Index")
 </p>

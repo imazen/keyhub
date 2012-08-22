@@ -41,8 +41,8 @@ namespace KeyHub.Web.Controllers
             using (DataContext context = new DataContext())
             {
                 var vendorQuery = from x in context.Vendors select x;
-                var privateKeyQuery = from x in context.PrivateKeys select x;
-                var featureQuery = from x in context.Features select x;
+                var privateKeyQuery = from x in context.PrivateKeys orderby x.DisplayName select x;
+                var featureQuery = from x in context.Features orderby x.FeatureCode select x;
 
                 SKUCreateViewModel viewModel = new SKUCreateViewModel(vendorQuery.ToList(), privateKeyQuery.ToList(), 
                     featureQuery.ToList());

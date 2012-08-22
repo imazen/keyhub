@@ -411,10 +411,11 @@
     <Content Include="Views\Transaction\Checkout.cshtml" />
     <Content Include="Views\Shared\_CreateCustomer.cshtml" />
     <Content Include="Views\Transaction\Complete.cshtml" />
-    <Content Include="Views\Transaction\Purchase.cshtml" />
     <Content Include="Views\Transaction\Index.cshtml" />
     <Content Include="Views\Transaction\Details.cshtml" />
     <Content Include="Views\Transaction\DetailsPartial.cshtml" />
+    <Content Include="Views\Transaction\ClaimLicenses.cshtml" />
+    <Content Include="Views\License\IndexPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

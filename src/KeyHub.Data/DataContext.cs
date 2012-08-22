@@ -42,6 +42,8 @@ namespace KeyHub.Data
 
         public DbSet<Transaction> Transactions { get; set; }
 
+        public DbSet<TransactionItem> TransactionItems { get; set; }
+
         public DbSet<Vendor> Vendors { get; set; }
 
         public DbSet<Customer> Customers { get; set; }

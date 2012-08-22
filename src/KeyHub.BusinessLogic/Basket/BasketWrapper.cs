@@ -31,16 +31,29 @@ namespace KeyHub.BusinessLogic.Basket
         /// </summary>
         private DataContext context;
 
-        /// <summary>
-        /// Get a basketwrapper based the cookievalue
-        /// </summary>
-        /// <returns>An instance of a basketwrapper serving the transaction from the cookie</returns>
-        public static BasketWrapper GetByCookie()
-        {
-            int transactionId = HasBasketCookie() ? GetBasketId() : 0;
+        //COOKIES DISABLED FOR NOW, CAN BE DELETED?
+        ///// <summary>
+        ///// Get a basketwrapper based the cookievalue
+        ///// </summary>
+        ///// <returns>An instance of a basketwrapper serving the transaction from the cookie</returns>
+        //public static BasketWrapper GetByCookie()
+        //{
+        //    int transactionId = HasBasketCookie() ? GetBasketId() : 0;
 
+        //    BasketWrapper basket = new BasketWrapper();
+        //    basket.LoadTransaction(transactionId);
+
+        //    return basket;
+        //}
+
+        /// <summary>
+        /// Start a new basket
+        /// </summary>
+        /// <returns>An instance of a basketwrapper serving a new transaction</returns>
+        public static BasketWrapper CreateNew()
+        {
             BasketWrapper basket = new BasketWrapper();
-            basket.LoadTransaction(transactionId);
+            basket.Transaction = new Transaction() { CreatedDateTime = DateTime.Now };
 
             return basket;
         }
@@ -95,18 +108,18 @@ namespace KeyHub.BusinessLogic.Basket
             {
                 case BasketSteps.Create:
                     //Add transaction if none existing
-                    if (context.Entry(Transaction).State == System.Data.EntityState.Detached)
+                    if ((from x in context.Transactions where x.TransactionId == this.Transaction.TransactionId select x).Count() == 0)
                         context.Transactions.Add(Transaction);
                     Transaction.Status = TransactionStatus.Create;
                     Transaction.CreatedDateTime = DateTime.Now;
                     break;
                 case BasketSteps.Checkout:
                     //Add PurchasingCustomer if none existing
-                    if (context.Entry(PurchasingCustomer).State == System.Data.EntityState.Detached)
+                    if ((from x in context.Customers where x.ObjectId == this.PurchasingCustomer.ObjectId select x).Count() == 0)
                         context.Customers.Add(PurchasingCustomer);
 
                     //Add OwningCustomer if none existing
-                    if (context.Entry(OwningCustomer).State == System.Data.EntityState.Detached)
+                    if ((from x in context.Customers where x.ObjectId == this.OwningCustomer.ObjectId select x).Count() == 0)
                         context.Customers.Add(OwningCustomer);
 
                     //Create licenses for every transactionitem
@@ -117,9 +130,9 @@ namespace KeyHub.BusinessLogic.Basket
                             License newLicense = new Model.License()
                             {
                                 SkuId = item.SkuId,
-                                PurchasingCustomer = PurchasingCustomer,
-                                OwningCustomer = OwningCustomer,
-                                OwnerName = OwningCustomer.Name,
+                                PurchasingCustomerId = this.PurchasingCustomer.ObjectId,
+                                OwningCustomerId = this.OwningCustomer.ObjectId,
+                                OwnerName = this.OwningCustomer.Name,
                                 LicenseIssued = DateTime.Now,
                                 LicenseExpires = DateTime.Now.AddYears(1)
                             };
@@ -128,13 +141,7 @@ namespace KeyHub.BusinessLogic.Basket
                             item.License = newLicense;
                         }
                     }
-                    Transaction.Status = TransactionStatus.CheckoutComplete;
-                    break;
-                case BasketSteps.PurchaseStart:
-                    Transaction.Status = TransactionStatus.PurchaseStart;
-                    break;
-                case BasketSteps.PurchasePending:
-                    Transaction.Status = TransactionStatus.PurchasePending;
+                    Transaction.Status = TransactionStatus.Complete;
                     break;
                 case BasketSteps.Complete:
                     Transaction.Status = TransactionStatus.Complete;
@@ -143,12 +150,11 @@ namespace KeyHub.BusinessLogic.Basket
             
             context.SaveChanges();
 
-            //Save cookie while purchase is being created, if pending or higher remove cookie
-            //After status pending is reached, a new transaction can be started by the user
-            if (step < BasketSteps.PurchasePending)
-                SaveBasketId(Transaction.TransactionId);
-            else
-                RemoveBasketCookie();
+            //NO NEED FOR COOKIES, CAN BE DELETED?
+            //if (step < BasketSteps.Complete)
+            //    SaveBasketId(Transaction.TransactionId);
+            //else
+            //    RemoveBasketCookie();
         }
 
         /// <summary>
@@ -172,10 +178,6 @@ namespace KeyHub.BusinessLogic.Basket
                     .Include(x => x.TransactionItems.Select(s => s.Sku))
                     .Include(x => x.TransactionItems.Select(s => s.License))
                     .FirstOrDefault();
-
-            //No transaction in cookie or transaction was not found
-            if (Transaction == null)
-                Transaction = new Transaction() { CreatedDateTime = DateTime.Now };
         }
 
         #region "BasketId from Cookie"

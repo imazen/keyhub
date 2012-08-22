@@ -1,0 +1,42 @@
+﻿@model KeyHub.Web.ViewModels.Transaction.TransactionDetailsViewModel
+@{
+    ViewBag.Title = "ClaimLicenses";
+}
+
+<h2>Welcome to KeyHub</h2>
+
+<h3>Your are now ready to claim your license. Please review your transaction below and proceed to checkout.</h3>
+
+@using (Html.BeginForm()) {
+    <fieldset>
+        <legend>TransactionDetailsViewItem</legend>
+
+        @Html.HiddenFor(model => model.Transaction.TransactionId)
+
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.Transaction.SKUSummary)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.Transaction.SKUSummary)
+        </div>
+
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.Transaction.CreatedDateTime)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.Transaction.CreatedDateTime)
+        </div>
+
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.Transaction.StatusName)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.Transaction.StatusName)
+        </div>
+
+        <p>
+            <input type="submit" value="Proceed to checkout" />
+        </p>
+    </fieldset>
+}
+

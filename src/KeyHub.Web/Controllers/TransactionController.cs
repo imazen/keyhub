@@ -83,7 +83,7 @@ namespace KeyHub.Web.Controllers
         {
             using (DataContext context = new DataContext())
             {
-                BasketWrapper basket = BasketWrapper.GetByCookie();
+                BasketWrapper basket = BasketWrapper.CreateNew();
                 
                 var skuQuery = from x in context.SKUs orderby x.SkuCode select x;
 
@@ -105,14 +105,14 @@ namespace KeyHub.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    BasketWrapper basket = BasketWrapper.GetByCookie();
+                    BasketWrapper basket = BasketWrapper.CreateNew();
 
                     viewModel.ToEntity(basket.Transaction);
                     
                     basket.AddSKUs(viewModel.GetSelectedSKUGUIDs());
                     basket.ExecuteStep(BasketSteps.Create);
 
-                    return RedirectToAction("Checkout");
+                    return RedirectToAction("Checkout", new { key = basket.Transaction.TransactionId.ToString().EncryptUrl() });
                 }
                 else
                 {
@@ -125,16 +125,66 @@ namespace KeyHub.Web.Controllers
             }
         }
 
+        /// <summary>
+        /// Claim an existing Transaction into licenses
+        /// </summary>
+        /// <param name="key">Encrypted key of the transaction to claim</param>
+        /// <returns>Claim transaction view</returns>
+        public ActionResult ClaimLicenses(string key)
+        {
+            int transactionID = Common.Utils.SafeConvert.ToInt(key.DecryptUrl(), -1);
+
+            using (DataContext context = new DataContext())
+            {
+                BasketWrapper basket = BasketWrapper.GetByTransactionId(transactionID);
+
+                TransactionDetailsViewModel viewModel = new TransactionDetailsViewModel(basket.Transaction);
+
+                return View(viewModel);
+            }
+        }
+
+        /// <summary>
+        /// Process claimed transaction and proceed to checkout
+        /// </summary>
+        /// <param name="viewModel">TransactionDetailsViewModel of transaction to claim</param>
+        /// <returns>Redirect to checkout</returns>
+        [HttpPost]
+        public ActionResult ClaimLicenses(TransactionDetailsViewModel viewModel)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    BasketWrapper basket = BasketWrapper.GetByTransactionId(viewModel.Transaction.TransactionId);
+
+                    viewModel.ToEntity(basket.Transaction);
+
+                    return RedirectToAction("Checkout", new { key = basket.Transaction.TransactionId.ToString().EncryptUrl() });
+                }
+                else
+                {
+                    return View(viewModel);
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
 
         /// <summary>
         /// Create a single Transaction checkout
         /// </summary>
+        /// <param name="key">Encrypted key of the transaction to claim</param>
         /// <returns>Transaction checkout view</returns>
-        public ActionResult Checkout()
+        public ActionResult Checkout(string key)
         {
+            int transactionID = Common.Utils.SafeConvert.ToInt(key.DecryptUrl(), -1);
+
             using (DataContext context = new DataContext())
             {
-                BasketWrapper basket = BasketWrapper.GetByCookie();
+                BasketWrapper basket = BasketWrapper.GetByTransactionId(transactionID);
 
                 var owningCustomerQuery = (from x in context.Customers orderby x.Name select x);
                 var purchasingCustomerQuery = (from x in context.Customers orderby x.Name select x);
@@ -151,7 +201,7 @@ namespace KeyHub.Web.Controllers
         /// Save transaction checkout into db and redirect to ...
         /// </summary>
         /// <param name="viewModel">Created TransactionCheckoutViewModel</param>
-        /// <returns>Redirectaction to purchase if successfull</returns>
+        /// <returns>Redirect to purchase if successfull</returns>
         [HttpPost]
         public ActionResult Checkout(TransactionCheckoutViewModel viewModel)
         {
@@ -161,7 +211,7 @@ namespace KeyHub.Web.Controllers
                 {
                     using (DataContext context = new DataContext())
                     {
-                        BasketWrapper basket = BasketWrapper.GetByCookie();
+                        BasketWrapper basket = BasketWrapper.GetByTransactionId(viewModel.Transaction.TransactionId);
 
                         viewModel.ToEntity(basket.Transaction);
 
@@ -183,56 +233,6 @@ namespace KeyHub.Web.Controllers
                         }
 
                         basket.ExecuteStep(BasketSteps.Checkout);
-
-                        return RedirectToAction("Purchase");
-                    }
-                }
-                else
-                {
-                    return View(viewModel);
-                }
-            }
-            catch
-            {
-                throw;
-            }
-        }
-
-        /// <summary>
-        /// Purchase transaction through e-commerce
-        /// </summary>
-        /// <returns>Purchase transaction view</returns>
-        public ActionResult Purchase()
-        {
-            using (DataContext context = new DataContext())
-            {
-                BasketWrapper basket = BasketWrapper.GetByCookie();
-
-                basket.ExecuteStep(BasketSteps.PurchaseStart);
-
-                TransactionViewModel viewModel = new TransactionViewModel(basket.Transaction);
-
-                return View(viewModel);
-            }
-        }
-
-        /// <summary>
-        /// Process transaction transaction purchase
-        /// </summary>
-        /// <param name="viewModel">Created TransactionViewModel</param>
-        /// <returns>Redirectaction to complete if successfull</returns>
-        [HttpPost]
-        public ActionResult Purchase(TransactionViewModel viewModel)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    using (DataContext context = new DataContext())
-                    {
-                        BasketWrapper basket = BasketWrapper.GetByCookie();
-
-                        basket.ExecuteStep(BasketSteps.PurchasePending);
 
                         return RedirectToAction("Complete", new { key = basket.Transaction.TransactionId.ToString().EncryptUrl() });
                     }
@@ -259,10 +259,10 @@ namespace KeyHub.Web.Controllers
         /// </remarks>
         public ActionResult Complete(string key)
         {
-            int decryptedKey = Common.Utils.SafeConvert.ToInt(key.DecryptUrl(), -1);
+            int transactionID = Common.Utils.SafeConvert.ToInt(key.DecryptUrl(), -1);
             using (DataContext context = new DataContext())
             {
-                BasketWrapper basket = BasketWrapper.GetByTransactionId(decryptedKey);
+                BasketWrapper basket = BasketWrapper.GetByTransactionId(transactionID);
                 
                 basket.ExecuteStep(BasketSteps.Complete);
 

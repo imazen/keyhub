@@ -4,7 +4,7 @@
     ViewBag.Title = "Complete";
 }
 
-<h2>Your purchase has completed</h2>
+<h2>License claim complete</h2>
 
 <fieldset>
     <legend>TransactionViewModel</legend>
@@ -18,6 +18,11 @@
 </fieldset>
 
 @Html.Partial("DetailsPartial", Model) 
+
+<br />
+
+<h3>Licenses</h3>
+@Html.Action("IndexPartial", "License", new {transactionID = Model.Transaction.TransactionId }) 
 
 <p>
     @Html.ActionLink("Buy SKUs now!", "Create", "Transaction")

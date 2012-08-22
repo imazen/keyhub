@@ -18,13 +18,13 @@
             @Html.DisplayNameFor(model => model.SKUs.FirstOrDefault().VendorName)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.SKUs.FirstOrDefault().SkuCode)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.SKUs.FirstOrDefault().PrivateKeyName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.SKUs.FirstOrDefault().FeatureSummary)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SKUs.FirstOrDefault().SkuCode)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.SKUs.FirstOrDefault().ReleaseDate)
@@ -42,13 +42,13 @@
             @*@Html.ActionLink("Edit", "Edit", new { key=item.SkuId })*@
         </td>
         <td>
+            @Html.DisplayFor(modelItem => item.SkuCode)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.PrivateKeyName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.FeatureSummary)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SkuCode)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.ReleaseDate)

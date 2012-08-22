@@ -12,15 +12,9 @@ namespace KeyHub.Model
     /// </summary>
     public enum TransactionStatus
     {
-        [Description("SKUs selected, waiting for customer details")] 
+        [Description("Transaction ready for checkout")] 
         Create = 0,
-        [Description("Checkout complete, waiting for payment")] 
-        CheckoutComplete,
-        [Description("Purchase pending, waiting for payment to start")]
-        PurchaseStart,
-        [Description("Payment pending, waiting for payment to complete")] 
-        PurchasePending,
-        [Description("Purchase complete, licenses available")] 
-        Complete
+        [Description("Licenses available")] 
+        Complete = 99
     }
 }

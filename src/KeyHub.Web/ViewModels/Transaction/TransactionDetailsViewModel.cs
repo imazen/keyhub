@@ -36,7 +36,7 @@ namespace KeyHub.Web.ViewModels.Transaction
         /// <returns>Transaction containing viewmodel data </returns>
         public override Model.Transaction ToEntity(Model.Transaction original)
         {
-            throw new NotImplementedException();
+            return Transaction.ToEntity(original);
         }
     }
 
@@ -45,6 +45,9 @@ namespace KeyHub.Web.ViewModels.Transaction
     /// </summary>
     public class TransactionDetailsViewItem : TransactionViewModel
     {
+        public TransactionDetailsViewItem() : base()
+        { }
+
         public TransactionDetailsViewItem(Model.Transaction transaction, IEnumerable<Model.TransactionItem> transactionItems)
             : base(transaction)
         {
@@ -71,7 +74,7 @@ namespace KeyHub.Web.ViewModels.Transaction
         /// <summary>
         /// Status of the transaction
         /// </summary>
-        [DisplayName("Status")]
+        [DisplayName("Transaction status")]
         public string StatusName { get; set; }
     }
 }
