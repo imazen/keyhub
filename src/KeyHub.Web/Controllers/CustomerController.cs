@@ -13,7 +13,7 @@ namespace KeyHub.Web.Controllers
     /// <summary>
     /// Controller for the Customer entity
     /// </summary>
-    public class CustomerController : Controller
+    public class CustomerController : ControllerBase
     {
         /// <summary>
         /// Get list of Customers
@@ -21,10 +21,10 @@ namespace KeyHub.Web.Controllers
         /// <returns>Customer index list view</returns>
         public ActionResult Index()
         {
-            using (DataContext context = new DataContext())
+            using (DataContext context = new DataContext(User.Identity))
             {
                 //Eager loading Customer
-                var customerQuery = (from x in context.Customers select x).Include(x => x.Country);
+                var customerQuery = (from x in context.Customers select x).Include(x => x.Country);//.FilterByUser(UserEntity);
 
                 CustomerIndexViewModel viewModel = new CustomerIndexViewModel(customerQuery.ToList());
 
@@ -38,7 +38,7 @@ namespace KeyHub.Web.Controllers
         /// <returns>Create Customer view</returns>
         public ActionResult Create()
         {
-            using (DataContext context = new DataContext())
+            using (DataContext context = new DataContext(User.Identity))
             {
                 var countryQuery = from x in context.Countries select x;
 
@@ -60,7 +60,7 @@ namespace KeyHub.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    using (DataContext context = new DataContext())
+                    using (DataContext context = new DataContext(User.Identity))
                     {
                         Model.Customer customer = viewModel.ToEntity(null);
                         context.Customers.Add(customer);
@@ -87,7 +87,7 @@ namespace KeyHub.Web.Controllers
         /// <returns>Edit Customer view</returns>
         public ActionResult Edit(Guid key)
         {
-            using (DataContext context = new DataContext())
+            using (DataContext context = new DataContext(User.Identity))
             {
                 var customerQuery = from x in context.Customers where x.ObjectId == key select x;
                 var countryQuery = from x in context.Countries select x;
@@ -111,7 +111,7 @@ namespace KeyHub.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    using (DataContext context = new DataContext())
+                    using (DataContext context = new DataContext(User.Identity))
                     {
                         Model.Customer customer = (from x in context.Customers where x.ObjectId == viewModel.Customer.ObjectId select x).FirstOrDefault();
                         viewModel.ToEntity(customer);

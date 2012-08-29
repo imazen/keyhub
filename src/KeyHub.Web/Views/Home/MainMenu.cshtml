@@ -1,0 +1,24 @@
+﻿@model KeyHub.Web.ViewModels.User.CurrentUserViewModel
+
+<div class="HeaderMenu">
+    <ul class="HeaderMenu">
+        @if (Model.IsVendorAdmin)
+        {
+            <li class="Active">@Html.ActionLink("Vendors", "Index", "Vendor")</li>
+            <li>@Html.ActionLink("Features", "Index", "Feature")</li>
+            <li>@Html.ActionLink("SKUs", "Index", "SKU")</li>
+        }
+
+        @if (Model.CanEditCustomerInfo)
+        {
+            <li>@Html.ActionLink("Customers", "Index", "Customer")</li>
+            <li>@Html.ActionLink("Transactions", "Index", "Transaction")</li>
+        }
+
+        @if (Model.CanEditLicenseInfo)
+        {
+            <li>@Html.ActionLink("Licenses", "Index", "License")</li>
+            <li>@Html.ActionLink("Licensed applications", "Index", "CustomerApp")</li>
+        }
+    </ul>
+</div>

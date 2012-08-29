@@ -55,6 +55,7 @@
     <Compile Include="Caching\IRuntimeCacheProvider.cs" />
     <Compile Include="Data\IEntityConfiguration.cs" />
     <Compile Include="Dependency\IGenericImportOrder.cs" />
+    <Compile Include="Dependency\InternalDeployedAssemblyLoader.cs" />
     <Compile Include="Issues\GenericIssue.cs" />
     <Compile Include="Issues\IIssue.cs" />
     <Compile Include="Issues\IssueSeverity.cs" />

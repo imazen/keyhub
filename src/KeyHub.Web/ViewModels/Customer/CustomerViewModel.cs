@@ -30,7 +30,6 @@ namespace KeyHub.Web.ViewModels.Customer
             City = customer.City;
             Region = customer.Region;
             CountryCode = customer.CountryCode;
-            PayPalId = customer.PayPalId;
         }
 
         /// <summary>
@@ -50,7 +49,6 @@ namespace KeyHub.Web.ViewModels.Customer
             current.City = this.City;
             current.Region = this.Region;
             current.CountryCode = this.CountryCode;
-            current.PayPalId = this.PayPalId;
 
             return current;
         }
@@ -109,11 +107,5 @@ namespace KeyHub.Web.ViewModels.Customer
         [Required]
         [StringLength(12)]
         public string CountryCode { get; set; }
-
-        /// <summary>
-        /// Paypal ID for this customer
-        /// </summary>
-        [StringLength(256)]
-        public string PayPalId { get; set; }
     }
 }

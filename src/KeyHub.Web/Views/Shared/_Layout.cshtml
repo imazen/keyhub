@@ -18,17 +18,8 @@
                 <div class="LayoutWrapper">
                     @Html.ActionLink("KeyHub", "Index", "Home", null, new { @class= "Logo"})
 
-                    <div class="HeaderMenu">
-                        <ul class="HeaderMenu">
-                            <li class="Active">@Html.ActionLink("Vendors", "Index", "Vendor")</li>
-                            <li>@Html.ActionLink("Features", "Index", "Feature")</li>
-                            <li>@Html.ActionLink("SKUs", "Index", "SKU")</li>
-                            <li>@Html.ActionLink("Customers", "Index", "Customer")</li>
-                            <li>@Html.ActionLink("Transactions", "Index", "Transaction")</li>
-                            <li>@Html.ActionLink("Licensed applications", "Index", "CustomerApp")</li>
-                            <li>@Html.ActionLink("Individual licenses", "Index", "License")</li>
-                        </ul>
-                    </div>
+                    @Html.Action("MainMenu", "Home") 
+
                     <div class="LoginPartial">
                         @Html.Partial("_LoginPartial")
                     </div>

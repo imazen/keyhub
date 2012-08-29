@@ -12,6 +12,10 @@ using KeyHub.Data;
 
 namespace KeyHub.Web.Controllers
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    //[Authorize]
     public class TransactionController : Controller
     {
         /// <summary>
@@ -20,7 +24,7 @@ namespace KeyHub.Web.Controllers
         /// <returns>Transaction index list view</returns>
         public ActionResult Index()
         {
-            using (DataContext context = new DataContext())
+            using (DataContext context = new DataContext(User.Identity))
             {
                 //Eager loading Transaction
                 var transactionQuery = (from x in context.Transactions orderby x.CreatedDateTime select x)
@@ -42,7 +46,7 @@ namespace KeyHub.Web.Controllers
         {
             int decryptedKey = Common.Utils.SafeConvert.ToInt(key.DecryptUrl(), -1);
 
-            using (DataContext context = new DataContext())
+            using (DataContext context = new DataContext(User.Identity))
             {
                 //Eager loading Transaction
                 var transactionQuery = (from x in context.Transactions where x.TransactionId == decryptedKey select x)
@@ -62,7 +66,7 @@ namespace KeyHub.Web.Controllers
         /// <returns>Transaction details partial view</returns>
         public ActionResult DetailsPartial(int key)
         {
-            using (DataContext context = new DataContext())
+            using (DataContext context = new DataContext(User.Identity))
             {
                 //Eager loading Transaction
                 var transactionQuery = (from x in context.Transactions where x.TransactionId == key select x)
@@ -81,9 +85,9 @@ namespace KeyHub.Web.Controllers
         /// <returns>Create transaction view</returns>
         public ActionResult Create()
         {
-            using (DataContext context = new DataContext())
+            using (DataContext context = new DataContext(User.Identity))
             {
-                BasketWrapper basket = BasketWrapper.CreateNew();
+                BasketWrapper basket = BasketWrapper.CreateNew(User.Identity);
                 
                 var skuQuery = from x in context.SKUs orderby x.SkuCode select x;
 
@@ -105,7 +109,7 @@ namespace KeyHub.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    BasketWrapper basket = BasketWrapper.CreateNew();
+                    BasketWrapper basket = BasketWrapper.CreateNew(User.Identity);
 
                     viewModel.ToEntity(basket.Transaction);
                     
@@ -130,13 +134,14 @@ namespace KeyHub.Web.Controllers
         /// </summary>
         /// <param name="key">Encrypted key of the transaction to claim</param>
         /// <returns>Claim transaction view</returns>
+        [AllowAnonymous]
         public ActionResult ClaimLicenses(string key)
         {
             int transactionID = Common.Utils.SafeConvert.ToInt(key.DecryptUrl(), -1);
 
-            using (DataContext context = new DataContext())
+            using (DataContext context = new DataContext(User.Identity))
             {
-                BasketWrapper basket = BasketWrapper.GetByTransactionId(transactionID);
+                BasketWrapper basket = BasketWrapper.GetByTransactionId(User.Identity, transactionID);
 
                 TransactionDetailsViewModel viewModel = new TransactionDetailsViewModel(basket.Transaction);
 
@@ -156,7 +161,7 @@ namespace KeyHub.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    BasketWrapper basket = BasketWrapper.GetByTransactionId(viewModel.Transaction.TransactionId);
+                    BasketWrapper basket = BasketWrapper.GetByTransactionId(User.Identity, viewModel.Transaction.TransactionId);
 
                     viewModel.ToEntity(basket.Transaction);
 
@@ -182,9 +187,9 @@ namespace KeyHub.Web.Controllers
         {
             int transactionID = Common.Utils.SafeConvert.ToInt(key.DecryptUrl(), -1);
 
-            using (DataContext context = new DataContext())
+            using (DataContext context = new DataContext(User.Identity))
             {
-                BasketWrapper basket = BasketWrapper.GetByTransactionId(transactionID);
+                BasketWrapper basket = BasketWrapper.GetByTransactionId(User.Identity, transactionID);
 
                 var owningCustomerQuery = (from x in context.Customers orderby x.Name select x);
                 var purchasingCustomerQuery = (from x in context.Customers orderby x.Name select x);
@@ -209,9 +214,9 @@ namespace KeyHub.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    using (DataContext context = new DataContext())
+                    using (DataContext context = new DataContext(User.Identity))
                     {
-                        BasketWrapper basket = BasketWrapper.GetByTransactionId(viewModel.Transaction.TransactionId);
+                        BasketWrapper basket = BasketWrapper.GetByTransactionId(User.Identity, viewModel.Transaction.TransactionId);
 
                         viewModel.ToEntity(basket.Transaction);
 
@@ -260,9 +265,9 @@ namespace KeyHub.Web.Controllers
         public ActionResult Complete(string key)
         {
             int transactionID = Common.Utils.SafeConvert.ToInt(key.DecryptUrl(), -1);
-            using (DataContext context = new DataContext())
+            using (DataContext context = new DataContext(User.Identity))
             {
-                BasketWrapper basket = BasketWrapper.GetByTransactionId(transactionID);
+                BasketWrapper basket = BasketWrapper.GetByTransactionId(User.Identity, transactionID);
                 
                 basket.ExecuteStep(BasketSteps.Complete);
 

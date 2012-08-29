@@ -13,7 +13,8 @@ namespace KeyHub.Web.Controllers
     /// <summary>
     /// Controller for the SKU entity
     /// </summary>
-    public class SKUController : Controller
+    //[Authorize]
+    public class SKUController : ControllerBase
     {
         /// <summary>
         /// Get list of SKUs
@@ -21,7 +22,7 @@ namespace KeyHub.Web.Controllers
         /// <returns>SKU index list view</returns>
         public ActionResult Index()
         {
-            using (DataContext context = new DataContext())
+            using (DataContext context = new DataContext(User.Identity))
             {
                 //Eager loading SKU
                 var SKUQuery = (from x in context.SKUs select x).Include(x => x.PrivateKey)
@@ -38,11 +39,14 @@ namespace KeyHub.Web.Controllers
         /// <returns>Create SKU view</returns>
         public ActionResult Create()
         {
-            using (DataContext context = new DataContext())
+            using (DataContext context = new DataContext(User.Identity))
             {
-                var vendorQuery = from x in context.Vendors select x;
-                var privateKeyQuery = from x in context.PrivateKeys orderby x.DisplayName select x;
-                var featureQuery = from x in context.Features orderby x.FeatureCode select x;
+                var vendorGuids = (from v in context.Vendors select v)//.FilterByUser(UserEntity)
+                    .Select(x => x.ObjectId).ToList();
+
+                var vendorQuery = (from x in context.Vendors select x);//.FilterByUser(UserEntity);
+                var privateKeyQuery = from x in context.PrivateKeys where vendorGuids.Contains(x.VendorId) orderby x.DisplayName select x;
+                var featureQuery = from x in context.Features where vendorGuids.Contains(x.VendorId) orderby x.FeatureCode select x;
 
                 SKUCreateViewModel viewModel = new SKUCreateViewModel(vendorQuery.ToList(), privateKeyQuery.ToList(), 
                     featureQuery.ToList());
@@ -63,7 +67,7 @@ namespace KeyHub.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    using (DataContext context = new DataContext())
+                    using (DataContext context = new DataContext(User.Identity))
                     {
                         Model.SKU sku = viewModel.ToEntity(null);
                         context.SKUs.Add(sku);
@@ -93,12 +97,15 @@ namespace KeyHub.Web.Controllers
         /// <returns>Edit SKU view</returns>
         public ActionResult Edit(Guid key)
         {
-            using (DataContext context = new DataContext())
+            using (DataContext context = new DataContext(User.Identity))
             {
+                var vendorGuids = (from v in context.Vendors select v)//.FilterByUser(UserEntity)
+                    .Select(x => x.ObjectId).ToList();
+
                 var skuQuery = from x in context.SKUs where x.SkuId == key select x;
-                var vendorQuery = from x in context.Vendors select x;
-                var privateKeyQuery = from x in context.PrivateKeys select x;
-                var featureQuery = from x in context.Features select x;
+                var vendorQuery = (from x in context.Vendors select x);//.FilterByUser(UserEntity);
+                var privateKeyQuery = from x in context.PrivateKeys where vendorGuids.Contains(x.VendorId) select x;
+                var featureQuery = from x in context.Features where vendorGuids.Contains(x.VendorId) select x;
 
                 SKUEditViewModel viewModel = new SKUEditViewModel(skuQuery.FirstOrDefault(), vendorQuery.ToList(),
                     privateKeyQuery.ToList(), featureQuery.ToList());
@@ -119,7 +126,7 @@ namespace KeyHub.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    using (DataContext context = new DataContext())
+                    using (DataContext context = new DataContext(User.Identity))
                     {
                         Model.SKU sku = (from x in context.SKUs where x.SkuId == viewModel.SKU.SkuId select x).FirstOrDefault();
 

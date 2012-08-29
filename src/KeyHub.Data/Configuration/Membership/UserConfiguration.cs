@@ -18,7 +18,9 @@ namespace KeyHub.Data.DataConfiguration
         public UserConfiguration()
         {
             HasOptional<Profile>(p => p.Profile).WithRequired(x => x.User);
+            
             HasMany(x => x.UsersInRoles).WithRequired(x => x.User).WillCascadeOnDelete(true);
+            HasMany(x => x.Rights).WithRequired(x => x.User).WillCascadeOnDelete(true);
         }
 
         public void AddConfiguration(System.Data.Entity.ModelConfiguration.Configuration.ConfigurationRegistrar registrar)

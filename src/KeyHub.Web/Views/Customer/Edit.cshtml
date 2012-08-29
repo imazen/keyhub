@@ -70,14 +70,6 @@
             @Html.ValidationMessageFor(model => model.Customer.CountryCode)
         </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Customer.PayPalId)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Customer.PayPalId)
-            @Html.ValidationMessageFor(model => model.Customer.PayPalId)
-        </div>
-
         <p>
             <input type="submit" value="Save" />
         </p>

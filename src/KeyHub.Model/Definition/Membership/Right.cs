@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -18,12 +19,12 @@ namespace KeyHub.Model
         /// The unique right type GUID to identity what kind of right this entry is
         /// </summary>
         [Key]
-        [DatabaseGenerated(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity)]
         public Guid RightId { get; set; }
 
         /// <summary>
         /// Display name for human readability
         /// </summary>
+        [Required]
         [StringLength(256)]
         [Column(TypeName = "varchar")]
         public string DisplayName { get; set; }

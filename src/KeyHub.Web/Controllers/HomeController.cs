@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using KeyHub.Runtime;
 using KeyHub.Data;
+using KeyHub.Web.ViewModels.Home;
+using KeyHub.Web.ViewModels.User;
 
 namespace KeyHub.Web.Controllers
 {
@@ -12,11 +14,19 @@ namespace KeyHub.Web.Controllers
     {
         public ActionResult Index()
         {
-            var context = new DataContext();
-            
-            ViewBag.Message = "Modify this template to kick-start your ASP.NET MVC application.";
+            HomeViewModel viewModel = new HomeViewModel();
 
-            return View();
+            return View(viewModel);
+        }
+
+        [ChildActionOnly]
+        public ActionResult MainMenu()
+        {
+            using (DataContext context = new DataContext(User.Identity))
+            {
+                var model = new CurrentUserViewModel(context.GetUserByIdentity(User.Identity));
+                return PartialView(model);
+            }
         }
 
         public ActionResult About()

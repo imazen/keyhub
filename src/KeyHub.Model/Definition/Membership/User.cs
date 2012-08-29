@@ -6,10 +6,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace KeyHub.Model
 {
     /// <summary>
-    /// Deines the user for this application
+    /// Defines the user for this application
     /// </summary>
     public partial class User
     {
+        public User()
+        {
+            UsersInRoles = new List<UserInRole>();
+            OpenAuthUsers = new List<OpenAuthUser>();
+            Rights = new List<UserObjectRight>();
+        }
+
         /// <summary>
         /// The application this user is associated with
         /// </summary>
@@ -53,5 +60,7 @@ namespace KeyHub.Model
         public virtual ICollection<UserInRole> UsersInRoles { get; set; }
 
         public virtual ICollection<OpenAuthUser> OpenAuthUsers { get; set; }
+
+        public virtual ICollection<UserObjectRight> Rights { get; set; }
     }
 }

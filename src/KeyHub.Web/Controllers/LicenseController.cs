@@ -21,7 +21,7 @@ namespace KeyHub.Web.Controllers
         /// <returns>License index list view</returns>
         public ActionResult Index()
         {
-            using (DataContext context = new DataContext())
+            using (DataContext context = new DataContext(User.Identity))
             {
                 //Eager loading License
                 var licenseQuery = (from x in context.Licenses select x).Include(x => x.PurchasingCustomer)
@@ -40,7 +40,7 @@ namespace KeyHub.Web.Controllers
         /// <returns>License index list view</returns>
         public ActionResult IndexPartial(int transactionID)
         {
-            using (DataContext context = new DataContext())
+            using (DataContext context = new DataContext(User.Identity))
             {
                 //Eager loading License
                 var licenseQuery = (from l in context.Licenses
@@ -60,7 +60,7 @@ namespace KeyHub.Web.Controllers
         /// <returns>License details view</returns>
         public ActionResult Details(Guid key)
         {
-            using (DataContext context = new DataContext())
+            using (DataContext context = new DataContext(User.Identity))
             {
                 //Eager loading License
                 var licenseQuery = (from x in context.Licenses where x.ObjectId == key select x).Include(x => x.PurchasingCustomer)
@@ -78,7 +78,7 @@ namespace KeyHub.Web.Controllers
         /// <returns>Create License view</returns>
         public ActionResult Create()
         {
-            using (DataContext context = new DataContext())
+            using (DataContext context = new DataContext(User.Identity))
             {
                 var skuQuery = from x in context.SKUs select x;
                 var customerQuery = from x in context.Customers select x;
@@ -101,7 +101,7 @@ namespace KeyHub.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    using (DataContext context = new DataContext())
+                    using (DataContext context = new DataContext(User.Identity))
                     {
                         Model.License license = viewModel.ToEntity(null);
                         context.Licenses.Add(license);
@@ -128,7 +128,7 @@ namespace KeyHub.Web.Controllers
         /// <returns>Edit License view</returns>
         public ActionResult Edit(Guid key)
         {
-            using (DataContext context = new DataContext())
+            using (DataContext context = new DataContext(User.Identity))
             {
                 var licenseQuery = from x in context.Licenses where x.ObjectId == key select x;
                 var skuQuery = from x in context.SKUs select x;
@@ -153,7 +153,7 @@ namespace KeyHub.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    using (DataContext context = new DataContext())
+                    using (DataContext context = new DataContext(User.Identity))
                     {
                         Model.License license = (from x in context.Licenses where x.ObjectId == viewModel.License.ObjectId select x).FirstOrDefault();
                         viewModel.ToEntity(license);

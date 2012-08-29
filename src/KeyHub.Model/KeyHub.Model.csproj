@@ -34,6 +34,7 @@
       <HintPath>..\packages\EntityFramework.5.0.0-rc\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
@@ -45,6 +46,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Definition\Application\TransactionStatus.cs" />
+    <Compile Include="Definition\Membership\Rights\BelongToEntity.cs" />
+    <Compile Include="Definition\Membership\Rights\EditLicenseInfo.cs" />
+    <Compile Include="Definition\Membership\Rights\ViewLicenseInfo.cs" />
+    <Compile Include="Definition\Membership\Rights\EditEntityMembers.cs" />
+    <Compile Include="Definition\Membership\Rights\GrantMemberRights.cs" />
+    <Compile Include="Definition\Membership\Rights\EditEntityInfo.cs" />
+    <Compile Include="Definition\Membership\Rights\IRight.cs" />
+    <Compile Include="Definition\Membership\Rights\VendorAdmin.cs" />
+    <Compile Include="Definition\Membership\Rights\VendorReporting.cs" />
     <Compile Include="IModelItem.cs" />
     <Compile Include="Logic\Application\CustomerApp.cs" />
     <Compile Include="Logic\Application\PrivateKey.cs" />
@@ -56,18 +66,18 @@
     <Compile Include="Definition\Application\TransactionItem.cs" />
     <Compile Include="Definition\Application\Country.cs" />
     <Compile Include="Definition\Application\DomainLicense.cs" />
-    <Compile Include="Definition\Application\UserLicenseRight.cs" />
-    <Compile Include="Definition\Application\UserCustomerRight.cs" />
+    <Compile Include="Definition\Membership\UserLicenseRight.cs" />
+    <Compile Include="Definition\Membership\UserCustomerRight.cs" />
     <Compile Include="Definition\Application\Customer.cs" />
     <Compile Include="Definition\Application\Feature.cs" />
-    <Compile Include="Definition\Application\RightObject.cs" />
+    <Compile Include="Definition\Membership\RightObject.cs" />
     <Compile Include="Definition\Application\License.cs" />
     <Compile Include="Definition\Application\ObjectTypes.cs" />
     <Compile Include="Definition\Application\PrivateKey.cs" />
-    <Compile Include="Definition\Application\Right.cs" />
+    <Compile Include="Definition\Membership\Right.cs" />
     <Compile Include="Definition\Application\SkuFeature.cs" />
-    <Compile Include="Definition\Application\UserObjectRight.cs" />
-    <Compile Include="Definition\Application\UserVendorRight.cs" />
+    <Compile Include="Definition\Membership\UserObjectRight.cs" />
+    <Compile Include="Definition\Membership\UserVendorRight.cs" />
     <Compile Include="Definition\Application\Vendor.cs" />
     <Compile Include="Definition\Membership\Application.cs" />
     <Compile Include="Definition\Membership\Membership.cs" />
@@ -79,6 +89,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Logic\Application\Transaction.cs" />
+    <Compile Include="Logic\Application\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Definition\Application\SKU.cs" />
   </ItemGroup>

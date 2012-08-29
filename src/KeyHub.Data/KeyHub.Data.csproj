@@ -109,6 +109,7 @@
     <Compile Include="DataContext.cs" />
     <Compile Include="Extensions\EntitylistExtensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
+    <Compile Include="FilteredDbSet.cs" />
     <Compile Include="Migrations\201208160854088_InitialCreate.cs" />
     <Compile Include="Migrations\201208160854088_InitialCreate.Designer.cs">
       <DependentUpon>201208160854088_InitialCreate.cs</DependentUpon>
@@ -121,11 +122,14 @@
     <Compile Include="Migrations\201208171235022_TransactionCreatedDateTime.Designer.cs">
       <DependentUpon>201208171235022_TransactionCreatedDateTime.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201208221530586_Rights.cs" />
+    <Compile Include="Migrations\201208221530586_Rights.Designer.cs">
+      <DependentUpon>201208221530586_Rights.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\MigrationConfiguration.cs" />
     <Compile Include="Migrations\Internal\DbSeederMigrator.cs" />
     <Compile Include="Migrations\Internal\IMigrationDataSeeder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Extensions\RightsObjectExtensions.cs" />
     <Compile Include="Extensions\SelectListExtensions.cs" />
     <Compile Include="Extensions\UserExtensions.cs" />
   </ItemGroup>

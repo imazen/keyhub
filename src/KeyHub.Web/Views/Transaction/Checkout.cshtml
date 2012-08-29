@@ -20,25 +20,25 @@
     function EnableNewPurchasingCustomer() {
         $('#NewPurchasingCustomer').slideToggle();
         $('#NewPurchasingCustomer :input').removeAttr('disabled');
-        $('#SelectPurchasingCustomer').attr('disabled', true);
+        $('#SelectPurchasingCustomer :select').attr('disabled', true);
     }
 
     function DisableNewPurchasingCustomer() {
         $('#NewPurchasingCustomer').slideToggle();
         $('#NewPurchasingCustomer :input').attr('disabled', true);
-        $('#SelectPurchasingCustomer').removeAttr('disabled');
+        $('#SelectPurchasingCustomer :select').removeAttr('disabled');
     }
 
     function EnableNewOwningCustomer() {
         $('#NewOwningCustomer').slideToggle();
         $('#NewOwningCustomer :input').removeAttr('disabled');
-        $('#SelectOwningCustomer').attr('disabled', true);
+        $('#SelectOwningCustomer :select').attr('disabled', true);
     }
 
     function DisableNewOwningCustomer() {
         $('#NewOwningCustomer').slideToggle();
         $('#NewOwningCustomer :input').attr('disabled', true);
-        $('#SelectOwningCustomer').removeAttr('disabled');
+        $('#SelectOwningCustomer :select').removeAttr('disabled');
     }
 </script>
 
@@ -54,7 +54,10 @@
             @Html.RadioButtonFor(model => model.CreatePurchasingCustomer, false, new {@onchange = "DisableNewPurchasingCustomer();"}) @Html.LabelFor(model => model.PurchasingCustomerId)
         </div>
         <div class="editor-field" id="SelectPurchasingCustomer">
-            @Html.DropDownListFor(model => model.PurchasingCustomerId, Model.PurchasingCustomers)
+            @if (Model.PurchasingCustomers.Count() > 0)
+            {
+                @Html.DropDownListFor(model => model.PurchasingCustomerId, Model.PurchasingCustomers)
+            }
         </div>
 
         <div class="editor-label">
@@ -64,7 +67,6 @@
             @Html.Partial("_CreateCustomer", Model.NewPurchasingCustomer, new ViewDataDictionary(Html.ViewDataContainer.ViewData) { 
                 TemplateInfo = new System.Web.Mvc.TemplateInfo { HtmlFieldPrefix = "NewPurchasingCustomer" } 
             }) 
-
         </div>
 
         <div class="editor-label">
@@ -78,7 +80,10 @@
             @Html.RadioButtonFor(model => model.CreateOwningCustomer, false, new {@onchange = "DisableNewOwningCustomer();"})  @Html.LabelFor(model => model.OwningCustomerId)
         </div>
         <div class="editor-field" id="SelectOwningCustomer">
-            @Html.DropDownListFor(model => model.OwningCustomerId, Model.OwningCustomers)
+            @if (Model.OwningCustomers.Count() > 0)
+            {
+                @Html.DropDownListFor(model => model.OwningCustomerId, Model.OwningCustomers)
+            }
         </div>
 
         <div class="editor-label">

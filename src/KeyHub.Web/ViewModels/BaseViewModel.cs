@@ -1,4 +1,6 @@
-﻿using System;
+﻿using KeyHub.Data;
+using KeyHub.Web.ViewModels.User;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -27,7 +29,12 @@ namespace KeyHub.Web.ViewModels
         /// Constructor is public so ViewModel can be a parameter in the Controller Mothod postback
         /// </summary>
         public BaseViewModel()
-        {}
+        {
+            using (DataContext context = new DataContext(HttpContext.Current.User.Identity))
+            {
+                CurrentUser = new CurrentUserViewModel(context.GetUserByIdentity(HttpContext.Current.User.Identity));
+            }
+        }
 
         /// <summary>
         /// Convert self back to entity instance
@@ -35,5 +42,7 @@ namespace KeyHub.Web.ViewModels
         /// <param name="original">Original entity instance. </param>
         /// <returns>Entity instance containing viewmodel data </returns>
         public abstract TEntity ToEntity(TEntity original);
+
+        public CurrentUserViewModel CurrentUser {get; private set;}
     }
 }

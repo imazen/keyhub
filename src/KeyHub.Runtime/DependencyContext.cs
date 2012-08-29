@@ -4,6 +4,7 @@ using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using MefContrib.Hosting.Conventions;
 using MefContrib.Hosting.Conventions.Configuration;
+using KeyHub.Core.Dependency;
 
 namespace KeyHub.Runtime
 {
@@ -105,6 +106,9 @@ namespace KeyHub.Runtime
 
         private void SetupMef()
         {
+            // Force load all assemblies
+            DeployedAssemblyLoader.PreLoadDeployedAssemblies();
+
             // Create a new aggregate catalog to support multiple catalogs
             catalog = new AggregateCatalog();
 

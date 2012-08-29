@@ -34,6 +34,7 @@ namespace KeyHub.Web.Controllers
             {
                 if (Membership.ValidateUser(model.UserName, model.Password))
                 {
+                    
                     FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
                     if (Url.IsLocalUrl(returnUrl))
                     {

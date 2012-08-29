@@ -11,6 +11,7 @@ using KeyHub.Common.Utils;
 using KeyHub.Model;
 using KeyHub.Runtime;
 using KeyHub.Data;
+using System.Security.Principal;
 
 namespace KeyHub.BusinessLogic.Basket
 {
@@ -21,9 +22,9 @@ namespace KeyHub.BusinessLogic.Basket
     /// </summary>
     public class BasketWrapper
     {
-        private BasketWrapper()
+        private BasketWrapper(IIdentity userIdentity)
         {
-            context = new DataContext();
+            context = new DataContext(userIdentity);
         }
 
         /// <summary>
@@ -31,28 +32,14 @@ namespace KeyHub.BusinessLogic.Basket
         /// </summary>
         private DataContext context;
 
-        //COOKIES DISABLED FOR NOW, CAN BE DELETED?
-        ///// <summary>
-        ///// Get a basketwrapper based the cookievalue
-        ///// </summary>
-        ///// <returns>An instance of a basketwrapper serving the transaction from the cookie</returns>
-        //public static BasketWrapper GetByCookie()
-        //{
-        //    int transactionId = HasBasketCookie() ? GetBasketId() : 0;
-
-        //    BasketWrapper basket = new BasketWrapper();
-        //    basket.LoadTransaction(transactionId);
-
-        //    return basket;
-        //}
-
         /// <summary>
         /// Start a new basket
         /// </summary>
+        /// <param name="userIdentity">Identity of currently logged in use</param>
         /// <returns>An instance of a basketwrapper serving a new transaction</returns>
-        public static BasketWrapper CreateNew()
+        public static BasketWrapper CreateNew(IIdentity userIdentity)
         {
-            BasketWrapper basket = new BasketWrapper();
+            BasketWrapper basket = new BasketWrapper(userIdentity);
             basket.Transaction = new Transaction() { CreatedDateTime = DateTime.Now };
 
             return basket;
@@ -61,11 +48,12 @@ namespace KeyHub.BusinessLogic.Basket
         /// <summary>
         /// Get a basketwrapper based on a provided transactionId
         /// </summary>
+        /// <param name="userIdentity">Identity of currently logged in use</param>
         /// <param name="transactionId">Id of the transaction to load in the basket</param>
         /// <returns>An instance of a basketwrapper serving the transaction</returns>
-        public static BasketWrapper GetByTransactionId(int transactionId)
+        public static BasketWrapper GetByTransactionId(IIdentity userIdentity, int transactionId)
         {
-            BasketWrapper basket = new BasketWrapper();
+            BasketWrapper basket = new BasketWrapper(userIdentity);
             basket.LoadTransaction(transactionId);
 
             return basket;
@@ -122,6 +110,9 @@ namespace KeyHub.BusinessLogic.Basket
                     if ((from x in context.Customers where x.ObjectId == this.OwningCustomer.ObjectId select x).Count() == 0)
                         context.Customers.Add(OwningCustomer);
 
+                    //Save added Purchasing or Owning Customer 
+                    context.SaveChanges();
+
                     //Create licenses for every transactionitem
                     foreach (TransactionItem item in Transaction.TransactionItems)
                     {
@@ -149,12 +140,6 @@ namespace KeyHub.BusinessLogic.Basket
             }
             
             context.SaveChanges();
-
-            //NO NEED FOR COOKIES, CAN BE DELETED?
-            //if (step < BasketSteps.Complete)
-            //    SaveBasketId(Transaction.TransactionId);
-            //else
-            //    RemoveBasketCookie();
         }
 
         /// <summary>
@@ -179,37 +164,5 @@ namespace KeyHub.BusinessLogic.Basket
                     .Include(x => x.TransactionItems.Select(s => s.License))
                     .FirstOrDefault();
         }
-
-        #region "BasketId from Cookie"
-        private void SaveBasketId(int transactionId)
-        {
-            CookieUtil.CreateCookie(HttpContext.Current,
-                                    Constants.BasketCookieName,
-                                    transactionId.ToString(),
-                                    Constants.BasketCookieExpirationDays,
-                                    true);
-        }
-
-        private void RemoveBasketCookie()
-        {
-            CookieUtil.DeleteCookie(HttpContext.Current,
-                                    Constants.BasketCookieName);
-        }
-
-        private static int GetBasketId()
-        {
-            string basketCookie = CookieUtil.GetCookieValue(HttpContext.Current,
-                                                              Constants.BasketCookieName,
-                                                              true);
-
-            int basketId = 0;
-            return int.TryParse(basketCookie, out basketId) ? basketId : 0;
-        }
-
-        private static bool HasBasketCookie()
-        {
-            return CookieUtil.CookieExists(HttpContext.Current, Constants.BasketCookieName);
-        }
-        #endregion
     }
 }

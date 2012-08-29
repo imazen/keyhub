@@ -21,7 +21,7 @@ namespace KeyHub.Web.Controllers
         /// <returns>CustomerApp index list view</returns>
         public ActionResult Index()
         {
-            using (DataContext context = new DataContext())
+            using (DataContext context = new DataContext(User.Identity))
             {
                 //Eager loading CustomerApp, includes Licenses and from License the SKUs
                 var customerAppQuery = (from x in context.CustomerApps select x).Include(x => x.LicenseCustomerApps)
@@ -39,7 +39,7 @@ namespace KeyHub.Web.Controllers
         /// <returns>Create CustomerApp view</returns>
         public ActionResult Create()
         {
-            using (DataContext context = new DataContext())
+            using (DataContext context = new DataContext(User.Identity))
             {
                 //License will be recognized by SKU, so eager load SKU
                 var licenseQuery = (from x in context.Licenses select x).Include(x => x.Sku);
@@ -62,7 +62,7 @@ namespace KeyHub.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    using (DataContext context = new DataContext())
+                    using (DataContext context = new DataContext(User.Identity))
                     {
                         Model.CustomerApp customerApp = viewModel.ToEntity(null);
                         context.CustomerApps.Add(customerApp);
@@ -92,7 +92,7 @@ namespace KeyHub.Web.Controllers
         /// <returns>Edit CustomerApp view</returns>
         public ActionResult Edit(Guid key)
         {
-            using (DataContext context = new DataContext())
+            using (DataContext context = new DataContext(User.Identity))
             {
                 var customerAppQuery = from x in context.CustomerApps where x.CustomerAppId == key select x;
                 var licenseQuery = from x in context.Licenses select x;
@@ -116,7 +116,7 @@ namespace KeyHub.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    using (DataContext context = new DataContext())
+                    using (DataContext context = new DataContext(User.Identity))
                     {
                         Model.CustomerApp customerApp = (from x in context.CustomerApps where x.CustomerAppId == viewModel.CustomerApp.CustomerAppId select x).FirstOrDefault();
                         viewModel.ToEntity(customerApp);
