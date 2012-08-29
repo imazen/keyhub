@@ -1,4 +1,4 @@
-﻿@model KeyHub.Web.Models.RegisterModel
+﻿@model KeyHub.Web.ViewModels.User.RegisterViewModel
 
 @{
     ViewBag.Title = "Register";
@@ -13,7 +13,8 @@
     Passwords must be at least @Membership.MinRequiredPasswordLength characters long.
 </p>
 
-@using (Html.BeginForm()) {
+@using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl }))
+{
     @Html.ValidationSummary()
 
     <fieldset>

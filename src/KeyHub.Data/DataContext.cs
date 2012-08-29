@@ -32,7 +32,7 @@ namespace KeyHub.Data
         /// </returns>
         public DataContext(IIdentity userIdentity)
         {
-            User currentUser = this.GetUserByIdentity(userIdentity);
+            var currentUser = this.GetUserByIdentity(userIdentity);
 
             //Vendor dependant entities.
             var authorizedVendorIds = ResolveAuthorizedVendorsByUser(currentUser);
@@ -74,6 +74,30 @@ namespace KeyHub.Data
         }
 
         /// <summary>
+        /// Gets a datacontext based on single transaction ID
+        /// </summary>
+        /// <returns>Returns a single transaction access datacontext</returns>
+        public DataContext(int transactionID)
+            : base()
+        {
+            this.Transactions = new FilteredDbSet<Transaction>(this, x => x.TransactionId == transactionID);
+            this.TransactionItems = new FilteredDbSet<TransactionItem>(this, x => x.TransactionId == transactionID);
+
+            var authorizedSKUs = (from t in TransactionItems select t.SkuId).ToList();
+            this.SKUs = new FilteredDbSet<SKU>(this, x => authorizedSKUs.Contains(x.SkuId));
+
+            var authorizedLicenses = (from t in TransactionItems select t.LicenseId).ToList();
+            this.Licenses = new FilteredDbSet<License>(this, x => authorizedLicenses.Contains(x.ObjectId));
+
+            //No access to other entities
+            this.Vendors = new FilteredDbSet<Vendor>(this, x => false);
+            this.Features = new FilteredDbSet<Feature>(this, x => false);
+            this.Customers = new FilteredDbSet<Customer>(this, x => false);
+            this.LicenseCustomerApps = new FilteredDbSet<LicenseCustomerApp>(this, x => false);
+            this.CustomerApps = new FilteredDbSet<CustomerApp>(this, x => false);
+        }
+
+        /// <summary>
         /// Gets a datacontext based on full administrator rights
         /// </summary>
         /// <returns>Returns an all access datacontext</returns>
@@ -103,7 +127,7 @@ namespace KeyHub.Data
                 return new User();
             }
         }
-        
+
         public DbSet<Application> Applications { get; set; }
 
         public DbSet<Membership> Memberships { get; set; }

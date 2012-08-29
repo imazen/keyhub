@@ -5,17 +5,21 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using KeyHub.Web.Models;
+using KeyHub.Web.ViewModels.User;
 
 namespace KeyHub.Web.Controllers
 {
-
+    /// <summary>
+    /// 
+    /// </summary>
     [Authorize]
     public class AccountController : Controller
     {
-
-        //
-        // GET: /Account/Login
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="returnUrl"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
@@ -23,9 +27,12 @@ namespace KeyHub.Web.Controllers
             return View();
         }
 
-        //
-        // POST: /Account/Login
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="returnUrl"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpPost]
         public ActionResult Login(LoginModel model, string returnUrl)
@@ -55,9 +62,10 @@ namespace KeyHub.Web.Controllers
             return View(model);
         }
 
-        //
-        // GET: /Account/LogOff
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public ActionResult LogOff()
         {
             FormsAuthentication.SignOut();
@@ -65,21 +73,27 @@ namespace KeyHub.Web.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        //
-        // GET: /Account/Register
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="returnUrl"></param>
+        /// <returns></returns>
         [AllowAnonymous]
-        public ActionResult Register()
+        public ActionResult Register(string returnUrl)
         {
+            ViewBag.ReturnUrl = returnUrl;
             return View();
         }
 
-        //
-        // POST: /Account/Register
-
+        /// <summary>
+        /// Register user and redirect to return URL if specified
+        /// </summary>
+        /// <param name="model">RegisterViewModel for new user</param>
+        /// <param name="returnUrl">Url to redirect to after successfull registration</param>
+        /// <returns>Redirect to Index, or ReturnUrl if specified</returns>
         [AllowAnonymous]
         [HttpPost]
-        public ActionResult Register(RegisterModel model)
+        public ActionResult Register(RegisterViewModel model, string returnUrl)
         {
             if (ModelState.IsValid)
             {
@@ -90,7 +104,14 @@ namespace KeyHub.Web.Controllers
                 if (createStatus == MembershipCreateStatus.Success)
                 {
                     FormsAuthentication.SetAuthCookie(model.UserName, createPersistentCookie: false);
-                    return RedirectToAction("Index", "Home");
+                    if (Url.IsLocalUrl(returnUrl))
+                    {
+                        return Redirect(returnUrl);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
                 }
                 else
                 {

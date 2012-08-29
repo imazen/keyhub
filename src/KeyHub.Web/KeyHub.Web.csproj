@@ -183,6 +183,7 @@
     <Compile Include="ViewModels\Transaction\TransactionViewModel.cs" />
     <Compile Include="ViewModels\Transaction\TransactionIndexViewModel.cs" />
     <Compile Include="ViewModels\Transaction\TransactionDetailsViewModel.cs" />
+    <Compile Include="ViewModels\User\RegisterViewModel.cs" />
     <Compile Include="ViewModels\User\UserViewModel.cs" />
     <Compile Include="ViewModels\Vendor\VendorCreateViewModel.cs" />
     <Compile Include="ViewModels\Vendor\VendorDetailsViewModel.cs" />

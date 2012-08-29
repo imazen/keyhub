@@ -45,7 +45,7 @@ namespace KeyHub.Data
         public void ThrowIfEntityDoesNotMatchFilter(TEntity entity)
         {
             //if (!MatchesFilter(entity))
-                //throw new ArgumentOutOfRangeException();
+            //    throw new ArgumentOutOfRangeException();
         }
 
         public TEntity Add(TEntity entity)

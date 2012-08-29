@@ -27,6 +27,11 @@ namespace KeyHub.BusinessLogic.Basket
             context = new DataContext(userIdentity);
         }
 
+        private BasketWrapper(int transactionId)
+        {
+            context = new DataContext(transactionId);
+        }
+
         /// <summary>
         /// DataContext the basket is working with
         /// </summary>
@@ -48,13 +53,25 @@ namespace KeyHub.BusinessLogic.Basket
         /// <summary>
         /// Get a basketwrapper based on a provided transactionId
         /// </summary>
-        /// <param name="userIdentity">Identity of currently logged in use</param>
+        /// <param name="userIdentity">Identity of currently logged in user</param>
         /// <param name="transactionId">Id of the transaction to load in the basket</param>
         /// <returns>An instance of a basketwrapper serving the transaction</returns>
+        /// <remarks>
+        /// At first attempt the a datacontext based on userIdentity is applied.
+        /// If userIdentity datacontext does not contain requested transaction, user does not yet
+        /// have access to transaction (new user or new vendor). Use datacontext based on 
+        /// transactionId instead.
+        /// </remarks>
         public static BasketWrapper GetByTransactionId(IIdentity userIdentity, int transactionId)
         {
             BasketWrapper basket = new BasketWrapper(userIdentity);
-            basket.LoadTransaction(transactionId);
+            bool transactionLoaded = basket.LoadTransaction(transactionId);
+
+            if (!transactionLoaded)
+            {
+                basket = new BasketWrapper(transactionId);
+                basket.LoadTransaction(transactionId);
+            }
 
             return basket;
         }
@@ -102,16 +119,40 @@ namespace KeyHub.BusinessLogic.Basket
                     Transaction.CreatedDateTime = DateTime.Now;
                     break;
                 case BasketSteps.Checkout:
+                    User currentUser = context.GetUserByIdentity(HttpContext.Current.User.Identity);
                     //Add PurchasingCustomer if none existing
                     if ((from x in context.Customers where x.ObjectId == this.PurchasingCustomer.ObjectId select x).Count() == 0)
+                    {
                         context.Customers.Add(PurchasingCustomer);
+                        context.SaveChanges();
+                        if (!currentUser.IsVendorAdmin)
+                        {
+                            context.UserCustomerRights.Add(new UserCustomerRight()
+                            {
+                                RightObject = PurchasingCustomer,
+                                RightId = EditEntityMembers.Id,
+                                UserId = currentUser.UserId
+                            });
+                            context.SaveChanges();
+                        }
+                    }
 
                     //Add OwningCustomer if none existing
-                    if ((from x in context.Customers where x.ObjectId == this.OwningCustomer.ObjectId select x).Count() == 0)
-                        context.Customers.Add(OwningCustomer);
-
-                    //Save added Purchasing or Owning Customer 
-                    context.SaveChanges();
+                    //if ((from x in context.Customers where x.ObjectId == this.OwningCustomer.ObjectId select x).Count() == 0)
+                    //{
+                    //    context.Customers.Add(OwningCustomer);
+                    //    context.SaveChanges();
+                    //    if (!currentUser.IsVendorAdmin)
+                    //    {
+                    //        context.UserCustomerRights.Add(new UserCustomerRight()
+                    //        {
+                    //            RightObject = PurchasingCustomer,
+                    //            RightId = EditEntityInfo.Id,
+                    //            UserId = currentUser.UserId
+                    //        });
+                    //        context.SaveChanges();
+                    //    }
+                    //}
 
                     //Create licenses for every transactionitem
                     foreach (TransactionItem item in Transaction.TransactionItems)
@@ -155,7 +196,8 @@ namespace KeyHub.BusinessLogic.Basket
         /// <summary>
         /// Load a certain transaction into the BasketWrapper
         /// </summary>
-        private void LoadTransaction(int transactionId)
+        /// <returns>True if transaction could be loaded</returns>
+        private bool LoadTransaction(int transactionId)
         {
             //Select transaction
             if (transactionId > 0)
@@ -163,6 +205,8 @@ namespace KeyHub.BusinessLogic.Basket
                     .Include(x => x.TransactionItems.Select(s => s.Sku))
                     .Include(x => x.TransactionItems.Select(s => s.License))
                     .FirstOrDefault();
+
+            return (Transaction != null);
         }
     }
 }

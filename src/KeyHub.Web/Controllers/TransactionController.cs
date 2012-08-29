@@ -53,6 +53,9 @@ namespace KeyHub.Web.Controllers
                     .Include(x => x.TransactionItems.Select(s => s.Sku))
                     .Include(x => x.TransactionItems.Select(s => s.License));
 
+                if (transactionQuery.FirstOrDefault() == null)
+                    throw new EntityNotFoundException("Transaction could not be resolved!"); 
+
                 TransactionDetailsViewModel viewModel = new TransactionDetailsViewModel(transactionQuery.FirstOrDefault());
 
                 return View(viewModel);
@@ -139,11 +142,20 @@ namespace KeyHub.Web.Controllers
         {
             int transactionID = Common.Utils.SafeConvert.ToInt(key.DecryptUrl(), -1);
 
-            using (DataContext context = new DataContext(User.Identity))
+            using (DataContext context = new DataContext(transactionID))
             {
-                BasketWrapper basket = BasketWrapper.GetByTransactionId(User.Identity, transactionID);
+                var transaction = (from x in context.Transactions where x.TransactionId == transactionID select x)
+                                  .Include(x => x.TransactionItems.Select(s => s.Sku))
+                                  .Include(x => x.TransactionItems.Select(s => s.License))
+                                  .FirstOrDefault();
+                    
+                if (transaction == null)
+                    throw new EntityNotFoundException("Transaction could not be resolved!"); 
 
-                TransactionDetailsViewModel viewModel = new TransactionDetailsViewModel(basket.Transaction);
+                if (transaction.Status != TransactionStatus.Create)
+                    throw new EntityOperationNotSupportedException("Transaction is already claimed!");
+
+                TransactionDetailsViewModel viewModel = new TransactionDetailsViewModel(transaction);
 
                 return View(viewModel);
             }
@@ -162,6 +174,12 @@ namespace KeyHub.Web.Controllers
                 if (ModelState.IsValid)
                 {
                     BasketWrapper basket = BasketWrapper.GetByTransactionId(User.Identity, viewModel.Transaction.TransactionId);
+
+                    if (basket.Transaction == null)
+                        throw new EntityNotFoundException("Transaction could not be resolved!");
+
+                    if (basket.Transaction.Status != TransactionStatus.Create)
+                        throw new EntityOperationNotSupportedException("Transaction is already claimed!");
 
                     viewModel.ToEntity(basket.Transaction);
 
@@ -191,6 +209,12 @@ namespace KeyHub.Web.Controllers
             {
                 BasketWrapper basket = BasketWrapper.GetByTransactionId(User.Identity, transactionID);
 
+                if (basket.Transaction == null)
+                    throw new EntityNotFoundException("Transaction SKUs are not accessible to current user!");
+
+                if (basket.Transaction.Status != TransactionStatus.Create)
+                    throw new EntityOperationNotSupportedException("Transaction is already claimed!");
+
                 var owningCustomerQuery = (from x in context.Customers orderby x.Name select x);
                 var purchasingCustomerQuery = (from x in context.Customers orderby x.Name select x);
                 var countryQuery = (from x in context.Countries orderby x.CountryName select x);
@@ -217,6 +241,12 @@ namespace KeyHub.Web.Controllers
                     using (DataContext context = new DataContext(User.Identity))
                     {
                         BasketWrapper basket = BasketWrapper.GetByTransactionId(User.Identity, viewModel.Transaction.TransactionId);
+
+                        if (basket.Transaction == null)
+                            throw new EntityNotFoundException("Transaction SKUs are not accessible to current user!");
+
+                        if (basket.Transaction.Status != TransactionStatus.Create)
+                            throw new EntityOperationNotSupportedException("Transaction is already claimed!");
 
                         viewModel.ToEntity(basket.Transaction);
 

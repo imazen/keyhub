@@ -127,7 +127,7 @@ UL.MenuLoginPartial,UL.HeaderMenu{
 
 
 
-A.Btn, INPUT[type=submit]{
+A.Btn, INPUT[type=submit],  INPUT[type=button]{
 	line-height: 30px;
 	height: 30px;
 	background: #ededed;
@@ -141,7 +141,7 @@ A.Btn, INPUT[type=submit]{
 		text-decoration: none;
 	}
 }
-INPUT[type=submit]{
+INPUT[type=submit],INPUT[type=button]{
 	background: $colorActive;
 	color: #ffffff;
 	&:hover,&:focus{
