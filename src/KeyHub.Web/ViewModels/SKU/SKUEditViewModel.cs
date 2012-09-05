@@ -91,7 +91,7 @@ namespace KeyHub.Web.ViewModels.SKU
     {
         public SKUEditViewItem() : base() 
         {
-            new List<Guid>();
+            SelectedFeatureGUIDs = new List<Guid>();
         }
 
         public SKUEditViewItem(Model.SKU sku)

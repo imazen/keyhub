@@ -12,6 +12,7 @@ using KeyHub.Model;
 using KeyHub.Runtime;
 using KeyHub.Data;
 using System.Security.Principal;
+using System.Data;
 
 namespace KeyHub.BusinessLogic.Basket
 {
@@ -120,6 +121,8 @@ namespace KeyHub.BusinessLogic.Basket
                     break;
                 case BasketSteps.Checkout:
                     User currentUser = context.GetUserByIdentity(HttpContext.Current.User.Identity);
+                    
+                    //How to check for new
                     //Add PurchasingCustomer if none existing
                     if ((from x in context.Customers where x.ObjectId == this.PurchasingCustomer.ObjectId select x).Count() == 0)
                     {
@@ -138,21 +141,24 @@ namespace KeyHub.BusinessLogic.Basket
                     }
 
                     //Add OwningCustomer if none existing
-                    //if ((from x in context.Customers where x.ObjectId == this.OwningCustomer.ObjectId select x).Count() == 0)
-                    //{
-                    //    context.Customers.Add(OwningCustomer);
-                    //    context.SaveChanges();
-                    //    if (!currentUser.IsVendorAdmin)
-                    //    {
-                    //        context.UserCustomerRights.Add(new UserCustomerRight()
-                    //        {
-                    //            RightObject = PurchasingCustomer,
-                    //            RightId = EditEntityInfo.Id,
-                    //            UserId = currentUser.UserId
-                    //        });
-                    //        context.SaveChanges();
-                    //    }
-                    //}
+                    if (this.OwningCustomer != this.PurchasingCustomer)
+                    {
+                        if ((from x in context.Customers where x.ObjectId == this.OwningCustomer.ObjectId select x).Count() == 0)
+                        {
+                            context.Customers.Add(OwningCustomer);
+                            context.SaveChanges();
+                            if (!currentUser.IsVendorAdmin)
+                            {
+                                context.UserCustomerRights.Add(new UserCustomerRight()
+                                {
+                                    RightObject = PurchasingCustomer,
+                                    RightId = EditEntityInfo.Id,
+                                    UserId = currentUser.UserId
+                                });
+                                context.SaveChanges();
+                            }
+                        }
+                    }
 
                     //Create licenses for every transactionitem
                     foreach (TransactionItem item in Transaction.TransactionItems)
