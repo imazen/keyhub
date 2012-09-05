@@ -158,8 +158,10 @@
     <Compile Include="ViewModels\Customer\CustomerEditViewModel.cs" />
     <Compile Include="ViewModels\Customer\CustomerIndexViewModel.cs" />
     <Compile Include="ViewModels\Customer\CustomerViewModel.cs" />
+    <Compile Include="ViewModels\DomainLicense\DomainLicenseEditViewModel.cs" />
     <Compile Include="ViewModels\DomainLicense\DomainLicenseViewModel.cs" />
     <Compile Include="ViewModels\DomainLicense\DomainLicenseIndexViewModel.cs" />
+    <Compile Include="ViewModels\DomainLicense\DomainLicenseCreateViewModel.cs" />
     <Compile Include="ViewModels\Feature\FeatureCreateViewModel.cs" />
     <Compile Include="ViewModels\Feature\FeatureEditViewModel.cs" />
     <Compile Include="ViewModels\Feature\FeatureIndexViewModel.cs" />
