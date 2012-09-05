@@ -255,7 +255,7 @@ namespace KeyHub.Web.Controllers
                         else
                             basket.PurchasingCustomer = (from x in context.Customers where x.ObjectId == viewModel.PurchasingCustomerId select x).FirstOrDefault();
 
-                        if (viewModel.OwingCustomerIsPurchasingCustomerId)
+                        if (viewModel.OwningCustomerIsPurchasingCustomerId)
                         {
                             basket.OwningCustomer = basket.PurchasingCustomer;
                         }

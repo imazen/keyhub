@@ -35,7 +35,7 @@ namespace KeyHub.Web.ViewModels.Transaction
             //OwningCustomerId=..
             CreatePurchasingCustomer = false;
             CreateOwningCustomer = false;
-            OwingCustomerIsPurchasingCustomerId = true;
+            OwningCustomerIsPurchasingCustomerId = true;
             NewPurchasingCustomer = new CustomerCreateViewModel(countries);
             NewOwningCustomer = new CustomerCreateViewModel(countries);
         }
@@ -103,6 +103,6 @@ namespace KeyHub.Web.ViewModels.Transaction
         /// Owning customer is the same as purchasing customer
         /// </summary>
         [DisplayName("Owning customer is same as purchasing customer")]
-        public Boolean OwingCustomerIsPurchasingCustomerId { get; set; }
+        public Boolean OwningCustomerIsPurchasingCustomerId { get; set; }
     }
 }
