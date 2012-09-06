@@ -1,10 +1,5 @@
 ﻿@model KeyHub.Web.ViewModels.CustomerApp.CustomerAppIndexViewModel
 
-@{
-    ViewBag.ItemName = "Licensed customer application";
-    ViewBag.Title = "Overview";
-}
-
 <h2>@ViewBag.ItemName <span>@ViewBag.Title</span></h2>
 
 <p>
@@ -21,7 +16,7 @@
         </th>
         <th></th>
     </tr>
-        </thead>
+    </thead>
 
 @foreach (var item in Model.CustomerApps)
 {

@@ -434,6 +434,9 @@
     <Content Include="Views\Home\MainMenu.cshtml" />
     <Content Include="Views\Mail\NewTransactionEmail.html.cshtml" />
     <Content Include="Views\Transaction\Create.cshtml" />
+    <Content Include="Views\DomainLicense\Create.cshtml" />
+    <Content Include="Views\DomainLicense\Edit.cshtml" />
+    <Content Include="Views\CustomerApp\IndexPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

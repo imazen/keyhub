@@ -17,11 +17,10 @@ namespace KeyHub.Web.ViewModels.DomainLicense
         /// <summary>
         /// Construct the viewmodel
         /// </summary>
-        /// <param name="licenses">Licenses for selectionlist</param>
-        public DomainLicenseEditViewModel(List<Model.License> licenses)
+        /// <param name="domainLicense">Domain license to edit</param>
+        public DomainLicenseEditViewModel(Model.DomainLicense domainLicense)
         {
-            DomainLicense = new DomainLicenseViewModel(new Model.DomainLicense());
-            LicenseList = licenses.ToSelectList(v => v.ObjectId, v => v.Sku.SkuCode);
+            DomainLicense = new DomainLicenseViewModel(domainLicense);
         }
 
         /// <summary>
@@ -30,17 +29,12 @@ namespace KeyHub.Web.ViewModels.DomainLicense
         public DomainLicenseViewModel DomainLicense { get; set; }
 
         /// <summary>
-        /// List of licenses to select
-        /// </summary>
-        public SelectList LicenseList { get; set; }
-
-        /// <summary>
         /// Convert back to DomainLicense instance
         /// </summary>
         /// <returns>New DomainLicense containing viewmodel data </returns>
         public override Model.DomainLicense ToEntity(Model.DomainLicense original)
         {
-            return DomainLicense.ToEntity(null);
+            return DomainLicense.ToEntity(original);
         }
     }
 }

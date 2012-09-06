@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using KeyHub.Data;
+using KeyHub.Web.ViewModels.License;
 
 namespace KeyHub.Web.ViewModels.DomainLicense
 {
@@ -17,22 +18,16 @@ namespace KeyHub.Web.ViewModels.DomainLicense
         /// <summary>
         /// Construct the viewmodel
         /// </summary>
-        /// <param name="licenses">Licenses for selectionlist</param>
-        public DomainLicenseCreateViewModel(List<Model.License> licenses)
+        /// <param name="license">Licenses for domain</param>
+        public DomainLicenseCreateViewModel(Model.License license)
         {
-            DomainLicense = new DomainLicenseViewModel(new Model.DomainLicense());
-            LicenseList = licenses.ToSelectList(v => v.ObjectId, v => v.Sku.SkuCode);
+            DomainLicense = new DomainLicenseViewModel(new Model.DomainLicense() { LicenseId = license.ObjectId, License = license });
         }
 
         /// <summary>
         /// Edited DomainLicense
         /// </summary>
         public DomainLicenseViewModel DomainLicense { get; set; }
-
-        /// <summary>
-        /// List of licenses to select
-        /// </summary>
-        public SelectList LicenseList { get; set; }
 
         /// <summary>
         /// Convert back to DomainLicense instance

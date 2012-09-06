@@ -16,19 +16,27 @@ namespace KeyHub.Web.ViewModels.DomainLicense
         /// <summary>
         /// Construct the viewmodel
         /// </summary>
+        /// <param name="parentLicense">Guid of the owning license</param>
         /// <param name="licenseList">List of DomainLicense entities</param>
-        public DomainLicenseIndexViewModel(List<Model.DomainLicense> licenseList)
+        public DomainLicenseIndexViewModel(Guid parentLicense, IEnumerable<Model.DomainLicense> licenseList)
             : this()
         {
-            DomainLicenses = new List<DomainLicenseViewModel>(
-                    licenseList.Select(x => new DomainLicenseViewModel(x))
+            this.PartentLicense = parentLicense;
+
+            this.DomainLicenses = new List<DomainLicenseIndexViewItem>(
+                    licenseList.Select(x => new DomainLicenseIndexViewItem(x))
                 );
         }
 
         /// <summary>
+        /// Guid of the parent license
+        /// </summary>
+        public Guid PartentLicense { get; set; }
+
+        /// <summary>
         /// List of licenses
         /// </summary>
-        public List<DomainLicenseViewModel> DomainLicenses { get; set; }
+        public List<DomainLicenseIndexViewItem> DomainLicenses { get; set; }
 
         /// <summary>
         /// Convert back to DomainLicense instance
@@ -38,6 +46,23 @@ namespace KeyHub.Web.ViewModels.DomainLicense
         public override Model.DomainLicense ToEntity(Model.DomainLicense original)
         {
             throw new NotImplementedException();
+        }
+    }
+
+    public class DomainLicenseIndexViewItem : DomainLicenseViewModel
+    {
+        public DomainLicenseIndexViewItem() : base() {}
+
+        public DomainLicenseIndexViewItem(Model.DomainLicense domain)
+            : base(domain)
+        {
+            this.LicenseName = domain.License.Sku.SkuCode;
+        }
+
+        public string LicenseName
+        {
+            get;
+            set;
         }
     }
 }

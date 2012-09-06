@@ -11,8 +11,8 @@
 
         @if (Model.CanEditCustomerInfo)
         {
-            <li>@Html.ActionLink("Customers", "Index", "Customer")</li>
             <li>@Html.ActionLink("Transactions", "Index", "Transaction")</li>
+            <li>@Html.ActionLink("Customers", "Index", "Customer")</li>
         }
 
         @if (Model.CanEditLicenseInfo)

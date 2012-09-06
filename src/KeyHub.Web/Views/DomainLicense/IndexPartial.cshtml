@@ -2,12 +2,15 @@
 
 <h2>Domains</h2>
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "Create", new { owningLicense=Model.PartentLicense })
 </p>
 <table>
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.DomainLicenses.FirstOrDefault().DomainName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DomainLicenses.FirstOrDefault().LicenseName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.DomainLicenses.FirstOrDefault().DomainLicenseIssued)
@@ -22,6 +25,9 @@
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.DomainName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LicenseName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.DomainLicenseIssued)

@@ -23,7 +23,13 @@
         <th>
             @Html.DisplayNameFor(model => model.Licenses.FirstOrDefault().LicenseExpires)
         </th>
-        <th></th>
+        <th>
+            @Html.DisplayNameFor(model => model.Licenses.FirstOrDefault().DomainSummary)
+        </th>
+         @if(Model.CurrentUser.IsVendorAdmin)
+         {
+             <th></th>
+         }
     </tr>
         </thead>
 @foreach (var item in Model.Licenses) {
@@ -41,8 +47,16 @@
             @Html.DisplayFor(modelItem => item.LicenseExpires)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { key = item.ObjectId })
+            @Html.DisplayFor(modelItem => item.DomainSummary)
         </td>
+        @if(Model.CurrentUser.IsVendorAdmin)
+        {
+            <td>
+                @Html.ActionLink("Edit", "Edit", new {key = item.ObjectId}) |
+                @Html.ActionLink("Details", "Details", new { key=item.ObjectId }) |
+                @Html.ActionLink("Add domain", "Create", "DomainLicense", new { owningLicense=item.ObjectId }, null)
+            </td>
+        }
     </tr>
 }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Web;
+using KeyHub.Data;
 
 namespace KeyHub.Web.ViewModels.License
 {
@@ -17,11 +18,11 @@ namespace KeyHub.Web.ViewModels.License
         /// Construct the viewmodel
         /// </summary>
         /// <param name="licenseList">List of License entities</param>
-        public LicenseIndexViewModel(List<Model.License> licenseList)
+        public LicenseIndexViewModel(IEnumerable<Model.License> licenseList)
             : this()
         {
             Licenses = new List<LicenseIndexViewItem>(
-                    licenseList.Select(x => new LicenseIndexViewItem(x, x.OwningCustomer, x.Sku))
+                    licenseList.Select(x => new LicenseIndexViewItem(x, x.OwningCustomer, x.Sku, x.Domains))
                 );
         }
 
@@ -46,11 +47,12 @@ namespace KeyHub.Web.ViewModels.License
     /// </summary>
     public class LicenseIndexViewItem : LicenseViewModel
     {
-        public LicenseIndexViewItem(Model.License license, Model.Customer owningCustomer, Model.SKU sku)
+        public LicenseIndexViewItem(Model.License license, Model.Customer owningCustomer, Model.SKU sku, IEnumerable<Model.DomainLicense> domains)
             : base(license)
         {
             OwningCustomerName = (owningCustomer != null) ? owningCustomer.Name : "Not owned";
             SKUName = sku.SkuCode;
+            DomainSummary = domains.ToSummary(x=>x.DomainName, 1, ", ");
         }
 
         /// <summary>
@@ -64,5 +66,11 @@ namespace KeyHub.Web.ViewModels.License
         /// </summary>
         [DisplayName("SKU")]
         public string SKUName { get; set; }
+
+        /// <summary>
+        /// Name of the domains registered for this license
+        /// </summary>
+        [DisplayName("Domains")]
+        public string DomainSummary { get; set; }
     }
 }

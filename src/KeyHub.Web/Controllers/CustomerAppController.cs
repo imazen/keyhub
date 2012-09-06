@@ -34,6 +34,38 @@ namespace KeyHub.Web.Controllers
         }
 
         /// <summary>
+        /// Get partial list of customer apps by transactionID
+        /// </summary>
+        /// <param name="transactionId">TransactionID to show customer apps for for</param>
+        /// <returns>CustomerApp index list view</returns>
+        public ActionResult IndexPartial(int transactionId)
+        {
+            using (var context = new DataContext(User.Identity))
+            {
+                //Eager loading License
+                var licensesByTransaction = (from l in context.Licenses
+                                             where
+                                                 l.TransactionItems.FirstOrDefault().TransactionId == transactionId
+                                             select l.ObjectId).ToList();
+
+                var customerAppByLicense = (from c in context.LicenseCustomerApps
+                                               where
+                                                 licensesByTransaction.Contains(c.LicenseId)
+                                               select c.CustomerAppId).ToList();
+                
+                var customerAppQuery = (from x in context.CustomerApps
+                                        where customerAppByLicense.Contains(x.CustomerAppId)
+                                        select x)
+                                        .Include(x => x.LicenseCustomerApps)
+                                        .Include(x => x.LicenseCustomerApps.Select(s => s.License));
+
+                var viewModel = new CustomerAppIndexViewModel(customerAppQuery.ToList());
+
+                return PartialView(viewModel);
+            }
+        }
+
+        /// <summary>
         /// Create a single CustomerApp
         /// </summary>
         /// <returns>Create CustomerApp view</returns>

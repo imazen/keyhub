@@ -51,11 +51,11 @@
         @Html.DisplayFor(model => model.License.LicenseExpires)
     </div>
 </fieldset>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { key=Model.License.ObjectId }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
 
 <p>
     @Html.Action("IndexPartial", "DomainLicense", new { parentLicense = Model.License.ObjectId })
+</p>
+
+<p>
+    @Html.ActionLink("Back to List", "Index")
 </p>

@@ -26,6 +26,7 @@ namespace KeyHub.Web.ViewModels.DomainLicense
         {
             this.DomainLicenseId = domainLicense.DomainLicenseId;
             this.LicenseId = domainLicense.LicenseId;
+            this.LicenseName = domainLicense.License.Sku.SkuCode;
             this.DomainName = domainLicense.DomainName;
             this.DomainLicenseIssued = domainLicense.DomainLicenseIssued;
             this.DomainLicenseExpires = domainLicense.DomainLicenseExpires;
@@ -39,7 +40,12 @@ namespace KeyHub.Web.ViewModels.DomainLicense
         /// <returns>DomainLicense containing viewmodel data </returns>
         public override Model.DomainLicense ToEntity(Model.DomainLicense original)
         {
-            Model.DomainLicense current = original ?? new Model.DomainLicense();
+            if (original == null)
+            {
+                original = new Model.DomainLicense();
+                original.SetKeyBytes();
+            }
+            var current = original;
 
             current.DomainLicenseId = this.DomainLicenseId;
             current.LicenseId = this.LicenseId;
@@ -88,5 +94,11 @@ namespace KeyHub.Web.ViewModels.DomainLicense
         /// </summary>
         [Required]
         public bool AutomaticlyCreated { get; set; }
+
+        /// <summary>
+        /// The license name this domains is associated with
+        /// </summary>
+        [DisplayName("License")]
+        public string LicenseName { get; set; }
     }
 }

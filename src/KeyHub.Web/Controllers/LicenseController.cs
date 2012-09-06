@@ -45,7 +45,11 @@ namespace KeyHub.Web.Controllers
                 //Eager loading License
                 var licenseQuery = (from l in context.Licenses
                                     where l.TransactionItems.FirstOrDefault().TransactionId == transactionID
-                                    select l).Include(x => x.PurchasingCustomer).Include(x => x.OwningCustomer).Include(x => x.Sku);
+                                    select l)
+                                    .Include(x => x.PurchasingCustomer)
+                                    .Include(x => x.OwningCustomer)
+                                    .Include(x => x.Sku)
+                                    .Include(x => x.Domains);
 
                 LicenseIndexViewModel viewModel = new LicenseIndexViewModel(licenseQuery.ToList());
 
