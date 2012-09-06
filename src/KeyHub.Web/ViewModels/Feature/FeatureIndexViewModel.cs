@@ -17,7 +17,6 @@ namespace KeyHub.Web.ViewModels.Feature
         /// Construct the viewmodel
         /// </summary>
         /// <param name="vendor">Vendor entity</param>
-        /// <param name="countries">Country query for selectionlist</param>
         public FeatureIndexViewModel(List<Model.Feature> featureList)
             : this()
         {

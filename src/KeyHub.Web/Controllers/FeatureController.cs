@@ -25,8 +25,7 @@ namespace KeyHub.Web.Controllers
             using (DataContext context = new DataContext(User.Identity))
             {
                 //Authorized vendors
-                var vendorGuids = (from v in context.Vendors select v)//.FilterByUser(UserEntity)
-                    .Select(x => x.ObjectId).ToList();
+                var vendorGuids = (from v in context.Vendors select v).Select(x => x.ObjectId).ToList();
                 
                 //Eager loading feature
                 var featureQuery = (from f in context.Features where vendorGuids.Contains(f.VendorId) orderby f.FeatureCode select f).Include(x => x.Vendor);

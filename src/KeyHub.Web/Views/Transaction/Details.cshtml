@@ -14,6 +14,10 @@
 
 @Html.Action("IndexPartial", "License", new {transactionID = Model.Transaction.TransactionId }) 
 
+<h3>Registered applications </h3>
+@Html.Action("IndexPartial", "CustomerApp", new {transactionID = Model.Transaction.TransactionId }) 
+
+
 <p>
     @Html.ActionLink("Back to List", "Index")
 </p>

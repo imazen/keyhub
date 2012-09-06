@@ -7,9 +7,13 @@
 
 <h2>@ViewBag.ItemName <span>@ViewBag.Title</span></h2>
 
-<p>
-    @Html.ActionLink("Create New Customer", "Create", null,  new { @class = "Btn New"})
-</p>
+@if(Model.CurrentUser.IsVendorAdmin)
+{
+    <p>
+        @Html.ActionLink("Create New Customer", "Create", null, new {@class = "Btn New"})
+    </p>
+}
+
 <table border="0" border="0" cellspacing="0" cellpadding="0" class="GridTable">
     <thead>
     <tr>

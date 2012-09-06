@@ -9,11 +9,10 @@ namespace KeyHub.Data
 {
     public static class EntitylistExtensions
     {
-
         /// <summary>
-        /// Convert a query to a summary. 
+        /// Convert a enumerable of entities to a summary string. 
         /// </summary>
-        /// <typeparam name="TEntity">Type of the object queried (typed or untyped)</typeparam>
+        /// <typeparam name="TEntity">Type of the entity queried</typeparam>
         /// <param name="query">Query statement</param>
         /// <param name="displayNavigator">Expression to the display member</param>
         /// <param name="maxItems">Maximum items to show</param>

@@ -1,0 +1,19 @@
+﻿@using ActionMailer.Net
+@using ActionMailer.Net.Mvc
+@using KeyHub
+@model KeyHub.Web.ViewModels.Mail.TransactionMailViewModel
+
+@{
+    Layout = null;
+}
+
+Welcome @Model.PurchaserName,
+<br/>
+
+Please claim your transaction with the activation link below:
+<br/>
+
+@Url.AbsoluteAction("ClaimLicenses", "Transaction", new { key = @Model.TransactionId.ToString().EncryptUrl() });
+<br/>
+
+Thanks!

@@ -15,6 +15,9 @@
         <th>
             @Html.DisplayNameFor(model => model.Licenses.FirstOrDefault().LicenseExpires)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Licenses.FirstOrDefault().DomainSummary)
+        </th>
         <th></th>
     </tr>
         </thead>
@@ -34,8 +37,12 @@
             @Html.DisplayFor(modelItem => item.LicenseExpires)
         </td>
         <td>
+            @Html.DisplayFor(modelItem => item.DomainSummary)
+        </td>
+        <td>
             @Html.ActionLink("Edit", "Edit", new { key=item.ObjectId }) |
-            @Html.ActionLink("Details", "Details", new { key=item.ObjectId })
+            @Html.ActionLink("Details", "Details", new { key=item.ObjectId }) |
+            @Html.ActionLink("Add domain", "Create", "DomainLicense", new { owningLicense=item.ObjectId }, null)
         </td>
     </tr>
 }

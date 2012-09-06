@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -18,12 +19,12 @@ namespace KeyHub.Web.Controllers
         /// <param name="parentLicense">Guid of the license to show domains for</param>
         public ActionResult IndexPartial(Guid parentLicense)
         {
-            using (DataContext context = new DataContext())
+            using (var context = new DataContext(User.Identity))
             {
-                var domainLicenseQuery = (from x in context.DomainLicenses where x.LicenseId == parentLicense orderby x.DomainName select x);
-                var licenseQuery = (from v in context.Licenses where v.ObjectId == parentLicense select v);
+                var domainLicenseQuery = (from x in context.DomainLicenses where x.LicenseId == parentLicense orderby x.DomainName select x)
+                    .Include(x => x.License.Sku);
 
-                DomainLicenseIndexViewModel viewModel = new DomainLicenseIndexViewModel(domainLicenseQuery.ToList());
+                var viewModel = new DomainLicenseIndexViewModel(parentLicense, domainLicenseQuery.ToList());
 
                 return PartialView(viewModel);
             }
@@ -32,101 +33,105 @@ namespace KeyHub.Web.Controllers
         /// <summary>
         /// Create a single domainLicense
         /// </summary>
-        /// <param name="key">GUID of assiciated license</param>
+        /// <param name="owningLicense">Owning license ID</param>
         /// <returns>Create DomainLicense view</returns>
-        public ActionResult Create(Guid key)
+        public ActionResult Create(Guid owningLicense)
         {
-            throw new NotImplementedException();
-            //using (DataContext context = new DataContext())
-            //{
-            //    var licenseQuery = from x in context.Licenses where x.ObjectId == key select x;
+            using (var context = new DataContext(User.Identity))
+            {
+                var licenseQuery =
+                    (from x in context.Licenses where x.ObjectId == owningLicense select x)
+                    .Include(x => x.Sku);
 
-            //    DomainLicenseCreateViewModel viewModel = new DomainLicenseCreateViewModel(licenseQuery.FirstOrDefault());
+                var viewModel = new DomainLicenseCreateViewModel(licenseQuery.FirstOrDefault());
 
-            //    return View(viewModel);
-            //}
+                return View(viewModel);
+            }
         }
 
-        ///// <summary>
-        ///// Save created domainLicense into db and redirect to domainLicense index
-        ///// </summary>
-        ///// <param name="viewModel">Created DomainLicenseViewModel</param>
-        ///// <returns>Redirectaction to index if successfull</returns>
-        //[HttpPost]
-        //public ActionResult Create(DomainLicenseCreateViewModel viewModel)
-        //{
-        //    try
-        //    {
-        //        if (ModelState.IsValid)
-        //        {
-        //            using (DataContext context = new DataContext())
-        //            {
-        //                Model.DomainLicense domainLicense = viewModel.ToEntity(null);
-        //                context.DomainLicenses.Add(domainLicense);
+        /// <summary>
+        /// Save created domainLicense into db and redirect to domainLicense index
+        /// </summary>
+        /// <param name="viewModel">Created DomainLicenseViewModel</param>
+        /// <returns>Redirectaction to index if successfull</returns>
+        [HttpPost]
+        public ActionResult Create(DomainLicenseCreateViewModel viewModel)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    using (var context = new DataContext(User.Identity))
+                    {
+                        Model.DomainLicense domainLicense = viewModel.ToEntity(null);
 
-        //                context.SaveChanges();
-        //            }
-        //            return RedirectToAction("Details", "License", new { key = viewModel.DomainLicense.LicenseId });
-        //        }
-        //        else
-        //        {
-        //            return View(viewModel);
-        //        }
-        //    }
-        //    catch
-        //    {
-        //        throw;
-        //    }
-        //}
+                        context.DomainLicenses.Add(domainLicense);
 
-        ///// <summary>
-        ///// Edit a single domainLicense
-        ///// </summary>
-        ///// <param name="key">GUID of domainLicense to edit</param>
-        ///// <returns>Edit domainLicense view</returns>
-        //public ActionResult Edit(Guid key)
-        //{
-        //    using (DataContext context = new DataContext())
-        //    {
-        //        var domainLicenseQuery = from x in context.DomainLicenses where x.DomainLicenseId == key select x;
+                        context.SaveChanges();
+                    }
+                    return RedirectToAction("Details", "License", new { key = viewModel.DomainLicense.LicenseId });
+                }
+                else
+                {
+                    return View(viewModel);
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
 
-        //        DomainLicenseEditViewModel viewModel = new DomainLicenseEditViewModel(domainLicenseQuery.FirstOrDefault());
+        /// <summary>
+        /// Edit a single domainLicense
+        /// </summary>
+        /// <param name="key">GUID of domainLicense to edit</param>
+        /// <returns>Edit domainLicense view</returns>
+        public ActionResult Edit(Guid key)
+        {
+            using (var context = new DataContext(User.Identity))
+            {
+                var domainLicenseQuery = (from x in context.DomainLicenses where x.DomainLicenseId == key select x)
+                    .Include(x => x.License.Sku);
 
-        //        return View(viewModel);
-        //    }
-        //}
+                var viewModel = new DomainLicenseEditViewModel(domainLicenseQuery.FirstOrDefault());
 
-        ///// <summary>
-        ///// Save edited domainLicense into db and redirect to domainLicense index
-        ///// </summary>
-        ///// <param name="viewModel">Edited DomainLicenseViewModel</param>
-        ///// <returns>Redirectaction to index if successfull</returns>
-        //[HttpPost]
-        //public ActionResult Edit(DomainLicenseEditViewModel viewModel)
-        //{
-        //    try
-        //    {
-        //        if (ModelState.IsValid)
-        //        {
-        //            using (DataContext context = new DataContext())
-        //            {
-        //                Model.DomainLicense domainLicense = (from x in context.DomainLicenses where x.DomainLicenseId == viewModel.DomainLicense.DomainLicenseId select x).FirstOrDefault();
+                return View(viewModel);
+            }
+        }
 
-        //                viewModel.ToEntity(domainLicense);
+        /// <summary>
+        /// Save edited domainLicense into db and redirect to domainLicense index
+        /// </summary>
+        /// <param name="viewModel">Edited DomainLicenseViewModel</param>
+        /// <returns>Redirectaction to index if successfull</returns>
+        [HttpPost]
+        public ActionResult Edit(DomainLicenseEditViewModel viewModel)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    using (var context = new DataContext(User.Identity))
+                    {
+                        var domainLicense = (from x in context.DomainLicenses where x.DomainLicenseId == viewModel.DomainLicense.DomainLicenseId select x).FirstOrDefault();
 
-        //                context.SaveChanges();
-        //            }
-        //            return RedirectToAction("Details", "License", new { key = viewModel.DomainLicense.LicenseId });
-        //        }
-        //        else
-        //        {
-        //            return View(viewModel);
-        //        }
-        //    }
-        //    catch
-        //    {
-        //        throw;
-        //    }
-        //}
+                        viewModel.ToEntity(domainLicense);
+
+                        context.SaveChanges();
+                    }
+                    return RedirectToAction("Details", "License", new { key = viewModel.DomainLicense.LicenseId });
+                }
+                else
+                {
+                    return View(viewModel);
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
     }
 }

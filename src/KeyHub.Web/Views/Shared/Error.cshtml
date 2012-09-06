@@ -1,4 +1,5 @@
-﻿@model System.Web.Mvc.HandleErrorInfo
+﻿@using KeyHub.Data.BusinessRules
+@model System.Web.Mvc.HandleErrorInfo
 
 @{
     ViewBag.Title = "Error";
@@ -28,6 +29,25 @@
     <div class="display-field">
         @Html.DisplayFor(m => m.Exception.Message)
     </div>
+    
+    <div class="display-label">
+        @Html.DisplayNameFor(m => m.Exception.Message)
+    </div>
+    @if (Model.Exception is BusinessRuleValidationException)
+    {
+        <div class="display-field">
+            @{
+                string message = ((BusinessRuleValidationException) Model.Exception).ToString();
+                @message;
+            }
+        </div>
+    }
+    else
+    {
+        <div class="display-field">
+            @Html.DisplayFor(m => m.Exception.Message)
+        </div>
+    }
 
     @if (Model.Exception.InnerException != null)
     {

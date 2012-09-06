@@ -39,6 +39,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ActionMailer.Net">
+      <HintPath>..\packages\ActionMailer.0.7.4\lib\Net40\ActionMailer.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="ActionMailer.Net.Mvc">
+      <HintPath>..\packages\ActionMailer.0.7.4\lib\Net40\ActionMailer.Net.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="NLog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\packages\NLog.2.0.0.2000\lib\net40\NLog.dll</HintPath>
@@ -129,6 +135,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\Controllers\InvalidPropertyException.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -140,9 +147,11 @@
     <Compile Include="Controllers\FeatureController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LicenseController.cs" />
+    <Compile Include="Controllers\MailController.cs" />
     <Compile Include="Controllers\PrivateKeyController.cs" />
     <Compile Include="Controllers\SKUController.cs" />
     <Compile Include="Controllers\TransactionController.cs" />
+    <Compile Include="Api\Controllers\TransactionController.cs" />
     <Compile Include="Controllers\VendorController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -158,8 +167,10 @@
     <Compile Include="ViewModels\Customer\CustomerEditViewModel.cs" />
     <Compile Include="ViewModels\Customer\CustomerIndexViewModel.cs" />
     <Compile Include="ViewModels\Customer\CustomerViewModel.cs" />
+    <Compile Include="ViewModels\DomainLicense\DomainLicenseEditViewModel.cs" />
     <Compile Include="ViewModels\DomainLicense\DomainLicenseViewModel.cs" />
     <Compile Include="ViewModels\DomainLicense\DomainLicenseIndexViewModel.cs" />
+    <Compile Include="ViewModels\DomainLicense\DomainLicenseCreateViewModel.cs" />
     <Compile Include="ViewModels\Feature\FeatureCreateViewModel.cs" />
     <Compile Include="ViewModels\Feature\FeatureEditViewModel.cs" />
     <Compile Include="ViewModels\Feature\FeatureIndexViewModel.cs" />
@@ -170,6 +181,7 @@
     <Compile Include="ViewModels\License\LicenseViewModel.cs" />
     <Compile Include="ViewModels\License\LicenseCreateViewModel.cs" />
     <Compile Include="ViewModels\License\LicenseEditViewModel.cs" />
+    <Compile Include="ViewModels\Mail\TransactionMailViewModel.cs" />
     <Compile Include="ViewModels\PrivateKey\PrivateKeyViewModel.cs" />
     <Compile Include="ViewModels\PrivateKey\PrivateKeyIndexViewModel.cs" />
     <Compile Include="ViewModels\PrivateKey\PrivateKeyCreateViewModel.cs" />
@@ -420,7 +432,6 @@
     <Content Include="Views\PrivateKey\Create.cshtml" />
     <Content Include="Views\License\Details.cshtml" />
     <Content Include="Views\DomainLicense\IndexPartial.cshtml" />
-    <Content Include="Views\Transaction\Create.cshtml" />
     <Content Include="Views\Transaction\Checkout.cshtml" />
     <Content Include="Views\Shared\_CreateCustomer.cshtml" />
     <Content Include="Views\Transaction\Complete.cshtml" />
@@ -430,7 +441,12 @@
     <Content Include="Views\Transaction\ClaimLicenses.cshtml" />
     <Content Include="Views\License\IndexPartial.cshtml" />
     <Content Include="Views\Home\MainMenu.cshtml" />
+    <Content Include="Views\Mail\NewTransactionEmail.html.cshtml" />
+    <Content Include="Views\Transaction\Create.cshtml" />
+    <Content Include="Views\DomainLicense\Create.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
+    <Content Include="Views\DomainLicense\Edit.cshtml" />
+    <Content Include="Views\CustomerApp\IndexPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
