@@ -8,14 +8,14 @@
 
 <fieldset>
     <legend>LicenseDetailsViewItem</legend>
-
+    <div class="editor-container-sideBySide">
     <div class="display-label">
          @Html.DisplayNameFor(model => model.License.SKUName)
     </div>
     <div class="display-field">
         @Html.DisplayFor(model => model.License.SKUName)
     </div>
-
+       
     <div class="display-label">
          @Html.DisplayNameFor(model => model.License.PurchasingCustomerName)
     </div>
@@ -50,6 +50,7 @@
     <div class="display-field">
         @Html.DisplayFor(model => model.License.LicenseExpires)
     </div>
+         </div>
 </fieldset>
 <p>
     @Html.ActionLink("Edit", "Edit", new { key=Model.License.ObjectId }) |

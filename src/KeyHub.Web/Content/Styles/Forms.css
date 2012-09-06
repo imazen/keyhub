@@ -21,6 +21,9 @@ INPUT.Text, INPUT[type=text], INPUT[type=password], INPUT[type=number], INPUT[ty
   INPUT.Text:focus, INPUT[type=text]:focus, INPUT[type=password]:focus, INPUT[type=number]:focus, INPUT[type=datetime]:focus {
     outline: none; }
 
+INPUT[disabled=disabled] {
+  background: #ededed; }
+
 INPUT[type=number] {
   padding-bottom: 3px; }
   INPUT[type=number].valid {
@@ -97,10 +100,12 @@ DIV.editor-field {
       border-bottom: 0px solid #cc0000;
       bottom: 0px; }
 
-DIV.editor-field-checkbox SPAN.prettyradiocheckbox {
+DIV.editor-field-checkbox SPAN.prettyradiocheckbox,
+DIV.editor-field-radio SPAN.prettyradiocheckbox {
   margin-top: 5px;
   margin-left: 0px; }
-DIV.editor-field-checkbox LABEL {
+DIV.editor-field-checkbox LABEL,
+DIV.editor-field-radio LABEL {
   line-height: 16px; }
 
 FIELDSET {
@@ -143,15 +148,29 @@ DIV.editor-container-sideBySide {
     text-align: left;
     margin-bottom: 0px; }
   DIV.editor-container-sideBySide.two-one DIV.editor-label {
-    width: 243.333px; }
+    width: 243.33333px; }
   DIV.editor-container-sideBySide.two-one DIV.editor-field {
-    width: 126.667px; }
+    width: 126.66667px; }
     DIV.editor-container-sideBySide.two-one DIV.editor-field INPUT {
-      width: 104.667px; }
+      width: 104.66667px; }
   DIV.editor-container-sideBySide.one-two DIV.editor-label {
-    width: 116.667px; }
+    width: 116.66667px; }
   DIV.editor-container-sideBySide.one-two DIV.editor-field {
-    width: 253.333px; }
+    width: 253.33333px; }
     DIV.editor-container-sideBySide.one-two DIV.editor-field INPUT {
-      width: 231.333px; }
+      width: 231.33333px; }
+
+DIV.editor-container-toggle {
+  display: none; }
+  DIV.editor-container-toggle.show {
+    display: block; }
+  DIV.editor-container-toggle.hide {
+    display: none; }
+
+DIV.editor-stepContainer DIV.col {
+  width: 400px;
+  display: inline-block;
+  float: left; }
+  DIV.editor-stepContainer DIV.col.col-left {
+    clear: left; }
 

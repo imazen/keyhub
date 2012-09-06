@@ -20,6 +20,16 @@ namespace KeyHub.Web.Controllers
         /// </summary>
         /// <param name="returnUrl"></param>
         /// <returns></returns>
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="returnUrl"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {

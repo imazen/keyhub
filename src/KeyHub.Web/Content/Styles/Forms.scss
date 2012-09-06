@@ -12,7 +12,8 @@ INPUT.Text, INPUT[type=text],INPUT[type=password], INPUT[type=number], INPUT[typ
 	line-height: 16px;
 	padding: 3px 10px 4px 10px;
 
-	&.Active,&:focus{
+	&.Active,
+	&:focus{
 		border-color: $colorBorderInputTextSelected;
 		color: #333333;
 	}
@@ -27,11 +28,18 @@ INPUT.Text, INPUT[type=text],INPUT[type=password], INPUT[type=number], INPUT[typ
 		border-color: #cc0000;
 		background: url("../Images/bgSprite.png") right 0px no-repeat;
 	}
+
 	&.valid{
 		background: url("../Images/bgSprite.png") right -30px no-repeat;
 	}
+
 	&:focus{ outline: none;}
 }
+
+INPUT[disabled=disabled]{
+	background: #ededed;
+}
+
 INPUT[type=number]{
 	padding-bottom: 3px;
 	&.valid{
@@ -104,8 +112,9 @@ DIV.editor-field{
 		}
 	}
 }
-DIV.editor-field-checkbox{
 
+DIV.editor-field-checkbox,
+DIV.editor-field-radio{
 
 	SPAN.prettyradiocheckbox {
 		margin-top: 5px;
@@ -129,9 +138,9 @@ FIELDSET {
 }
 
 INPUT[type=submit]{
-border: none;
-background: none;
-cursor: pointer;
+	border: none;
+	background: none;
+	cursor: pointer;
 
 }
 
@@ -207,3 +216,31 @@ DIV.editor-container-sideBySide{
 	}
 
 }
+
+$debug: false;
+DIV.editor-container-toggle{
+	
+	@if($debug){border: 1px dashed #000000;}
+	display: none;
+
+	@if($debug){
+		&.show{  background: #ededed;}
+		&.hide{ background: #cc0000;}
+	} @else{
+		&.show{  display: block;}
+		&.hide{ display: none;}
+	}
+}
+
+DIV.editor-stepContainer{
+	@if($debug){border: 1px solid #000000;}
+	//overflow: hidden;
+	DIV.col{
+		@if($debug){border: 1px solid #000000;}
+		width: 400px;
+		display: inline-block;
+		float: left;
+		&.col-left{clear: left;}
+	}
+}
+//DIV{border: 1px solid #000000;}	

@@ -1,6 +1,7 @@
 ﻿@model KeyHub.Web.ViewModels.License.LicenseIndexViewModel
 
-<table>
+<table border="0" border="0" cellspacing="0" cellpadding="0" class="GridTable">
+    <thead>
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Licenses.FirstOrDefault().OwningCustomerName)
@@ -16,7 +17,7 @@
         </th>
         <th></th>
     </tr>
-
+        </thead>
 @foreach (var item in Model.Licenses)
 {
     <tr>

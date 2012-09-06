@@ -19,24 +19,20 @@
 
     <fieldset>
         <legend>Registration Form</legend>
-        <ol>
-            <li>
-                @Html.LabelFor(m => m.UserName)
-                @Html.TextBoxFor(m => m.UserName)
-            </li>
-            <li>
-                @Html.LabelFor(m => m.Email)
-                @Html.TextBoxFor(m => m.Email)
-            </li>
-            <li>
-                @Html.LabelFor(m => m.Password)
-                @Html.PasswordFor(m => m.Password)
-            </li>
-            <li>
-                @Html.LabelFor(m => m.ConfirmPassword)
-                @Html.PasswordFor(m => m.ConfirmPassword)
-            </li>
-        </ol>
+        
+                <div class="editor-label">@Html.LabelFor(m => m.UserName)</div>
+                <div class="editor-field">@Html.TextBoxFor(m => m.UserName)</div>
+           
+                <div class="editor-label">@Html.LabelFor(m => m.Email)</div>
+                <div class="editor-field">@Html.TextBoxFor(m => m.Email)</div>
+            
+                <div class="editor-label">@Html.LabelFor(m => m.Password)</div>
+                <div class="editor-field">@Html.PasswordFor(m => m.Password)</div>
+           
+                <div class="editor-label">@Html.LabelFor(m => m.ConfirmPassword)</div>
+                <div class="editor-field">@Html.PasswordFor(m => m.ConfirmPassword)</div>
+            
+      
         <input type="submit" value="Register" />
     </fieldset>
 }

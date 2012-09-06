@@ -223,6 +223,9 @@
     <Content Include="Content\Styles\Layout.css">
       <DependentUpon>Layout.scss</DependentUpon>
     </Content>
+    <Content Include="Content\Styles\Menu.css">
+      <DependentUpon>Menu.scss</DependentUpon>
+    </Content>
     <Content Include="Content\Styles\Mixins.css">
       <DependentUpon>Mixins.scss</DependentUpon>
     </Content>
@@ -321,6 +324,12 @@
       <DebugInfo>False</DebugInfo>
     </Content>
     <Content Include="Content\Styles\Icons.scss" />
+    <Content Include="Content\Styles\Menu.scss">
+      <Compile>True</Compile>
+      <Minify>True</Minify>
+      <CompileStyle>Nested</CompileStyle>
+      <DebugInfo>False</DebugInfo>
+    </Content>
     <None Include="Scripts\jquery-1.6.2-vsdoc.js" />
     <Content Include="Scripts\jquery-1.6.2.js" />
     <Content Include="Scripts\jquery-1.6.2.min.js">
@@ -421,6 +430,7 @@
     <Content Include="Views\Transaction\ClaimLicenses.cshtml" />
     <Content Include="Views\License\IndexPartial.cshtml" />
     <Content Include="Views\Home\MainMenu.cshtml" />
+    <Content Include="Views\Account\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

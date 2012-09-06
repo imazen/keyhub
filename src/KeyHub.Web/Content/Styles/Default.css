@@ -64,6 +64,9 @@ INPUT.Text, INPUT[type=text], INPUT[type=password], INPUT[type=number], INPUT[ty
   INPUT.Text:focus, INPUT[type=text]:focus, INPUT[type=password]:focus, INPUT[type=number]:focus, INPUT[type=datetime]:focus {
     outline: none; }
 
+INPUT[disabled=disabled] {
+  background: #ededed; }
+
 INPUT[type=number] {
   padding-bottom: 3px; }
   INPUT[type=number].valid {
@@ -140,10 +143,12 @@ DIV.editor-field {
       border-bottom: 0px solid #cc0000;
       bottom: 0px; }
 
-DIV.editor-field-checkbox SPAN.prettyradiocheckbox {
+DIV.editor-field-checkbox SPAN.prettyradiocheckbox,
+DIV.editor-field-radio SPAN.prettyradiocheckbox {
   margin-top: 5px;
   margin-left: 0px; }
-DIV.editor-field-checkbox LABEL {
+DIV.editor-field-checkbox LABEL,
+DIV.editor-field-radio LABEL {
   line-height: 16px; }
 
 FIELDSET {
@@ -186,17 +191,31 @@ DIV.editor-container-sideBySide {
     text-align: left;
     margin-bottom: 0px; }
   DIV.editor-container-sideBySide.two-one DIV.editor-label {
-    width: 243.333px; }
+    width: 243.33333px; }
   DIV.editor-container-sideBySide.two-one DIV.editor-field {
-    width: 126.667px; }
+    width: 126.66667px; }
     DIV.editor-container-sideBySide.two-one DIV.editor-field INPUT {
-      width: 104.667px; }
+      width: 104.66667px; }
   DIV.editor-container-sideBySide.one-two DIV.editor-label {
-    width: 116.667px; }
+    width: 116.66667px; }
   DIV.editor-container-sideBySide.one-two DIV.editor-field {
-    width: 253.333px; }
+    width: 253.33333px; }
     DIV.editor-container-sideBySide.one-two DIV.editor-field INPUT {
-      width: 231.333px; }
+      width: 231.33333px; }
+
+DIV.editor-container-toggle {
+  display: none; }
+  DIV.editor-container-toggle.show {
+    display: block; }
+  DIV.editor-container-toggle.hide {
+    display: none; }
+
+DIV.editor-stepContainer DIV.col {
+  width: 400px;
+  display: inline-block;
+  float: left; }
+  DIV.editor-stepContainer DIV.col.col-left {
+    clear: left; }
 
 TABLE.GridTable {
   width: 100%;
@@ -720,6 +739,54 @@ A.IconLink {
     -khtml-opacity: 0.7;
     opacity: 0.7;
     outline: none; }
+
+UL.Menu {
+  display: block;
+  clear: both;
+  overflow: hidden;
+  margin-left: -20px; }
+  UL.Menu LI {
+    float: left; }
+    UL.Menu LI A {
+      text-decoration: none;
+      text-transform: uppercase;
+      font-size: 12px;
+      color: #7f7f7f;
+      padding: 0px 20px; }
+      UL.Menu LI A:hover, UL.Menu LI A:focus {
+        color: #007acc; }
+    UL.Menu LI.Active A {
+      color: #333333; }
+
+UL.MenuLoginPartial,
+UL.HeaderMenu {
+  display: block;
+  clear: both;
+  overflow: hidden;
+  margin-right: 20px; }
+  UL.MenuLoginPartial LI,
+  UL.HeaderMenu LI {
+    float: left; }
+    UL.MenuLoginPartial LI A,
+    UL.HeaderMenu LI A {
+      text-decoration: none;
+      text-transform: uppercase;
+      font-size: 12px;
+      color: #999999;
+      padding: 0px 10px;
+      line-height: 20px;
+      display: inline-block;
+      border-radius: 20px;
+      margin-top: 5px; }
+      UL.MenuLoginPartial LI A:hover,
+      UL.HeaderMenu LI A:hover {
+        color: #ffffff; }
+    UL.MenuLoginPartial LI.Active A,
+    UL.HeaderMenu LI.Active A {
+      color: #ffffff; }
+    UL.MenuLoginPartial LI.Logoff A:hover,
+    UL.HeaderMenu LI.Logoff A:hover {
+      background: #cc0000; }
 
 SPAN.checkbox,
 SPAN.radio {
@@ -1431,44 +1498,7 @@ A.Logo {
   A.Logo:hover, A.Logo:focus {
     background-position: 0px -30px; }
 
-UL.Menu {
-  display: block;
-  clear: both;
-  overflow: hidden;
-  margin-left: -20px; }
-  UL.Menu LI {
-    float: left; }
-    UL.Menu LI A {
-      text-decoration: none;
-      text-transform: uppercase;
-      font-size: 12px;
-      color: #7f7f7f;
-      padding: 0px 20px; }
-      UL.Menu LI A:hover, UL.Menu LI A:focus {
-        color: #007acc; }
-    UL.Menu LI.Active A {
-      color: #333333; }
-
-UL.MenuLoginPartial, UL.HeaderMenu {
-  display: block;
-  clear: both;
-  overflow: hidden;
-  margin-right: 20px; }
-  UL.MenuLoginPartial LI, UL.HeaderMenu LI {
-    float: left; }
-    UL.MenuLoginPartial LI A, UL.HeaderMenu LI A {
-      text-decoration: none;
-      text-transform: uppercase;
-      font-size: 12px;
-      color: #999999;
-      padding: 0px 10px;
-      line-height: 30px; }
-      UL.MenuLoginPartial LI A:hover, UL.HeaderMenu LI A:hover {
-        color: #ffffff; }
-    UL.MenuLoginPartial LI.Active A, UL.HeaderMenu LI.Active A {
-      color: #ffffff; }
-
-A.Btn, INPUT[type=submit] {
+A.Btn, INPUT[type=submit], INPUT[type=button] {
   line-height: 30px;
   height: 30px;
   background: #ededed;
@@ -1476,14 +1506,14 @@ A.Btn, INPUT[type=submit] {
   border-radius: 30px;
   display: inline-block;
   padding: 0px 15px; }
-  A.Btn:hover, A.Btn:focus, INPUT[type=submit]:hover, INPUT[type=submit]:focus {
+  A.Btn:hover, A.Btn:focus, INPUT[type=submit]:hover, INPUT[type=submit]:focus, INPUT[type=button]:hover, INPUT[type=button]:focus {
     background: #007acc;
     color: #ffffff;
     text-decoration: none; }
 
-INPUT[type=submit] {
+INPUT[type=submit], INPUT[type=button] {
   background: #007acc;
   color: #ffffff; }
-  INPUT[type=submit]:hover, INPUT[type=submit]:focus {
+  INPUT[type=submit]:hover, INPUT[type=submit]:focus, INPUT[type=button]:hover, INPUT[type=button]:focus {
     background: #003d66; }
 

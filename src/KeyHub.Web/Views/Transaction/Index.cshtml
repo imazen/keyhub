@@ -2,15 +2,17 @@
 @using KeyHub;
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.ItemName = "Transaction";
+    ViewBag.Title = "Overview"; ;
 }
 
-<h2>Index</h2>
+<h2>@ViewBag.ItemName <span>@ViewBag.Title</span></h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New Transaction", "Create", null,  new { @class = "Btn New"})
 </p>
-<table>
+<table border="0" border="0" cellspacing="0" cellpadding="0" class="GridTable">
+    <thead>
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Transactions.FirstOrDefault().CreatedDateTime)
@@ -24,8 +26,9 @@
         <th>
             @Html.DisplayNameFor(model => model.Transactions.FirstOrDefault().StatusName)
         </th>
+        <th></th>
     </tr>
-
+</thead>
 @foreach (var item in Model.Transactions) {
     <tr>
         <td>

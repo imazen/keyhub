@@ -1,0 +1,56 @@
+﻿@import "Mixins.scss";
+
+$debug: false;
+
+
+UL.Menu{
+	display: block;
+	clear: both;
+	overflow: hidden;
+	margin-left: -20px;
+	LI{ 
+		float: left; 
+
+		A{
+			text-decoration: none;
+			text-transform: uppercase;
+			font-size: 12px; 
+			color: #7f7f7f;
+			padding: 0px 20px;
+			&:hover,&:focus{ color: $colorActive;}
+		}
+		&.Active A{ color: #333333;}
+	}
+
+}
+
+UL.MenuLoginPartial,
+UL.HeaderMenu{
+	display: block;
+	clear: both;
+	overflow: hidden;
+	margin-right: 20px;
+	LI{ 
+		float: left; 
+
+		A{
+			text-decoration: none;
+			text-transform: uppercase;
+			font-size: 12px; 
+			color: #999999;
+			padding: 0px 10px;
+			line-height: 20px;
+			display: inline-block;
+			border-radius: 20px;
+			margin-top: 5px;
+			&:hover{ color: #ffffff;}
+		}
+		&.Active A{ color: #ffffff;}
+		&.Logoff{
+			A{
+				&:hover{ background: #cc0000;}
+			}
+			
+		}
+	}
+}

@@ -14,20 +14,19 @@
 
     <fieldset>
         <legend>Log in Form</legend>
-        <ol>
-            <li>
-                @Html.LabelFor(m => m.UserName)
-                @Html.TextBoxFor(m => m.UserName)
-            </li>
-            <li>
-                @Html.LabelFor(m => m.Password)
-                @Html.PasswordFor(m => m.Password)
-            </li>
-            <li>
-                @Html.CheckBoxFor(m => m.RememberMe)
-                @Html.LabelFor(m => m.RememberMe, new { @class = "checkbox" })
-            </li>
-        </ol>
+            <div class="editor-label">@Html.LabelFor(m => m.UserName)</div>
+            <div class="editor-field">@Html.TextBoxFor(m => m.UserName)</div>
+
+            <div class="editor-label">@Html.LabelFor(m => m.Password)</div>
+            <div class="editor-field">@Html.PasswordFor(m => m.Password)</div>
+            
+        <div class="editor-field-checkbox">
+               
+                <div class="editor-field">
+                    @Html.CheckBoxFor(m => m.RememberMe)
+                    @Html.LabelFor(m => m.RememberMe, new { @class = "checkbox" })
+                </div>
+            </div>
         <input type="submit" value="Log in" />
     </fieldset>
     <p>

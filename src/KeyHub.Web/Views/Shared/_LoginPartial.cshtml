@@ -1,7 +1,7 @@
 ﻿@if (Request.IsAuthenticated) {
     <ul class="MenuLoginPartial">
         <li>@Html.ActionLink("Welcome " + User.Identity.Name, "ChangePassword", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "Change password" })<li>
-        <li>@Html.ActionLink("Log off", "LogOff", "Account")<li>
+        <li class="Logoff">@Html.ActionLink("Log off", "LogOff", "Account")<li>
     </ul>
 } else {
     <ul class="MenuLoginPartial">
