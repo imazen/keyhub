@@ -1,0 +1,422 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ActionMailer.Net.Mvc</name>
+    </assembly>
+    <members>
+        <member name="T:ActionMailer.Net.Mvc.EmailResult">
+            <summary>
+            A special result that should be returned from each eaction in your
+            mail controller.  Your controller must inherit from MailerBase.
+            </summary>
+        </member>
+        <member name="F:ActionMailer.Net.Mvc.EmailResult.Mail">
+            <summary>
+            The underlying MailMessage object that was passed to this object's constructor.
+            </summary>
+        </member>
+        <member name="F:ActionMailer.Net.Mvc.EmailResult.MailSender">
+            <summary>
+            The IMailSender instance that is used to deliver mail.
+            </summary>
+        </member>
+        <member name="F:ActionMailer.Net.Mvc.EmailResult.MessageEncoding">
+            <summary>
+            The default encoding used to send a message.
+            </summary>
+        </member>
+        <member name="M:ActionMailer.Net.Mvc.EmailResult.#ctor(ActionMailer.Net.IMailInterceptor,ActionMailer.Net.IMailSender,System.Net.Mail.MailMessage,System.String,System.String,System.Text.Encoding,System.Boolean)">
+            <summary>
+            Creates a new EmailResult.  You must call ExecuteCore() before this result
+            can be successfully delivered.
+            </summary>
+            <param name="interceptor">The IMailInterceptor that we will call when delivering mail.</param>
+            <param name="sender">The IMailSender that we will use to send mail.</param>
+            <param name="mail">The mail message who's body needs populating.</param>
+            <param name="viewName">The view to use when rendering the message body (can be null)</param>
+            <param name="masterName">The maste rpage to use when rendering the message body (can be null)</param>
+            <param name="messageEncoding">The encoding to use when rendering a message.</param>
+            <param name="trimBody">Whether or not we should trim whitespace from the beginning and end of the message body.</param>
+        </member>
+        <member name="M:ActionMailer.Net.Mvc.EmailResult.ExecuteResult(System.Web.Mvc.ControllerContext)">
+            <summary>
+            Causes the body of the mail message to be generated.
+            </summary>
+            <param name="context">The controller context to use while rendering the body.</param>
+        </member>
+        <member name="M:ActionMailer.Net.Mvc.EmailResult.Deliver">
+            <summary>
+            Sends your message.  This call will block while the message is being sent. (not recommended)
+            </summary>
+        </member>
+        <member name="M:ActionMailer.Net.Mvc.EmailResult.DeliverAsync">
+            <summary>
+            Sends your message asynchronously.  This method does not block.  If you need to know
+            when the message has been sent, then override the OnMailSent method in MailerBase which
+            will not fire until the asyonchronous send operation is complete.
+            </summary>
+        </member>
+        <member name="T:ActionMailer.Net.Mvc.HtmlHelperExtensions">
+            <summary>
+            This class contains some handy extension methods that make it easier
+            to consume inline attachments in your message body.
+            </summary>
+        </member>
+        <member name="M:ActionMailer.Net.Mvc.HtmlHelperExtensions.InlineImage(System.Web.Mvc.HtmlHelper,System.String)">
+            <summary>
+            Creates an image tag linked against the specified inline image attachment.
+            </summary>
+            <param name="helper">Your html helper instance.</param>
+            <param name="contentId">The content id (in ActionMailer this is the attachment name).</param>
+            <returns>An HTML image tag linked against the specified inline image attachment.</returns>
+        </member>
+        <member name="M:ActionMailer.Net.Mvc.HtmlHelperExtensions.InlineImage(System.Web.Mvc.HtmlHelper,System.String,System.Object)">
+            <summary>
+            Creates an image tag linked against the specified inline image attachment.
+            </summary>
+            <param name="helper">Your html helper instance.</param>
+            <param name="contentId">The content id (in ActionMailer this is the attachment name).</param>
+            <param name="htmlAttributes">An anonymous object with extra html attributes you wish to add to this tag.</param>
+            <returns>An HTML image tag linked against the specified inline image attachment.</returns>
+        </member>
+        <member name="M:ActionMailer.Net.Mvc.HtmlHelperExtensions.InlineImage(System.Web.Mvc.HtmlHelper,System.String,System.String)">
+            <summary>
+            Creates an image tag linked against the specified inline image attachment.
+            </summary>
+            <param name="helper">Your html helper instance.</param>
+            <param name="contentId">The content id (in ActionMailer this is the attachment name).</param>
+            <param name="alt">The tooltip text to display when hovering over the image</param>
+            <returns>An HTML image tag linked against the specified inline image attachment.</returns>
+        </member>
+        <member name="M:ActionMailer.Net.Mvc.HtmlHelperExtensions.InlineImage(System.Web.Mvc.HtmlHelper,System.String,System.String,System.Object)">
+            <summary>
+            Creates an image tag linked against the specified inline image attachment.
+            </summary>
+            <param name="helper">Your html helper instance.</param>
+            <param name="contentId">The content id (in ActionMailer this is the attachment name).</param>
+            <param name="alt">The tooltip text to display when hovering over the image</param>
+            <param name="htmlAttributes">An anonymous object with extra html attributes you wish to add to this tag.</param>
+            <returns>An HTML image tag linked against the specified inline image attachment.</returns>
+        </member>
+        <member name="M:ActionMailer.Net.Mvc.HtmlHelperExtensions.InlineImage(System.Web.Mvc.HtmlHelper,System.String,System.String,System.String)">
+            <summary>
+            Creates an image tag linked against the specified inline image attachment.
+            </summary>
+            <param name="helper">Your html helper instance.</param>
+            <param name="contentId">The content id (in ActionMailer this is the attachment name).</param>
+            <param name="alt">The tooltip text to display when hovering over the image</param>
+            <param name="id">Any HTML ID that you want the image tag to have.</param>
+            <returns>An HTML image tag linked against the specified inline image attachment.</returns>
+        </member>
+        <member name="M:ActionMailer.Net.Mvc.HtmlHelperExtensions.InlineImage(System.Web.Mvc.HtmlHelper,System.String,System.String,System.String,System.Object)">
+            <summary>
+            Creates an image tag linked against the specified inline image attachment.
+            </summary>
+            <param name="helper">Your html helper instance.</param>
+            <param name="contentId">The content id (in ActionMailer this is the attachment name).</param>
+            <param name="alt">The tooltip text to display when hovering over the image</param>
+            <param name="id">Any HTML ID that you want the image tag to have.</param>
+            <param name="htmlAttributes">An anonymous object with extra html attributes you wish to add to this tag.</param>
+            <returns>An HTML image tag linked against the specified inline image attachment.</returns>
+        </member>
+        <member name="M:ActionMailer.Net.Mvc.HtmlHelperExtensions.InlineCSS(System.Web.Mvc.HtmlHelper,System.String)">
+            <summary>
+            Creates a link tag for an inline CSS attachment.
+            </summary>
+            <param name="helper">Your html helper instance.</param>
+            <param name="contentId">The content id (in ActionMailer this is the attachment name).</param>
+            <returns>An HTML link tag that reprensents the inline CSS attachment specified.</returns>
+        </member>
+        <member name="M:ActionMailer.Net.Mvc.HtmlHelperExtensions.InlineCSS(System.Web.Mvc.HtmlHelper,System.String,System.Object)">
+            <summary>
+            Creates a link tag for an inline CSS attachment.
+            </summary>
+            <param name="helper">Your html helper instance.</param>
+            <param name="contentId">The content id (in ActionMailer this is the attachment name).</param>
+            <param name="htmlAttributes">An anonymous object with extra html attributes you wish to add to this tag.</param>
+            <returns>An HTML link tag that reprensents the inline CSS attachment specified.</returns>
+        </member>
+        <member name="M:ActionMailer.Net.Mvc.HtmlHelperExtensions.InlineCSS(System.Web.Mvc.HtmlHelper,System.String,System.String)">
+            <summary>
+            Creates a link tag for an inline CSS attachment.
+            </summary>
+            <param name="helper">Your html helper instance.</param>
+            <param name="contentId">The content id (in ActionMailer this is the attachment name).</param>
+            <param name="media">The media type for the link tag.</param>
+            <returns>An HTML link tag that reprensents the inline CSS attachment specified.</returns>
+        </member>
+        <member name="M:ActionMailer.Net.Mvc.HtmlHelperExtensions.InlineCSS(System.Web.Mvc.HtmlHelper,System.String,System.String,System.Object)">
+            <summary>
+            Creates a link tag for an inline CSS attachment.
+            </summary>
+            <param name="helper">Your html helper instance.</param>
+            <param name="contentId">The content id (in ActionMailer this is the attachment name).</param>
+            <param name="media">The media type for the link tag.</param>
+            <param name="htmlAttributes">An anonymous object with extra html attributes you wish to add to this tag.</param>
+            <returns>An HTML link tag that reprensents the inline CSS attachment specified.</returns>
+        </member>
+        <member name="T:ActionMailer.Net.Mvc.MailerBase">
+            <summary>
+            The base class that your controller should inherit from if you wish
+            to send emails through ActionMailer.Net.
+            </summary>
+        </member>
+        <member name="M:ActionMailer.Net.Mvc.MailerBase.OnMailSent(System.Net.Mail.MailMessage)">
+            <summary>
+            This method is called after each mail is sent.
+            </summary>
+            <param name="mail">The mail that was sent.</param>
+        </member>
+        <member name="M:ActionMailer.Net.Mvc.MailerBase.OnMailSending(ActionMailer.Net.MailSendingContext)">
+            <summary>
+            This method is called before each mail is sent
+            </summary>
+            <param name="context">A simple context containing the mail
+            and a boolean value that can be toggled to prevent this
+            mail from being sent.</param>
+        </member>
+        <member name="M:ActionMailer.Net.Mvc.MailerBase.#ctor(ActionMailer.Net.IMailSender,System.Text.Encoding)">
+            <summary>
+            Initializes MailerBase using the default SmtpMailSender and system Encoding.
+            </summary>
+            <param name="mailSender">The underlying mail sender to use for delivering mail.</param>
+            <param name="defaultMessageEncoding">The default encoding to use when generating a mail message.</param>
+        </member>
+        <member name="M:ActionMailer.Net.Mvc.MailerBase.Email(System.String,System.Object,System.String,System.Boolean)">
+            <summary>
+            Constructs your mail message ready for delivery.
+            </summary>
+            <param name="viewName">The view to use when rendering the message body.</param>
+            <param name="model">The model object used while rendering the message body.</param>
+            <param name="masterName">The master page to use when rendering the message body.</param>
+            <param name="trimBody">Whether or not we should trim whitespace from the beginning and end of the message body.</param>
+            <returns>An EmailResult that you can Deliver();</returns>
+        </member>
+        <member name="M:ActionMailer.Net.Mvc.MailerBase.ExecuteCore">
+            <summary>
+            Nothing to do here, left empty for now.
+            </summary>
+        </member>
+        <member name="M:ActionMailer.Net.Mvc.MailerBase.Dispose(System.Boolean)">
+            <summary>
+            Dispose of the underlying MailSender when this controller is destroyed.
+            </summary>
+            <param name="disposing">Whether we are disposing or not.</param>
+        </member>
+        <member name="P:ActionMailer.Net.Mvc.MailerBase.From">
+            <summary>
+            A string representation of who this mail should be from.  Could be
+            your name and email address or just an email address by itself.
+            </summary>
+        </member>
+        <member name="P:ActionMailer.Net.Mvc.MailerBase.Subject">
+            <summary>
+            The subject line of the email.
+            </summary>
+        </member>
+        <member name="P:ActionMailer.Net.Mvc.MailerBase.To">
+            <summary>
+            A collection of addresses this email should be sent to.
+            </summary>
+        </member>
+        <member name="P:ActionMailer.Net.Mvc.MailerBase.CC">
+            <summary>
+            A collection of addresses that should be CC'ed.
+            </summary>
+        </member>
+        <member name="P:ActionMailer.Net.Mvc.MailerBase.BCC">
+            <summary>
+            A collection of addresses that should be BCC'ed.
+            </summary>
+        </member>
+        <member name="P:ActionMailer.Net.Mvc.MailerBase.ReplyTo">
+            <summary>
+            A collection of addresses that should be listed in Reply-To header.
+            </summary>
+        </member>
+        <member name="P:ActionMailer.Net.Mvc.MailerBase.Headers">
+            <summary>
+            Any custom headers (name and value) that should be placed on the message.
+            </summary>
+        </member>
+        <member name="P:ActionMailer.Net.Mvc.MailerBase.MessageEncoding">
+            <summary>
+            Gets or sets the default message encoding when delivering mail.
+            </summary>
+        </member>
+        <member name="P:ActionMailer.Net.Mvc.MailerBase.Attachments">
+            <summary>
+            Any attachments you wish to add.  The key of this collection is what
+            the file should be named.  The value is should represent the binary bytes
+            of the file.
+            </summary>
+            <example>
+            Attachments["picture.jpg"] = File.ReadAllBytes(@"C:\picture.jpg");
+            </example>
+        </member>
+        <member name="P:ActionMailer.Net.Mvc.MailerBase.MailSender">
+            <summary>
+            The underlying IMailSender to use for outgoing messages.
+            </summary>
+        </member>
+        <member name="P:ActionMailer.Net.Mvc.MailerBase.HttpContextBase">
+            <summary>
+            Gets or sets the http context to use when constructing EmailResult's.
+            </summary>
+        </member>
+        <member name="T:ActionMailer.Net.Mvc.UrlHelperExtensions">
+            <summary>
+            Simple extension methods for UrlHelper to always generate absolute urls.
+            </summary>
+        </member>
+        <member name="M:ActionMailer.Net.Mvc.UrlHelperExtensions.AbsoluteAction(System.Web.Mvc.UrlHelper,System.String)">
+            <summary>
+            Generates an absolute url for the provided action.
+            </summary>
+            <param name="helper">The UrlHelper instance to use for generation.</param>
+            <param name="actionName">The name of the action.</param>
+            <returns>An absolute url.</returns>
+        </member>
+        <member name="M:ActionMailer.Net.Mvc.UrlHelperExtensions.AbsoluteAction(System.Web.Mvc.UrlHelper,System.String,System.String)">
+            <summary>
+            Generates an absolute url for the provided action.
+            </summary>
+            <param name="helper">The UrlHelper instance to use for generation.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="controllerName">The name of the controller.</param>
+            <returns>An absolute url.</returns>
+        </member>
+        <member name="M:ActionMailer.Net.Mvc.UrlHelperExtensions.AbsoluteAction(System.Web.Mvc.UrlHelper,System.String,System.Object)">
+            <summary>
+            Generates an absolute url for the provided action.
+            </summary>
+            <param name="helper">The UrlHelper instance to use for generation.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="routeValues">Any extra route values you wish to use for generation.</param>
+            <returns>An absolute url.</returns>
+        </member>
+        <member name="M:ActionMailer.Net.Mvc.UrlHelperExtensions.AbsoluteAction(System.Web.Mvc.UrlHelper,System.String,System.Web.Routing.RouteValueDictionary)">
+            <summary>
+            Generates an absolute url for the provided action.
+            </summary>
+            <param name="helper">The UrlHelper instance to use for generation.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="routeValues">Any extra route values you wish to use for generation.</param>
+            <returns>An absolute url.</returns>
+        </member>
+        <member name="M:ActionMailer.Net.Mvc.UrlHelperExtensions.AbsoluteAction(System.Web.Mvc.UrlHelper,System.String,System.String,System.Object)">
+            <summary>
+            Generates an absolute url for the provided action.
+            </summary>
+            <param name="helper">The UrlHelper instance to use for generation.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="controllerName">The name of the controller.</param>
+            <param name="routeValues">Any extra route values you wish to use for generation.</param>
+            <returns>An absolute url.</returns>
+        </member>
+        <member name="M:ActionMailer.Net.Mvc.UrlHelperExtensions.AbsoluteAction(System.Web.Mvc.UrlHelper,System.String,System.String,System.Web.Routing.RouteValueDictionary)">
+            <summary>
+            Generates an absolute url for the provided action.
+            </summary>
+            <param name="helper">The UrlHelper instance to use for generation.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="controllerName">The name of the controller.</param>
+            <param name="routeValues">Any extra route values you wish to use for generation.</param>
+            <returns>An absolute url.</returns>
+        </member>
+        <member name="M:ActionMailer.Net.Mvc.UrlHelperExtensions.AbsoluteAction(System.Web.Mvc.UrlHelper,System.String,System.String,System.Object,System.String)">
+            <summary>
+            Generates an absolute url for the provided action.
+            </summary>
+            <param name="helper">The UrlHelper instance to use for generation.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="controllerName">The name of the controller.</param>
+            <param name="routeValues">Any extra route values you wish to use for generation.</param>
+            <param name="protocol">The protocol to use (http or https usually).</param>
+            <returns>An absolute url.</returns>
+        </member>
+        <member name="M:ActionMailer.Net.Mvc.UrlHelperExtensions.AbsoluteAction(System.Web.Mvc.UrlHelper,System.String,System.String,System.Web.Routing.RouteValueDictionary,System.String,System.String)">
+            <summary>
+            Generates an absolute url for the provided action.
+            </summary>
+            <param name="helper">The UrlHelper instance to use for generation.</param>
+            <param name="actionName">The name of the action.</param>
+            <param name="controllerName">The name of the controller.</param>
+            <param name="routeValues">Any extra route values you wish to use for generation.</param>
+            <param name="protocol">The protocol to use (http or https usually).</param>
+            <param name="hostName">The host name to use.</param>
+            <returns>An absolute url.</returns>
+        </member>
+        <member name="M:ActionMailer.Net.Mvc.UrlHelperExtensions.AbsoluteRouteUrl(System.Web.Mvc.UrlHelper,System.Object)">
+            <summary>
+            Generates an absolute url for the provided route.
+            </summary>
+            <param name="helper">The UrlHelper instance to use for generation.</param>
+            <param name="routeValues">Any extra route values you wish to use for generation.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ActionMailer.Net.Mvc.UrlHelperExtensions.AbsoluteRouteUrl(System.Web.Mvc.UrlHelper,System.String)">
+            <summary>
+            Generates an absolute url for the provided route.
+            </summary>
+            <param name="helper">The UrlHelper instance to use for generation.</param>
+            <param name="routeName">The name of the route to use.</param>
+            <returns>An absolute url.</returns>
+        </member>
+        <member name="M:ActionMailer.Net.Mvc.UrlHelperExtensions.AbsoluteRouteUrl(System.Web.Mvc.UrlHelper,System.Web.Routing.RouteValueDictionary)">
+            <summary>
+            Generates an absolute url for the provided route.
+            </summary>
+            <param name="helper">The UrlHelper instance to use for generation.</param>
+            <param name="routeValues">Any extra route values you wish to use for generation.</param>
+            <returns>An absolute url.</returns>
+        </member>
+        <member name="M:ActionMailer.Net.Mvc.UrlHelperExtensions.AbsoluteRouteUrl(System.Web.Mvc.UrlHelper,System.String,System.Object)">
+            <summary>
+            Generates an absolute url for the provided route.
+            </summary>
+            <param name="helper">The UrlHelper instance to use for generation.</param>
+            <param name="routeName">The name of the route to use.</param>
+            <param name="routeValues">Any extra route values you wish to use for generation.</param>
+            <returns>An absolute url.</returns>
+        </member>
+        <member name="M:ActionMailer.Net.Mvc.UrlHelperExtensions.AbsoluteRouteUrl(System.Web.Mvc.UrlHelper,System.String,System.Web.Routing.RouteValueDictionary)">
+            <summary>
+            Generates an absolute url for the provided route.
+            </summary>
+            <param name="helper">The UrlHelper instance to use for generation.</param>
+            <param name="routeName">The name of the route to use.</param>
+            <param name="routeValues">Any extra route values you wish to use for generation.</param>
+            <returns>An absolute url.</returns>
+        </member>
+        <member name="M:ActionMailer.Net.Mvc.UrlHelperExtensions.AbsoluteRouteUrl(System.Web.Mvc.UrlHelper,System.String,System.Object,System.String)">
+            <summary>
+            Generates an absolute url for the provided route.
+            </summary>
+            <param name="helper">The UrlHelper instance to use for generation.</param>
+            <param name="routeName">The name of the route to use.</param>
+            <param name="routeValues">Any extra route values you wish to use for generation.</param>
+            <param name="protocol">The protocol to use (http or https usually).</param>
+            <returns>An absolute url.</returns>
+        </member>
+        <member name="M:ActionMailer.Net.Mvc.UrlHelperExtensions.AbsoluteContent(System.Web.Mvc.UrlHelper,System.String)">
+            <summary>
+            Generates an absolute url for the provided virtual content path.
+            </summary>
+            <param name="helper">The UrlHelper instance to use for generation.</param>
+            <param name="contentPath">The virtual path of the content.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ActionMailer.Net.Mvc.UrlHelperExtensions.AbsoluteRouteUrl(System.Web.Mvc.UrlHelper,System.String,System.Web.Routing.RouteValueDictionary,System.String,System.String)">
+            <summary>
+            Generates an absolute url for the provided route.
+            </summary>
+            <param name="helper">The UrlHelper instance to use for generation.</param>
+            <param name="routeName">The name of the route to use.</param>
+            <param name="routeValues">Any extra route values you wish to use for generation.</param>
+            <param name="protocol">The protocol to use (http or https usually).</param>
+            <param name="hostName">The host name to use.</param>
+            <returns>An absolute url.</returns>
+        </member>
+    </members>
+</doc>

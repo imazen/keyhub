@@ -98,6 +98,25 @@ namespace KeyHub.Data
         }
 
         /// <summary>
+        /// Gets a transaction write only datacontext
+        /// </summary>
+        /// <returns>Returns a single transaction access datacontext</returns>
+        public DataContext(bool transactionID)
+            : base()
+        {
+            this.Transactions = new FilteredDbSet<Transaction>(this);
+            this.TransactionItems = new FilteredDbSet<TransactionItem>(this);
+
+            this.Vendors = new FilteredDbSet<Vendor>(this, x => false);
+            this.SKUs = new FilteredDbSet<SKU>(this, x => false);
+            this.Features = new FilteredDbSet<Feature>(this, x => false);
+            this.Licenses = new FilteredDbSet<License>(this, x => false);
+            this.Customers = new FilteredDbSet<Customer>(this, x => false);
+            this.LicenseCustomerApps = new FilteredDbSet<LicenseCustomerApp>(this, x => false);
+            this.CustomerApps = new FilteredDbSet<CustomerApp>(this, x => false);
+        }
+
+        /// <summary>
         /// Gets a datacontext based on full administrator rights
         /// </summary>
         /// <returns>Returns an all access datacontext</returns>
@@ -117,15 +136,17 @@ namespace KeyHub.Data
 
         public User GetUserByIdentity(IIdentity userIdentity)
         {
+            User currentUser = null;
             if (userIdentity.IsAuthenticated)
             {
-                return (from x in this.Users where x.UserName == userIdentity.Name select x).Include(x => x.Rights).FirstOrDefault();
+                currentUser = (from x in this.Users where x.UserName == userIdentity.Name select x).Include(x => x.Rights).FirstOrDefault();
             }
+
+            if (currentUser != null)
+                return currentUser;
             else
-            {
-                // Unauthenticated user
+                // Unauthenticated user or authenticated user not found
                 return new User();
-            }
         }
 
         public DbSet<Application> Applications { get; set; }

@@ -90,7 +90,7 @@ namespace KeyHub.Web.Controllers
         {
             using (DataContext context = new DataContext(User.Identity))
             {
-                BasketWrapper basket = BasketWrapper.CreateNew(User.Identity);
+                BasketWrapper basket = BasketWrapper.CreateNewByIdentity(User.Identity);
                 
                 var skuQuery = from x in context.SKUs orderby x.SkuCode select x;
 
@@ -112,7 +112,7 @@ namespace KeyHub.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    BasketWrapper basket = BasketWrapper.CreateNew(User.Identity);
+                    BasketWrapper basket = BasketWrapper.CreateNewByIdentity(User.Identity);
 
                     viewModel.ToEntity(basket.Transaction);
                     

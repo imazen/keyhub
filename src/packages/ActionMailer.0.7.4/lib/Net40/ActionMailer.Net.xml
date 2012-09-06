@@ -1,0 +1,249 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ActionMailer.Net</name>
+    </assembly>
+    <members>
+        <member name="T:ActionMailer.Net.AttachmentCollection">
+            <summary>
+            A collection of attachments.  This is basically a glorified Dictionary.
+            </summary>
+        </member>
+        <member name="M:ActionMailer.Net.AttachmentCollection.#ctor">
+            <summary>
+            Constructs an empty AttachmentCollection object.
+            </summary>
+        </member>
+        <member name="P:ActionMailer.Net.AttachmentCollection.Inline">
+            <summary>
+            Any attachments added to this collection will be treated
+            as inline attachments within the mail message.
+            </summary>
+        </member>
+        <member name="T:ActionMailer.Net.DeliveryHelper">
+            <summary>
+            Some helpers used to dilver mail.  Reduces the need to repeat code.
+            </summary>
+        </member>
+        <member name="M:ActionMailer.Net.DeliveryHelper.#ctor(ActionMailer.Net.IMailSender,ActionMailer.Net.IMailInterceptor)">
+            <summary>
+            Creates a new dilvery helper to be used for sending messages.
+            </summary>
+            <param name="sender">The sender to use when delivering mail.</param>
+            <param name="interceptor">The interceptor to report with while delivering mail.</param>
+        </member>
+        <member name="M:ActionMailer.Net.DeliveryHelper.Deliver(System.Boolean,System.Net.Mail.MailMessage)">
+            <summary>
+            Sends the given email using the given
+            </summary>
+            <param name="async">Whether or not to use asynchronous delivery.</param>
+            <param name="mail">The mail message to send.</param>
+        </member>
+        <member name="T:ActionMailer.Net.IMailerBase">
+            <summary>
+            All mailers should implement this interface.
+            </summary>
+        </member>
+        <member name="T:ActionMailer.Net.IMailInterceptor">
+            <summary>
+            A simple interface that allows for reading or manipulating mail
+            messages before and after transfer.
+            </summary>
+        </member>
+        <member name="M:ActionMailer.Net.IMailInterceptor.OnMailSending(ActionMailer.Net.MailSendingContext)">
+            <summary>
+            This method is called before each mail is sent
+            </summary>
+            <param name="context">A simple context containing the mail
+            and a boolean value that can be toggled to prevent this
+            mail from being sent.</param>
+        </member>
+        <member name="M:ActionMailer.Net.IMailInterceptor.OnMailSent(System.Net.Mail.MailMessage)">
+            <summary>
+            This method is called after each mail is sent.
+            </summary>
+            <param name="mail">The mail that was sent.</param>
+        </member>
+        <member name="P:ActionMailer.Net.IMailerBase.From">
+            <summary>
+            A string representation of who this mail should be from.  Could be
+            your name and email address or just an email address by itself.
+            </summary>
+        </member>
+        <member name="P:ActionMailer.Net.IMailerBase.Subject">
+            <summary>
+            The subject line of the email.
+            </summary>
+        </member>
+        <member name="P:ActionMailer.Net.IMailerBase.To">
+            <summary>
+            A collection of addresses this email should be sent to.
+            </summary>
+        </member>
+        <member name="P:ActionMailer.Net.IMailerBase.CC">
+            <summary>
+            A collection of addresses that should be CC'ed.
+            </summary>
+        </member>
+        <member name="P:ActionMailer.Net.IMailerBase.BCC">
+            <summary>
+            A collection of addresses that should be BCC'ed.
+            </summary>
+        </member>
+        <member name="P:ActionMailer.Net.IMailerBase.ReplyTo">
+            <summary>
+            A collection of addresses that should be listed in Reply-To header.
+            </summary>
+        </member>
+        <member name="P:ActionMailer.Net.IMailerBase.Headers">
+            <summary>
+            Any custom headers (name and value) that should be placed on the message.
+            </summary>
+        </member>
+        <member name="P:ActionMailer.Net.IMailerBase.MessageEncoding">
+            <summary>
+            Gets or sets the default message encoding when delivering mail.
+            </summary>
+        </member>
+        <member name="P:ActionMailer.Net.IMailerBase.Attachments">
+            <summary>
+            Any attachments you wish to add.  The key of this collection is what
+            the file should be named.  The value is should represent the binary bytes
+            of the file.
+            </summary>
+            <example>
+            Attachments["picture.jpg"] = File.ReadAllBytes(@"C:\picture.jpg");
+            </example>
+        </member>
+        <member name="P:ActionMailer.Net.IMailerBase.MailSender">
+            <summary>
+            The underlying IMailSender to use for outgoing messages.
+            </summary>
+        </member>
+        <member name="T:ActionMailer.Net.MailerBaseExtensions">
+            <summary>
+            Some simple extension methods for the IMailerBase interface so we can use
+            them in all implementations.
+            </summary>
+        </member>
+        <member name="M:ActionMailer.Net.MailerBaseExtensions.GenerateMail(ActionMailer.Net.IMailerBase)">
+            <summary>
+            Creates a MailMessage for the given IMailerBase instance.
+            </summary>
+            <param name="mailer">The IMailerBase to generate the message for</param>
+        </member>
+        <member name="T:ActionMailer.Net.NoViewsFoundException">
+            <summary>
+            Thrown when ActionMailer cannot locate any views for a given EmailResult
+            </summary>
+        </member>
+        <member name="M:ActionMailer.Net.NoViewsFoundException.#ctor">
+            <summary>
+            Thrown when ActionMailer cannot locate any views for a given EmailResult
+            </summary>
+        </member>
+        <member name="M:ActionMailer.Net.NoViewsFoundException.#ctor(System.String)">
+            <summary>
+            Thrown when ActionMailer cannot locate any views for a given EmailResult
+            </summary>
+            <param name="message">The message to include in the exception.</param>
+        </member>
+        <member name="M:ActionMailer.Net.NoViewsFoundException.#ctor(System.String,System.Exception)">
+            <summary>
+            Thrown when ActionMailer cannot locate any views for a given EmailResult
+            </summary>
+            <param name="message">The message to include in the exception.</param>
+            <param name="innerException">An inner exception which contributed to (or caused) this exception.</param>
+        </member>
+        <member name="T:ActionMailer.Net.IMailSender">
+            <summary>
+            An object used to deliver mail.
+            </summary>
+        </member>
+        <member name="M:ActionMailer.Net.IMailSender.Send(System.Net.Mail.MailMessage)">
+            <summary>
+            Sends mail synchronously.
+            </summary>
+            <param name="mail">The mail message you wish to send.</param>
+        </member>
+        <member name="M:ActionMailer.Net.IMailSender.SendAsync(System.Net.Mail.MailMessage,System.Action{System.Net.Mail.MailMessage})">
+            <summary>
+            Sends mail asynchronously.
+            </summary>
+            <param name="mail">The mail message you wish to send.</param>
+            <param name="callback">The callback method that will be fired when sending is complete.</param>
+        </member>
+        <member name="T:ActionMailer.Net.MailSendingContext">
+            <summary>
+            A special context object used by the OnMailSending() method
+            to allow you to inspect the underlying MailMessage before it
+            is sent, or prevent it from being sent altogether.
+            </summary>
+        </member>
+        <member name="F:ActionMailer.Net.MailSendingContext.Mail">
+            <summary>
+            The generated mail message that is being sent.
+            </summary>
+        </member>
+        <member name="F:ActionMailer.Net.MailSendingContext.Cancel">
+            <summary>
+            A special flag that you can toggle to prevent this mail
+            from being sent.
+            </summary>
+        </member>
+        <member name="M:ActionMailer.Net.MailSendingContext.#ctor(System.Net.Mail.MailMessage)">
+            <summary>
+            Returns a populated context to be used for the OnMailSending()
+            method in MailerBase.
+            </summary>
+            <param name="mail">The message you wish to wrap within this context.</param>
+        </member>
+        <member name="T:ActionMailer.Net.MimeTypes">
+            <summary>
+            Just a handy class for finding mime types.
+            </summary>
+        </member>
+        <member name="M:ActionMailer.Net.MimeTypes.ResolveByExtension(System.String)">
+            <summary>
+            Resolves a mime type based on the given file extension.  The extension is case-insensitive.
+            Shamelessly stolen from: http://stackoverflow.com/questions/1029740/get-a-mime-from-an-extention/3393525#3393525
+            </summary>
+            <param name="extension">The file extension to search for.</param>
+            <returns>The proper mime type for the supplied extension.</returns>
+        </member>
+        <member name="T:ActionMailer.Net.SmtpMailSender">
+            <summary>
+            Implements IMailSender by using System.Net.Mail.SmtpClient.
+            </summary>
+        </member>
+        <member name="M:ActionMailer.Net.SmtpMailSender.#ctor">
+            <summary>
+            Creates a new mail sender based on System.Net.Mail.SmtpClient
+            </summary>
+        </member>
+        <member name="M:ActionMailer.Net.SmtpMailSender.#ctor(System.Net.Mail.SmtpClient)">
+            <summary>
+            Creates a new mail sender based on System.Net.Mail.SmtpClient
+            </summary>
+            <param name="client">The underlying SmtpClient instance to use.</param>
+        </member>
+        <member name="M:ActionMailer.Net.SmtpMailSender.Send(System.Net.Mail.MailMessage)">
+            <summary>
+            Sends mail synchronously.
+            </summary>
+            <param name="mail">The mail you wish to send.</param>
+        </member>
+        <member name="M:ActionMailer.Net.SmtpMailSender.SendAsync(System.Net.Mail.MailMessage,System.Action{System.Net.Mail.MailMessage})">
+            <summary>
+            Sends mail asynchronously.
+            </summary>
+            <param name="mail">The mail you wish to send.</param>
+            <param name="callback">The callback method to invoke when the send operation is complete.</param>
+        </member>
+        <member name="M:ActionMailer.Net.SmtpMailSender.Dispose">
+            <summary>
+            Destroys the underlying SmtpClient.
+            </summary>
+        </member>
+    </members>
+</doc>
