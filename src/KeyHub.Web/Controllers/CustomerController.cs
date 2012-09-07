@@ -13,6 +13,7 @@ namespace KeyHub.Web.Controllers
     /// <summary>
     /// Controller for the Customer entity
     /// </summary>
+    [Authorize]
     public class CustomerController : ControllerBase
     {
         /// <summary>
@@ -24,7 +25,9 @@ namespace KeyHub.Web.Controllers
             using (DataContext context = new DataContext(User.Identity))
             {
                 //Eager loading Customer
-                var customerQuery = (from x in context.Customers select x).Include(x => x.Country);//.FilterByUser(UserEntity);
+                var customerQuery = (from x in context.Customers select x)
+                                    .Include(x => x.Country)
+                                    .OrderBy(x => x.Name);
 
                 CustomerIndexViewModel viewModel = new CustomerIndexViewModel(customerQuery.ToList());
 

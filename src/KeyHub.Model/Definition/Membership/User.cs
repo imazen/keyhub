@@ -12,6 +12,7 @@ namespace KeyHub.Model
     {
         public User()
         {
+            IsAnonymous = true;
             UsersInRoles = new List<UserInRole>();
             OpenAuthUsers = new List<OpenAuthUser>();
             Rights = new List<UserObjectRight>();

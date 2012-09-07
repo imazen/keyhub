@@ -8,13 +8,18 @@
 
 @Html.Partial("DetailsPartial", Model) 
 
-<br />
+<br/>
+<br/>
 
 <h2>Licenses</h2>
 
 @Html.Action("IndexPartial", "License", new {transactionID = Model.Transaction.TransactionId }) 
 
-<h3>Registered applications </h3>
+<br/>
+<br/>
+<br/>
+
+<h2>Registered applications </h2>
 @Html.Action("IndexPartial", "CustomerApp", new {transactionID = Model.Transaction.TransactionId }) 
 
 

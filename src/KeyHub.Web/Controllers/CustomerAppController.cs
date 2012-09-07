@@ -13,6 +13,7 @@ namespace KeyHub.Web.Controllers
     /// <summary>
     /// Controller for the CustomerApp entity
     /// </summary>
+    [Authorize]
     public class CustomerAppController : Controller
     {
         /// <summary>
@@ -25,7 +26,8 @@ namespace KeyHub.Web.Controllers
             {
                 //Eager loading CustomerApp, includes Licenses and from License the SKUs
                 var customerAppQuery = (from x in context.CustomerApps select x).Include(x => x.LicenseCustomerApps)
-                     .Include(x => x.LicenseCustomerApps.Select(s => s.License));
+                                       .Include(x => x.LicenseCustomerApps.Select(s => s.License))
+                                       .OrderBy(x => x.ApplicationName);
 
                 CustomerAppIndexViewModel viewModel = new CustomerAppIndexViewModel(customerAppQuery.ToList());
 

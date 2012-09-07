@@ -6,7 +6,7 @@
 
 <hgroup class="title">
     <h1>@ViewBag.Title.</h1>
-    <h2>Use this form to enter your user name and password.</h2>
+    <h2>Please enter your username and password.</h2>
 </hgroup>
 
 @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl })) {
@@ -22,16 +22,14 @@
             
         <div class="editor-field-checkbox">
                
-                <div class="editor-field">
-                    @Html.CheckBoxFor(m => m.RememberMe)
-                    @Html.LabelFor(m => m.RememberMe, new { @class = "checkbox" })
-                </div>
+            <div class="editor-field">
+                @Html.CheckBoxFor(m => m.RememberMe)
+                @Html.LabelFor(m => m.RememberMe, new { @class = "checkbox" })
             </div>
+        </div>
+        <br/>
         <input type="submit" value="Log in" />
     </fieldset>
-    <p>
-        @Html.ActionLink("Register", "Register") if you don't have an account.
-    </p>
 }
 
 @section Scripts {

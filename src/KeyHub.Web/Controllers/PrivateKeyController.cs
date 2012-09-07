@@ -9,6 +9,10 @@ using KeyHub.Data;
 
 namespace KeyHub.Web.Controllers
 {
+    /// <summary>
+    /// Controller for the PrivateKey entity
+    /// </summary>
+    [Authorize]
     public class PrivateKeyController : Controller
     {
         /// <summary>

@@ -13,7 +13,7 @@ namespace KeyHub.Web.Controllers
     /// <summary>
     /// Controller for the Feature entity
     /// </summary>
-    //[Authorize]
+    [Authorize]
     public class FeatureController : ControllerBase
     {
         /// <summary>

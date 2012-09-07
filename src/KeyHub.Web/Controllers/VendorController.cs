@@ -14,7 +14,7 @@ namespace KeyHub.Web.Controllers
     /// <summary>
     /// Controller for Vendor entity
     /// </summary>
-    //[Authorize]
+    [Authorize]
     public class VendorController : ControllerBase
     {
         /// <summary>

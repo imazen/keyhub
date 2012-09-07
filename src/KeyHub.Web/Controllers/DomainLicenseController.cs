@@ -10,6 +10,10 @@ using KeyHub.Data;
 
 namespace KeyHub.Web.Controllers
 {
+    /// <summary>
+    /// Controller for DomainLicense
+    /// </summary>
+    [Authorize]
     public class DomainLicenseController : Controller
     {
         /// <summary>

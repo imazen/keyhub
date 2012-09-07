@@ -15,7 +15,7 @@ namespace KeyHub.Web.Controllers
     /// <summary>
     /// 
     /// </summary>
-    //[Authorize]
+    [Authorize]
     public class TransactionController : Controller
     {
         /// <summary>
@@ -29,7 +29,8 @@ namespace KeyHub.Web.Controllers
                 //Eager loading Transaction
                 var transactionQuery = (from x in context.Transactions orderby x.CreatedDateTime select x)
                     .Include(x => x.TransactionItems.Select(s => s.Sku))
-                    .Include(x => x.TransactionItems.Select(s => s.License));
+                    .Include(x => x.TransactionItems.Select(s => s.License))
+                    .OrderByDescending(x => x.CreatedDateTime);
 
                 TransactionIndexViewModel viewModel = new TransactionIndexViewModel(transactionQuery.ToList());
 

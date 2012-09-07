@@ -13,7 +13,7 @@ namespace KeyHub.Web.Controllers
     /// <summary>
     /// Controller for the SKU entity
     /// </summary>
-    //[Authorize]
+    [Authorize]
     public class SKUController : ControllerBase
     {
         /// <summary>
@@ -26,7 +26,8 @@ namespace KeyHub.Web.Controllers
             {
                 //Eager loading SKU
                 var SKUQuery = (from x in context.SKUs select x).Include(x => x.PrivateKey)
-                                    .Include(x => x.SkuFeatures.Select(f => f.Feature));
+                               .Include(x => x.SkuFeatures.Select(f => f.Feature))
+                               .OrderBy(x => x.SkuCode);
 
                 SKUIndexViewModel viewModel = new SKUIndexViewModel(SKUQuery.ToList());
                 return View(viewModel);

@@ -6,25 +6,19 @@
 
 <h2>License claim complete</h2>
 
-<fieldset>
-    <legend>TransactionViewModel</legend>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Transaction.TransactionId)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Transaction.TransactionId)
-    </div>
-</fieldset>
-
 @Html.Partial("DetailsPartial", Model) 
 
-<br />
+<br/>
+<br/>
 
-<h3>Registered licenses</h3>
+<h2>Registered licenses</h2>
 @Html.Action("IndexPartial", "License", new {transactionID = Model.Transaction.TransactionId }) 
 
-<h3>Registered applications </h3>
+<br/>
+<br/>
+<br/>
+
+<h2>Registered applications </h2>
 @Html.Action("IndexPartial", "CustomerApp", new {transactionID = Model.Transaction.TransactionId }) 
 
 <p>

@@ -61,7 +61,7 @@ namespace KeyHub.Web.ViewModels.Transaction
         /// <summary>
         /// Date the transaction was created on
         /// </summary>
-        [DisplayName("Purchased on")]
+        [DisplayName("Transaction date")]
         public DateTime CreatedDateTime { get; set; }
     }
 }

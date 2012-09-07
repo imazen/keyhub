@@ -10,6 +10,10 @@ using KeyHub.Web.ViewModels.User;
 
 namespace KeyHub.Web.Controllers
 {
+    /// <summary>
+    /// Home controller
+    /// </summary>
+    [Authorize]
     public class HomeController : Controller
     {
         public ActionResult Index()
@@ -19,7 +23,11 @@ namespace KeyHub.Web.Controllers
             return View(viewModel);
         }
 
-        [ChildActionOnly]
+        /// <summary>
+        /// Get the partial view for the main menu
+        /// </summary>
+        /// <returns>Main menu partial view</returns>
+        [AllowAnonymous]
         public ActionResult MainMenu()
         {
             using (DataContext context = new DataContext(User.Identity))
@@ -27,20 +35,6 @@ namespace KeyHub.Web.Controllers
                 var model = new CurrentUserViewModel(context.GetUserByIdentity(User.Identity));
                 return PartialView(model);
             }
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your app description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
         }
     }
 }

@@ -13,6 +13,7 @@ namespace KeyHub.Web.Controllers
     /// <summary>
     /// Controller for the License entity
     /// </summary>
+    [Authorize]
     public class LicenseController : Controller
     {
         /// <summary>
@@ -25,7 +26,9 @@ namespace KeyHub.Web.Controllers
             {
                 //Eager loading License
                 var licenseQuery = (from x in context.Licenses select x).Include(x => x.PurchasingCustomer)
-                    .Include(x => x.OwningCustomer).Include(x => x.Sku);
+                    .Include(x => x.OwningCustomer)
+                    .Include(x => x.Sku)
+                    .OrderBy(x => x.OwningCustomer.Name);
                 
                 LicenseIndexViewModel viewModel = new LicenseIndexViewModel(licenseQuery.ToList());
 
