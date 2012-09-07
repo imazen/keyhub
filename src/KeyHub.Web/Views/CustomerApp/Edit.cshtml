@@ -1,11 +1,11 @@
 ﻿@model KeyHub.Web.ViewModels.CustomerApp.CustomerAppEditViewModel
 
 @{
-    ViewBag.ItemName = "CustomerApp";
+    ViewBag.ItemName = "Licensed application";
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
+<h2>@ViewBag.Title <span>@ViewBag.ItemName</span></h2>
 
 @using (Html.BeginForm()) {
     @Html.ValidationSummary(true)
@@ -14,6 +14,7 @@
         <legend>CustomerAppViewModel</legend>
 
         @Html.HiddenFor(model => model.CustomerApp.CustomerAppId)
+        @Html.HiddenFor(model => model.RedirectUrl)
 
         <div class="editor-label">
             @Html.LabelFor(model => model.CustomerApp.ApplicationName)

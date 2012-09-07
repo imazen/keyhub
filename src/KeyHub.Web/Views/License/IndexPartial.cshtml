@@ -40,7 +40,10 @@
             @Html.DisplayFor(modelItem => item.DomainSummary)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { key=item.ObjectId }) |
+            @if (Model.CurrentUser.IsVendorAdmin)
+            {
+                @Html.ActionLink("Edit", "Edit", new {key = item.ObjectId}) <html>|</html>
+            }
             @Html.ActionLink("Details", "Details", new { key=item.ObjectId }) |
             @Html.ActionLink("Add domain", "Create", "DomainLicense", new { owningLicense=item.ObjectId }, null)
         </td>

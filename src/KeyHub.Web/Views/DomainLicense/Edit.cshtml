@@ -1,7 +1,7 @@
 ﻿@model KeyHub.Web.ViewModels.DomainLicense.DomainLicenseEditViewModel
 
 @{
-    ViewBag.ItemName = "DomainLicense";
+    ViewBag.ItemName = "Domain license";
     ViewBag.Title = "Edit";
 }
 
@@ -16,6 +16,7 @@
         @Html.HiddenFor(model => model.DomainLicense.DomainLicenseId)
         @Html.HiddenFor(model => model.DomainLicense.AutomaticlyCreated)
         @Html.HiddenFor(model => model.DomainLicense.LicenseId)
+        @Html.HiddenFor(model => model.RedirectUrl)
         
         <div class="editor-label">
             @Html.LabelFor(model => model.DomainLicense.LicenseName)

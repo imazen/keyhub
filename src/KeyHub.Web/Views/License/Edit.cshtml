@@ -14,6 +14,7 @@
         <legend>LicenseViewModel</legend>
 
         @Html.HiddenFor(model => model.License.ObjectId)
+        @Html.HiddenFor(model => model.RedirectUrl)
 
         <div class="editor-label">
             @Html.LabelFor(model => model.License.SkuId)

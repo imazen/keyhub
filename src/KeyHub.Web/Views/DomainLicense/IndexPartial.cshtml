@@ -1,8 +1,13 @@
 ﻿@model KeyHub.Web.ViewModels.DomainLicense.DomainLicenseIndexViewModel
 
-<h2>Domains</h2>
+@{
+    ViewBag.ItemName = "Domain license";
+    ViewBag.Title = "Overview";
+}
+
+<h2>@ViewBag.ItemName <span>@ViewBag.Title</span></h2>
 <p>
-    @Html.ActionLink("Create New", "Create", new { owningLicense=Model.PartentLicense })
+    @Html.ActionLink("Register new domain", "Create", new { owningLicense=Model.PartentLicense },  new { @class = "Btn New"})
 </p>
 <table border="0" border="0" cellspacing="0" cellpadding="0" class="GridTable">
     <thead>

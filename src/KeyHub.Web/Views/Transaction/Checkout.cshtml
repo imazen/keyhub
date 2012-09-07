@@ -1,10 +1,11 @@
 ﻿@model KeyHub.Web.ViewModels.Transaction.TransactionCheckoutViewModel
 
 @{
+    ViewBag.ItemName = "Transaction";
     ViewBag.Title = "Checkout";
 }
 
-<h2>Checkout</h2>
+<h2>@ViewBag.ItemName <span>@ViewBag.Title</span></h2>
 
 <script type="text/javascript">
     

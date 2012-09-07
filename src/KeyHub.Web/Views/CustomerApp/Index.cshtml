@@ -1,14 +1,14 @@
 ﻿@model KeyHub.Web.ViewModels.CustomerApp.CustomerAppIndexViewModel
 
 @{
-    ViewBag.ItemName = "Licensed customer application";
+    ViewBag.ItemName = "Licensed application";
     ViewBag.Title = "Overview";
 }
 
 <h2>@ViewBag.ItemName <span>@ViewBag.Title</span></h2>
 
 <p>
-    @Html.ActionLink("Register New licensed application", "Create", null,  new { @class = "Btn New"})
+    @Html.ActionLink("Register new licensed application", "Create", null,  new { @class = "Btn New"})
 </p>
 <table border="0" border="0" cellspacing="0" cellpadding="0" class="GridTable">
     <thead>

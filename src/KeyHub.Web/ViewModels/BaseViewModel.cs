@@ -43,6 +43,11 @@ namespace KeyHub.Web.ViewModels
         /// <returns>Entity instance containing viewmodel data </returns>
         public abstract TEntity ToEntity(TEntity original);
 
+        /// <summary>
+        /// Gets the current user viewmodel
+        /// </summary>
         public CurrentUserViewModel CurrentUser {get; private set;}
+
+        public string RedirectUrl { get; set; }
     }
 }

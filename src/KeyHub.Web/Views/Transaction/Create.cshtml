@@ -1,10 +1,12 @@
 ﻿@model KeyHub.Web.ViewModels.Transaction.TransactionCreateViewModel
 
 @{
-    ViewBag.Title = "Select SKUs to buy";
+    ViewBag.ItemName = "Transaction";
+    ViewBag.Title = "Create";
 }
 
-<h2>Transaction <span>Create</span></h2>
+<h2>@ViewBag.Title <span>@ViewBag.ItemName</span></h2>
+
 <h2>Select one or several SKU's for this transaction</h2>
 
 @using (Html.BeginForm()) {

@@ -49,6 +49,8 @@ namespace KeyHub.Web.Controllers
 
                 var viewModel = new DomainLicenseCreateViewModel(licenseQuery.FirstOrDefault());
 
+                viewModel.RedirectUrl = Request.UrlReferrer.ToString();
+
                 return View(viewModel);
             }
         }
@@ -73,7 +75,15 @@ namespace KeyHub.Web.Controllers
 
                         context.SaveChanges();
                     }
-                    return RedirectToAction("Details", "License", new { key = viewModel.DomainLicense.LicenseId });
+
+                    if (!string.IsNullOrEmpty(viewModel.RedirectUrl))
+                    {
+                        return Redirect(viewModel.RedirectUrl);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Details", "License", new {key = viewModel.DomainLicense.LicenseId});
+                    }
                 }
                 else
                 {
@@ -100,6 +110,8 @@ namespace KeyHub.Web.Controllers
 
                 var viewModel = new DomainLicenseEditViewModel(domainLicenseQuery.FirstOrDefault());
 
+                viewModel.RedirectUrl = Request.UrlReferrer.ToString();
+
                 return View(viewModel);
             }
         }
@@ -124,7 +136,15 @@ namespace KeyHub.Web.Controllers
 
                         context.SaveChanges();
                     }
-                    return RedirectToAction("Details", "License", new { key = viewModel.DomainLicense.LicenseId });
+
+                    if (!string.IsNullOrEmpty(viewModel.RedirectUrl))
+                    {
+                        return Redirect(viewModel.RedirectUrl);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Details", "License", new {key = viewModel.DomainLicense.LicenseId});
+                    }
                 }
                 else
                 {

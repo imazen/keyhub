@@ -5,7 +5,7 @@
     ViewBag.Title = "Create";
 }
 
-<h2>@ViewBag.ItemName <span>@ViewBag.Title</span></h2>
+<h2>@ViewBag.Title <span>@ViewBag.ItemName</span></h2>
 
 @using (Html.BeginForm()) {
     @Html.ValidationSummary(true)

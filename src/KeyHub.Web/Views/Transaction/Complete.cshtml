@@ -1,29 +1,23 @@
 ﻿@model KeyHub.Web.ViewModels.Transaction.TransactionDetailsViewModel
 
 @{
+    ViewBag.ItemName = "Transaction";
     ViewBag.Title = "Complete";
 }
 
-<h2>License claim complete</h2>
+<h2>@ViewBag.ItemName <span>@ViewBag.Title</span></h2>
 
 @Html.Partial("DetailsPartial", Model) 
 
 <br/>
 <br/>
 
-<h2>Registered licenses</h2>
+<h2>Available licenses</h2>
 @Html.Action("IndexPartial", "License", new {transactionID = Model.Transaction.TransactionId }) 
 
 <br/>
 <br/>
 <br/>
 
-<h2>Registered applications </h2>
+<h2>Licensed applications </h2>
 @Html.Action("IndexPartial", "CustomerApp", new {transactionID = Model.Transaction.TransactionId }) 
-
-<p>
-    @Html.ActionLink("Buy SKUs now!", "Create", "Transaction")
-
-    @Html.ActionLink("Back to home", "Index", "Home")
-    
-</p>

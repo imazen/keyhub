@@ -80,6 +80,8 @@ namespace KeyHub.Web.Controllers
 
                 CustomerAppCreateViewModel viewModel = new CustomerAppCreateViewModel(licenseQuery.ToList());
 
+                viewModel.RedirectUrl = Request.UrlReferrer.ToString();
+
                 return View(viewModel);
             }
         }
@@ -106,7 +108,15 @@ namespace KeyHub.Web.Controllers
 
                         context.SaveChanges();
                     }
-                    return RedirectToAction("Index");
+
+                    if (!string.IsNullOrEmpty(viewModel.RedirectUrl))
+                    {
+                        return Redirect(viewModel.RedirectUrl);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index");
+                    }
                 }
                 else
                 {
@@ -161,7 +171,15 @@ namespace KeyHub.Web.Controllers
 
                         context.SaveChanges();
                     }
-                    return RedirectToAction("Index");
+
+                    if (!string.IsNullOrEmpty(viewModel.RedirectUrl))
+                    {
+                        return Redirect(viewModel.RedirectUrl);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index");
+                    }
                 }
                 else
                 {

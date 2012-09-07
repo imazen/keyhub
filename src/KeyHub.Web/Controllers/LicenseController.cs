@@ -75,6 +75,8 @@ namespace KeyHub.Web.Controllers
 
                 LicenseDetailsViewModel viewModel = new LicenseDetailsViewModel(licenseQuery.FirstOrDefault());
 
+                viewModel.RedirectUrl = Request.UrlReferrer.ToString();
+
                 return View(viewModel);
             }
         }
@@ -91,6 +93,8 @@ namespace KeyHub.Web.Controllers
                 var customerQuery = from x in context.Customers select x;
 
                 LicenseCreateViewModel viewModel = new LicenseCreateViewModel(skuQuery.ToList(), customerQuery.ToList());
+
+                viewModel.RedirectUrl = Request.UrlReferrer.ToString();
 
                 return View(viewModel);
             }
@@ -115,7 +119,15 @@ namespace KeyHub.Web.Controllers
 
                         context.SaveChanges();
                     }
-                    return RedirectToAction("Index");
+
+                    if (!string.IsNullOrEmpty(viewModel.RedirectUrl))
+                    {
+                        return Redirect(viewModel.RedirectUrl);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index");
+                    }
                 }
                 else
                 {
@@ -144,6 +156,8 @@ namespace KeyHub.Web.Controllers
                 LicenseEditViewModel viewModel = new LicenseEditViewModel(licenseQuery.FirstOrDefault(),
                     skuQuery.ToList(), customerQuery.ToList());
 
+                viewModel.RedirectUrl = Request.UrlReferrer.ToString();
+
                 return View(viewModel);
             }
         }
@@ -167,7 +181,15 @@ namespace KeyHub.Web.Controllers
 
                         context.SaveChanges();
                     }
-                    return RedirectToAction("Index");
+
+                    if (!string.IsNullOrEmpty(viewModel.RedirectUrl))
+                    {
+                        return Redirect(viewModel.RedirectUrl);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index");
+                    }
                 }
                 else
                 {

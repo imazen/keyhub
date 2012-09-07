@@ -1,17 +1,18 @@
 ﻿@model KeyHub.Web.ViewModels.Transaction.TransactionDetailsViewModel
 
 @{
+    ViewBag.ItemName = "Transaction";
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>@ViewBag.ItemName <span>@ViewBag.Title</span></h2>
 
 @Html.Partial("DetailsPartial", Model) 
 
 <br/>
 <br/>
 
-<h2>Licenses</h2>
+<h2>Available licenses</h2>
 
 @Html.Action("IndexPartial", "License", new {transactionID = Model.Transaction.TransactionId }) 
 
@@ -19,10 +20,10 @@
 <br/>
 <br/>
 
-<h2>Registered applications </h2>
+<h2>Licensed applications </h2>
 @Html.Action("IndexPartial", "CustomerApp", new {transactionID = Model.Transaction.TransactionId }) 
 
 
 <p>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to transaction overview", "Index")
 </p>

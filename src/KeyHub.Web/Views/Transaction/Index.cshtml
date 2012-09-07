@@ -23,13 +23,12 @@
         <th>
             @Html.DisplayNameFor(model => model.Transactions.FirstOrDefault().StatusName)
         </th>
-        <th></th>
     </tr>
 </thead>
 @foreach (var item in Model.Transactions) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.CreatedDateTime)
+            @Html.ActionLink(item.CreatedDateTime.ToString(), "Details", new { key = item.TransactionId.ToString().EncryptUrl() }, null)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.PurchaserName)
@@ -39,9 +38,6 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.StatusName)
-        </td>
-        <td>
-            @Html.ActionLink("Details", "Details", new { key = item.TransactionId.ToString().EncryptUrl() } )
         </td>
     </tr>
 }
