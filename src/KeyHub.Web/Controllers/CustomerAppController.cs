@@ -55,13 +55,14 @@ namespace KeyHub.Web.Controllers
                                                  licensesByTransaction.Contains(c.LicenseId)
                                                select c.CustomerAppId).ToList();
                 
-                var customerAppQuery = (from x in context.CustomerApps
+                var customerApps = (from x in context.CustomerApps
                                         where customerAppByLicense.Contains(x.CustomerAppId)
                                         select x)
                                         .Include(x => x.LicenseCustomerApps)
-                                        .Include(x => x.LicenseCustomerApps.Select(s => s.License));
+                                        .Include(x => x.LicenseCustomerApps.Select(s => s.License))
+                                        .ToList();
 
-                var viewModel = new CustomerAppIndexViewModel(customerAppQuery.ToList());
+                var viewModel = new CustomerAppIndexViewModel(customerApps);
 
                 return PartialView(viewModel);
             }
@@ -73,14 +74,13 @@ namespace KeyHub.Web.Controllers
         /// <returns>Create CustomerApp view</returns>
         public ActionResult Create()
         {
-            using (DataContext context = new DataContext(User.Identity))
+            using (var context = new DataContext(User.Identity))
             {
                 //License will be recognized by SKU, so eager load SKU
                 var licenseQuery = (from x in context.Licenses select x).Include(x => x.Sku);
 
-                CustomerAppCreateViewModel viewModel = new CustomerAppCreateViewModel(licenseQuery.ToList());
-
-                viewModel.RedirectUrl = Request.UrlReferrer.ToString();
+                var viewModel = new CustomerAppCreateViewModel(licenseQuery.ToList())
+                                    {RedirectUrl = (Request.UrlReferrer != null) ? Request.UrlReferrer.ToString() : ""};
 
                 return View(viewModel);
             }
@@ -98,7 +98,70 @@ namespace KeyHub.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    using (DataContext context = new DataContext(User.Identity))
+                    using (var context = new DataContext(User.Identity))
+                    {
+                        Model.CustomerApp customerApp = viewModel.ToEntity(null);
+                        context.CustomerApps.Add(customerApp);
+
+                        //Offload adding CustomerAppLicenses to Dynamic SKU Model
+                        customerApp.AddLicenses(viewModel.GetNewLicenseGUIDs());
+
+                        context.SaveChanges();
+                    }
+
+                    if (!string.IsNullOrEmpty(viewModel.RedirectUrl))
+                    {
+                        return Redirect(viewModel.RedirectUrl);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index");
+                    }
+                }
+                else
+                {
+                    return View(viewModel);
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Create a single CustomerApp
+        /// </summary>
+        /// <param name="transactionId">Id of the transaction to create a CustomerApp for</param>
+        /// <returns>Create CustomerApp partial view</returns>
+        public ActionResult CreatePartial(int transactionId)
+        {
+            using (var context = new DataContext(User.Identity))
+            {
+                //License will be recognized by SKU, so eager load SKU
+                var licenseQuery = (from x in context.TransactionItems where x.TransactionId == transactionId
+                                    select x.License).Include(x => x.Sku);
+
+                var viewModel = new CustomerAppCreateViewModel(licenseQuery.ToList(), selectAll: true)
+                    { RedirectUrl = (Request.Url != null) ? Request.Url.ToString() : "" };
+
+                return PartialView(viewModel);
+            }
+        }
+
+        /// <summary>
+        /// Save created CustomerApp
+        /// </summary>
+        /// <param name="viewModel">Created CustomerAppCreateViewModel</param>
+        /// <returns>Redirectaction to index if successfull</returns>
+        [HttpPost]
+        public ActionResult CreatePartial(CustomerAppCreateViewModel viewModel)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    using (var context = new DataContext(User.Identity))
                     {
                         Model.CustomerApp customerApp = viewModel.ToEntity(null);
                         context.CustomerApps.Add(customerApp);
@@ -136,12 +199,12 @@ namespace KeyHub.Web.Controllers
         /// <returns>Edit CustomerApp view</returns>
         public ActionResult Edit(Guid key)
         {
-            using (DataContext context = new DataContext(User.Identity))
+            using (var context = new DataContext(User.Identity))
             {
                 var customerAppQuery = from x in context.CustomerApps where x.CustomerAppId == key select x;
                 var licenseQuery = from x in context.Licenses select x;
 
-                CustomerAppEditViewModel viewModel = new CustomerAppEditViewModel(customerAppQuery.FirstOrDefault(),
+                var viewModel = new CustomerAppEditViewModel(customerAppQuery.FirstOrDefault(),
                     licenseQuery.ToList());
 
                 return View(viewModel);
@@ -160,7 +223,7 @@ namespace KeyHub.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    using (DataContext context = new DataContext(User.Identity))
+                    using (var context = new DataContext(User.Identity))
                     {
                         Model.CustomerApp customerApp = (from x in context.CustomerApps where x.CustomerAppId == viewModel.CustomerApp.CustomerAppId select x).FirstOrDefault();
                         viewModel.ToEntity(customerApp);

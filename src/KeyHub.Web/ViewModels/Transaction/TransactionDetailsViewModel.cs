@@ -21,7 +21,20 @@ namespace KeyHub.Web.ViewModels.Transaction
         public TransactionDetailsViewModel(Model.Transaction transaction)
             : this()
         {
-            Transaction = new TransactionDetailsViewItem(transaction, transaction.TransactionItems);
+            var domainlessLicenseQuery =
+                (from x in transaction.TransactionItems
+                 where (x.License != null) && (!x.License.Domains.Any())
+                 select x.License);
+
+            var customerapplessLicenseQuery =
+                (from x in transaction.TransactionItems
+                 where (x.License != null) && (!x.License.LicenseCustomerApps.Any())
+                 select x.License);
+
+            Transaction = new TransactionDetailsViewItem(transaction, 
+                transaction.TransactionItems, 
+                domainlessLicenseQuery.ToList(),
+                customerapplessLicenseQuery.ToList());
         }
 
         /// <summary>
@@ -48,15 +61,22 @@ namespace KeyHub.Web.ViewModels.Transaction
         public TransactionDetailsViewItem() : base()
         { }
 
-        public TransactionDetailsViewItem(Model.Transaction transaction, IEnumerable<Model.TransactionItem> transactionItems)
+        public TransactionDetailsViewItem(Model.Transaction transaction, 
+            IEnumerable<Model.TransactionItem> transactionItems,
+            IEnumerable<Model.License> domainlessLicenseQuery,
+            IEnumerable<Model.License> customerapplessLicenseQuery)
             : base(transaction)
         {
-            PurchaserName = ((transactionItems.Count() > 0)&&(transactionItems.FirstOrDefault().License != null)) ?
+            PurchaserName = (transactionItems.Any(l => l.License != null)) ?
                 transactionItems.FirstOrDefault().License.PurchasingCustomer.Name : "None";
 
             SKUSummary = (from x in transactionItems select x.Sku).ToSummary(x => x.SkuCode, 99, ", ");
 
             StatusName = transaction.Status.GetDescription<Model.TransactionStatus>();
+
+            DomainlessLicenses = (from x in domainlessLicenseQuery select x.ObjectId).ToList();
+
+            CustomerapplessLicenses = (from x in customerapplessLicenseQuery select x.ObjectId).ToList();
         }
 
         /// <summary>
@@ -76,5 +96,17 @@ namespace KeyHub.Web.ViewModels.Transaction
         /// </summary>
         [DisplayName("Transaction status")]
         public string StatusName { get; set; }
+
+        /// <summary>
+        /// List of Licenses within transaction that do not have a domain.
+        /// Used to show create DomainLicense partial view instead of License index partial view
+        /// </summary>
+        public IEnumerable<Guid> DomainlessLicenses { get; set; }
+
+        /// <summary>
+        /// List of Licenses within transaction that do not have a customer app.
+        /// Used to show create CustomerApp partial view instead of CusomterApp index partial view
+        /// </summary>
+        public IEnumerable<Guid> CustomerapplessLicenses { get; set; }
     }
 }

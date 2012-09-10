@@ -12,12 +12,28 @@
 <br/>
 <br/>
 
-<h2>Available licenses</h2>
-@Html.Action("IndexPartial", "License", new {transactionID = Model.Transaction.TransactionId }) 
+@if (!Model.Transaction.DomainlessLicenses.Any())
+{
+    <h2>Available licenses</h2>
+    @Html.Action("IndexPartial", "License", new {transactionId = Model.Transaction.TransactionId }) 
+}
+else
+{
+    <h2>Please register your domain</h2>
+    @Html.Action("CreatePartial", "DomainLicense", new {owningLicense = Model.Transaction.DomainlessLicenses.FirstOrDefault()})
+}
 
 <br/>
 <br/>
 <br/>
 
-<h2>Licensed applications </h2>
-@Html.Action("IndexPartial", "CustomerApp", new {transactionID = Model.Transaction.TransactionId }) 
+@if (!Model.Transaction.CustomerapplessLicenses.Any())
+{
+    <h2>Licensed applications </h2>
+    @Html.Action("IndexPartial", "CustomerApp", new {transactionId = Model.Transaction.TransactionId }) 
+}
+else
+{
+    <h2>Please register your licensed application</h2>
+    @Html.Action("CreatePartial", "CustomerApp", new {transactionId = Model.Transaction.TransactionId }) 
+}

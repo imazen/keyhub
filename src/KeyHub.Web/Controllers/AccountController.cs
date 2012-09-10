@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using KeyHub.Data;
 using KeyHub.Web.Models;
 using KeyHub.Web.ViewModels.User;
 
@@ -16,13 +18,131 @@ namespace KeyHub.Web.Controllers
     public class AccountController : Controller
     {
         /// <summary>
-        /// 
+        /// Get list of users
         /// </summary>
-        /// <param name="returnUrl"></param>
-        /// <returns></returns>
+        /// <returns>User index view</returns>
         public ActionResult Index()
         {
-            return View();
+            using (var context = new DataContext(User.Identity))
+            {
+                // Eager loading users (except current user) and roles
+                var usersQuery = (from u in context.Users where u.UserName != User.Identity.Name select u)
+                                 .Include(u => u.Rights.Select(r => r.RightObject))
+                                 .OrderBy(u => u.UserName);
+
+                var viewModel = new UserIndexViewModel(usersQuery.ToList());
+
+                return View(viewModel);
+            }
+        }
+
+        /// <summary>
+        /// Get user details
+        /// </summary>
+        /// <param name="id">Id of the user to view</param>
+        /// <returns>User index view</returns>
+        public ActionResult DetailsPartial(Guid id)
+        {
+            using (var context = new DataContext())
+            {
+                var userQuery = (from u in context.Users where u.UserId == id select u);
+                
+                var viewModel = new UserViewModel(userQuery.FirstOrDefault());
+
+                return PartialView(viewModel);
+            }
+        }
+
+        /// <summary>
+        /// Create a single User
+        /// </summary>
+        /// <returns>Create User view</returns>
+        public ActionResult Create()
+        {
+            using (var context = new DataContext())
+            {
+                var viewModel = new UserCreateViewModel(thisOne:true);
+
+                return View(viewModel);
+            }
+        }
+
+        /// <summary>
+        /// Save created User into context and redirect to index
+        /// </summary>
+        /// <param name="viewModel">Created UserViewModel</param>
+        /// <returns>Redirectaction to index if successful</returns>
+        [HttpPost]
+        public ActionResult Create(UserCreateViewModel viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                // Attempt to register the user
+                MembershipCreateStatus createStatus;
+                var user = Membership.CreateUser(viewModel.User.UserName,
+                                      viewModel.User.Password,
+                                      viewModel.User.Email,
+                                      passwordQuestion: null,
+                                      passwordAnswer: null,
+                                      isApproved: true,
+                                      providerUserKey: null,
+                                      status: out createStatus);
+
+                if (createStatus == MembershipCreateStatus.Success)
+                {
+                    return RedirectToAction("Index");
+                }
+                ModelState.AddModelError("", ErrorCodeToString(createStatus));
+            }
+
+            //Viewmodel invalid, recall create
+            return Create();
+        }
+
+        /// <summary>
+        /// Edit a single User
+        /// </summary>
+        /// <param name="id">Id if the user to edit</param>
+        /// <returns>Edit User view</returns>
+        public ActionResult Edit(Guid id)
+        {
+            using (var context = new DataContext())
+            {
+                var userQuery = (from u in context.Users where u.UserId == id select u);
+                
+                var viewModel = new UserEditViewModel(userQuery.FirstOrDefault());
+
+                return View(viewModel);
+            }
+        }
+
+        /// <summary>
+        /// Save edited User into context and redirect to index
+        /// </summary>
+        /// <param name="viewModel">Edited UserViewModel</param>
+        /// <returns>Redirectaction to index if successful</returns>
+        [HttpPost]
+        public ActionResult Edit(UserEditViewModel viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                using (var context = new DataContext())
+                {
+                    var user = System.Web.Security.Membership.GetUser(viewModel.User.UserName);
+                    if (user != null)
+                    {
+                        //Email can always be updated
+                        user.Email = viewModel.User.Email;
+                        Membership.UpdateUser(user);
+
+                        return RedirectToAction("Index");
+                    }
+                    ModelState.AddModelError("", "User not found");
+                }
+            }
+
+            //Viewmodel invalid, recall edit
+            return Edit(viewModel.User.UserId);
         }
 
         /// <summary>

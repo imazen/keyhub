@@ -97,6 +97,58 @@ namespace KeyHub.Web.Controllers
         }
 
         /// <summary>
+        /// Create a single domainLicense
+        /// </summary>
+        /// <param name="owningLicense">Owning license ID</param>
+        /// <returns>Partial create DomainLicense view</returns>
+        public ActionResult CreatePartial(Guid owningLicense)
+        {
+            using (var context = new DataContext(User.Identity))
+            {
+                var licenseQuery =
+                    (from x in context.Licenses where x.ObjectId == owningLicense select x)
+                    .Include(x => x.Sku);
+
+                var viewModel = new DomainLicenseCreateViewModel(licenseQuery.FirstOrDefault())
+                                    {RedirectUrl = (Request.Url != null) ? Request.Url.ToString() : ""};
+
+                return PartialView(viewModel);
+            }
+        }
+
+        /// <summary>
+        /// Save created domainLicense into db and redirect to domainLicense index
+        /// </summary>
+        /// <param name="viewModel">Created DomainLicenseViewModel</param>
+        /// <returns>Redirectaction to index if successfull</returns>
+        [HttpPost]
+        public ActionResult CreatePartial(DomainLicenseCreateViewModel viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                using (var context = new DataContext(User.Identity))
+                {
+                    Model.DomainLicense domainLicense = viewModel.ToEntity(null);
+
+                    context.DomainLicenses.Add(domainLicense);
+
+                    context.SaveChanges();
+                }
+
+                if (!string.IsNullOrEmpty(viewModel.RedirectUrl))
+                {
+                    return Redirect(viewModel.RedirectUrl);
+                }
+                else
+                {
+                    return RedirectToAction("Index", "License", new { key = viewModel.DomainLicense.LicenseId });
+                }
+            }
+            //Recall if modelstate is invalid
+            return CreatePartial(viewModel.DomainLicense.LicenseId);
+        }
+
+        /// <summary>
         /// Edit a single domainLicense
         /// </summary>
         /// <param name="key">GUID of domainLicense to edit</param>

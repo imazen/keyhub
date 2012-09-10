@@ -26,10 +26,7 @@
         <th>
             @Html.DisplayNameFor(model => model.Licenses.FirstOrDefault().DomainSummary)
         </th>
-         @if(Model.CurrentUser.IsVendorAdmin)
-         {
-             <th></th>
-         }
+        <th></th>
     </tr>
         </thead>
 @foreach (var item in Model.Licenses) {
@@ -49,14 +46,14 @@
         <td>
             @Html.DisplayFor(modelItem => item.DomainSummary)
         </td>
-        @if(Model.CurrentUser.IsVendorAdmin)
-        {
-            <td>
-                @Html.ActionLink("Edit", "Edit", new {key = item.ObjectId}) |
-                @Html.ActionLink("Details", "Details", new { key=item.ObjectId }) |
-                @Html.ActionLink("Add domain", "Create", "DomainLicense", new { owningLicense=item.ObjectId }, null)
-            </td>
-        }
+        <td>
+            @if(Model.CurrentUser.IsVendorAdmin)
+            {
+                @Html.ActionLink("Edit", "Edit", new {key = item.ObjectId}) <html>|</html>
+                @Html.ActionLink("Details", "Details", new {key = item.ObjectId}) <html>|</html>
+            }
+            @Html.ActionLink("Add domain", "Create", "DomainLicense", new { owningLicense=item.ObjectId }, null)
+        </td>
     </tr>
 }
 

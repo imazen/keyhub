@@ -20,10 +20,5 @@
             <li>@Html.ActionLink("Licenses", "Index", "License")</li>
             <li>@Html.ActionLink("Licensed applications", "Index", "CustomerApp")</li>
         }
-        
-        @if (!Model.IsAnonymous)
-        {
-            <li>@Html.ActionLink("Accounts", "Index", "Account")</li>
-        }
     </ul>
 </div>

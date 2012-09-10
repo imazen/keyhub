@@ -18,13 +18,19 @@ namespace KeyHub.Web.ViewModels.CustomerApp
         /// Construct the viewmodel
         /// </summary>
         /// <param name="licenses">List of licenses to select</param>
-        public CustomerAppCreateViewModel(List<Model.License> licenses)
+        /// <param name="selectAll">Default select all available licenses</param>
+        public CustomerAppCreateViewModel(List<Model.License> licenses, bool selectAll = false)
         {
             CustomerApp = new CustomerAppCreateViewItem(new Model.CustomerApp());
 
             var licenseQuery = from x in licenses select new { ObjectId = x.ObjectId, Name = x.Sku.SkuCode };
 
             this.LicenseList = licenseQuery.ToList().ToMultiSelectList(x => x.ObjectId, x => x.Name);
+
+            if (selectAll)
+            {
+                CustomerApp.SelectedLicenseGUIDs = (from l in licenses select l.ObjectId).ToList();
+            }
         }
 
         /// <summary>

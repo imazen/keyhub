@@ -1,0 +1,66 @@
+﻿@model KeyHub.Web.ViewModels.User.UserCreateViewModel
+
+@{
+    ViewBag.ItemName = "Account";
+    ViewBag.Title = "Create";
+}
+
+<h2>@ViewBag.Title <span>@ViewBag.ItemName</span></h2>
+
+<p class="message-info">
+    Passwords must be at least @Membership.MinRequiredPasswordLength characters long.
+</p>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary()
+
+    <fieldset>
+        <legend>UserEditViewItem</legend>
+
+        @Html.HiddenFor(model => model.User.UserId)
+
+        <div class="editor-label">
+            @Html.LabelFor(m => m.User.UserName)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(m => m.User.UserName)
+            @Html.ValidationMessageFor(m => m.User.UserName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(m => m.User.Email)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(m => m.User.Email, new {autocomplete="off"})
+            @Html.ValidationMessageFor(m => m.User.Email)
+        </div> 
+        
+        <div class="editor-label">
+            @Html.LabelFor(m => m.User.Password)
+        </div>
+        <div class="editor-field">
+            @Html.PasswordFor(m => m.User.Password, new {autocomplete="off"})
+            @Html.ValidationMessageFor(m => m.User.Password)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(m => m.User.ConfirmPassword)
+        </div>
+        <div class="editor-field">
+            @Html.PasswordFor(m => m.User.ConfirmPassword, new {autocomplete="off"})
+            @Html.ValidationMessageFor(m => m.User.ConfirmPassword)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Cancel", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

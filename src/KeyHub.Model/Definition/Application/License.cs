@@ -79,5 +79,10 @@ namespace KeyHub.Model
         /// The TransactionItem that resulted in the purchase of the license
         /// </summary>
         public virtual ICollection<TransactionItem> TransactionItems { get; set; }
+
+        /// <summary>
+        /// The CustomerApps related to this license
+        /// </summary>
+        public virtual ICollection<LicenseCustomerApp> LicenseCustomerApps { get; set; }
     }
 }

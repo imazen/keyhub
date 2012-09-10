@@ -186,6 +186,7 @@
     <Compile Include="ViewModels\PrivateKey\PrivateKeyIndexViewModel.cs" />
     <Compile Include="ViewModels\PrivateKey\PrivateKeyCreateViewModel.cs" />
     <Compile Include="ViewModels\PrivateKey\PrivateKeyEditViewModel.cs" />
+    <Compile Include="ViewModels\Right\UserObjectRightViewModel.cs" />
     <Compile Include="ViewModels\SKU\SKUCreateViewModel.cs" />
     <Compile Include="ViewModels\SKU\SKUEditViewModel.cs" />
     <Compile Include="ViewModels\SKU\SKUIndexViewModel.cs" />
@@ -195,7 +196,11 @@
     <Compile Include="ViewModels\Transaction\TransactionViewModel.cs" />
     <Compile Include="ViewModels\Transaction\TransactionIndexViewModel.cs" />
     <Compile Include="ViewModels\Transaction\TransactionDetailsViewModel.cs" />
+    <Compile Include="ViewModels\User\UserCreateViewModel.cs" />
+    <Compile Include="ViewModels\User\CurrentUserViewModel.cs" />
     <Compile Include="ViewModels\User\RegisterViewModel.cs" />
+    <Compile Include="ViewModels\User\UserEditViewModel.cs" />
+    <Compile Include="ViewModels\User\UserIndexViewModel.cs" />
     <Compile Include="ViewModels\User\UserViewModel.cs" />
     <Compile Include="ViewModels\Vendor\VendorCreateViewModel.cs" />
     <Compile Include="ViewModels\Vendor\VendorDetailsViewModel.cs" />
@@ -447,6 +452,11 @@
     <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\DomainLicense\Edit.cshtml" />
     <Content Include="Views\CustomerApp\IndexPartial.cshtml" />
+    <Content Include="Views\Account\DetailsPartial.cshtml" />
+    <Content Include="Views\Account\Edit.cshtml" />
+    <Content Include="Views\Account\Create.cshtml" />
+    <Content Include="Views\CustomerApp\CreatePartial.cshtml" />
+    <Content Include="Views\DomainLicense\CreatePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

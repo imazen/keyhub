@@ -233,6 +233,8 @@ namespace KeyHub.BusinessLogic.Basket
                 Transaction = (from x in context.Transactions where x.TransactionId == transactionId select x)
                     .Include(x => x.TransactionItems.Select(s => s.Sku))
                     .Include(x => x.TransactionItems.Select(s => s.License))
+                    .Include(x => x.TransactionItems.Select(s => s.License.Domains))
+                    .Include(x => x.TransactionItems.Select(s => s.License.LicenseCustomerApps))
                     .FirstOrDefault();
 
             return (Transaction != null);

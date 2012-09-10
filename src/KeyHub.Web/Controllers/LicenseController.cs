@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using KeyHub.Runtime;
+using KeyHub.Web.ViewModels.DomainLicense;
 using KeyHub.Web.ViewModels.License;
 using KeyHub.Data;
 
@@ -39,22 +40,22 @@ namespace KeyHub.Web.Controllers
         /// <summary>
         /// Get list of Licenses
         /// </summary>
-        /// <param name="transactionID">TransactionID to show licenses for</param>
+        /// <param name="transactionId">TransactionID to show licenses for</param>
         /// <returns>License index list view</returns>
-        public ActionResult IndexPartial(int transactionID)
+        public ActionResult IndexPartial(int transactionId)
         {
             using (DataContext context = new DataContext(User.Identity))
             {
                 //Eager loading License
                 var licenseQuery = (from l in context.Licenses
-                                    where l.TransactionItems.FirstOrDefault().TransactionId == transactionID
+                                    where l.TransactionItems.FirstOrDefault().TransactionId == transactionId
                                     select l)
                                     .Include(x => x.PurchasingCustomer)
                                     .Include(x => x.OwningCustomer)
                                     .Include(x => x.Sku)
                                     .Include(x => x.Domains);
 
-                LicenseIndexViewModel viewModel = new LicenseIndexViewModel(licenseQuery.ToList());
+                var viewModel = new LicenseIndexViewModel(licenseQuery.ToList());
 
                 return PartialView(viewModel);
             }

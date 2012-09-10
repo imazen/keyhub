@@ -1,37 +1,52 @@
-﻿@{
-    ViewBag.Title = "Index";
+﻿@model KeyHub.Web.ViewModels.User.UserIndexViewModel
+
+@{
+    ViewBag.ItemName = "Account";
+    ViewBag.Title = "Overview";
 }
-<h2>Account <span>Personal</span></h2>
-<fieldset>
-    <legend>LicenseDetailsViewItem</legend>
-    <div class="editor-container-sideBySide">
-        <div class="display-label">name</div>
-        <div class="display-field">zsadf safdasf</div>
 
-        <div class="display-label">age</div>
-        <div class="display-field">3</div>
+@Html.Action("DetailsPartial", "Account", new {id = Model.CurrentUser.UserId }) 
 
-    </div>
-    </fieldset>
-<a href="#">edit</a>
+<br/>
+<br/>
 
-<h2>Account <span>Overview</span></h2>
+<h2>@ViewBag.ItemName <span>@ViewBag.Title</span></h2>
+
+<p>
+    @Html.ActionLink("Create new account", "Create", null, new {@class = "Btn New"})
+</p>
 <table border="0" border="0" cellspacing="0" cellpadding="0" class="GridTable">
     <thead>
-        <tr>
-            <th>asdasd</th>
-            <th>asdasd</th>
-            <th></th>
-        </tr>
-    </thead>
     <tr>
-        <td>asdasd</td>
-        <td>asdasd</td>
-        <td><a href="#">edit</a></td>
+        <th>
+            @Html.DisplayNameFor(model => model.Users.FirstOrDefault().UserName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Users.FirstOrDefault().LastActivityDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Users.FirstOrDefault().RightsSummary)
+        </th>
+        <th></th>
     </tr>
+
+@foreach (var item in Model.Users) {
     <tr>
-        <td>asdasd</td>
-        <td>asdasd</td>
-        <td><a href="#">edit</a></td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastActivityDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RightsSummary)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new {id = item.UserId})
+            @Html.ActionLink("Delete", "Delete", new {name = item.UserName})
+        </td>
     </tr>
+}
+
 </table>
+

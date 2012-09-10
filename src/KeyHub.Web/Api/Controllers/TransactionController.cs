@@ -34,6 +34,8 @@ namespace KeyHub.Web.Api.Controllers
         /// <returns>TransactionResult containing success and optional errormessage</returns>
         public TransactionResult Post(Transaction transaction)
         {
+            if (transaction == null)
+                throw new InvalidPropertyException("No transaction provided");
             if (string.IsNullOrEmpty(transaction.PurchaserName))
                 throw new InvalidPropertyException("No purchaser name set");
             if (string.IsNullOrEmpty(transaction.PurchaserEmail))

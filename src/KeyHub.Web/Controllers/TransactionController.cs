@@ -52,7 +52,9 @@ namespace KeyHub.Web.Controllers
                 //Eager loading Transaction
                 var transactionQuery = (from x in context.Transactions where x.TransactionId == decryptedKey select x)
                     .Include(x => x.TransactionItems.Select(s => s.Sku))
-                    .Include(x => x.TransactionItems.Select(s => s.License));
+                    .Include(x => x.TransactionItems.Select(s => s.License))
+                    .Include(x => x.TransactionItems.Select(s => s.License.Domains))
+                    .Include(x => x.TransactionItems.Select(s => s.License.LicenseCustomerApps));
 
                 if (transactionQuery.FirstOrDefault() == null)
                     throw new EntityNotFoundException("Transaction could not be resolved!"); 
@@ -75,7 +77,8 @@ namespace KeyHub.Web.Controllers
                 //Eager loading Transaction
                 var transactionQuery = (from x in context.Transactions where x.TransactionId == key select x)
                     .Include(x => x.TransactionItems.Select(s => s.Sku))
-                    .Include(x => x.TransactionItems.Select(s => s.License));
+                    .Include(x => x.TransactionItems.Select(s => s.License))
+                    .Include(x => x.TransactionItems.Select(s => s.License.Domains));
 
                 TransactionDetailsViewModel viewModel = new TransactionDetailsViewModel(transactionQuery.FirstOrDefault());
 
