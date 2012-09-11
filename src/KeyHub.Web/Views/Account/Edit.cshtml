@@ -45,8 +45,15 @@
     </fieldset>
 }
 
+<br/>
+<br/>
+
+@Html.Action("IndexPartial", "AccountRights", new {userId = Model.User.UserId }) 
+
+<br/>
+
 <div>
-    @Html.ActionLink("Back to account details", "Index")
+    @Html.ActionLink("Back to account overview", "Index")
 </div>
 
 @section Scripts {

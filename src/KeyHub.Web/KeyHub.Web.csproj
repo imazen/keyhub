@@ -140,6 +140,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AccountRightsController.cs" />
     <Compile Include="Controllers\ControllerBase.cs" />
     <Compile Include="Controllers\CustomerAppController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
@@ -196,6 +197,9 @@
     <Compile Include="ViewModels\Transaction\TransactionViewModel.cs" />
     <Compile Include="ViewModels\Transaction\TransactionIndexViewModel.cs" />
     <Compile Include="ViewModels\Transaction\TransactionDetailsViewModel.cs" />
+    <Compile Include="ViewModels\UserObjectRight\UserObjectRightCreateViewModel.cs" />
+    <Compile Include="ViewModels\UserObjectRight\UserObjectRightIndexViewModel.cs" />
+    <Compile Include="ViewModels\UserObjectRight\UserObjectRightViewModel.cs" />
     <Compile Include="ViewModels\User\UserCreateViewModel.cs" />
     <Compile Include="ViewModels\User\CurrentUserViewModel.cs" />
     <Compile Include="ViewModels\User\RegisterViewModel.cs" />
@@ -457,6 +461,8 @@
     <Content Include="Views\Account\Create.cshtml" />
     <Content Include="Views\CustomerApp\CreatePartial.cshtml" />
     <Content Include="Views\DomainLicense\CreatePartial.cshtml" />
+    <Content Include="Views\AccountRights\IndexPartial.cshtml" />
+    <Content Include="Views\AccountRights\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

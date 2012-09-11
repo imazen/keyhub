@@ -1,0 +1,54 @@
+﻿@using KeyHub.Model
+@model KeyHub.Web.ViewModels.UserObjectRight.UserObjectRightIndexViewModel
+
+@{
+    ViewBag.ItemName = "Rights";
+    ViewBag.Title = "Overview";
+}
+
+<h2>@ViewBag.ItemName <span>@ViewBag.Title</span></h2>
+
+<p>
+    @if(Model.CurrentUser.IsVendorAdmin)
+    {
+        @Html.ActionLink("Add new vendor right", "Create", new {userId = Model.UserId, objectType = ObjectTypes.Vendor}, new { @class = "Btn" })
+    }
+    @if(Model.CurrentUser.CanEditCustomerInfo)
+    {
+        @Html.ActionLink("Add new customer right", "Create", new {userId = Model.UserId, objectType = ObjectTypes.Customer}, new { @class = "Btn" })
+    }
+    @if(Model.CurrentUser.CanEditLicenseInfo)
+    {
+        @Html.ActionLink("Add new license right", "Create", new {userId = Model.UserId, objectType = ObjectTypes.License}, new { @class = "Btn" })
+    }
+</p>
+<table border="0" border="0" cellspacing="0" cellpadding="0" class="GridTable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Rights.FirstOrDefault().RightName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rights.FirstOrDefault().ObjectName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    @foreach (var item in Model.Rights) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.RightName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ObjectName)
+            </td>
+            <td>
+                @Html.ActionLink("Delete", "Delete", 
+                new {
+                    userId = item.UserId, rightId = item.RightId, objectId = item.ObjectId, type = item.ObjectType
+                })
+            </td>
+        </tr>
+    }
+
+</table>

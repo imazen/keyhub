@@ -11,27 +11,28 @@
     <legend>UserViewModel</legend>
     <div class="editor-container-sideBySide">
         <div class="display-label">
-             @Html.DisplayNameFor(model => model.UserName)
+            @Html.DisplayNameFor(model => model.UserName)
         </div>
         <div class="display-field">
             @Html.DisplayFor(model => model.UserName)
         </div>
         
         <div class="display-label">
-             @Html.DisplayNameFor(model => model.Email)
+            @Html.DisplayNameFor(model => model.Email)
         </div>
         <div class="display-field">
             @Html.DisplayFor(model => model.Email)
         </div>
 
         <div class="display-label">
-             @Html.DisplayNameFor(model => model.LastActivityDate)
+            @Html.DisplayNameFor(model => model.LastActivityDate)
         </div>
         <div class="display-field">
             @Html.DisplayFor(model => model.LastActivityDate)
         </div>
     </div>
 </fieldset>
+
 <p>
     @Html.ActionLink("Edit", "Edit", new { id=Model.UserId }) |
     @Html.ActionLink("Change password", "ChangePassword")

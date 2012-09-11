@@ -53,7 +53,9 @@ namespace KeyHub.Web.ViewModels.User
         public UserIndexViewItem(Model.User user)
             : base(user)
         {
-            RightsSummary = user.Rights.ToSummary(r => r.Right.DisplayName, maxItems:2, separator:", ");
+            //Distinct show rights, if user has rights to multiple customers, user right is shown once.
+            var rightQuery = (from r in user.Rights select r.Right).Distinct();
+            RightsSummary = rightQuery.ToSummary(r => r.DisplayName, maxItems: 2, separator: ", ");
         }
 
         /// <summary>

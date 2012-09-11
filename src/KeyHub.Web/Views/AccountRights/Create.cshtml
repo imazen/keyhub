@@ -1,0 +1,56 @@
+﻿@model KeyHub.Web.ViewModels.UserObjectRight.UserObjectRightCreateViewModel
+
+@{
+    ViewBag.ItemName = "User right";
+    ViewBag.Title = "Add";
+}
+
+<h2>@ViewBag.Title <span>@ViewBag.ItemName</span></h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>UserObjectRightCreateViewModel</legend>
+
+        @Html.HiddenFor(model => model.UserId)
+        @Html.HiddenFor(model => model.RightId)
+        @Html.HiddenFor(model => model.ObjectType)
+        
+        <div class="editor-label">
+            @Html.LabelFor(model => model.UserName)
+        </div>
+        <div class="editor-field">
+            @Html.DisplayFor(model => model.UserName)
+            @Html.HiddenFor(model => model.UserName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.RightName)
+        </div>
+        <div class="editor-field">
+            @Html.DisplayFor(model => model.RightName)
+            @Html.HiddenFor(model => model.RightName)
+        </div>
+        
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ObjectId)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.ObjectId, Model.EntityList)
+            @Html.HiddenFor(model => model.ObjectId)
+        </div>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Cancel", "Edit", "Account", new { id = Model.UserId }, null)
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
