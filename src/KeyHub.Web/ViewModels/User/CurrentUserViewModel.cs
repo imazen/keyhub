@@ -28,6 +28,7 @@ namespace KeyHub.Web.ViewModels.User
             this.UserName = user.UserName;
             this.IsAnonymous = user.IsAnonymous;
             this.LastActivityDate = user.LastActivityDate;
+            this.IsSystemAdmin = user.IsSystemAdmin;
             this.IsVendorAdmin = user.IsVendorAdmin;
             this.CanEditCustomerInfo = user.CanEditCustomerInfo;
             this.CanEditLicenseInfo = user.CanEditLicenseInfo;
@@ -59,7 +60,12 @@ namespace KeyHub.Web.ViewModels.User
         public DateTime LastActivityDate { get; private set; }
 
         /// <summary>
-        /// Check if user is vendor admin
+        /// Check if user is system administrator
+        /// </summary>
+        public bool IsSystemAdmin { get; private set; }
+
+        /// <summary>
+        /// Check if user is vendor administrator
         /// </summary>
         public bool IsVendorAdmin { get; private set; }
 

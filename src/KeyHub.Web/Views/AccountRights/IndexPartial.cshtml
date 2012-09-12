@@ -9,7 +9,7 @@
 <h2>@ViewBag.ItemName <span>@ViewBag.Title</span></h2>
 
 <p>
-    @if(Model.CurrentUser.IsVendorAdmin)
+    @if (Model.CurrentUser.IsSystemAdmin || Model.CurrentUser.IsVendorAdmin)
     {
         @Html.ActionLink("Add new vendor right", "Create", new {userId = Model.UserId, objectType = ObjectTypes.Vendor}, new { @class = "Btn" })
     }

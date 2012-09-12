@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web.Security;
 using KeyHub.Core.Issues;
 using KeyHub.Core.Kernel;
+using KeyHub.Model;
 
 namespace KeyHub.Data.Boot
 {
@@ -25,8 +26,8 @@ namespace KeyHub.Data.Boot
         {
             // Create administator Role if not already present
             var currentRoles = System.Web.Security.Roles.GetAllRoles();
-            if (!currentRoles.Contains("Sys_Administrator"))
-                System.Web.Security.Roles.CreateRole("Sys_Administrator");
+            if (!currentRoles.Contains(Role.SystemAdmin))
+                System.Web.Security.Roles.CreateRole(Role.SystemAdmin);
 
             // Create an administator of not already present
             var administrator = System.Web.Security.Membership.GetUser("admin");
@@ -39,7 +40,7 @@ namespace KeyHub.Data.Boot
 
                 // Add users to roles if they exist
                 if (administrator != null)
-                    System.Web.Security.Roles.AddUserToRole("admin", "Sys_Administrator");
+                    System.Web.Security.Roles.AddUserToRole("admin", Role.SystemAdmin);
             }
 
             return new KernelEventCompletedArguments() { AllowContinue = (issueList.Count() == 0), KernelEventSucceeded = (issueList.Count() == 0), Issues = issueList.ToArray() };

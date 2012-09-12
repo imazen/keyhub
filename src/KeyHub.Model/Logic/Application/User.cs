@@ -11,6 +11,21 @@ namespace KeyHub.Model
     /// </summary>
     public partial class User
     {
+        /// <summary>
+        /// Check if the current user is system administrator
+        /// </summary>
+        public bool IsSystemAdmin
+        {
+            get
+            {
+                var userRoles = System.Web.Security.Roles.GetRolesForUser();
+                return userRoles.Contains(Role.SystemAdmin);
+            }
+        }
+
+        /// <summary>
+        /// Check if the current user is VendorAdmin
+        /// </summary>
         public bool IsVendorAdmin
         {
             get
@@ -20,34 +35,40 @@ namespace KeyHub.Model
             }
         }
 
+        /// <summary>
+        /// Check if the current user can edit curstomer info
+        /// </summary>
         public bool CanEditCustomerInfo
         {
             get
             {
-                if (!IsVendorAdmin)
+                if (!IsVendorAdmin && !IsSystemAdmin)
                 {
                     var right = (from r in this.Rights where r is UserCustomerRight && r.RightId == EditEntityMembers.Id select r).FirstOrDefault();
                     return (right != null);
                 }
                 else
                 {
-                    return IsVendorAdmin;
+                    return IsSystemAdmin | IsVendorAdmin;
                 }
             }
         }
 
+        /// <summary>
+        /// Check if the current user can edit license info
+        /// </summary>
         public bool CanEditLicenseInfo
         {
             get
             {
-                if (!IsVendorAdmin && !CanEditCustomerInfo)
+                if (!IsVendorAdmin && !CanEditCustomerInfo && !IsSystemAdmin)
                 {
                     var right = (from r in this.Rights where r is UserLicenseRight && r.RightId == EditLicenseInfo.Id select r).FirstOrDefault();
                     return (right != null);
                 }
                 else
                 {
-                    return IsVendorAdmin | CanEditCustomerInfo;
+                    return IsSystemAdmin | IsVendorAdmin | CanEditCustomerInfo;
                 }
             }
         }

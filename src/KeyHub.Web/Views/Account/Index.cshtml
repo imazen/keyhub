@@ -10,43 +10,47 @@
 <br/>
 <br/>
 
-<h2>@ViewBag.ItemName <span>@ViewBag.Title</span></h2>
+@if (Model.CurrentUser.IsSystemAdmin || Model.CurrentUser.IsVendorAdmin)
+{
+    <h2>@ViewBag.ItemName <span>@ViewBag.Title</span></h2>
 
-<p>
-    @Html.ActionLink("Create new account", "Create", null, new {@class = "Btn New"})
-</p>
-<table border="0" border="0" cellspacing="0" cellpadding="0" class="GridTable">
-    <thead>
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Users.FirstOrDefault().UserName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Users.FirstOrDefault().LastActivityDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Users.FirstOrDefault().RightsSummary)
-        </th>
-        <th></th>
-    </tr>
+    <p>
+        @Html.ActionLink("Create new account", "Create", null, new {@class = "Btn New"})
+    </p>
+    <table border="0" border="0" cellspacing="0" cellpadding="0" class="GridTable">
+        <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Users.FirstOrDefault().UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Users.FirstOrDefault().LastActivityDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Users.FirstOrDefault().RightsSummary)
+            </th>
+            <th></th>
+        </tr>
 
-@foreach (var item in Model.Users) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.UserName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LastActivityDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.RightsSummary)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new {id = item.UserId})
-            @Html.ActionLink("Delete", "Delete", new {name = item.UserName})
-        </td>
-    </tr>
+        @foreach (var item in Model.Users)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastActivityDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RightsSummary)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new {id = item.UserId})
+                    @Html.ActionLink("Delete", "Delete", new {name = item.UserName})
+                </td>
+            </tr>
+        }
+
+    </table>
 }
-
-</table>
 

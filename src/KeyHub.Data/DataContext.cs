@@ -237,7 +237,10 @@ namespace KeyHub.Data
         /// </summary>
         private IEnumerable<Guid> ResolveAuthorizedVendorsByUser(User currentUser)
         {
-            return (from r in currentUser.Rights where r is UserVendorRight && r.RightId == VendorAdmin.Id select r.ObjectId).ToList();
+            if (currentUser.IsSystemAdmin)
+                return (from x in this.Set<Vendor>() select x.ObjectId).ToList();
+            else
+                return (from r in currentUser.Rights where r is UserVendorRight && r.RightId == VendorAdmin.Id select r.ObjectId).ToList();
         }
 
         /// <summary>
@@ -245,7 +248,10 @@ namespace KeyHub.Data
         /// </summary>
         private IEnumerable<Guid> ResolveAuthorizedCustomersByUser(User currentUser)
         {
-            return (from r in currentUser.Rights where r is UserCustomerRight && r.RightId == EditEntityMembers.Id select r.ObjectId).ToList();
+            if (currentUser.IsSystemAdmin)
+                return (from x in this.Set<Customer>() select x.ObjectId).ToList();
+            else
+                return (from r in currentUser.Rights where r is UserCustomerRight && r.RightId == EditEntityMembers.Id select r.ObjectId).ToList();
         }
 
         /// <summary>

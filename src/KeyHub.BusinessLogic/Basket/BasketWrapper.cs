@@ -144,10 +144,9 @@ namespace KeyHub.BusinessLogic.Basket
                     break;
                 case BasketSteps.Checkout:
                     User currentUser = context.GetUserByIdentity(HttpContext.Current.User.Identity);
-                    
-                    //How to check for new
+
                     //Add PurchasingCustomer if none existing
-                    if (!(from x in context.Customers where x.ObjectId == this.PurchasingCustomer.ObjectId select x).Any())
+                    if (this.PurchasingCustomer.ObjectId == new Guid())
                     {
                         context.Customers.Add(PurchasingCustomer);
                         context.SaveChanges();
@@ -166,7 +165,7 @@ namespace KeyHub.BusinessLogic.Basket
                     //Add OwningCustomer if none existing
                     if (this.OwningCustomer != this.PurchasingCustomer)
                     {
-                        if (!(from x in context.Customers where x.ObjectId == this.OwningCustomer.ObjectId select x).Any())
+                        if (this.OwningCustomer.ObjectId == new Guid())
                         {
                             context.Customers.Add(OwningCustomer);
                             context.SaveChanges();

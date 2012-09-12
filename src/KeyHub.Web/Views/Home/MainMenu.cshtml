@@ -2,7 +2,7 @@
 
 <div class="HeaderMenu">
     <ul class="HeaderMenu">
-        @if (Model.IsVendorAdmin)
+        @if (Model.IsVendorAdmin || Model.IsSystemAdmin)
         {
             <li class="Active">@Html.ActionLink("Vendors", "Index", "Vendor")</li>
             <li>@Html.ActionLink("Features", "Index", "Feature")</li>

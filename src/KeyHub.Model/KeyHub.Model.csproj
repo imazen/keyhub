@@ -38,6 +38,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -59,6 +60,7 @@
     <Compile Include="Logic\Application\CustomerApp.cs" />
     <Compile Include="Logic\Application\DomainLicense.cs" />
     <Compile Include="Logic\Application\PrivateKey.cs" />
+    <Compile Include="Logic\Application\Role.cs" />
     <Compile Include="Logic\Application\SKU.cs" />
     <Compile Include="Definition\Application\CustomerApp.cs" />
     <Compile Include="Definition\Application\CustomerAppKey.cs" />
