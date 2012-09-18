@@ -28,6 +28,7 @@ https://docs.google.com/spreadsheet/ccc?key=0AgBQf0FS96bPdG5DM0hBTnA1cmd6UXBCc1F
 
 All date/time values are in UTC
 All date/time columns will be in 'new' style (date, time, datetime2)
+All date values will be presented in day, full month name, year format. Example: 18 september 2012 
 
 ## Data Model 
 
@@ -42,13 +43,18 @@ All date/time columns will be in 'new' style (date, time, datetime2)
 * n int max_support_contacts - Maxmimum number of users listed as a support contact
 * n int change_support_contacts_duration - How long the assigned support contact can be changed
 * n int license_duration - How long the license is valid for
-* n int auto_domain_duration - How long auto-generated domain licenses are valid before they must be auto-renewed
+* n int auto_domain_duration - How long auto-generated domain licenses are valid before they must be auto-renewed. 
+                               Removing expired domain licenses (to make room for new ones) will be part of the license validation process. 
+							   Domainlicenses will be removed from db (no logical delete).
 * n int manual_domain_duration - How long manually generated domain licenses are valid for
 * bool can_delete_manual_domains - If true, users can delete manual licenses to make room for more or do cleanup
+                                   Question: what userright does one need to be able to delete a domain (EditDomains?)
 * bool can_delete_auto_domains - If true, users can delete auto-generated licenses to make room for more or do cleanup
 * n datetime2 release_date - When this SKY is first offered for purchase
 * n datetime2 expiration_date - When this SKU is no longer available for purchase
+								Integrate this check into the webshop REST service. Provides error message back if SKU has expired. SKU will not be part of the transaction.
 
+(All duration fields are in number of days)
 
 ### FeatureIDs
 
@@ -78,7 +84,7 @@ Many-to-many relationship between SKUs and FeatureIDs
 * pk id (guid)
 * str1k name
 * street/city/region/postal/country
-* str1k billing_email
+* str1k billing_email - Question: currently not in model, what is this used for?
 
 ### Rights
 
@@ -133,7 +139,8 @@ Connects Users to Objects (Entities, Licenses, Vendors) with Rights
 * pk id
 * fk sku_id
 * fk transaction_item_id
-* str owner_name
+* str owner_name - Name of first owner.
+                   Question: Is this name NEVER changed or does it change with the owning_entity_id for the durtion of SKU.edit_ownership_duration
 * fk purchasing_entity_id
 * fk owning_entity_id
 * datetime2 issued
@@ -240,13 +247,16 @@ Existing data will be provided in UTF-8 form with a byte-order mark, tab delimit
 
 Example of export format: https://docs.google.com/spreadsheet/ccc?key=0AgBQf0FS96bPdG5DM0hBTnA1cmd6UXBCc1F4aF9YMHc
 
+Question: TransactionItems and Transaction contain a number of fields required for handling the payment.
+          Webshop is responsible of payment handling. As soon as KeyHub recieves a transaction request, the user can start claiming the license.
+          Suggestion to remove all payment related fields such as TransactionItem.Gross.
 
 ### TransactionItems table
 
 * pk id (guid)
 * n fk sku_id  (nullable, because it's possible that we won't be able to match it up to an SKU)
 * fk transaction_id
-* n float gross (Gross sale price of transaction item. Will need to be divided by quantity during import)
+* n float gross (Gross sale price of transaction item. Will need to be divided by quantity during import) 
 
 The following fields are recorded, but not displayed unless SKU lookup fails. These can be stored in xml or plain columns, whichever is preferred. These fields may change with e-commerce providers
 
