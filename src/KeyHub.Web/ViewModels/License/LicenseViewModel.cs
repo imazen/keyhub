@@ -90,11 +90,13 @@ namespace KeyHub.Web.ViewModels.License
         /// The date this license has been issued
         /// </summary>
         [Required]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMMM yyyy}")] 
         public DateTime LicenseIssued { get; set; }
 
         /// <summary>
         /// The date this license will expire
         /// </summary>
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMMM yyyy}")] 
         public DateTime? LicenseExpires { get; set; }
     }
 }

@@ -82,11 +82,13 @@ namespace KeyHub.Web.ViewModels.DomainLicense
         /// If there is no expiration, it should be null.
         /// </summary>
         [Required]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMMM yyyy}")] 
         public DateTime DomainLicenseIssued { get; set; }
 
         /// <summary>
         /// The date this domain license will expire
         /// </summary>
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMMM yyyy}")] 
         public DateTime? DomainLicenseExpires { get; set; }
 
         /// <summary>

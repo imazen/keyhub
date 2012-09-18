@@ -62,6 +62,7 @@ namespace KeyHub.Web.ViewModels.Transaction
         /// Date the transaction was created on
         /// </summary>
         [DisplayName("Transaction date/time")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMMM yyyy HH:mm:ss}")] 
         public DateTime CreatedDateTime { get; set; }
     }
 }

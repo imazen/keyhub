@@ -156,6 +156,7 @@ namespace KeyHub.Web.ViewModels.SKU
         /// Leave empty to disable this SKU
         /// </summary>
         [DisplayName("Released")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMMM yyyy}")] 
         public DateTime? ReleaseDate { get; set; }
 
         /// <summary>
@@ -163,6 +164,7 @@ namespace KeyHub.Web.ViewModels.SKU
         /// Leave empty to disable expiration on this SKU
         /// </summary>
         [DisplayName("Expires")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMMM yyyy}")] 
         public DateTime? ExpirationDate { get; set; }
     }
 }

@@ -71,7 +71,8 @@
                  $("INPUT[type=checkbox]").prettyradiocheckbox();
                  $("INPUT[type=radio]").prettyradiocheckbox();
                  
-                 $("INPUT[type=datetime]").datepicker();
+                 $("INPUT[type=datetime]").datepicker({ dateFormat: 'dd MM yy' });
+
                 
                  $("SELECT#SKU_VendorId").change(function () {
                      //$("SELECT#SKU_PrivateKeyId").append('<option>ss</option>').trigger("liszt:updated");

@@ -28,7 +28,7 @@
 @foreach (var item in Model.Transactions) {
     <tr>
         <td>
-            @Html.ActionLink(item.CreatedDateTime.ToString(), "Details", new { key = item.TransactionId.ToString().EncryptUrl() }, null)
+            @Html.ActionLink(item.CreatedDateTime.ToString("dd MMMM yyyy HH:mm:ss"), "Details", new { key = item.TransactionId.ToString().EncryptUrl() }, null)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.PurchaserName)

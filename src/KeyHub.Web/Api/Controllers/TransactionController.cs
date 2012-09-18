@@ -49,7 +49,7 @@ namespace KeyHub.Web.Api.Controllers
 
             basket.ExecuteStep(BasketSteps.Create);
 
-            var transactionEmail = new TransactionMailViewModel(){PurchaserName = transaction.PurchaserName, PurchaserEmail = transaction.PurchaserEmail, TransactionId = basket.Transaction.TransactionId };
+            var transactionEmail = new TransactionMailViewModel() { PurchaserName = transaction.PurchaserName, PurchaserEmail = transaction.PurchaserEmail, TransactionId = basket.Transaction.TransactionId };
             new MailController().TransactionEmail(transactionEmail).Deliver();
 
             var result = new TransactionResult() { CreatedSuccessfull = true };
