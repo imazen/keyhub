@@ -153,13 +153,10 @@ namespace KeyHub.Web.Controllers
             {
                 case ObjectTypes.Vendor:
                     return new Model.UserVendorRight();
-                    break;
                 case ObjectTypes.Customer:
                     return new Model.UserCustomerRight();
-                    break;
                 case ObjectTypes.License:
                     return new Model.UserLicenseRight();
-                    break;
                 default:
                     throw new NotImplementedException("ObjectType not known");
             }
