@@ -56,13 +56,7 @@ namespace KeyHub.Web.ViewModels.DomainLicense
         public DomainLicenseIndexViewItem(Model.DomainLicense domain)
             : base(domain)
         {
-            this.LicenseName = domain.License.Sku.SkuCode;
-        }
-
-        public string LicenseName
-        {
-            get;
-            set;
+            
         }
     }
 }
