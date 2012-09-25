@@ -16,7 +16,7 @@ namespace KeyHub.Model
         {
             foreach (Guid skuGuid in SKUGuids)
             {
-                if ((from x in this.TransactionItems where x.SkuId == skuGuid select x).Count() == 0)
+                if (!(from x in this.TransactionItems where x.SkuId == skuGuid select x).Any())
                     this.TransactionItems.Add(new TransactionItem() { TransactionId = this.TransactionId, SkuId = skuGuid });
             }
         }
