@@ -54,3 +54,95 @@ Expired licenses are automatically deleted from the cache.
     </resizer>
 
 
+## Example resizer-side code
+
+     /// <summary>
+        /// Performs a remote request to the license server to get 
+        /// </summary>
+        /// <param name="domainFeatures"></param>
+        /// <returns></returns>
+        private List<byte[]> RequestLicenses(Dictionary<string,List<Guid>> domainFeatures){
+            var results = new List<byte[]>();
+            string appStr = c.get("licenses.auto.appId", null);
+            if (string.IsNullOrEmpty(appStr)) return results;
+
+            Guid appId = new Guid(appStr);
+
+            XmlDocument doc = new XmlDocument();
+            var root = doc.CreateElement("licenseReqeust");
+            doc.AppendChild(root);
+            var appIdElement = doc.CreateElement("appId");
+            appIdElement.AppendChild(doc.CreateTextNode( appId.ToString()));
+            root.AppendChild(appIdElement);
+            var domains = doc.CreateElement("domains");
+            root.AppendChild(domains);
+            foreach (string domain in domainFeatures.Keys) {
+                var d = doc.CreateElement("domain");
+                d.SetAttribute("name", domain);
+                foreach (Guid g in domainFeatures[domain]) {
+                    var feature = doc.CreateElement("feature");
+                    feature.AppendChild(doc.CreateTextNode(g.ToString()));
+                    d.AppendChild(feature);
+                }
+                root.AppendChild(d);
+            }
+            var request = (System.Net.HttpWebRequest)System.Net.HttpWebRequest.Create(LicensingUrl);
+            request.ContentType = "application/xml";
+            request.Method = "POST";
+            byte[] body = UTF8Encoding.UTF8.GetBytes(doc.OuterXml);
+            request.ContentLength = body.Length;
+            using (var upstream = request.GetRequestStream()){
+                upstream.Write(body,0,body.Length);
+            }
+            using (var response = request.GetResponse()) {
+                XmlDocument rdoc = new XmlDocument();
+                rdoc.Load(response.GetResponseStream());
+                foreach(var l in rdoc.DocumentElement.ChildNodes){
+                    var lic = l as XmlElement;
+                    if (lic != null && lic.Name == "license"){
+                        results.Add(Convert.FromBase64String(lic.InnerText.Trim()));
+                    }
+                }
+            }
+            return results;
+        }
+        
+## Example public/private key generation
+
+      /// <summary>
+        /// Generates a key 2048-bit keypair and returns the xml fragment containing it
+        /// </summary>
+        /// <returns></returns>
+        internal static string GenerateKeyPairXml() {
+            using(var r = new RSACryptoServiceProvider(2048))
+               return r.ToXmlString(true);
+        }
+        /// <summary>
+        /// Strips the private information from the given key pair
+        /// </summary>
+        /// <param name="pair"></param>
+        /// <returns></returns>
+        internal static string StripPrivateKey(string pair) {
+            using (var r = new RSACryptoServiceProvider(2048)) {
+                r.FromXmlString(pair);
+                return r.ToXmlString(false);
+            }
+        }
+
+
+## Example license serialization and encryption
+
+            internal string SerializeUnencrypted() {
+                return "Domain: " + Domain.Replace('\n', ' ') + "\n" +
+                        "OwnerName: " + OwnerName.Replace('\n', ' ') + "\n" +
+                        "Issued: " + Issued.ToString() + "\n" +
+                        "Expires: " + Expires.ToString() + "\n" +
+                        "Features: " + Join(Features) + "\n";
+            }
+
+            internal byte[] SerializeAndEncrypt(string xmlKeyPair) {
+                using (var r = new RSACryptoServiceProvider(2048)) {
+                    r.FromXmlString(xmlKeyPair);
+                    return r.Encrypt(UTF8Encoding.UTF8.GetBytes(SerializeUnencrypted()), false);
+                }
+            }
