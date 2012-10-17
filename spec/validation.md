@@ -41,5 +41,16 @@ ImageResizer will cache all provided licenses to disk, eliminating future HTTP r
 Expired licenses are automatically deleted from the cache.
   
 
+## Web.config
+
+    <resizer>
+        <licenses>
+            <auto appId="{GUID}" />
+            <local use="mydomain.com" />
+            <license>
+                BASE64ENCODED   
+            </license>
+        <licenses>
+    </resizer>
 
 
