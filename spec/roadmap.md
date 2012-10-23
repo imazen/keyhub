@@ -3,18 +3,24 @@
 Estimation of hours and planning of items will be added shortly
 
 
-#Stage 1: License creation and management
+#Stage 1: Transaction import, User claiming, License creation, and App ID generation
 
 Scenario: users are able to login, claim licenses and get the application key.
 
 
-* Implement mediator between Ejunky and KeyHub to accept incoming ejunky messages (both single and multi-item) and push to KeyHub. At first stage only filter out parts needed. See stage 3 for later additions. 
-Note: KeyHub does not track transaction status. License is created upon Ejunky message and users can start using the license.
-How is communication secured?
+1. Implement reciever to accept incoming ejunky messages (both single and multi-item) and store to DB. We don't track transaction status - once the data arrives, we assume payment is complete. Communication is secured via a shared secret key in the querystring. HTTPS is used to secure the communication. Fields that do not have a matching field in the DB will be dumped into an XML field for later use. 
+
+Transaction volume is relatively low; XML overhead negligible in this instance. Transactions between 2006 and 2012: 903. Estimated size of each: 2-4KB. I.e, < 5MB overhead.
+
+2. Implement e-mail sending for received transactions and for manual 're-send' requests based on txn id or payer_emai.
+
+
+3. Add OpenID login support
+
 
 * Issue #12: Add extra field FeatureName to Feature. Add validation on editing FeatureCode to be GUID and unique. FeatureID will be primary key and cannot be changed.
 
-* Issue #11: When claiming license automatically create an application and application key. Show application key to user as key to add to web.config. Will the license tags in web.config be filled in based on validation result??  
+* Issue #11: When claiming license automatically create an application and application key if none exist. Show application key to user as key to add to web.config, as seen in validation.md.
 
 * Implement business rules to set License expiration date based on SKU properties.
 
@@ -25,24 +31,26 @@ How is communication secured?
 
 #Stage 2: License validation
 
-Scenario: libraries will be able to automatically validate licenses through the KeyHub REST service. KeyHub wil automatically track registered domains.
+Scenario: Vendors will be able to generate (encrypted) private keys and export/view the public key xml. Libraries will be able to request licenses from KeyHub (see Validation.md) and validate them. KeyHub will store the domain licenses it generates for future requests.
 
 * REST service license validation and encrypted licenses response.
 
-* Add private key bytes to SKU.
-
-* Issue #11: Domains will be automatically added upon license validation. Allow a way to delete unused domains. Do we actually need a way to add or edit a domain?
+* Issue #11: Domains will be automatically added upon license validation. Allow a way to delete unused domains. Do we actually need a way to add or edit a domain? Answer: yes, but manual domain creation/deletion can be stage 3.
 
 * Implement business rule to manage max allowed domains per license.
 
 * Allow vendors to manage the SKU private Key Bytes.
 
 
-#Stage 3: Extending usability
+#Stage 3: Adding download links, Extending usability
 
 Scenario: KeyHub supports the more advanced users supporting additional accounts and smoother transaction handling
 
+* Keyhub displays secured download links for each licensed product - can be provided via XML feed to KeyHub or through the DB.
+
 * Allow way to create a new application key when previous is compromised.
+
+* Allow manual (permanent) license generation for 'offline ode'
 
 * Finalize creation and management of user accounts.
 
@@ -51,4 +59,32 @@ Scenario: KeyHub supports the more advanced users supporting additional accounts
 
 #Stage 4: ApplicationIssues, Notification & extended features.
 
-Scenario: KeyHub tracks and communicates warnings and events.
+Scenario: Licesnse validation fails - KeyHub is responsible for sending notification e-mails to the appropriate recipients.
+Scenario: ImageResizer has issues on the diagnostics page (or is running a vulnerable version) - if configured, they will be sent to KeyHub, and e-mailed to all subscribed users.
+
+
+# Backlog
+
+The backlog is a list of to-do items that have not yet been assigned to a sprint/stage.
+
+1. Logged in users will be shown a dashboard, containing a list of their Applications and the number/severity of issues. Clicking an application will show its issues.
+3. Must be deployed in replicated configuration with DB backups
+4. E-mail validation to enable e-mail based claims
+6. Password reset ability
+7. Link/unlink openID
+
+# Nathanael's Backlog
+
+These are features I wish to add, but are outside the agreed scope
+
+1. Generate/display PDF invoice for a transaction. Assigned to Nathanael (not within agreement scope).
+2. Display upgrade cupon codes based on past purchases
+3. Display support contact information to contract holders.
+4. Display unused support incident information.
+5. Add support for old-style download link imports.
+6. Add support for multiple public keys
+7. Add newsletter/updates subscription checkbox
+
+
+
+
