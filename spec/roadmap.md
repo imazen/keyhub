@@ -3,46 +3,48 @@
 Estimation of hours and planning of items will be added shortly
 
 
-#Stage 1: Transaction import, User claiming, License creation, and App ID generation
+#Sprint 1: Transaction import, User claiming, License creation, and App ID generation
 
 Scenario: users are able to login, claim licenses and get the application key.
 
 
-1. Implement reciever to accept incoming ejunky messages (both single and multi-item) and store to DB. We don't track transaction status - once the data arrives, we assume payment is complete. Communication is secured via a shared secret key in the querystring. HTTPS is used to secure the communication. Fields that do not have a matching field in the DB will be dumped into an XML field for later use. 
+* 5 hrs: Extend transation REST service to accept incoming ejunky messages (both single and multi-item) and store to DB. We don't track transaction status - once the data arrives, we assume payment is complete. Entire Ejunky message will be dumped into an XML field for later use. 
 
 Transaction volume is relatively low; XML overhead negligible in this instance. Transactions between 2006 and 2012: 903. Estimated size of each: 2-4KB. I.e, < 5MB overhead.
 
-2. Implement e-mail sending for received transactions and for manual 're-send' requests based on txn id or payer_emai.
+* ? hrs: Secure communication to transation REST service via a shared secret key in the querystring.
+
+* 1 hrs: Set REST service to use HTTPS. Perhaps run entire KeyHub on HTTPS?
+
+* ? hrs: Add OpenID login support
+
+* 2 hrs: Issue #12: Add extra field FeatureName to Feature. Add validation on editing FeatureCode to be GUID and unique. FeatureID will be primary key and cannot be changed.
+
+* 5 hrs: Issue #11: When claiming license automatically create an application and application key if none exist. Show application key to user as key to add to web.config, as seen in validation.md.
+
+* 4 hrs: Implement business rules to set License expiration date based on SKU properties.
+
+* 3 hrs: Issue #10: CountryCode on Checkout & update content country list during initial DB creation
+
+* 2 hrs: Issue #9: department field optional
+
+* 6 hrs (optional): Implement e-mail sending for received transactions and for manual 're-send' requests based on txn id or payer_email.
 
 
-3. Add OpenID login support
-
-
-* Issue #12: Add extra field FeatureName to Feature. Add validation on editing FeatureCode to be GUID and unique. FeatureID will be primary key and cannot be changed.
-
-* Issue #11: When claiming license automatically create an application and application key if none exist. Show application key to user as key to add to web.config, as seen in validation.md.
-
-* Implement business rules to set License expiration date based on SKU properties.
-
-* Issue #10: CountryCode
-
-* Issue #9: department field optional
-
-
-#Stage 2: License validation
+#Sprint 2: License validation
 
 Scenario: Vendors will be able to generate (encrypted) private keys and export/view the public key xml. Libraries will be able to request licenses from KeyHub (see Validation.md) and validate them. KeyHub will store the domain licenses it generates for future requests.
 
 * REST service license validation and encrypted licenses response.
 
-* Issue #11: Domains will be automatically added upon license validation. Allow a way to delete unused domains. Do we actually need a way to add or edit a domain? Answer: yes, but manual domain creation/deletion can be stage 3.
+* Issue #11: Domains will be automatically added upon license validation. Domain duration will be based on SKU properties. Allow a way to delete unused domains. Do we actually need a way to add or edit a domain? Answer: yes, but manual domain creation/deletion can be stage 3.
 
 * Implement business rule to manage max allowed domains per license.
 
 * Allow vendors to manage the SKU private Key Bytes.
 
 
-#Stage 3: Adding download links, Extending usability
+#Sprint 3: Adding download links, Extending usability
 
 Scenario: KeyHub supports the more advanced users supporting additional accounts and smoother transaction handling
 
@@ -56,8 +58,10 @@ Scenario: KeyHub supports the more advanced users supporting additional accounts
 
 * Add additional ejunky fields to transaction. Automatically fill in customer fields or  even generate licenses based on incoming message.
 
+* Allow manual domain creation/deletion
 
-#Stage 4: ApplicationIssues, Notification & extended features.
+
+#Sprint 4: ApplicationIssues, Notification & extended features.
 
 Scenario: Licesnse validation fails - KeyHub is responsible for sending notification e-mails to the appropriate recipients.
 Scenario: ImageResizer has issues on the diagnostics page (or is running a vulnerable version) - if configured, they will be sent to KeyHub, and e-mailed to all subscribed users.
