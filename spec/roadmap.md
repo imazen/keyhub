@@ -6,6 +6,7 @@ Estimation of hours and planning of items will be added shortly
 #Sprint 1: Transaction import, User claiming, License creation, and App ID generation
 
 Scenario: users are able to login, claim licenses and get the application key.
+
 Estimated workload: 34 hours
 
 * 6 hrs: Extend transation REST service to accept incoming ejunky messages (both single and multi-item) and store to DB. We don't track transaction status - once the data arrives, we assume payment is complete. Entire Ejunky message will be dumped into an XML field for later use. 
@@ -18,7 +19,9 @@ Transaction volume is relatively low; XML overhead negligible in this instance. 
 * 1 hrs: Set REST service to use HTTPS. Perhaps run entire KeyHub on HTTPS?
 
 * 6 hrs: Add OpenID login support (like NerdDinner's MVC 4 example)
+
 http://tostring.it/2012/08/20/how-integrate-facebook-twitter-linkedin-yahoo-google-and-microsoft-account-with-your-asp-net-mvc-application/
+
 http://nerddinner.codeplex.com/SourceControl/changeset/view/8ea1ecf71b30#mvc4%2fNerdDinner%2fControllers%2fAccountController.cs
 
 * 2 hrs: Issue #12: Add extra field FeatureName to Feature. Add validation on editing FeatureCode to be GUID and unique. FeatureID will be primary key and cannot be changed.
