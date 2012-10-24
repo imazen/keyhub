@@ -58,6 +58,7 @@
     <Compile Include="Basket\InvalidPropertyException.cs" />
     <Compile Include="Caching\PerRequestCacheProvider.cs" />
     <Compile Include="Caching\RuntimeCacheProvider.cs" />
+    <Compile Include="LicenseValidation\LicenseValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
