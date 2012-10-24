@@ -7,14 +7,14 @@ Estimation of hours and planning of items will be added shortly
 
 Scenario: users are able to login, claim licenses and get the application key.
 
-Estimated workload: 34 hours
+Estimated workload: 36 hours
 
 * 6 hrs: Extend transation REST service to accept incoming ejunky messages (both single and multi-item) and store to DB. We don't track transaction status - once the data arrives, we assume payment is complete. Entire Ejunky message will be dumped into an XML field for later use. 
 Question: what return message is required. Note that SKU's could be expired.
 
 Transaction volume is relatively low; XML overhead negligible in this instance. Transactions between 2006 and 2012: 903. Estimated size of each: 2-4KB. I.e, < 5MB overhead.
 
-* ? hrs: Secure communication to transation REST service via a shared secret key in the querystring.
+* 2 hrs: Secure communication to transation REST service via a shared secret key in the querystring.
 
 * 1 hrs: Set REST service to use HTTPS. Perhaps run entire KeyHub on HTTPS?
 
