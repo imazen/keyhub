@@ -6,9 +6,10 @@ Estimation of hours and planning of items will be added shortly
 #Sprint 1: Transaction import, User claiming, License creation, and App ID generation
 
 Scenario: users are able to login, claim licenses and get the application key.
+Estimated workload: 34 hours
 
-
-* 5 hrs: Extend transation REST service to accept incoming ejunky messages (both single and multi-item) and store to DB. We don't track transaction status - once the data arrives, we assume payment is complete. Entire Ejunky message will be dumped into an XML field for later use. 
+* 6 hrs: Extend transation REST service to accept incoming ejunky messages (both single and multi-item) and store to DB. We don't track transaction status - once the data arrives, we assume payment is complete. Entire Ejunky message will be dumped into an XML field for later use. 
+Question: what return message is required. Note that SKU's could be expired.
 
 Transaction volume is relatively low; XML overhead negligible in this instance. Transactions between 2006 and 2012: 903. Estimated size of each: 2-4KB. I.e, < 5MB overhead.
 
@@ -16,19 +17,23 @@ Transaction volume is relatively low; XML overhead negligible in this instance. 
 
 * 1 hrs: Set REST service to use HTTPS. Perhaps run entire KeyHub on HTTPS?
 
-* ? hrs: Add OpenID login support
+* 6 hrs: Add OpenID login support (like NerdDinner's MVC 4 example)
+http://tostring.it/2012/08/20/how-integrate-facebook-twitter-linkedin-yahoo-google-and-microsoft-account-with-your-asp-net-mvc-application/
+http://nerddinner.codeplex.com/SourceControl/changeset/view/8ea1ecf71b30#mvc4%2fNerdDinner%2fControllers%2fAccountController.cs
 
 * 2 hrs: Issue #12: Add extra field FeatureName to Feature. Add validation on editing FeatureCode to be GUID and unique. FeatureID will be primary key and cannot be changed.
 
 * 5 hrs: Issue #11: When claiming license automatically create an application and application key if none exist. Show application key to user as key to add to web.config, as seen in validation.md.
 
-* 4 hrs: Implement business rules to set License expiration date based on SKU properties.
+* 3 hrs: Implement business rules to set License expiration date based on SKU properties.
+
+* 1 hrs: Implement business rules to follow SKU expiration date. Integrate check into the transaction REST service. Provides error message back if SKU has expired. SKU will not be part of the transaction.
 
 * 3 hrs: Issue #10: CountryCode on Checkout & update content country list during initial DB creation
 
 * 2 hrs: Issue #9: department field optional
 
-* 6 hrs (optional): Implement e-mail sending for received transactions and for manual 're-send' requests based on txn id or payer_email.
+* 5 hrs (optional): Implement e-mail sending for received transactions and for manual 're-send' requests based on txn id or payer_email.
 
 
 #Sprint 2: License validation
