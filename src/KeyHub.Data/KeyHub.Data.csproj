@@ -89,6 +89,7 @@
     <Compile Include="BusinessRules\IBusinessRule`.cs" />
     <Compile Include="BusinessRules\IBusinessRulesContext.cs" />
     <Compile Include="BusinessRules\BusinessRulesContext.cs" />
+    <Compile Include="BusinessRules\Rules\UniqueFeatureCodeRule.cs" />
     <Compile Include="Configuration\Application\CustomerAppConfiguration.cs" />
     <Compile Include="Configuration\Application\CustomerAppKeyConfiguration.cs" />
     <Compile Include="Configuration\Application\CustomerConfiguration.cs" />
@@ -125,6 +126,10 @@
     <Compile Include="Migrations\201208221530586_Rights.cs" />
     <Compile Include="Migrations\201208221530586_Rights.Designer.cs">
       <DependentUpon>201208221530586_Rights.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201210301401179_AddNameToFeature.cs" />
+    <Compile Include="Migrations\201210301401179_AddNameToFeature.Designer.cs">
+      <DependentUpon>201210301401179_AddNameToFeature.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\MigrationConfiguration.cs" />
     <Compile Include="Migrations\Internal\DbSeederMigrator.cs" />

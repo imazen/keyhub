@@ -24,13 +24,12 @@ namespace KeyHub.Web.Api.Controllers
         ///     POST http://localhost:63436/api/transaction/ HTTP/1.2
         ///     User-Agent: Fiddler
         ///     Host: localhost:63436
-        ///     Content-Length: 175
-        ///     Content-Type: application/json
-        ///     {
-        ///         "PurchasedSkus":["7F9D1879-DB96-4248-BE19-80D41F289322"],
-        ///         "PurchaserName":"Steven Somer",
-        ///         "PurchaserEmail":"steven@lucrasoft.nl"
-        ///     }
+        ///     Content-Length: 185
+        ///     Content-Type: application/xml
+        ///     <?xml version="1.0" encoding="utf-8"?>
+        ///     <TransactionRequest PurchaserName="Steven Somer" PurchaserEmail="steven@lucrasoft.nl">
+        ///         <PurchasedSku>{guid}</PurchasedSku>
+        ///     </TransactionRequest>
         /// </example> 
         public TransactionResult Post(TransactionRequest transaction)
         {

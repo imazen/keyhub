@@ -25,6 +25,7 @@ namespace KeyHub.Web.ViewModels.Feature
             FeatureId = feature.FeatureId;
             VendorId = feature.VendorId;
             FeatureCode = feature.FeatureCode;
+            FeatureName = feature.FeatureName;
         }
 
         /// <summary>
@@ -38,6 +39,7 @@ namespace KeyHub.Web.ViewModels.Feature
 
             current.VendorId = this.VendorId;
             current.FeatureCode = this.FeatureCode;
+            current.FeatureName = this.FeatureName;
 
             return current;
         }
@@ -59,7 +61,12 @@ namespace KeyHub.Web.ViewModels.Feature
         /// The unique code for this feature
         /// </summary>
         [Required]
-        [StringLength(256)]
-        public string FeatureCode { get; set; }
+        public Guid FeatureCode { get; set; }
+
+        /// <summary>
+        /// The name for this feature
+        /// </summary>
+        [Required]
+        public String FeatureName { get; set; }
     }
 }

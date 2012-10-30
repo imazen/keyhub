@@ -15,6 +15,9 @@
     <thead>
     <tr>
         <th>
+            @Html.DisplayNameFor(model => model.Features.FirstOrDefault().FeatureName)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Features.FirstOrDefault().FeatureCode)
         </th>
         <th>
@@ -27,8 +30,11 @@
 @foreach (var item in Model.Features) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.FeatureCode)
+            @Html.DisplayFor(modelItem => item.FeatureName)
             @*@Html.ActionLink("Edit", "Edit", new { key = item.FeatureId })*@
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FeatureCode)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.VendorName)

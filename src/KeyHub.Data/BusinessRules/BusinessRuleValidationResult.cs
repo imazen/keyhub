@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using KeyHub.Model;
 
 namespace KeyHub.Data.BusinessRules
 {
@@ -25,6 +27,11 @@ namespace KeyHub.Data.BusinessRules
         public string ErrorMessage { get; set; }
 
         /// <summary>
+        /// Gets the entity propety that failed validation
+        /// </summary>
+        public string PropertyName { get; set; }
+
+        /// <summary>
         /// Constructs a new validation result class without a business role
         /// </summary>
         /// <param name="message">The error message to include</param>
@@ -38,11 +45,12 @@ namespace KeyHub.Data.BusinessRules
         /// Constructs a new validation result class
         /// </summary>
         /// <param name="message">The error message to include</param>
-        /// <pparam name="rule">The business rule that instantiated this result</pparam>
-        public BusinessRuleValidationResult(string message, IBusinessRule rule)
+        /// <param name="rule">The business rule that instantiated this result</param>
+        public BusinessRuleValidationResult(string message, IBusinessRule rule, string propertyName)
             : this(message)
         {
             BusinessRuleName = rule.BusinessRuleName;
+            PropertyName = propertyName;
         }
     }
 }

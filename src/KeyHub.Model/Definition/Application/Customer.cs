@@ -23,7 +23,6 @@ namespace KeyHub.Model
         /// <summary>
         /// The department this Customer is buying for/from
         /// </summary>
-        [Required]
         [StringLength(512)]
         public string Department { get; set; }
 

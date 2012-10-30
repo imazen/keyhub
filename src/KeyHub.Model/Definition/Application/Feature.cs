@@ -15,8 +15,14 @@ namespace KeyHub.Model
     /// Each plugin would typically get its own feature code. Eg. performance would include 3
     /// feature codes right now: DiskCache, PrettyGifs, and AnimatedGifs.
     /// </summary>
-    public class Feature
+    public class Feature : IModelItem
     {
+        public Feature()
+        {
+            SkuFeatures = new List<SkuFeature>();
+            FeatureCode = Guid.NewGuid();
+        }
+
         /// <summary>
         /// Indentifier for the Feature entity
         /// </summary>
@@ -40,9 +46,15 @@ namespace KeyHub.Model
         /// The unique code for this feature
         /// </summary>
         [Required]
+        public Guid FeatureCode { get; set; }
+
+        /// <summary>
+        /// The name for this feature
+        /// </summary>
+        [Required]
         [StringLength(256)]
         [Column(TypeName = "varchar")]
-        public string FeatureCode { get; set; }
+        public string FeatureName { get; set; }
 
         /// <summary>
         /// The list of SKU's this feature is part of

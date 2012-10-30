@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using KeyHub.Data;
 using KeyHub.Web.Models;
+using KeyHub.Web.ViewModels;
 
 namespace KeyHub.Web.Controllers
 {
@@ -29,6 +30,6 @@ namespace KeyHub.Web.Controllers
                 }
                 return null;
             }
-        }       
+        }
     }
 }

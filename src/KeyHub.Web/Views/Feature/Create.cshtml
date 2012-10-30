@@ -14,6 +14,14 @@
         <legend>FeatureViewModel</legend>
 
         @Html.HiddenFor(model => model.Feature.FeatureId)
+        
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Feature.FeatureName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Feature.FeatureName)
+            @Html.ValidationMessageFor(model => model.Feature.FeatureName)
+        </div>
 
         <div class="editor-label">
             @Html.LabelFor(model => model.Feature.FeatureCode)

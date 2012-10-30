@@ -23,9 +23,9 @@ namespace KeyHub.BusinessLogic.LicenseValidation
         {
             using (var context = new DataContext())
             {
-                var application = (from x in context.CustomerApps where x.CustomerAppId == customerAppId select x).Include(x => x.LicenseCustomerApps.li).FirstOrDefault();
+                //var application = (from x in context.CustomerApps where x.CustomerAppId == customerAppId select x).Include(x => x.LicenseCustomerApps.li).FirstOrDefault();
 
-
+                return "";
             }
         }
     }

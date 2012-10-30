@@ -210,6 +210,24 @@ namespace KeyHub.Data
         }
 
         /// <summary>
+        /// Saves changes to the datacontext while providing an action for validation results.
+        /// </summary>
+        /// <param name="validationFailedAction">The action to be executed when validation has failed.</param>
+        public Boolean SaveChanges(Action<BusinessRuleValidationException> validationFailedAction)
+        {
+            try
+            {
+                SaveChanges();
+                return true;
+            }
+            catch (BusinessRuleValidationException ex)
+            {
+                validationFailedAction(ex);
+            }
+            return false;
+        }
+
+        /// <summary>
         /// Overridden validationresult to include 
         /// </summary>
         /// <param name="entityEntry"></param>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -28,7 +29,7 @@ namespace KeyHub.Web.ViewModels.SKU
 
             VendorList = vendors.ToSelectList(x => x.ObjectId, x => x.Name);
             PrivateKeyList = privateKeys.ToSelectList(x => x.PrivateKeyId, x => x.DisplayName);
-            FeatureList = features.ToMultiSelectList(x => x.FeatureId, x => x.FeatureCode);
+            FeatureList = features.ToMultiSelectList(x => x.FeatureId, x => x.FeatureName);
         }
 
         /// <summary>
@@ -105,6 +106,7 @@ namespace KeyHub.Web.ViewModels.SKU
         /// <summary>
         /// Guid list of assigned features
         /// </summary>
+        [DisplayName("Features")]
         public List<Guid> SelectedFeatureGUIDs { get; set; }
     }
 }

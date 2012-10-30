@@ -65,7 +65,7 @@ namespace KeyHub.Data.BusinessRules
         /// Gets the business rule name
         /// </summary>
         public abstract string BusinessRuleName { get; }
-
+        
         #endregion
     }
 }

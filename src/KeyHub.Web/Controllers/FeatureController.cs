@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using KeyHub.Data.BusinessRules;
 using KeyHub.Runtime;
 using KeyHub.Web.ViewModels.Feature;
 using KeyHub.Data;
@@ -60,26 +61,27 @@ namespace KeyHub.Web.Controllers
         [HttpPost]
         public ActionResult Create(FeatureCreateViewModel viewModel)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                using (var context = new DataContext(User.Identity))
                 {
-                    using (DataContext context = new DataContext(User.Identity))
-                    {
-                        Model.Feature feature = viewModel.ToEntity(null);
-                        context.Features.Add(feature);
-                        context.SaveChanges();
-                    }
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    return View(viewModel);
+                    var feature = viewModel.ToEntity(null);
+                    context.Features.Add(feature);
+
+                    if (context.SaveChanges(CreateValidationFailed))
+                        return RedirectToAction("Index");
                 }
             }
-            catch
+
+            //Viewmodel invalid, recall create
+            return Create();
+        }
+
+        private void CreateValidationFailed(BusinessRuleValidationException businessRuleValidationException)
+        {
+            foreach (var error in businessRuleValidationException.ValidationResults.Where(x => x != BusinessRuleValidationResult.Success))
             {
-                throw;
+                ModelState.AddModelError("Feature." + error.PropertyName, error.ErrorMessage);
             }
         }
 
@@ -109,29 +111,18 @@ namespace KeyHub.Web.Controllers
         [HttpPost]
         public ActionResult Edit(FeatureEditViewModel viewModel)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                using (DataContext context = new DataContext(User.Identity))
                 {
-                    using (DataContext context = new DataContext(User.Identity))
-                    {
-                        Model.Feature feature = (from f in context.Features where f.FeatureId == viewModel.Feature.FeatureId select f).FirstOrDefault();
+                    Model.Feature feature = (from f in context.Features where f.FeatureId == viewModel.Feature.FeatureId select f).FirstOrDefault();
+                    viewModel.ToEntity(feature);
 
-                        viewModel.ToEntity(feature);
-
-                        context.SaveChanges();
-                    }
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    return View(viewModel);
+                    if (context.SaveChanges(CreateValidationFailed))
+                        return RedirectToAction("Index");
                 }
             }
-            catch
-            {
-                throw;
-            }
+            return Edit(viewModel.Feature.FeatureId);
         }
     }
 }

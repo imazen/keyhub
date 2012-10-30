@@ -25,7 +25,7 @@ namespace KeyHub.Web.ViewModels.SKU
             foreach (Model.SKU entity in skuList)
             {
                 SKUs.Add(new SKUIndexViewItem(entity, entity.Vendor, entity.PrivateKey, 
-                    entity.SkuFeatures.OrderBy(x => x.Feature.FeatureCode)));
+                    entity.SkuFeatures.OrderBy(x => x.Feature.FeatureName)));
             }
         }
 
@@ -55,7 +55,7 @@ namespace KeyHub.Web.ViewModels.SKU
         {
             VendorName = vendor.Name;
             PrivateKeyName = privateKey.DisplayName;
-            FeatureSummary = skuFeatures.ToSummary(x => x.Feature.FeatureCode, 3, ", ");
+            FeatureSummary = skuFeatures.ToSummary(x => x.Feature.FeatureName, 3, ", ");
         }
 
         /// <summary>

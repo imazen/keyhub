@@ -7,7 +7,7 @@
 
 <h2>@ViewBag.ItemName <span>@ViewBag.Title</span></h2>
 
-@if(Model.CurrentUser.IsVendorAdmin)
+@if(Model.CurrentUser.IsVendorAdmin || Model.CurrentUser.IsSystemAdmin)
 {
     <p>
         @Html.ActionLink("Create New Customer", "Create", null, new {@class = "Btn New"})
