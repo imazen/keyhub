@@ -136,8 +136,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\Controllers\LicenseValidationRequest.cs" />
     <Compile Include="Api\Controllers\InvalidPropertyException.cs" />
     <Compile Include="Api\Controllers\LicenseValidationController.cs" />
+    <Compile Include="Api\Controllers\LicenseValidationResult.cs" />
+    <Compile Include="Api\Controllers\TransactionRequest.cs" />
+    <Compile Include="Api\Controllers\TransactionResult.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />

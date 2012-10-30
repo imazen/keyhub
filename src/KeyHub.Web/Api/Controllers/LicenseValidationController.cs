@@ -8,119 +8,46 @@ using KeyHub.BusinessLogic.LicenseValidation;
 
 namespace KeyHub.Web.Api.Controllers
 {
+    /// <summary>
+    /// REST controller for validating licenses
+    /// </summary>
     public class LicenseValidationController : ApiController
     {
-
-
-
         /// <summary>
-        /// Http verification post
+        /// License validation post
         /// </summary>
-        /// <param name="licenseRequest">Transaction to create</param>
-        /// <returns>TransactionResult containing success and optional errormessage</returns>
-        public licenserequest Post([FromBody] licenserequest request)
+        /// <param name="request">LicenseValidationRequest to validate</param>
+        /// <returns>LicenseValidationResult with validation result</returns>
+        /// <example>
+        ///     POST http://localhost:63436/api/licensevalidation/ HTTP/1.2
+        ///     User-Agent: Fiddler
+        ///     Host: localhost:63436
+        ///     Content-Length: 357
+        ///     Content-Type: application/xml
+        ///     <?xml version="1.0" encoding="utf-8"?>
+        ///     <LicenseValidationRequest>
+        ///         <AppId>{guid}</AppId>
+        ///         <Domains>
+        ///             <Domain name="microsoft.com">
+        ///                 <Feature>{guid}</Feature>
+        ///                 <Feature>{guid}</Feature>
+        ///             </Domain>
+        ///             <Domain name="microsoft.com">
+        ///                 <Feature>{guid}</Feature>
+        ///                 <Feature>{guid}</Feature>
+        ///             </Domain>
+        ///         </Domains>
+        ///     </LicenseValidationRequest>
+        /// </example> 
+        public LicenseValidationResult Post([FromBody] LicenseValidationRequest request)
         {
-            //var test = new DomainValidation(validationRequest.licenseRequest.appId, )
-            //LicenseValidator.ValidateLicense();
+            var domainsToValidate = (from x in request.Domains select new DomainValidation(x.name, x.Feature)).ToList();
+            
+            LicenseValidator.ValidateLicense(request.AppId, domainsToValidate);
 
-            return request;
+            return new LicenseValidationResult();
         }
     }
 
 
-    /// <remarks/>
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
-    public partial class licenserequest
-    {
-
-        private string appIdField;
-
-        private licenserequestDomains domainsField;
-
-        /// <remarks/>
-        public string appId
-        {
-            get
-            {
-                return this.appIdField;
-            }
-            set
-            {
-                this.appIdField = value;
-            }
-        }
-
-        /// <remarks/>
-        public licenserequestDomains domains
-        {
-            get
-            {
-                return this.domainsField;
-            }
-            set
-            {
-                this.domainsField = value;
-            }
-        }
-    }
-
-    /// <remarks/>
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    public partial class licenserequestDomains
-    {
-
-        private licenserequestDomainsDomain domainField;
-
-        /// <remarks/>
-        public licenserequestDomainsDomain domain
-        {
-            get
-            {
-                return this.domainField;
-            }
-            set
-            {
-                this.domainField = value;
-            }
-        }
-    }
-
-    /// <remarks/>
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    public partial class licenserequestDomainsDomain
-    {
-
-        private string[] featureField;
-
-        private string nameField;
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("feature")]
-        public string[] feature
-        {
-            get
-            {
-                return this.featureField;
-            }
-            set
-            {
-                this.featureField = value;
-            }
-        }
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string name
-        {
-            get
-            {
-                return this.nameField;
-            }
-            set
-            {
-                this.nameField = value;
-            }
-        }
-    }
 }
