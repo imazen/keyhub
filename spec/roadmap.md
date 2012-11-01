@@ -24,7 +24,7 @@ http://tostring.it/2012/08/20/how-integrate-facebook-twitter-linkedin-yahoo-goog
 
 http://nerddinner.codeplex.com/SourceControl/changeset/view/8ea1ecf71b30#mvc4%2fNerdDinner%2fControllers%2fAccountController.cs
 
-* 2 hrs: Issue #12: Add extra field FeatureName to Feature. Add validation on editing FeatureCode to be GUID and unique. FeatureID will be primary key and cannot be changed.
+* DONE: Issue #12: Add extra field FeatureName to Feature. Add validation on editing FeatureCode to be GUID and unique. FeatureID will be primary key and cannot be changed.
 
 * 5 hrs: Issue #11: When claiming license automatically create an application and application key if none exist. Show application key to user as key to add to web.config, as seen in validation.md.
 
@@ -34,7 +34,7 @@ http://nerddinner.codeplex.com/SourceControl/changeset/view/8ea1ecf71b30#mvc4%2f
 
 * 3 hrs: Issue #10: CountryCode on Checkout & update content country list during initial DB creation
 
-* 2 hrs: Issue #9: department field optional
+* DONE: Issue #9: department field optional
 
 * 5 hrs (optional): Implement e-mail sending for received transactions and for manual 're-send' requests based on txn id or payer_email.
 
