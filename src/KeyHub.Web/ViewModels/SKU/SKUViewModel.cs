@@ -72,7 +72,7 @@ namespace KeyHub.Web.ViewModels.SKU
         /// <summary>
         /// Indentifier for the SKU entity
         /// </summary>
-        [HiddenInput(DisplayValue = false)]
+        [DisplayName("Sku key")]
         public Guid SkuId { get; set; }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace KeyHub.Web.ViewModels.SKU
         /// </summary>
         [Required]
         [StringLength(256)]
-        [DisplayName("Code")]
+        [DisplayName("Name")]
         public string SkuCode { get; set; }
 
         /// <summary>

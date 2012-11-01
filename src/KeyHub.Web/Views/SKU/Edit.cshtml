@@ -13,7 +13,13 @@
     <fieldset>
         <legend>SKUViewModel</legend>
 
-        @Html.HiddenFor(model => model.SKU.SkuId)
+        <div class="editor-label">
+            @Html.LabelFor(model => model.SKU.SkuId)
+        </div>
+        <div class="editor-field">
+            @Html.HiddenFor(model => model.SKU.SkuId)
+            @Html.DisplayFor(model => model.SKU.SkuId)
+        </div>
 
         <div class="editor-label">
             @Html.LabelFor(model => model.SKU.VendorId)
