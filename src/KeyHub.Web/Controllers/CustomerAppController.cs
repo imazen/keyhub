@@ -60,6 +60,7 @@ namespace KeyHub.Web.Controllers
                                         select x)
                                         .Include(x => x.LicenseCustomerApps)
                                         .Include(x => x.LicenseCustomerApps.Select(s => s.License))
+                                        .Include(x => x.CustomerAppKeys)
                                         .ToList();
 
                 var viewModel = new CustomerAppIndexViewModel(customerApps);
@@ -105,7 +106,14 @@ namespace KeyHub.Web.Controllers
 
                         //Offload adding CustomerAppLicenses to Dynamic SKU Model
                         customerApp.AddLicenses(viewModel.GetNewLicenseGUIDs());
+                        context.SaveChanges();
 
+                        //Create customer application key
+                        var customerAppKey = new Model.CustomerAppKey()
+                        {
+                            CustomerAppId = customerApp.CustomerAppId
+                        };
+                        context.CustomerAppKeys.Add(customerAppKey);
                         context.SaveChanges();
                     }
 
@@ -169,6 +177,13 @@ namespace KeyHub.Web.Controllers
                         //Offload adding CustomerAppLicenses to Dynamic SKU Model
                         customerApp.AddLicenses(viewModel.GetNewLicenseGUIDs());
 
+                        //Create customer application key
+                        var customerAppKey = new Model.CustomerAppKey()
+                        {
+                            CustomerAppId = customerApp.CustomerAppId
+                        };
+                        context.CustomerAppKeys.Add(customerAppKey);
+
                         context.SaveChanges();
                     }
 
@@ -204,8 +219,8 @@ namespace KeyHub.Web.Controllers
                 var customerAppQuery = from x in context.CustomerApps where x.CustomerAppId == key select x;
                 var licenseQuery = from x in context.Licenses select x;
 
-                var viewModel = new CustomerAppEditViewModel(customerAppQuery.FirstOrDefault(),
-                    licenseQuery.ToList());
+                var viewModel = new CustomerAppEditViewModel(customerAppQuery.FirstOrDefault(), licenseQuery.ToList()) 
+                        { RedirectUrl = (Request.UrlReferrer != null) ? Request.UrlReferrer.ToString() : "" };
 
                 return View(viewModel);
             }

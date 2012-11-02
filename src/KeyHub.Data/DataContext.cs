@@ -56,7 +56,7 @@ namespace KeyHub.Data
             }
             else
             {
-                this.TransactionItems = new FilteredDbSet<TransactionItem>(this, ti => ti.LicenseId != null && authorizedLicenseIds.Contains((Guid)ti.LicenseId));
+                this.TransactionItems = new FilteredDbSet<TransactionItem>(this, ti => authorizedLicenseIds.Contains((Guid)ti.LicenseId));
             }
 
             //Transaction Items app dependant entities
@@ -77,43 +77,52 @@ namespace KeyHub.Data
         /// Gets a datacontext based on single transaction ID
         /// </summary>
         /// <returns>Returns a single transaction access datacontext</returns>
-        public DataContext(int transactionID)
+        public DataContext(IIdentity userIdentity, int transactionID)
             : base()
         {
-            this.Transactions = new FilteredDbSet<Transaction>(this, x => x.TransactionId == transactionID);
-            this.TransactionItems = new FilteredDbSet<TransactionItem>(this, x => x.TransactionId == transactionID);
+            var currentUser = this.GetUserByIdentity(userIdentity);
 
-            var authorizedSKUs = (from t in TransactionItems select t.SkuId).ToList();
-            this.SKUs = new FilteredDbSet<SKU>(this, x => authorizedSKUs.Contains(x.SkuId));
+            //Vendor dependant entities.
+            var authorizedVendorIds = ResolveAuthorizedVendorsByUser(currentUser);
+            this.Vendors = new FilteredDbSet<Vendor>(this, v => authorizedVendorIds.Contains(v.ObjectId));
+            this.Features = new FilteredDbSet<Feature>(this, f => authorizedVendorIds.Contains(f.VendorId));
 
-            var authorizedLicenses = (from t in TransactionItems select t.LicenseId).ToList();
-            this.Licenses = new FilteredDbSet<License>(this, x => authorizedLicenses.Contains(x.ObjectId));
+            //License dependant entities.
+            var authorizedLicenseIds = ResolveAuthorizedLicensesByUser(currentUser)
+                                       .Union(ResolveAuthorizedLicensesByTransactionId(transactionID));
+            this.Licenses = new FilteredDbSet<License>(this, l => authorizedLicenseIds.Contains(l.ObjectId));
+            this.LicenseCustomerApps = new FilteredDbSet<LicenseCustomerApp>(this, lc => authorizedLicenseIds.Contains(lc.LicenseId));
 
-            //No access to other entities
-            this.Vendors = new FilteredDbSet<Vendor>(this, x => false);
-            this.Features = new FilteredDbSet<Feature>(this, x => false);
-            this.Customers = new FilteredDbSet<Customer>(this, x => false);
-            this.LicenseCustomerApps = new FilteredDbSet<LicenseCustomerApp>(this, x => false);
-            this.CustomerApps = new FilteredDbSet<CustomerApp>(this, x => false);
-        }
+            //SKU dependant entities.
+            var authorizedSKUIds = ResolveAuthorizedSKUsByAuthorizedLicenses()
+                                   .Union(ResolveAuthorizedSKUsByAuthorizedVendors());
+            this.SKUs = new FilteredDbSet<SKU>(this, s => authorizedSKUIds.Contains(s.SkuId));
 
-        /// <summary>
-        /// Gets a transaction write only datacontext
-        /// </summary>
-        /// <returns>Returns a single transaction access datacontext</returns>
-        public DataContext(bool transactionID)
-            : base()
-        {
-            this.Transactions = new FilteredDbSet<Transaction>(this);
-            this.TransactionItems = new FilteredDbSet<TransactionItem>(this);
+            //Transaction items depends on current user role
+            if (currentUser.IsVendorAdmin)
+            {
+                this.TransactionItems = new FilteredDbSet<TransactionItem>(this, ti => authorizedSKUIds.Contains(ti.SkuId));
+            }
+            else
+            {
+                //Depends on licenses and provided transaction
+                var transactionItemIdsByTransaction = ResolveAuthorizedTransactionItemsByTransactionId(transactionID);
+                this.TransactionItems = new FilteredDbSet<TransactionItem>(this, ti => ((authorizedLicenseIds.Contains((Guid)ti.LicenseId)) || (transactionItemIdsByTransaction.Contains(ti.TransactionItemId))));
+            }
 
-            this.Vendors = new FilteredDbSet<Vendor>(this, x => false);
-            this.SKUs = new FilteredDbSet<SKU>(this, x => false);
-            this.Features = new FilteredDbSet<Feature>(this, x => false);
-            this.Licenses = new FilteredDbSet<License>(this, x => false);
-            this.Customers = new FilteredDbSet<Customer>(this, x => false);
-            this.LicenseCustomerApps = new FilteredDbSet<LicenseCustomerApp>(this, x => false);
-            this.CustomerApps = new FilteredDbSet<CustomerApp>(this, x => false);
+            //Transaction Items app dependant entities
+            var authorizedTransactions = ResolveAuthorizedTransactionsByAuthorizedTransactionItems();
+            this.Transactions = new FilteredDbSet<Transaction>(this, t => authorizedTransactions.Contains(t.TransactionId));
+
+            //Customer app dependant entities
+            var authorizedCustomerApps = (from c in this.LicenseCustomerApps select c.CustomerAppId).ToList();
+            this.CustomerApps = new FilteredDbSet<CustomerApp>(this, c => authorizedCustomerApps.Contains(c.CustomerAppId));
+
+            //Customer dependant entities
+            var authorizedCustomerIds = ResolveAuthorizedCustomersByAuthorizedLicenses()
+                                    .Union(ResolveAuthorizedCustomersByUser(currentUser));
+            this.Customers = new FilteredDbSet<Customer>(this, c => authorizedCustomerIds.Contains(c.ObjectId));
+
         }
 
         /// <summary>
@@ -337,6 +346,22 @@ namespace KeyHub.Data
             return (from l in this.Licenses select l.PurchasingCustomerId).ToList()
                    .Union
                    (from l in this.Licenses select l.OwningCustomerId).ToList();
+        }
+
+        /// <summary>
+        /// Resolve authorized transactionItems by transaction ID
+        /// </summary>
+        private IEnumerable<int> ResolveAuthorizedTransactionItemsByTransactionId(int transactionId)
+        {
+            return (from x in this.Set<TransactionItem>() where x.TransactionId == transactionId select x.TransactionItemId).ToList();
+        }
+
+        /// <summary>
+        /// Resolve authorized licenses by transaction ID
+        /// </summary>
+        private IEnumerable<Guid> ResolveAuthorizedLicensesByTransactionId(int transactionId)
+        {
+            return (from x in this.Set<TransactionItem>() where x.TransactionId == transactionId && x.LicenseId.HasValue select x.LicenseId.Value).ToList();
         }
         #endregion
     }

@@ -17,6 +17,9 @@
             @Html.DisplayNameFor(model => model.CustomerApps.FirstOrDefault().ApplicationName)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.CustomerApps.FirstOrDefault().ActiveCustomerAppKey)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.CustomerApps.FirstOrDefault().LicenseSummary)
         </th>
         <th></th>
@@ -29,6 +32,9 @@
         <td>
             @Html.DisplayFor(modelItem => item.ApplicationName)
             @*@Html.ActionLink("Edit", "Edit", new { key = item.CustomerAppId })*@
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ActiveCustomerAppKey)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.LicenseSummary)

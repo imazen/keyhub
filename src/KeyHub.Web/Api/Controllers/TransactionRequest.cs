@@ -8,6 +8,8 @@ namespace KeyHub.Web.Api.Controllers
     /// <summary>
     /// Transaction object
     /// </summary>
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
     public class TransactionRequest
     {
         [System.Xml.Serialization.XmlElementAttribute("PurchasedSku")]
@@ -19,4 +21,8 @@ namespace KeyHub.Web.Api.Controllers
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string PurchaserEmail { get; set; }
     }
+
+
+
+
 }

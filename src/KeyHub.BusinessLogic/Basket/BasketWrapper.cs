@@ -28,9 +28,9 @@ namespace KeyHub.BusinessLogic.Basket
             context = new DataContext(userIdentity);
         }
 
-        private BasketWrapper(int transactionId)
+        private BasketWrapper(IIdentity userIdentity, int transactionId)
         {
-            context = new DataContext(transactionId);
+            context = new DataContext(userIdentity, transactionId);
         }
 
         /// <summary>
@@ -65,13 +65,12 @@ namespace KeyHub.BusinessLogic.Basket
         /// </remarks>
         public static BasketWrapper GetByTransactionId(IIdentity userIdentity, int transactionId)
         {
-            BasketWrapper basket = new BasketWrapper(userIdentity);
+            BasketWrapper basket = new BasketWrapper(userIdentity, transactionId);
             bool transactionLoaded = basket.LoadTransaction(transactionId);
 
             if (!transactionLoaded)
             {
-                basket = new BasketWrapper(transactionId);
-                basket.LoadTransaction(transactionId);
+                throw new Exception();
             }
 
             return basket;
@@ -143,7 +142,7 @@ namespace KeyHub.BusinessLogic.Basket
 
                     break;
                 case BasketSteps.Checkout:
-                    User currentUser = context.GetUserByIdentity(HttpContext.Current.User.Identity);
+                    var currentUser = context.GetUserByIdentity(HttpContext.Current.User.Identity);
 
                     //Add PurchasingCustomer if none existing
                     if (this.PurchasingCustomer.ObjectId == new Guid())
@@ -183,11 +182,11 @@ namespace KeyHub.BusinessLogic.Basket
                     }
 
                     //Create licenses for every transactionitem
-                    foreach (TransactionItem item in Transaction.TransactionItems)
+                    foreach (var item in Transaction.TransactionItems)
                     {
                         if (item.License == null)
                         {
-                            License newLicense = new Model.License()
+                            var newLicense = new Model.License()
                             {
                                 SkuId = item.SkuId,
                                 PurchasingCustomerId = this.PurchasingCustomer.ObjectId,
@@ -200,6 +199,40 @@ namespace KeyHub.BusinessLogic.Basket
 
                             item.License = newLicense;
                         }
+                    }
+                    context.SaveChanges();
+
+                    var existingCustomerApps = (from x in context.Licenses
+                                join y in context.LicenseCustomerApps on x.ObjectId equals y.LicenseId
+                                where x.OwningCustomerId == this.OwningCustomer.ObjectId
+                                select y.CustomerApp).ToList();
+
+                    //Add to any existing apps
+                    if (existingCustomerApps.Any())
+                    {
+                        foreach (var customerApp in existingCustomerApps)
+                        {
+                            customerApp.AddLicenses((from x in Transaction.TransactionItems select x.License.ObjectId));
+                        }
+                        context.SaveChanges();
+                    }
+                    else
+                    {
+                        //Create default application containing all licenses
+                        var newCustomerApp = new Model.CustomerApp()
+                                                 {
+                                                     ApplicationName = this.OwningCustomer.Name + "_Application"
+                                                 };
+                        context.CustomerApps.Add(newCustomerApp);
+                        newCustomerApp.AddLicenses((from x in Transaction.TransactionItems select x.License.ObjectId));
+                        context.SaveChanges();
+
+                        //Create customer application key
+                        var customerAppKey = new Model.CustomerAppKey()
+                                                 {
+                                                     CustomerAppId = newCustomerApp.CustomerAppId
+                                                 };
+                        context.CustomerAppKeys.Add(customerAppKey);
                     }
                     Transaction.Status = TransactionStatus.Complete;
                     break;

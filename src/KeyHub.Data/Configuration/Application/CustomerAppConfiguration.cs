@@ -22,6 +22,7 @@ namespace KeyHub.Data.DataConfiguration
                 m.MapInheritedProperties();
                 m.ToTable("CustomerApps");
             });
+            HasMany(x => x.CustomerAppKeys).WithRequired(x => x.CustomerApp).WillCascadeOnDelete(false);
         }
 
         public void AddConfiguration(System.Data.Entity.ModelConfiguration.Configuration.ConfigurationRegistrar registrar)

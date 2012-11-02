@@ -146,15 +146,15 @@ namespace KeyHub.Web.Controllers
         {
             int transactionID = Common.Utils.SafeConvert.ToInt(key.DecryptUrl(), -1);
 
-            using (DataContext context = new DataContext(transactionID))
+            using (DataContext context = new DataContext(User.Identity, transactionID))
             {
                 var transaction = (from x in context.Transactions where x.TransactionId == transactionID select x)
-                                  .Include(x => x.TransactionItems.Select(s => s.Sku))
-                                  .Include(x => x.TransactionItems.Select(s => s.License))
-                                  .FirstOrDefault();
-                    
+                    .Include(x => x.TransactionItems.Select(s => s.Sku))
+                    .Include(x => x.TransactionItems.Select(s => s.License))
+                    .FirstOrDefault();
+
                 if (transaction == null)
-                    throw new EntityNotFoundException("Transaction could not be resolved!"); 
+                    throw new EntityNotFoundException("Transaction could not be resolved!");
 
                 if (transaction.Status != TransactionStatus.Create)
                     throw new EntityOperationNotSupportedException("Transaction is already claimed!");
@@ -163,6 +163,7 @@ namespace KeyHub.Web.Controllers
 
                 return View(viewModel);
             }
+
         }
 
         /// <summary>

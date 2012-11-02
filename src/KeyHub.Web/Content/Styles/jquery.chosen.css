@@ -313,7 +313,7 @@ DIV.chzn-container .chzn-results-scroll-up span {
   background: url("../Images/bgChosenSprite.png") no-repeat -38px -22px, -moz-linear-gradient(top, #eeeeee 1%, white 15%);
   background: url("../Images/bgChosenSprite.png") no-repeat -38px -22px, -o-linear-gradient(top, #eeeeee 1%, white 15%);
   background: url("../Images/bgChosenSprite.png") no-repeat -38px -22px, -ms-linear-gradient(top, #eeeeee 1%, white 15%);
-  background: url("../Images/bgChosenSprite.png") no-repeat -38px -22px, linear-gradient(top, #eeeeee 1%, white 15%);
+  background: url("../Images/bgChosenSprite.png") no-repeat -38px -22px, linear-gradient(to bottom, #eeeeee 1%, white 15%);
   padding: 4px 5px 4px 20px;
   direction: rtl; }
 

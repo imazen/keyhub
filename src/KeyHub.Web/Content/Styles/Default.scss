@@ -83,11 +83,6 @@ A.Logo{
 	}
 }
 
-
-
-
-
-
 A.Btn, INPUT[type=submit],  INPUT[type=button]{
 	line-height: 30px;
 	height: 30px;
@@ -108,4 +103,10 @@ INPUT[type=submit],INPUT[type=button]{
 	&:hover,&:focus{
 	background: $colorActive_Hover;
 	}
+}
+
+.CodeExample{
+	width: 500px;
+	height: 100px;
+
 }

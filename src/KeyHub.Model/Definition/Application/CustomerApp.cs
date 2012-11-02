@@ -16,6 +16,7 @@ namespace KeyHub.Model
         public CustomerApp()
         {
             LicenseCustomerApps = new List<LicenseCustomerApp>();
+            CustomerAppKeys = new List<CustomerAppKey>();
         }
 
         /// <summary>
@@ -36,5 +37,10 @@ namespace KeyHub.Model
         /// A list of LicenseCustomerApp (<see cref="License"/>) this application is associated with
         /// </summary>
         public virtual ICollection<LicenseCustomerApp> LicenseCustomerApps { get; set; }
+
+        /// <summary>
+        /// A list of CustomerAppKeys (<see cref="CustomerAppKey"/>) of this application
+        /// </summary>
+        public virtual ICollection<CustomerAppKey> CustomerAppKeys { get; set; }
     }
 }

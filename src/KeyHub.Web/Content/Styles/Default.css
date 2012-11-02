@@ -45,7 +45,7 @@ INPUT.Text, INPUT[type=text], INPUT[type=password], INPUT[type=number], INPUT[ty
   border: 1px solid #cccccc;
   background: #ffffff;
   color: #666666;
-  width: 358px;
+  width: 478px;
   height: 22px;
   line-height: 16px;
   padding: 3px 10px 4px 10px; }
@@ -100,7 +100,7 @@ DIV.prettynumeric {
     background-position: right -60px; }
 
 SELECT {
-  width: 380px; }
+  width: 500px; }
 
 SPAN.field-validation-error {
   color: #ff0000; }
@@ -114,20 +114,20 @@ DIV.editor-subtitle {
   height: 30px;
   line-height: 40px;
   text-transform: uppercase;
-  width: 380px; }
+  width: 500px; }
 
 DIV.display-field {
   color: #666666; }
 
 DIV.editor-field {
-  width: 380px;
+  width: 500px;
   position: relative; }
   DIV.editor-field SPAN.field-validation-error {
     position: absolute;
     bottom: 15px;
     left: 100%;
     margin-left: 10px;
-    width: 190px;
+    width: 250px;
     background: #cc0000;
     line-height: 14px;
     color: #ffffff;
@@ -164,25 +164,25 @@ INPUT[type=submit] {
   cursor: pointer; }
 
 DIV.editor-container-sideBySide {
-  width: 380px;
+  width: 500px;
   margin: 0px 0 10px 0;
   display: inline-block; }
   DIV.editor-container-sideBySide > DIV {
     display: inline;
     float: left; }
   DIV.editor-container-sideBySide DIV.editor-label, DIV.editor-container-sideBySide DIV.display-label {
-    width: 180px;
+    width: 150px;
     text-align: right;
     margin-bottom: 10px;
     clear: both;
     padding: 0px 10px 0 0;
     line-height: 32px; }
   DIV.editor-container-sideBySide DIV.editor-field, DIV.editor-container-sideBySide DIV.display-field {
-    width: 190px; }
+    width: 340px; }
     DIV.editor-container-sideBySide DIV.editor-field INPUT, DIV.editor-container-sideBySide DIV.display-field INPUT {
-      width: 168px; }
+      width: 318px; }
     DIV.editor-container-sideBySide DIV.editor-field SPAN.field-validation-error, DIV.editor-container-sideBySide DIV.display-field SPAN.field-validation-error {
-      width: 190px; }
+      width: 250px; }
   DIV.editor-container-sideBySide DIV.display-label, DIV.editor-container-sideBySide DIV.display-field {
     line-height: 20px;
     padding: 0px;
@@ -191,17 +191,17 @@ DIV.editor-container-sideBySide {
     text-align: left;
     margin-bottom: 0px; }
   DIV.editor-container-sideBySide.two-one DIV.editor-label {
-    width: 243.33333px; }
+    width: 323.33333px; }
   DIV.editor-container-sideBySide.two-one DIV.editor-field {
-    width: 126.66667px; }
+    width: 166.66667px; }
     DIV.editor-container-sideBySide.two-one DIV.editor-field INPUT {
-      width: 104.66667px; }
+      width: 144.66667px; }
   DIV.editor-container-sideBySide.one-two DIV.editor-label {
-    width: 116.66667px; }
+    width: 156.66667px; }
   DIV.editor-container-sideBySide.one-two DIV.editor-field {
-    width: 253.33333px; }
+    width: 333.33333px; }
     DIV.editor-container-sideBySide.one-two DIV.editor-field INPUT {
-      width: 231.33333px; }
+      width: 311.33333px; }
 
 DIV.editor-container-toggle {
   display: none; }
@@ -1183,7 +1183,7 @@ DIV.chzn-container .chzn-results-scroll-up span {
   background: url("../Images/bgChosenSprite.png") no-repeat -38px -22px, -moz-linear-gradient(top, #eeeeee 1%, white 15%);
   background: url("../Images/bgChosenSprite.png") no-repeat -38px -22px, -o-linear-gradient(top, #eeeeee 1%, white 15%);
   background: url("../Images/bgChosenSprite.png") no-repeat -38px -22px, -ms-linear-gradient(top, #eeeeee 1%, white 15%);
-  background: url("../Images/bgChosenSprite.png") no-repeat -38px -22px, linear-gradient(top, #eeeeee 1%, white 15%);
+  background: url("../Images/bgChosenSprite.png") no-repeat -38px -22px, linear-gradient(to bottom, #eeeeee 1%, white 15%);
   padding: 4px 5px 4px 20px;
   direction: rtl; }
 
@@ -1516,4 +1516,8 @@ INPUT[type=submit], INPUT[type=button] {
   color: #ffffff; }
   INPUT[type=submit]:hover, INPUT[type=submit]:focus, INPUT[type=button]:hover, INPUT[type=button]:focus {
     background: #003d66; }
+
+.CodeExample {
+  width: 500px;
+  height: 100px; }
 

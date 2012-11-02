@@ -10,20 +10,14 @@
 @Html.Partial("DetailsPartial", Model) 
 
 <br/>
-<br/>
 
-<h2>Available licenses</h2>
+<h2>Available applications</h2>
 
-@Html.Action("IndexPartial", "License", new {transactionID = Model.Transaction.TransactionId }) 
-
-<br/>
-<br/>
-<br/>
-
-<h2>Licensed applications </h2>
-@Html.Action("IndexPartial", "CustomerApp", new {transactionID = Model.Transaction.TransactionId }) 
-
+@Html.Action("IndexPartial", "CustomerApp", new {transactionId = Model.Transaction.TransactionId }) 
 
 <p>
     @Html.ActionLink("Back to transaction overview", "Index")
 </p>
+
+
+

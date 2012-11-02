@@ -277,9 +277,9 @@ namespace KeyHub.Data.Migrations
                 "dbo.CustomerAppKeys",
                 c => new
                     {
-                        CustomerAppKeyId = c.Int(nullable: false),
+                        CustomerAppKeyId = c.Int(nullable: false, identity: true),
                         CustomerAppId = c.Guid(nullable: false),
-                        AppKey = c.Guid(nullable: false, identity: true),
+                        AppKey = c.Guid(nullable: false),
                     })
                 .PrimaryKey(t => t.CustomerAppKeyId)
                 .ForeignKey("dbo.CustomerApps", t => t.CustomerAppId, cascadeDelete: true)

@@ -50,16 +50,34 @@ namespace KeyHub.Web.ViewModels.CustomerApp
     /// </summary>
     public class CustomerAppIndexViewItem : CustomerAppViewModel
     {
+        private string example = "<resizer><licenses><auto appId=\"{0}\"/><licenses></resizer>";
+
         public CustomerAppIndexViewItem(Model.CustomerApp customerApp, IEnumerable<Model.License> customerAppLicenses)
             : base(customerApp)
         {
             LicenseSummary = customerAppLicenses.ToSummary(x => x.Sku.SkuCode, 3, ", ");
+            if (customerApp.CustomerAppKeys.Any())
+                ActiveCustomerAppKey = customerApp.CustomerAppKeys.Last().AppKey;
+
+            WebConfigExample = string.Format(example, ActiveCustomerAppKey);
         }
 
         /// <summary>
         /// Summary of assigned Licenses
         /// </summary>
-        [DisplayName("Licenses")]
+        [DisplayName("Licensed skus")]
         public string LicenseSummary { get; set; }
+
+        /// <summary>
+        /// Summary of assigned Licenses
+        /// </summary>
+        [DisplayName("Customer App Key")]
+        public Guid ActiveCustomerAppKey { get; set; }
+
+        /// <summary>
+        /// Summary of assigned Licenses
+        /// </summary>
+        [DisplayName("Web.config example")]
+        public string WebConfigExample { get; set; }
     }
 }

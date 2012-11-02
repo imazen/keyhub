@@ -1,35 +1,45 @@
 ﻿@model KeyHub.Web.ViewModels.CustomerApp.CustomerAppIndexViewModel
 
-<p>
-    @Html.ActionLink("Register new licensed application", "Create", null,  new { @class = "Btn New"})
-</p>
-<table border="0" border="0" cellspacing="0" cellpadding="0" class="GridTable">
-    <thead>
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.CustomerApps.FirstOrDefault().ApplicationName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CustomerApps.FirstOrDefault().LicenseSummary)
-        </th>
-        <th></th>
-    </tr>
-    </thead>
 
-@foreach (var item in Model.CustomerApps)
+@if (Model.CustomerApps.Any())
 {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ApplicationName)
-            @*@Html.ActionLink("Edit", "Edit", new { key = item.CustomerAppId })*@
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LicenseSummary)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { key = item.CustomerAppId })
-        </td>
-    </tr>
+    <p>
+        Your license is available for use in the following applications:
+    </p>
+    
+    foreach (var item in Model.CustomerApps)
+    {
+        var activeKey = Model.CustomerApps.Last();
+        
+        <h3>@Html.DisplayFor(modelItem => item.ApplicationName) @Html.ActionLink("Edit", "Edit", new { key = item.CustomerAppId })</h3>
+    
+        <fieldset>
+            <legend>CustomerAppIndexViewModel</legend>
+            <div class="editor-container-sideBySide">
+                <div class="display-label">
+                    @Html.DisplayNameFor(modelItem => item.LicenseSummary)
+                </div>
+                <div class="display-field">
+                    @Html.DisplayFor(modelItem => item.LicenseSummary)
+                </div>
+
+                <div class="display-label">
+                    @Html.DisplayNameFor(modelItem => item.ActiveCustomerAppKey)
+                </div>
+                <div class="display-field">
+                    <b>@Html.DisplayFor(modelItem => item.ActiveCustomerAppKey)</b>
+                </div>              
+            </div>
+        </fieldset>
+        <p>To enable this application to use the licenses, please add the followng code to the application's web.config</p>
+        <div >
+            @Html.TextAreaFor(modelItem => item.WebConfigExample, new {@class = "CodeExample"})
+        </div>
+    }
+}
+else
+{
+    <span>We're sorry! No applications available.</span>
 }
 
-</table>
+

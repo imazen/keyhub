@@ -1,7 +1,7 @@
 ﻿@import "Mixins.scss";
 
 $debug: true;
-$formWidth: 380px;
+$formWidth: 500px;
 
 INPUT.Text, INPUT[type=text],INPUT[type=password], INPUT[type=number], INPUT[type=datetime]{
 	border: 1px solid $colorBorderInputTextNotSelected;
@@ -146,8 +146,8 @@ INPUT[type=submit]{
 
 DIV.editor-container-sideBySide{
 	
-	$rightColWidth: $formWidth / 2;
-	$leftColWidth: $formWidth - $rightColWidth;
+	$leftColWidth: 160px;
+	$rightColWidth: $formWidth - $leftColWidth;
 	
 	//@if($debug){background: rgba(0,0,0,.2);}
 	width: $formWidth;

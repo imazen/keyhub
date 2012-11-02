@@ -1,8 +1,8 @@
 ﻿@model KeyHub.Web.ViewModels.Transaction.TransactionDetailsViewModel
 
 @{
-    ViewBag.ItemName = "Transaction";
-    ViewBag.Title = "Complete";
+    ViewBag.ItemName = "Congratulations!";
+    ViewBag.Title = "Your Transaction Is Complete!";
 }
 
 <h2>@ViewBag.ItemName <span>@ViewBag.Title</span></h2>
@@ -10,30 +10,12 @@
 @Html.Partial("DetailsPartial", Model) 
 
 <br/>
-<br/>
 
-@if (!Model.Transaction.DomainlessLicenses.Any())
-{
-    <h2>Available licenses</h2>
-    @Html.Action("IndexPartial", "License", new {transactionId = Model.Transaction.TransactionId }) 
-}
-else
-{
-    <h2>Please register your domain</h2>
-    @Html.Action("CreatePartial", "DomainLicense", new {owningLicense = Model.Transaction.DomainlessLicenses.FirstOrDefault()})
-}
+<h2>Register your application in web.config</h2>
 
-<br/>
-<br/>
-<br/>
+@Html.Action("IndexPartial", "CustomerApp", new {transactionId = Model.Transaction.TransactionId }) 
 
-@if (!Model.Transaction.CustomerapplessLicenses.Any())
-{
-    <h2>Licensed applications </h2>
-    @Html.Action("IndexPartial", "CustomerApp", new {transactionId = Model.Transaction.TransactionId }) 
-}
-else
-{
-    <h2>Please register your licensed application</h2>
-    @Html.Action("CreatePartial", "CustomerApp", new {transactionId = Model.Transaction.TransactionId }) 
-}
+
+
+
+

@@ -18,7 +18,13 @@ namespace KeyHub.Model
         public void AddLicenses(IEnumerable<Guid> NewLicenseGuids)
         {
             foreach (Guid newLicenseGuid in NewLicenseGuids)
-                this.LicenseCustomerApps.Add(new LicenseCustomerApp() { LicenseId = newLicenseGuid, CustomerAppId = this.CustomerAppId });
+            {
+                if (!(from x in this.LicenseCustomerApps where x.LicenseId == newLicenseGuid && x.CustomerAppId == this.CustomerAppId select x).Any())
+                {
+                    this.LicenseCustomerApps.Add(new LicenseCustomerApp()
+                                                     {LicenseId = newLicenseGuid, CustomerAppId = this.CustomerAppId});
+                }
+            }
         }
 
         /// <summary>
