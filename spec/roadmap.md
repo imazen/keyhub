@@ -26,7 +26,7 @@ http://nerddinner.codeplex.com/SourceControl/changeset/view/8ea1ecf71b30#mvc4%2f
 
 * DONE: Issue #12: Add extra field FeatureName to Feature. Add validation on editing FeatureCode to be GUID and unique. FeatureID will be primary key and cannot be changed.
 
-* 5 hrs: Issue #11: When claiming license automatically create an application and application key if none exist. Show application key to user as key to add to web.config, as seen in validation.md.
+* DONE: Issue #11: When claiming license automatically create an application and application key if none exist. Show application key to user as key to add to web.config, as seen in validation.md.
 
 * 3 hrs: Implement business rules to set License expiration date based on SKU properties.
 
