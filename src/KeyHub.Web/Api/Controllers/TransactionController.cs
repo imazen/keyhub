@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Linq;
 using System.Web.Http;
 using KeyHub.BusinessLogic.Basket;
 using KeyHub.Common.Utils;
-using KeyHub.Data;
+using KeyHub.Data.BusinessRules;
 using KeyHub.Web.Controllers;
 using KeyHub.Web.ViewModels.Mail;
-using KeyHub.Web.ViewModels.Transaction;
 
 namespace KeyHub.Web.Api.Controllers
 {
@@ -26,7 +24,6 @@ namespace KeyHub.Web.Api.Controllers
         ///     Host: localhost:63436
         ///     Content-Length: 185
         ///     Content-Type: application/xml
-        ///     <?xml version="1.0" encoding="utf-8"?>
         ///     <TransactionRequest PurchaserName="Steven Somer" PurchaserEmail="steven@lucrasoft.nl">
         ///         <PurchasedSku>{guid}</PurchasedSku>
         ///     </TransactionRequest>
@@ -34,25 +31,42 @@ namespace KeyHub.Web.Api.Controllers
         public TransactionResult Post(TransactionRequest transaction)
         {
             if (transaction == null)
-                throw new InvalidPropertyException("No transaction provided");
+                return new TransactionResult { CreatedSuccessfull = false, ErrorMessage = "Invalid transaction format provided" };
             if (string.IsNullOrEmpty(transaction.PurchaserName))
-                throw new InvalidPropertyException("No purchaser name set");
+                return new TransactionResult { CreatedSuccessfull = false, ErrorMessage = "No purchaser name set" };
             if (string.IsNullOrEmpty(transaction.PurchaserEmail))
-                throw new InvalidPropertyException("No purchaser email set");
+                return new TransactionResult { CreatedSuccessfull = false, ErrorMessage = "No purchaser email set" };
             if (!Strings.IsEmail(transaction.PurchaserEmail))
-                throw new InvalidPropertyException(string.Format("Purchaser email '{0}' is not an e-mailaddress", transaction.PurchaserEmail));
+                return new TransactionResult { CreatedSuccessfull = false, ErrorMessage = string.Format("Purchaser email '{0}' is not an e-mailaddress", transaction.PurchaserEmail) };
 
-            BasketWrapper basket = BasketWrapper.CreateNewByIdentity(User.Identity);
+            try
+            {
+                var basket = BasketWrapper.CreateNewByIdentity(User.Identity);
 
-            basket.AddSKUs(transaction.PurchasedSkus);
+                basket.AddSKUs(transaction.PurchasedSkus);
 
-            basket.ExecuteStep(BasketSteps.Create);
+                basket.ExecuteStep(BasketSteps.Create);
 
-            var transactionEmail = new TransactionMailViewModel() { PurchaserName = transaction.PurchaserName, PurchaserEmail = transaction.PurchaserEmail, TransactionId = basket.Transaction.TransactionId };
-            new MailController().TransactionEmail(transactionEmail).Deliver();
+                var transactionEmail = new TransactionMailViewModel
+                                           {
+                                               PurchaserName = transaction.PurchaserName,
+                                               PurchaserEmail = transaction.PurchaserEmail,
+                                               TransactionId = basket.Transaction.TransactionId
+                                           };
+                new MailController().TransactionEmail(transactionEmail).Deliver();
 
-            var result = new TransactionResult() { CreatedSuccessfull = true };
-            return result;
+                return new TransactionResult { CreatedSuccessfull = true };
+            }
+            catch(BusinessRuleValidationException e)
+            {
+// ReSharper disable RedundantToStringCall, expilicitly call diverted implementation of ToString()
+                return new TransactionResult { CreatedSuccessfull = false, ErrorMessage = string.Format("Could not process transaction: {0}", e.ToString()) };
+// ReSharper restore RedundantToStringCall
+            }
+            catch (Exception e)
+            {
+                return new TransactionResult { CreatedSuccessfull = false, ErrorMessage = string.Format("Could not process transaction due to exception: {0}", e.Message) };
+            }
         }
     }
 }

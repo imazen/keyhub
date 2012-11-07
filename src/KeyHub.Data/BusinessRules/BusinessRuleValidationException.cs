@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace KeyHub.Data.BusinessRules
 {
@@ -13,7 +11,7 @@ namespace KeyHub.Data.BusinessRules
     [Serializable]
     public class BusinessRuleValidationException : Exception
     {
-        private const string exceptionMessage = "One or more business rules failed to be applied. Check the ValidationResults property for more information.";
+        private const string ExceptionMessage = "One or more business rules failed to be applied. Check the ValidationResults property for more information.";
 
         /// <summary>
         /// Gets a list of results from the business validators
@@ -25,7 +23,7 @@ namespace KeyHub.Data.BusinessRules
         /// </summary>
         /// <param name="results">A list of results from the business rules execution</param>
         public BusinessRuleValidationException(params BusinessRuleValidationResult[] results)
-            : base(exceptionMessage)
+            : base(ExceptionMessage)
         {
             ValidationResults = new List<BusinessRuleValidationResult>(results);
         }
@@ -36,16 +34,10 @@ namespace KeyHub.Data.BusinessRules
         public override string ToString()
         {
             var validationSummary = new StringBuilder();
-
-            validationSummary.AppendLine(this.Message);
-
-            foreach (var validationResult in ValidationResults)
+            foreach (var validationResult in ValidationResults.Where(validationResult => validationResult != BusinessRuleValidationResult.Success))
             {
-                if (validationResult != BusinessRuleValidationResult.Success)
-                {
-                    validationSummary.AppendLine(validationResult.BusinessRuleName + ": " + validationResult.ErrorMessage);
-                    validationSummary.AppendLine();
-                }
+                validationSummary.AppendLine(validationResult.BusinessRuleName + ": " + validationResult.ErrorMessage);
+                validationSummary.AppendLine();
             }
 
             return validationSummary.ToString();

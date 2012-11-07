@@ -12,7 +12,7 @@ namespace KeyHub.Model
     /// <summary>
     /// Transaction row for storing transaction information
     /// </summary>
-    public class TransactionItem
+    public class TransactionItem : IModelItem
     {
         /// <summary>
         /// Indentifier for the TransactionItem entity.
