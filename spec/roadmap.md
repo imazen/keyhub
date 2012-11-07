@@ -30,7 +30,7 @@ http://nerddinner.codeplex.com/SourceControl/changeset/view/8ea1ecf71b30#mvc4%2f
 
 * 3 hrs: Implement business rules to set License expiration date based on SKU properties.
 
-* 1 hrs: Implement business rules to follow SKU expiration date. Integrate check into the transaction REST service. Provides error message back if SKU has expired. SKU will not be part of the transaction.
+* DONE: Implement business rules to follow SKU expiration date. Integrate check into the transaction REST service. Provides error message back if SKU has expired. SKU will not be part of the transaction.
 
 * 3 hrs: Issue #10: CountryCode on Checkout & update content country list during initial DB creation
 
