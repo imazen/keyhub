@@ -32,12 +32,12 @@ http://nerddinner.codeplex.com/SourceControl/changeset/view/8ea1ecf71b30#mvc4%2f
 
 * DONE: Implement business rules to follow SKU expiration date. Integrate check into the transaction REST service. Provides error message back if SKU has expired. SKU will not be part of the transaction.
 
-* 3 hrs: Issue #10: CountryCode on Checkout & update content country list during initial DB creation
+* DONE: Issue #10: CountryCode on Checkout
 
 * DONE: Issue #9: department field optional
 
 * 5 hrs (optional): Implement e-mail sending for received transactions and for manual 're-send' requests based on txn id or payer_email.
-
+* Update content of country list during initial DB creation to match with PayPall countries
 
 #Sprint 2: License validation
 
