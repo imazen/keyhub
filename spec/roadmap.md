@@ -28,7 +28,7 @@ http://nerddinner.codeplex.com/SourceControl/changeset/view/8ea1ecf71b30#mvc4%2f
 
 * DONE: Issue #11: When claiming license automatically create an application and application key if none exist. Show application key to user as key to add to web.config, as seen in validation.md.
 
-* 3 hrs: Implement business rules to set License expiration date based on SKU properties.
+* DONE: Implement business rules to set License expiration date based on SKU properties.
 
 * DONE: Implement business rules to follow SKU expiration date. Integrate check into the transaction REST service. Provides error message back if SKU has expired. SKU will not be part of the transaction.
 
