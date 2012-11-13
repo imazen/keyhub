@@ -179,16 +179,7 @@ namespace KeyHub.BusinessLogic.Basket
                     {
                         if (item.License == null)
                         {
-                            var newLicense = new Model.License()
-                            {
-                                SkuId = item.SkuId,
-                                PurchasingCustomerId = this.PurchasingCustomer.ObjectId,
-                                OwningCustomerId = this.OwningCustomer.ObjectId,
-                                OwnerName = this.OwningCustomer.Name,
-                                LicenseIssued = DateTime.Now
-                            };
-                            if (item.Sku.LicenseDuration.HasValue)
-                                newLicense.LicenseExpires = DateTime.Now.AddMonths(item.Sku.LicenseDuration.Value);
+                            var newLicense = new Model.License(item.Sku, this.OwningCustomer, this.PurchasingCustomer);
                             context.Licenses.Add(newLicense);
 
                             item.License = newLicense;

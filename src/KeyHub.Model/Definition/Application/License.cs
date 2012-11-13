@@ -11,8 +11,11 @@ namespace KeyHub.Model
     /// <summary>
     /// Represents a purchased SKU for storing owner and license information
     /// </summary>
-    public class License : RightObject
+    public partial class License : RightObject
     {
+        public License()
+        {}
+
         /// <summary>
         /// The SKU bought with this license
         /// </summary>
