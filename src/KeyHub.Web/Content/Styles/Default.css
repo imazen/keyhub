@@ -88,7 +88,7 @@ DIV.prettynumeric {
     bottom: 3px;
     width: 25px;
     background: #ededed;
-    text-indent: -10000px;
+    text-indent: 10px;
     cursor: pointer; }
     DIV.prettynumeric DIV.prettynumeric_btn.inc {
       right: 3px; }
@@ -171,16 +171,16 @@ DIV.editor-container-sideBySide {
     display: inline;
     float: left; }
   DIV.editor-container-sideBySide DIV.editor-label, DIV.editor-container-sideBySide DIV.display-label {
-    width: 150px;
+    width: 180px;
     text-align: right;
     margin-bottom: 10px;
     clear: both;
     padding: 0px 10px 0 0;
     line-height: 32px; }
   DIV.editor-container-sideBySide DIV.editor-field, DIV.editor-container-sideBySide DIV.display-field {
-    width: 340px; }
+    width: 310px; }
     DIV.editor-container-sideBySide DIV.editor-field INPUT, DIV.editor-container-sideBySide DIV.display-field INPUT {
-      width: 318px; }
+      width: 288px; }
     DIV.editor-container-sideBySide DIV.editor-field SPAN.field-validation-error, DIV.editor-container-sideBySide DIV.display-field SPAN.field-validation-error {
       width: 250px; }
   DIV.editor-container-sideBySide DIV.display-label, DIV.editor-container-sideBySide DIV.display-field {
@@ -1183,7 +1183,7 @@ DIV.chzn-container .chzn-results-scroll-up span {
   background: url("../Images/bgChosenSprite.png") no-repeat -38px -22px, -moz-linear-gradient(top, #eeeeee 1%, white 15%);
   background: url("../Images/bgChosenSprite.png") no-repeat -38px -22px, -o-linear-gradient(top, #eeeeee 1%, white 15%);
   background: url("../Images/bgChosenSprite.png") no-repeat -38px -22px, -ms-linear-gradient(top, #eeeeee 1%, white 15%);
-  background: url("../Images/bgChosenSprite.png") no-repeat -38px -22px, linear-gradient(to bottom, #eeeeee 1%, white 15%);
+  background: url("../Images/bgChosenSprite.png") no-repeat -38px -22px, linear-gradient(top, #eeeeee 1%, white 15%);
   padding: 4px 5px 4px 20px;
   direction: rtl; }
 

@@ -60,7 +60,6 @@ namespace KeyHub.Common.Utils.Globalization
                     });
                 }
             }
-
             return countryDictionary.Values;
         }
     }

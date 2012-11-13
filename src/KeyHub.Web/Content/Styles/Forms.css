@@ -45,7 +45,7 @@ DIV.prettynumeric {
     bottom: 3px;
     width: 25px;
     background: #ededed;
-    text-indent: -10000px;
+    text-indent: 10px;
     cursor: pointer; }
     DIV.prettynumeric DIV.prettynumeric_btn.inc {
       right: 3px; }
@@ -128,16 +128,16 @@ DIV.editor-container-sideBySide {
     display: inline;
     float: left; }
   DIV.editor-container-sideBySide DIV.editor-label, DIV.editor-container-sideBySide DIV.display-label {
-    width: 150px;
+    width: 180px;
     text-align: right;
     margin-bottom: 10px;
     clear: both;
     padding: 0px 10px 0 0;
     line-height: 32px; }
   DIV.editor-container-sideBySide DIV.editor-field, DIV.editor-container-sideBySide DIV.display-field {
-    width: 340px; }
+    width: 310px; }
     DIV.editor-container-sideBySide DIV.editor-field INPUT, DIV.editor-container-sideBySide DIV.display-field INPUT {
-      width: 318px; }
+      width: 288px; }
     DIV.editor-container-sideBySide DIV.editor-field SPAN.field-validation-error, DIV.editor-container-sideBySide DIV.display-field SPAN.field-validation-error {
       width: 250px; }
   DIV.editor-container-sideBySide DIV.display-label, DIV.editor-container-sideBySide DIV.display-field {

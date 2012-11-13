@@ -43,7 +43,7 @@ namespace KeyHub.Web.Api.Controllers
             {
                 var basket = BasketWrapper.CreateNewByIdentity(User.Identity);
 
-                basket.AddSKUs(transaction.PurchasedSkus);
+                basket.AddSkUs(transaction.PurchasedSkus);
 
                 basket.ExecuteStep(BasketSteps.Create);
 

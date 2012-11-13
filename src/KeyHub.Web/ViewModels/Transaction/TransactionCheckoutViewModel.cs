@@ -33,8 +33,8 @@ namespace KeyHub.Web.ViewModels.Transaction
             //Set default selected Owning and Purchasing Customer
             //PurchasingCustomerId=..
             //OwningCustomerId=..
-            CreatePurchasingCustomer = false;
-            CreateOwningCustomer = false;
+            ExistingPurchasingCustomer = false;
+            ExistingOwningCustomer = false;
             OwningCustomerIsPurchasingCustomerId = true;
             NewPurchasingCustomer = new CustomerCreateViewModel(countries);
             NewOwningCustomer = new CustomerCreateViewModel(countries);
@@ -63,14 +63,12 @@ namespace KeyHub.Web.ViewModels.Transaction
         /// <summary>
         /// Id of selected purchasing customer
         /// </summary>
-        [DisplayName("Select purchasing customer")]
         public Guid PurchasingCustomerId { get; set; }
 
         /// <summary>
-        /// Create a new customer as Purchasing Customer
+        /// Use an existing Purchasing Customer
         /// </summary>
-        [DisplayName("Create new purchasing customer")]
-        public Boolean CreatePurchasingCustomer { get; set; }
+        public Boolean ExistingPurchasingCustomer { get; set; }
 
         /// <summary>
         /// New purchasing customer details
@@ -85,14 +83,12 @@ namespace KeyHub.Web.ViewModels.Transaction
         /// <summary>
         /// Id of selected owning customer
         /// </summary>
-        [DisplayName("Select owning customer")]
         public Guid OwningCustomerId { get; set; }
 
         /// <summary>
         /// Create a new customer as Owning Customer
         /// </summary>
-        [DisplayName("Create new owning customer")]
-        public Boolean CreateOwningCustomer { get; set; }
+        public Boolean ExistingOwningCustomer { get; set; }
 
         /// <summary>
         /// New owning customer details
@@ -102,7 +98,6 @@ namespace KeyHub.Web.ViewModels.Transaction
         /// <summary>
         /// Owning customer is the same as purchasing customer
         /// </summary>
-        [DisplayName("Owning customer is same as purchasing customer")]
         public Boolean OwningCustomerIsPurchasingCustomerId { get; set; }
     }
 }

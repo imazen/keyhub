@@ -70,6 +70,9 @@ namespace KeyHub.Web.ViewModels.Transaction
             PurchaserName = (transactionItems.Any(l => l.License != null)) ?
                 transactionItems.FirstOrDefault().License.PurchasingCustomer.Name : "None";
 
+            OwnerName = (transactionItems.Any(l => l.License != null)) ?
+                transactionItems.FirstOrDefault().License.OwningCustomer.Name : "None";
+
             SKUSummary = (from x in transactionItems select x.Sku).ToSummary(x => x.SkuCode, 99, ", ");
 
             StatusName = transaction.Status.GetDescription<Model.TransactionStatus>();
@@ -84,6 +87,12 @@ namespace KeyHub.Web.ViewModels.Transaction
         /// </summary>
         [DisplayName("Purchased by")]
         public string PurchaserName { get; set; }
+
+        /// <summary>
+        /// Name of the owning customer.
+        /// </summary>
+        [DisplayName("Owned by")]
+        public string OwnerName { get; set; }
 
         /// <summary>
         /// SKUs bought by this transaction.

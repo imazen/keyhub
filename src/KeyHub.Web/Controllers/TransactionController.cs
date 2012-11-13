@@ -120,7 +120,7 @@ namespace KeyHub.Web.Controllers
 
                     viewModel.ToEntity(basket.Transaction);
                     
-                    basket.AddSKUs(viewModel.GetSelectedSKUGUIDs());
+                    basket.AddSkUs(viewModel.GetSelectedSKUGUIDs());
                     basket.ExecuteStep(BasketSteps.Create);
 
                     return RedirectToAction("Checkout", new { key = basket.Transaction.TransactionId.ToString().EncryptUrl() });
@@ -255,10 +255,10 @@ namespace KeyHub.Web.Controllers
 
                         viewModel.ToEntity(basket.Transaction);
 
-                        if (viewModel.CreatePurchasingCustomer)
-                            basket.PurchasingCustomer = viewModel.NewPurchasingCustomer.ToEntity(null);
-                        else
+                        if (viewModel.ExistingPurchasingCustomer)
                             basket.PurchasingCustomer = (from x in context.Customers where x.ObjectId == viewModel.PurchasingCustomerId select x).FirstOrDefault();
+                        else
+                            basket.PurchasingCustomer = viewModel.NewPurchasingCustomer.ToEntity(null);
 
                         if (viewModel.OwningCustomerIsPurchasingCustomerId)
                         {
@@ -266,10 +266,11 @@ namespace KeyHub.Web.Controllers
                         }
                         else
                         {
-                            if (viewModel.CreateOwningCustomer)
-                                basket.OwningCustomer = viewModel.NewOwningCustomer.ToEntity(null);
+                            if (viewModel.ExistingOwningCustomer)
+                                basket.OwningCustomer = (from x in context.Customers where x.ObjectId == viewModel.OwningCustomerId select x).FirstOrDefault();    
                             else
-                                basket.OwningCustomer = (from x in context.Customers where x.ObjectId == viewModel.OwningCustomerId select x).FirstOrDefault();
+                                basket.OwningCustomer = viewModel.NewOwningCustomer.ToEntity(null);    
+                            
                         }
 
                         basket.ExecuteStep(BasketSteps.Checkout);

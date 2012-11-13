@@ -1,18 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Objects;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web;
-using KeyHub.Common;
-using KeyHub.Common.Utils;
 using KeyHub.Model;
-using KeyHub.Runtime;
 using KeyHub.Data;
 using System.Security.Principal;
-using System.Data;
 
 namespace KeyHub.BusinessLogic.Basket
 {
@@ -36,7 +29,7 @@ namespace KeyHub.BusinessLogic.Basket
         /// <summary>
         /// DataContext the basket is working with
         /// </summary>
-        private DataContext context;
+        private readonly DataContext context;
 
         /// <summary>
         /// Start a new basket
@@ -45,8 +38,8 @@ namespace KeyHub.BusinessLogic.Basket
         /// <returns>An instance of a basketwrapper serving a new transaction</returns>
         public static BasketWrapper CreateNewByIdentity(IIdentity userIdentity)
         {
-            BasketWrapper basket = new BasketWrapper(userIdentity);
-            basket.Transaction = new Transaction() { CreatedDateTime = DateTime.Now };
+            var basket = new BasketWrapper(userIdentity)
+                             {Transaction = new Transaction {CreatedDateTime = DateTime.Now}};
 
             return basket;
         }
@@ -65,8 +58,8 @@ namespace KeyHub.BusinessLogic.Basket
         /// </remarks>
         public static BasketWrapper GetByTransactionId(IIdentity userIdentity, int transactionId)
         {
-            BasketWrapper basket = new BasketWrapper(userIdentity, transactionId);
-            bool transactionLoaded = basket.LoadTransaction(transactionId);
+            var basket = new BasketWrapper(userIdentity, transactionId);
+            var transactionLoaded = basket.LoadTransaction(transactionId);
 
             if (!transactionLoaded)
             {
@@ -172,7 +165,7 @@ namespace KeyHub.BusinessLogic.Basket
                             {
                                 context.UserCustomerRights.Add(new UserCustomerRight()
                                 {
-                                    RightObject = PurchasingCustomer,
+                                    RightObject = OwningCustomer,
                                     RightId = EditEntityInfo.Id,
                                     UserId = currentUser.UserId
                                 });
@@ -192,9 +185,10 @@ namespace KeyHub.BusinessLogic.Basket
                                 PurchasingCustomerId = this.PurchasingCustomer.ObjectId,
                                 OwningCustomerId = this.OwningCustomer.ObjectId,
                                 OwnerName = this.OwningCustomer.Name,
-                                LicenseIssued = DateTime.Now,
-                                LicenseExpires = DateTime.Now.AddYears(1)
+                                LicenseIssued = DateTime.Now
                             };
+                            if (item.Sku.LicenseDuration.HasValue)
+                                newLicense.LicenseExpires = DateTime.Now.AddMonths(item.Sku.LicenseDuration.Value);
                             context.Licenses.Add(newLicense);
 
                             item.License = newLicense;
@@ -219,7 +213,7 @@ namespace KeyHub.BusinessLogic.Basket
                     else
                     {
                         //Create default application containing all licenses
-                        var newCustomerApp = new Model.CustomerApp()
+                        var newCustomerApp = new CustomerApp()
                                                  {
                                                      ApplicationName = this.OwningCustomer.Name + "_Application"
                                                  };
@@ -228,7 +222,7 @@ namespace KeyHub.BusinessLogic.Basket
                         context.SaveChanges();
 
                         //Create customer application key
-                        var customerAppKey = new Model.CustomerAppKey()
+                        var customerAppKey = new CustomerAppKey()
                                                  {
                                                      CustomerAppId = newCustomerApp.CustomerAppId
                                                  };
@@ -247,11 +241,11 @@ namespace KeyHub.BusinessLogic.Basket
         /// <summary>
         /// Add a list of SKUs to the current transaction
         /// </summary>
-        /// <param name="SKUs">SKUs to add</param>
-        public void AddSKUs(ICollection<Guid> SKUs)
+        /// <param name="skus">SKUs to add</param>
+        public void AddSkUs(IEnumerable<Guid> skus)
         {
             //Offload adding TransactionItems to Dynamic Transaction Model
-            Transaction.AddTransactionItems(SKUs);
+            Transaction.AddTransactionItems(skus);
         }
 
         /// <summary>

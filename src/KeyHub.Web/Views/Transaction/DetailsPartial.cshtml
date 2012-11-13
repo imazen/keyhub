@@ -16,6 +16,13 @@
     <div class="display-field">
         @Html.DisplayFor(model => model.Transaction.PurchaserName)
     </div>
+        
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Transaction.OwnerName)
+    </div>
+    <div class="display-field">
+         @Html.DisplayFor(model => model.Transaction.OwnerName)
+    </div>
 
     <div class="display-label">
          @Html.DisplayNameFor(model => model.Transaction.SKUSummary)

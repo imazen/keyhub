@@ -3,104 +3,144 @@
 @{
     ViewBag.ItemName = "Transaction";
     ViewBag.Title = "Checkout";
+    
+    var hasCustomers = Model.PurchasingCustomers.Any();
+    var defaultNewPurchasingCustomerPanel = (hasCustomers) ? "display:none;" : "";
+    //var defaultNewOwningCustomerPanel = (Model.OwningCustomerIsPurchasingCustomerId) ? "display:none;" : "";
 }
 
 <h2>@ViewBag.ItemName <span>@ViewBag.Title</span></h2>
 
-<script type="text/javascript">
-    
-    //Depending on Radiobutton disable (or perhaps hide) the create new purchasing and owning customer
-    //Partial view. If only disabled please take care or clearing any validationmessages upon disable.
-
-    //Also set disabled state on load
-    $(function () {
-        $('#NewPurchasingCustomer :input').attr('disabled', true);
-        $('#NewOwningCustomer :input').attr('disabled', true);
-    });
-
-    function EnableNewPurchasingCustomer() {
-        $('#NewPurchasingCustomer').slideToggle();
-        $('#NewPurchasingCustomer :input').removeAttr('disabled');
-        $('#SelectPurchasingCustomer :select').attr('disabled', true);
-    }
-
-    function DisableNewPurchasingCustomer() {
-        $('#NewPurchasingCustomer').slideToggle();
-        $('#NewPurchasingCustomer :input').attr('disabled', true);
-        $('#SelectPurchasingCustomer :select').removeAttr('disabled');
-    }
-
-    function EnableNewOwningCustomer() {
-        $('#NewOwningCustomer').slideToggle();
-        $('#NewOwningCustomer :input').removeAttr('disabled');
-        $('#SelectOwningCustomer :select').attr('disabled', true);
-    }
-
-    function DisableNewOwningCustomer() {
-        $('#NewOwningCustomer').slideToggle();
-        $('#NewOwningCustomer :input').attr('disabled', true);
-        $('#SelectOwningCustomer :select').removeAttr('disabled');
-    }
-</script>
-
 @using (Html.BeginForm()) {
     @Html.ValidationSummary(true)
-   
+
     <fieldset>
         <legend>TransactionCheckoutViewModel</legend>
 
         @Html.HiddenFor(model => model.Transaction.TransactionId)
+        
+        <table cellpadding="10px" >
+            <tr>
+                <td valign="top" >
+                    <h2>Purchasing customer details</h2>
+                    @if (hasCustomers)
+                    {
+                        <div class="editor-label">
+                            @Html.RadioButtonFor(model => model.ExistingPurchasingCustomer, true, new { @onchange = "DisableNewPurchasingCustomer();" })
+                            Select an existing purchasing customer
+                        </div>
+                        <div class="editor-field" id="SelectPurchasingCustomer">
+                            @Html.DropDownListFor(model => model.PurchasingCustomerId, Model.PurchasingCustomers)
+                        </div>
+        
+                        <div class="editor-label">
+                            @Html.RadioButtonFor(model => model.ExistingPurchasingCustomer, false, new { @onchange = "EnableNewPurchasingCustomer();" })
+                            Create a new purchasing customer
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="editor-label">
+                            Fill in the details for the purchasing customer
+                        </div>
+                    }
+                    <div class="editor-field" id="NewPurchasingCustomer">
+                        @Html.Partial("_CreateCustomer", Model.NewPurchasingCustomer, new ViewDataDictionary(Html.ViewDataContainer.ViewData)
+                                                                                          {
+                                                                                              TemplateInfo = new TemplateInfo { HtmlFieldPrefix = "NewPurchasingCustomer" }
+                                                                                          }) 
+                    </div>
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.OwningCustomerIsPurchasingCustomerId)
+                    </div>
+                    <div class="editor-field">
+                        @Html.CheckBoxFor(model => model.OwningCustomerIsPurchasingCustomerId, new { @onclick = "ToggleNewOwningCustomer();" })
+                    </div>
+                </td>
+                <td valign="top" >
+                    <div class="editor-field" id="OwningCustomer" style="display:none;">
+                        <h2>Owning customer details</h2>
+                        @if (hasCustomers)
+                        {
+                            <div class="editor-label">
+                                @Html.RadioButtonFor(model => model.ExistingOwningCustomer, true, new { @onchange = "DisableNewOwningCustomer();" })
+                                Select an existing owning customer
+                            </div>
+                            <div class="editor-field" id="SelectOwningCustomer">
+                                @Html.DropDownListFor(model => model.OwningCustomerId, Model.OwningCustomers)
+                            </div>
 
-        <div class="editor-label">
-            @Html.RadioButtonFor(model => model.CreatePurchasingCustomer, false, new {@onchange = "DisableNewPurchasingCustomer();"}) @Html.LabelFor(model => model.PurchasingCustomerId)
-        </div>
-        <div class="editor-field" id="SelectPurchasingCustomer">
-            @if (Model.PurchasingCustomers.Count() > 0)
-            {
-                @Html.DropDownListFor(model => model.PurchasingCustomerId, Model.PurchasingCustomers)
-            }
-        </div>
-
-        <div class="editor-label">
-            @Html.RadioButtonFor(model => model.CreatePurchasingCustomer, true, new {@onchange = "EnableNewPurchasingCustomer();"}) @Html.LabelFor(model => model.CreatePurchasingCustomer)
-        </div>
-        <div class="editor-field" style="padding-left:20px; display:none;" id="NewPurchasingCustomer">
-            @Html.Partial("_CreateCustomer", Model.NewPurchasingCustomer, new ViewDataDictionary(Html.ViewDataContainer.ViewData) { 
-                TemplateInfo = new System.Web.Mvc.TemplateInfo { HtmlFieldPrefix = "NewPurchasingCustomer" } 
-            }) 
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.OwningCustomerIsPurchasingCustomerId)
-        </div>
-        <div class="editor-field">
-            @Html.CheckBoxFor(model => model.OwningCustomerIsPurchasingCustomerId)
-        </div>
-
-        <div class="editor-label">
-            @Html.RadioButtonFor(model => model.CreateOwningCustomer, false, new {@onchange = "DisableNewOwningCustomer();"})  @Html.LabelFor(model => model.OwningCustomerId)
-        </div>
-        <div class="editor-field" id="SelectOwningCustomer">
-            @if (Model.OwningCustomers.Count() > 0)
-            {
-                @Html.DropDownListFor(model => model.OwningCustomerId, Model.OwningCustomers)
-            }
-        </div>
-
-        <div class="editor-label">
-            @Html.RadioButtonFor(model => model.CreateOwningCustomer, true, new {@onchange = "EnableNewOwningCustomer();"})  @Html.LabelFor(model => model.CreateOwningCustomer)
-        </div>
-        <div class="editor-field" style="padding-left:20px;display:none;" id="NewOwningCustomer">
-            @Html.Partial("_CreateCustomer", Model.NewOwningCustomer, new ViewDataDictionary(Html.ViewDataContainer.ViewData) { 
-                TemplateInfo = new System.Web.Mvc.TemplateInfo { HtmlFieldPrefix = "NewOwningCustomer" } 
-            }) 
-        </div>
-
+                            <div class="editor-label">
+                                @Html.RadioButtonFor(model => model.ExistingOwningCustomer, false, new { @onchange = "EnableNewOwningCustomer();" })
+                                Create a new owning customer
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="editor-label">
+                                Fill in the details for the owning customer
+                            </div>
+                        }
+                        <div class="editor-field" id="NewOwningCustomer">
+                            @Html.Partial("_CreateCustomer", Model.NewOwningCustomer, new ViewDataDictionary(Html.ViewDataContainer.ViewData)
+                                                                                          {
+                                                                                              TemplateInfo = new TemplateInfo { HtmlFieldPrefix = "NewOwningCustomer" }
+                                                                                          }) 
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
         <p>
-            <input type="submit" value="Continue" />
+            <input type="submit" value="Continue" onclick="RemoveHiddenControls();" />
         </p>
     </fieldset>
     <p>
         @Html.ActionLink("Back to home", "Index", "Home", null)
     </p>
 }
+
+
+<script type="text/javascript">
+
+    //Depending on Radiobutton disable (or perhaps hide) the create new purchasing and owning customer
+    //Partial view. If only disabled please take care or clearing any validationmessages upon disable.
+
+    //Also set disabled state on load
+    $(function () {
+        $('#NewOwningCustomer :input').attr('disabled', true);
+    });
+
+    function EnableNewPurchasingCustomer() {
+        $('#NewPurchasingCustomer :input').removeAttr('disabled');
+    }
+
+    function DisableNewPurchasingCustomer() {
+        $('#NewPurchasingCustomer :input').attr('disabled', true);
+    }
+
+    function EnableNewOwningCustomer() {
+        $('#NewOwningCustomer :input').removeAttr('disabled');
+    }
+
+    function DisableNewOwningCustomer() {
+        $('#NewOwningCustomer :input').attr('disabled', true);
+    }
+
+    var visible = false;
+
+    function ToggleNewOwningCustomer() {
+        if (visible == false) {
+            $('#OwningCustomer').slideDown(function () {
+                $('#NewOwningCustomer :input').removeAttr('disabled');
+            });
+            visible = true;
+        } else {
+            $('#OwningCustomer').slideUp(function () {
+                $('#NewOwningCustomer :input').attr('disabled', true);
+            });
+            visible = false;
+        }
+
+    }
+</script>

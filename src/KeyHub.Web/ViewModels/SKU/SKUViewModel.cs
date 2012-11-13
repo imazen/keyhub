@@ -125,6 +125,7 @@ namespace KeyHub.Web.ViewModels.SKU
         /// How long the license is valid for
         /// Leave empty to expiration on SKU.
         /// </summary>
+        [DisplayName("Licenseduration (months)")]
         public int? LicenseDuration { get; set; }
 
         /// <summary>
