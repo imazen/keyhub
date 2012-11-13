@@ -59,6 +59,7 @@
     <Compile Include="IModelItem.cs" />
     <Compile Include="Logic\Application\CustomerApp.cs" />
     <Compile Include="Logic\Application\DomainLicense.cs" />
+    <Compile Include="Logic\Application\License.cs" />
     <Compile Include="Logic\Application\PrivateKey.cs" />
     <Compile Include="Logic\Application\Role.cs" />
     <Compile Include="Logic\Application\SKU.cs" />

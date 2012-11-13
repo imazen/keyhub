@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using KeyHub.Runtime;
+﻿using System.Web.Mvc;
 using KeyHub.Data;
 using KeyHub.Web.ViewModels.Home;
 using KeyHub.Web.ViewModels.User;
@@ -18,7 +13,7 @@ namespace KeyHub.Web.Controllers
     {
         public ActionResult Index()
         {
-            HomeViewModel viewModel = new HomeViewModel();
+            var viewModel = new HomeViewModel();
 
             return View(viewModel);
         }
@@ -26,15 +21,13 @@ namespace KeyHub.Web.Controllers
         /// <summary>
         /// Get the partial view for the main menu
         /// </summary>
+        /// <param name="currentControllerName">Name of the currently active controller</param>
         /// <returns>Main menu partial view</returns>
         [AllowAnonymous]
-        public ActionResult MainMenu()
+        public ActionResult MainMenu(string currentControllerName)
         {
-            using (DataContext context = new DataContext(User.Identity))
-            {
-                var model = new CurrentUserViewModel(context.GetUserByIdentity(User.Identity));
-                return PartialView(model);
-            }
+            var model = new MainMenuViewModel(currentControllerName);
+            return PartialView(model);
         }
     }
 }

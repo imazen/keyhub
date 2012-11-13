@@ -6,11 +6,8 @@
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         <meta name="viewport" content="width=device-width" />
         @*@Styles.Render("~/Content/themes/base/css", "~/Content/css")*@
-       <link href="/Content/Styles/Default.css" rel="stylesheet" type="text/css" />
-
+        <link href="/Content/Styles/Default.css" rel="stylesheet" type="text/css" />
         @Scripts.Render("~/bundles/modernizr", "~/bundles/jquery", "~/bundles/jqueryval")
-
-
     </head>
     <body>
         <div class="LayoutContainer">
@@ -18,7 +15,7 @@
                 <div class="LayoutWrapper">
                     @Html.ActionLink("KeyHub", "Index", "Home", null, new { @class= "Logo"})
 
-                    @Html.Action("MainMenu", "Home") 
+                    @Html.Action("MainMenu", "Home", new{currentControllerName = ViewContext.RouteData.Values["controller"].ToString()}) 
 
                     <div class="LoginPartial">
                         @Html.Partial("_LoginPartial")
