@@ -1,0 +1,50 @@
+﻿@model KeyHub.Web.ViewModels.User.ExternalUserCreateViewModel
+
+@{
+    ViewBag.ItemName = "Account";
+    ViewBag.Title = "Completion";
+}
+
+<h2>@ViewBag.Title <span>@ViewBag.ItemName</span></h2>
+
+<p class="message-info">
+    Please complete your login with additional data.
+</p>
+
+@using (Html.BeginForm("ExternalRegister", "Account", new { ReturnUrl = ViewBag.ReturnUrl })) {
+    @Html.ValidationSummary()
+
+    <fieldset>
+        <legend>UserEditViewItem</legend>
+
+        @Html.HiddenFor(model => model.ExternalLoginData)
+
+        <div class="editor-label">
+            @Html.LabelFor(m => m.UserName)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(m => m.UserName)
+            @Html.ValidationMessageFor(m => m.UserName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(m => m.Email)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(m => m.Email, new {autocomplete="off"})
+            @Html.ValidationMessageFor(m => m.Email)
+        </div> 
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Cancel", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
