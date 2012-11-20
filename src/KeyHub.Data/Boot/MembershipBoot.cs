@@ -43,6 +43,14 @@ namespace KeyHub.Data.Boot
                 Roles.AddUserToRole("admin", Role.SystemAdmin);
             }
 
+            // Create an imazen account
+            if (!WebSecurity.UserExists("imazen"))
+            {
+                // Create administrator user
+                WebSecurity.CreateUserAndAccount("imazen", "nathanael", new { Email = "n@imazen.io" });
+                Roles.AddUserToRole("imazen", Role.SystemAdmin);
+            }
+
             return new KernelEventCompletedArguments { AllowContinue = (!issueList.Any()), KernelEventSucceeded = (!issueList.Any()), Issues = issueList.ToArray() };
         }
 
