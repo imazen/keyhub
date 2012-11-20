@@ -21,7 +21,7 @@ namespace KeyHub.Web.ViewModels.UserObjectRight
         /// </summary>
         /// <param name="userId">Id of the user rights belong to</param>
         /// <param name="rights">List of UserObjectRights to show</param>
-        public UserObjectRightIndexViewModel(Guid userId, IEnumerable<Model.UserObjectRight> rights)
+        public UserObjectRightIndexViewModel(int userId, IEnumerable<Model.UserObjectRight> rights)
         {
             this.UserId = userId;
             this.Rights = new List<UserObjectRightIndexViewItem>(
@@ -32,7 +32,7 @@ namespace KeyHub.Web.ViewModels.UserObjectRight
         /// <summary>
         /// Id of the user rights are being shown for
         /// </summary>
-        public Guid UserId { get; set; }
+        public int UserId { get; set; }
 
         /// <summary>
         /// List of UserObjectRightViewItems

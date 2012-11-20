@@ -26,8 +26,7 @@ namespace KeyHub.Web.ViewModels.User
         {
             this.UserId = user.UserId;
             this.UserName = user.UserName;
-            this.IsAnonymous = user.IsAnonymous;
-            this.LastActivityDate = user.LastActivityDate;
+            this.Email = user.Email;
             this.IsSystemAdmin = user.IsSystemAdmin;
             this.IsVendorAdmin = user.IsVendorAdmin;
             this.CanEditCustomerInfo = user.CanEditCustomerInfo;
@@ -38,26 +37,20 @@ namespace KeyHub.Web.ViewModels.User
         /// Unique user ID
         /// </summary>
         [HiddenInput(DisplayValue = false)]
-        public Guid UserId { get; private set; }
+        public int UserId { get; private set; }
 
         /// <summary>
-        /// USername (loginname) for this user
+        /// Username (loginname) for this user
         /// </summary>
         [Required]
         [StringLength(50)]
         public string UserName { get; private set; }
 
         /// <summary>
-        /// Indicated wether this user is anonymous or not
+        /// Email of this user
         /// </summary>
         [Required]
-        public bool IsAnonymous { get; private set; }
-
-        /// <summary>
-        /// Last activity date
-        /// </summary>
-        [Required]
-        public DateTime LastActivityDate { get; private set; }
+        public string Email { get; private set; }
 
         /// <summary>
         /// Check if user is system administrator

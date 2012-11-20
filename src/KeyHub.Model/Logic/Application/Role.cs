@@ -15,5 +15,10 @@ namespace KeyHub.Model
         /// Name of the System Administrator role
         /// </summary>
         public static readonly string SystemAdmin = "Sys_Administrator";
+
+        /// <summary>
+        /// Name of a regular user role
+        /// </summary>
+        public static readonly string RegularUser = "User";
     }
 }

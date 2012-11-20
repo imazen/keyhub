@@ -6,10 +6,13 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using DotNetOpenAuth.AspNet;
+using KeyHub.Model;
 using Microsoft.Web.WebPages.OAuth;
 using KeyHub.Data;
 using KeyHub.Web.Models;
 using KeyHub.Web.ViewModels.User;
+using WebMatrix.WebData;
+using Membership = System.Web.Security.Membership;
 
 namespace KeyHub.Web.Controllers
 {
@@ -43,7 +46,7 @@ namespace KeyHub.Web.Controllers
         /// </summary>
         /// <param name="id">Id of the user to view</param>
         /// <returns>User index view</returns>
-        public ActionResult DetailsPartial(Guid id)
+        public ActionResult DetailsPartial(int id)
         {
             using (var context = new DataContext())
             {
@@ -80,21 +83,20 @@ namespace KeyHub.Web.Controllers
             if (ModelState.IsValid)
             {
                 // Attempt to register the user
-                MembershipCreateStatus createStatus;
-                var user = Membership.CreateUser(viewModel.User.UserName,
-                                      viewModel.User.Password,
-                                      viewModel.User.Email,
-                                      passwordQuestion: null,
-                                      passwordAnswer: null,
-                                      isApproved: true,
-                                      providerUserKey: null,
-                                      status: out createStatus);
+                WebSecurity.CreateUserAndAccount(viewModel.User.UserName, viewModel.User.Password, new { Email = viewModel.User.Email });
 
-                if (createStatus == MembershipCreateStatus.Success)
+                if (WebSecurity.Login(viewModel.User.UserName, viewModel.User.Password))
                 {
-                    return RedirectToAction("Index");
+                    if (Url.IsLocalUrl(viewModel.RedirectUrl))
+                    {
+                        return Redirect(viewModel.RedirectUrl);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
                 }
-                ModelState.AddModelError("", ErrorCodeToString(createStatus));
+                ModelState.AddModelError("", "Failed to create a user with the provided username and password.");
             }
 
             //Viewmodel invalid, recall create
@@ -106,7 +108,7 @@ namespace KeyHub.Web.Controllers
         /// </summary>
         /// <param name="id">Id if the user to edit</param>
         /// <returns>Edit User view</returns>
-        public ActionResult Edit(Guid id)
+        public ActionResult Edit(int id)
         {
             using (var context = new DataContext())
             {
@@ -130,12 +132,12 @@ namespace KeyHub.Web.Controllers
             {
                 using (var context = new DataContext())
                 {
-                    var user = System.Web.Security.Membership.GetUser(viewModel.User.UserName);
+                    var user = context.Users.FirstOrDefault(x => x.UserId == viewModel.User.UserId);
                     if (user != null)
                     {
                         //Email can always be updated
                         user.Email = viewModel.User.Email;
-                        Membership.UpdateUser(user);
+                        context.SaveChanges();
 
                         return RedirectToAction("Index");
                     }
@@ -167,13 +169,14 @@ namespace KeyHub.Web.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [HttpPost]
-        public ActionResult Login(LoginModel model, string returnUrl)
+        public ActionResult Login(LoginViewModel model, string returnUrl)
         {
             if (ModelState.IsValid)
             {
-                if (Membership.ValidateUser(model.UserName, model.Password))
+
+                if (WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
                 {
-                    FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
+                    //FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
                     if (Url.IsLocalUrl(returnUrl))
                     {
                         return Redirect(returnUrl);
@@ -199,7 +202,7 @@ namespace KeyHub.Web.Controllers
         /// <returns></returns>
         public ActionResult LogOff()
         {
-            FormsAuthentication.SignOut();
+            WebSecurity.Logout();
 
             return RedirectToAction("Index", "Home");
         }
@@ -229,12 +232,10 @@ namespace KeyHub.Web.Controllers
             if (ModelState.IsValid)
             {
                 // Attempt to register the user
-                MembershipCreateStatus createStatus;
-                Membership.CreateUser(model.UserName, model.Password, model.Email, passwordQuestion: null, passwordAnswer: null, isApproved: true, providerUserKey: null, status: out createStatus);
+                WebSecurity.CreateUserAndAccount(model.UserName, model.Password, new {Email = model.Email});
 
-                if (createStatus == MembershipCreateStatus.Success)
+                if (WebSecurity.Login(model.UserName, model.Password))
                 {
-                    FormsAuthentication.SetAuthCookie(model.UserName, createPersistentCookie: false);
                     if (Url.IsLocalUrl(returnUrl))
                     {
                         return Redirect(returnUrl);
@@ -244,10 +245,7 @@ namespace KeyHub.Web.Controllers
                         return RedirectToAction("Index", "Home");
                     }
                 }
-                else
-                {
-                    ModelState.AddModelError("", ErrorCodeToString(createStatus));
-                }
+                ModelState.AddModelError("", "Failed to create a user with the provided username and password.");
             }
 
             // If we got this far, something failed, redisplay form
@@ -259,32 +257,19 @@ namespace KeyHub.Web.Controllers
 
         public ActionResult ChangePassword()
         {
-            return View();
+            var viewModel = new ChangePasswordViewModel(User.Identity.Name);
+            return View(viewModel);
         }
 
         //
         // POST: /Account/ChangePassword
 
         [HttpPost]
-        public ActionResult ChangePassword(ChangePasswordModel model)
+        public ActionResult ChangePassword(ChangePasswordViewModel model)
         {
             if (ModelState.IsValid)
             {
-
-                // ChangePassword will throw an exception rather
-                // than return false in certain failure scenarios.
-                bool changePasswordSucceeded;
-                try
-                {
-                    MembershipUser currentUser = Membership.GetUser(User.Identity.Name, userIsOnline: true);
-                    changePasswordSucceeded = currentUser.ChangePassword(model.OldPassword, model.NewPassword);
-                }
-                catch (Exception)
-                {
-                    changePasswordSucceeded = false;
-                }
-
-                if (changePasswordSucceeded)
+                if(WebSecurity.ChangePassword(model.UserName, model.OldPassword, model.NewPassword))
                 {
                     return RedirectToAction("ChangePasswordSuccess");
                 }
@@ -335,11 +320,16 @@ namespace KeyHub.Web.Controllers
                 return RedirectToAction("ExternalLoginFailure");
             }
 
-            string loginData = OAuthWebSecurity.SerializeProviderUserId(result.Provider, result.ProviderUserId);
-            if (Membership.ValidateUser(result.UserName, "testpassword"))
+            if(OAuthWebSecurity.Login(result.Provider, result.ProviderUserId, createPersistentCookie: true))
             {
-                FormsAuthentication.SetAuthCookie(result.UserName, false);
-                return Redirect(returnUrl);
+                if (Url.IsLocalUrl(returnUrl))
+                {
+                    return Redirect(returnUrl);
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Home");
+                }
             }
 
             if (User.Identity.IsAuthenticated)
@@ -351,9 +341,10 @@ namespace KeyHub.Web.Controllers
             else
             {
                 // User is new, ask for their desired membership name
+                var loginData = OAuthWebSecurity.SerializeProviderUserId(result.Provider, result.ProviderUserId);
                 ViewBag.ProviderDisplayName = OAuthWebSecurity.GetOAuthClientData(result.Provider).DisplayName;
                 ViewBag.ReturnUrl = returnUrl;
-                return View("ExternalRegister", new ExternalUserCreateViewModel { UserName = result.UserName, Email = result.UserName, ExternalLoginData = loginData });
+                return View("ExternalRegister", new ExternalUserCreateViewModel { Email = result.UserName, ExternalLoginData = loginData });
             }
         }
 
@@ -377,31 +368,33 @@ namespace KeyHub.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                // Attempt to register the user
-                MembershipCreateStatus createStatus;
-                Membership.CreateUser(model.UserName, "testpassword", email: model.Email, passwordQuestion: null, passwordAnswer: null, isApproved: true, providerUserKey: null, status: out createStatus);
-
-                //if (OAuthWebSecurity.Login(result.Provider, result.ProviderUserId, createPersistentCookie: false))
-                //{
-                //    return RedirectToLocal(returnUrl);
-                //}
-
-                if (createStatus == MembershipCreateStatus.Success)
+                // Insert a new user into the database
+                using (var db = new DataContext())
                 {
-                    FormsAuthentication.SetAuthCookie(model.UserName, createPersistentCookie: false);
-                    
-                    if (Url.IsLocalUrl(returnUrl))
+                    var user = db.Users.FirstOrDefault(u => u.UserName.ToLower() == model.UserName.ToLower());
+                    // Check if user already exists
+                    if (user == null)
                     {
-                        return Redirect(returnUrl);
+                        // Insert name into the profile table
+                        db.Users.Add(new User { UserName = model.UserName, Email= model.Email });
+                        db.SaveChanges();
+
+                        OAuthWebSecurity.CreateOrUpdateAccount(provider, providerUserId, model.UserName);
+                        OAuthWebSecurity.Login(provider, providerUserId, createPersistentCookie: true);
+
+                        if (Url.IsLocalUrl(returnUrl))
+                        {
+                            return Redirect(returnUrl);
+                        }
+                        else
+                        {
+                            return RedirectToAction("Index", "Home");
+                        }
                     }
                     else
                     {
-                        return RedirectToAction("Index", "Home");
+                        ModelState.AddModelError("UserName", "User name already exists. Please enter a different user name.");
                     }
-                }
-                else
-                {
-                    ModelState.AddModelError("", ErrorCodeToString(createStatus));
                 }
             }
 

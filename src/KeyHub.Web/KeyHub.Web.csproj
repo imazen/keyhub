@@ -188,7 +188,12 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Logging\NLogLogger.cs" />
-    <Compile Include="ViewModels\AccountModels.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\User\ChangePasswordViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\CustomerApp\CustomerAppEditViewModel.cs" />
     <Compile Include="ViewModels\CustomerApp\CustomerAppViewModel.cs" />
@@ -231,6 +236,7 @@
     <Compile Include="ViewModels\UserObjectRight\UserObjectRightCreateViewModel.cs" />
     <Compile Include="ViewModels\UserObjectRight\UserObjectRightIndexViewModel.cs" />
     <Compile Include="ViewModels\UserObjectRight\UserObjectRightViewModel.cs" />
+    <Compile Include="ViewModels\User\LoginViewModel.cs" />
     <Compile Include="ViewModels\User\ExternalUserCreateViewModel.cs" />
     <Compile Include="ViewModels\User\UserCreateViewModel.cs" />
     <Compile Include="ViewModels\User\CurrentUserViewModel.cs" />
@@ -382,6 +388,10 @@
       <Minify>True</Minify>
       <CompileStyle>Nested</CompileStyle>
       <DebugInfo>False</DebugInfo>
+    </Content>
+    <Content Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </Content>
     <None Include="Scripts\jquery-1.6.2-vsdoc.js" />
     <Content Include="Scripts\jquery-1.6.2.js" />
@@ -549,15 +559,14 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>55491</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:63436/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
-          <UseCustomServer>False</UseCustomServer>
-          <CustomServerUrl>
-          </CustomServerUrl>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://keyhub/</CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>

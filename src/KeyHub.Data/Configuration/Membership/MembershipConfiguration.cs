@@ -15,8 +15,14 @@ namespace KeyHub.Data.DataConfiguration
     /// </summary>
     public class MembershipConfiguration : EntityTypeConfiguration<Membership>, IEntityConfiguration
     {
+        /// <summary>
+        /// Configures the Membership table to the correct tablename.
+        /// Note: Name is forced by WebSecurity
+        /// </summary>
         public MembershipConfiguration()
         {
+            ToTable("webpages_Membership");
+
             HasRequired<User>(p => p.User);
         }
 

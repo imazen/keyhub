@@ -11,16 +11,11 @@ namespace KeyHub.Model
     public partial class Role
     {
         /// <summary>
-        /// The application this role is associated with
-        /// </summary>
-        [Required]
-        public Guid ApplicationId { get; set; }
-
-        /// <summary>
         /// Unique role ID
         /// </summary>
         [Key]
-        public Guid RoleId { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int RoleId { get; set; }
 
         /// <summary>
         /// Name for this role
@@ -28,15 +23,6 @@ namespace KeyHub.Model
         [Required]
         [StringLength(256)]
         public string RoleName { get; set; }
-
-        /// <summary>
-        /// Description for this role
-        /// </summary>
-        [StringLength(256)]
-        public string Description { get; set; }
-
-        [ForeignKey("ApplicationId")]
-        public virtual Application Application { get; set; }
 
         /// <summary>
         /// Gets a list of the users in this role

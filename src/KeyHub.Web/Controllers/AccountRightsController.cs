@@ -17,7 +17,7 @@ namespace KeyHub.Web.Controllers
         /// </summary>
         /// <param name="userId">Id if the user to show rights for</param>
         /// <returns>Index view of specific users rights</returns>
-        public ActionResult IndexPartial(Guid userId)
+        public ActionResult IndexPartial(int userId)
         {
             using (var context = new DataContext(User.Identity))
             {
@@ -39,7 +39,7 @@ namespace KeyHub.Web.Controllers
         /// <param name="objectType">The type of entity to create a right for</param>
         /// <exception cref="NotImplementedException">NotImplementedException if ObjectType is unhandled</exception>
         /// <returns>UserObjectRightCreateViewModel</returns>
-        public ActionResult Create(Guid userId, ObjectTypes objectType)
+        public ActionResult Create(int userId, ObjectTypes objectType)
         {
             using (var context = new DataContext(User.Identity))
             {
@@ -113,7 +113,7 @@ namespace KeyHub.Web.Controllers
             return Create(viewModel.UserId, viewModel.ObjectType);
         }
 
-        public ActionResult Delete(Guid userId, Guid rightId, Guid objectId, ObjectTypes type)
+        public ActionResult Delete(int userId, Guid rightId, Guid objectId, ObjectTypes type)
         {
             using (var context = new DataContext(User.Identity))
             {

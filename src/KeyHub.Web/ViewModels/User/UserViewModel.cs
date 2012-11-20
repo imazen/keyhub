@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using KeyHub.Runtime;
+using Microsoft.Web.WebPages.OAuth;
 
 namespace KeyHub.Web.ViewModels.User
 {
@@ -25,15 +26,8 @@ namespace KeyHub.Web.ViewModels.User
         {
             this.UserId = user.UserId;
             this.UserName = user.UserName;
-            this.LastActivityDate = user.LastActivityDate;
-
-            if (this.UserName == null) return;
-
-            var membershipUser = System.Web.Security.Membership.GetUser(user.UserName);
-            if (membershipUser != null)
-            {
-                this.Email = membershipUser.Email;
-            }
+            this.Email = user.Email;
+            this.HasLocalAccount = OAuthWebSecurity.HasLocalAccount(user.UserId);
         }
 
         /// <summary>
@@ -47,7 +41,7 @@ namespace KeyHub.Web.ViewModels.User
 
             current.UserId = this.UserId;
             current.UserName = this.UserName;
-            current.LastActivityDate = this.LastActivityDate;
+            current.Email = this.Email;
 
             return current;
         }
@@ -56,7 +50,7 @@ namespace KeyHub.Web.ViewModels.User
         /// Unique user ID
         /// </summary>
         [HiddenInput(DisplayValue = false)]
-        public Guid UserId { get; set; }
+        public int UserId { get; set; }
 
         /// <summary>
         /// USername (loginname) for this user
@@ -66,17 +60,16 @@ namespace KeyHub.Web.ViewModels.User
         public string UserName { get; set; }
 
         /// <summary>
-        /// Last activity date
-        /// </summary>
-        [Required]
-        public DateTime LastActivityDate { get; set; }
-
-        /// <summary>
         /// Email address
         /// </summary>
         [Required]
         [DataType(DataType.EmailAddress)]
         [Display(Name = "Email address")]
         public string Email { get; set; }
+
+        /// <summary>
+        /// Indicates if the user has a local acount. If <b>False</b> then OpenAuth account.
+        /// </summary>
+        public Boolean HasLocalAccount { get; set; }
     }
 }

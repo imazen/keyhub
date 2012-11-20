@@ -18,7 +18,7 @@ namespace KeyHub.Model
         /// </summary>
         [Key]
         [Column(Order = 1)]
-        public Guid UserId { get; set; }
+        public int UserId { get; set; }
 
         /// <summary>
         /// The ObjectId this right entry refers to

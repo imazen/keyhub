@@ -17,7 +17,7 @@ namespace KeyHub.Data.DataConfiguration
     {
         public UserInRoleConfiguration()
         {
-            ToTable("UsersInRoles");
+            ToTable("webpages_UsersInRoles");
         }
 
         public void AddConfiguration(System.Data.Entity.ModelConfiguration.Configuration.ConfigurationRegistrar registrar)

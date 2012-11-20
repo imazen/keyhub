@@ -12,23 +12,16 @@ namespace KeyHub.Model
     {
         public User()
         {
-            IsAnonymous = true;
-            UsersInRoles = new List<UserInRole>();
-            OpenAuthUsers = new List<OpenAuthUser>();
+            UserInRoles = new List<UserInRole>();
             Rights = new List<UserObjectRight>();
         }
-
-        /// <summary>
-        /// The application this user is associated with
-        /// </summary>
-        [Required]
-        public Guid ApplicationId { get; set; }
 
         /// <summary>
         /// Unique user ID
         /// </summary>
         [Key]
-        public Guid UserId { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int UserId { get; set; }
 
         /// <summary>
         /// USername (loginname) for this user
@@ -38,29 +31,15 @@ namespace KeyHub.Model
         public string UserName { get; set; }
 
         /// <summary>
-        /// Indicated wether this user is anonymous or not
+        /// E-mail address for this user
         /// </summary>
-        [Required]
-        public bool IsAnonymous { get; set; }
-
-        /// <summary>
-        /// Last activity date
-        /// </summary>
-        [Required]
-        public DateTime LastActivityDate { get; set; }
+        [StringLength(256)]
+        public string Email { get; set; }
 
         [ForeignKey("UserId")]
         public virtual Membership Membership { get; set; }
 
-        [ForeignKey("UserId")]
-        public virtual Profile Profile { get; set; }
-
-        [ForeignKey("ApplicationId")]
-        public virtual Application Application { get; set; }
-
-        public virtual ICollection<UserInRole> UsersInRoles { get; set; }
-
-        public virtual ICollection<OpenAuthUser> OpenAuthUsers { get; set; }
+        public virtual ICollection<UserInRole> UserInRoles { get; set; }
 
         public virtual ICollection<UserObjectRight> Rights { get; set; }
     }

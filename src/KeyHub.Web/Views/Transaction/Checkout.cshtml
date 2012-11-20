@@ -51,7 +51,7 @@
                                                                                           }) 
                     </div>
                     <div class="editor-label">
-                        @Html.LabelFor(model => model.OwningCustomerIsPurchasingCustomerId)
+                        This customer is also the license owner
                     </div>
                     <div class="editor-field">
                         @Html.CheckBoxFor(model => model.OwningCustomerIsPurchasingCustomerId, new { @onclick = "ToggleNewOwningCustomer();" })
@@ -95,9 +95,6 @@
             <input type="submit" value="Continue" onclick="RemoveHiddenControls();" />
         </p>
     </fieldset>
-    <p>
-        @Html.ActionLink("Back to home", "Index", "Home", null)
-    </p>
 }
 
 

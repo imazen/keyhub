@@ -24,7 +24,7 @@
                 @Html.DisplayNameFor(model => model.Users.FirstOrDefault().UserName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Users.FirstOrDefault().LastActivityDate)
+                @Html.DisplayNameFor(model => model.Users.FirstOrDefault().Email)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Users.FirstOrDefault().RightsSummary)
@@ -39,7 +39,7 @@
                     @Html.DisplayFor(modelItem => item.UserName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.LastActivityDate)
+                    @Html.DisplayFor(modelItem => item.Email)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.RightsSummary)

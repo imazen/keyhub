@@ -119,6 +119,7 @@ namespace KeyHub.Runtime
                     kernelEventException = ex;
                 }
 
+
                 if (kernelEventException != null)
                 {
                     // We got an exception during kernel event time, log this issue with Critical

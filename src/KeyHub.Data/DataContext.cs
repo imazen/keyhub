@@ -158,17 +158,11 @@ namespace KeyHub.Data
                 return new User();
         }
 
-        public DbSet<Application> Applications { get; set; }
-
         public DbSet<Membership> Memberships { get; set; }
-
-        public DbSet<Profile> Profiles { get; set; }
 
         public DbSet<Role> Roles { get; set; }
 
         public DbSet<User> Users { get; set; }
-
-        public DbSet<OpenAuthUser> OpenAuthUsers { get; set; }
 
         public DbSet<Country> Countries { get; set; }
 

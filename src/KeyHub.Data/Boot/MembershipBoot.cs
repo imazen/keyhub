@@ -5,6 +5,7 @@ using System.Web.Security;
 using KeyHub.Core.Issues;
 using KeyHub.Core.Kernel;
 using KeyHub.Model;
+using WebMatrix.WebData;
 
 namespace KeyHub.Data.Boot
 {
@@ -24,59 +25,25 @@ namespace KeyHub.Data.Boot
         /// <returns></returns>
         public KernelEventCompletedArguments Execute()
         {
+            WebSecurity.InitializeDatabaseConnection("DataContext", "Users", "UserId", "UserName", autoCreateTables:true);
+
             // Create administator Role if not already present
-            var currentRoles = System.Web.Security.Roles.GetAllRoles();
+            var currentRoles = Roles.GetAllRoles();
             if (!currentRoles.Contains(Role.SystemAdmin))
-                System.Web.Security.Roles.CreateRole(Role.SystemAdmin);
+                Roles.CreateRole(Role.SystemAdmin);
+            
+            if (!currentRoles.Contains(Role.RegularUser))
+                Roles.CreateRole(Role.RegularUser);
 
-            // Create an administator of not already present
-            var administrator = System.Web.Security.Membership.GetUser("admin");
-            if (administrator == null)
+            // Create an administator of not already present        
+            if (!WebSecurity.UserExists("admin"))
             {
                 // Create administrator user
-                administrator = CreateUser("admin",
-                                           "password",
-                                           "websites@lucrasoft.nl");
-
-                // Add users to roles if they exist
-                if (administrator != null)
-                    System.Web.Security.Roles.AddUserToRole("admin", Role.SystemAdmin);
+                WebSecurity.CreateUserAndAccount("admin", "password", new { Email = "websites@lucrasoft.nl" });
+                Roles.AddUserToRole("admin", Role.SystemAdmin);
             }
 
-            var imazen = System.Web.Security.Membership.GetUser("imazen");
-            if (imazen == null)
-            {
-                // Create administrator user
-                imazen = CreateUser("imazen",
-                                           "nathanael",
-                                           "n@imazen.io");
-
-                // Add users to roles if they exist
-                if (imazen != null)
-                    System.Web.Security.Roles.AddUserToRole("imazen", Role.SystemAdmin);
-            }
-
-
-            return new KernelEventCompletedArguments() { AllowContinue = (issueList.Count() == 0), KernelEventSucceeded = (issueList.Count() == 0), Issues = issueList.ToArray() };
-        }
-
-        private MembershipUser CreateUser(string userName, string password, string email)
-        {
-            // Create user
-            System.Web.Security.MembershipCreateStatus status;
-            var user = System.Web.Security.Membership.CreateUser(userName,
-                                                                 password,
-                                                                 email,
-                                                                 null,
-                                                                 null,
-                                                                 true,
-                                                                 out status);
-
-            // Add issue if the status is not success
-            if (status != System.Web.Security.MembershipCreateStatus.Success)
-                issueList.Add(new GenericIssue(null, status.ToString(), IssueSeverity.Error));
-
-            return user;
+            return new KernelEventCompletedArguments { AllowContinue = (!issueList.Any()), KernelEventSucceeded = (!issueList.Any()), Issues = issueList.ToArray() };
         }
 
         /// <summary>

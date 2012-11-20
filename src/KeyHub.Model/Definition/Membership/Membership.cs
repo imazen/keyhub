@@ -10,16 +10,37 @@ namespace KeyHub.Model
     public partial class Membership
     {
         /// <summary>
-        /// The application ID this membership entry is asociated with
-        /// </summary>
-        [Required]
-        public Guid ApplicationId { get; set; }
-
-        /// <summary>
         /// Unique user ID
         /// </summary>
         [Key]
-        public Guid UserId { get; set; }
+        public int UserId { get; set; }
+
+        /// <summary>
+        /// The date this user was created
+        /// </summary>
+        public DateTime? CreateDate { get; set; }
+
+        /// <summary>
+        /// The ConfirmationToken
+        /// </summary>
+        [StringLength(128)]
+        public string ConfirmationToken { get; set; }
+
+        /// <summary>
+        /// Wether the user is confirmed or not
+        /// </summary>
+        public bool IsConfirmed { get; set; }
+
+        /// <summary>
+        /// The date this user last failed to log in
+        /// </summary>
+        public DateTime? LastPasswordFailureDate { get; set; }
+
+        /// <summary>
+        /// The amount of failures since last successfull login
+        /// </summary>
+        [Required]
+        public int PasswordFailuresSinceLastSuccess { get; set; }
 
         /// <summary>
         /// Password for this user
@@ -29,10 +50,9 @@ namespace KeyHub.Model
         public string Password { get; set; }
 
         /// <summary>
-        /// The format of this password
+        /// The date when this user changed his password
         /// </summary>
-        [Required]
-        public int PasswordFormat { get; set; }
+        public DateTime? PasswordChangedDate { get; set; }
 
         /// <summary>
         /// Password salt value
@@ -42,91 +62,15 @@ namespace KeyHub.Model
         public string PasswordSalt { get; set; }
 
         /// <summary>
-        /// E-mail address for this user
-        /// </summary>
-        [StringLength(256)]
-        public string Email { get; set; }
-
-        /// <summary>
-        /// Secret password question
-        /// </summary>
-        [StringLength(256)]
-        public string PasswordQuestion { get; set; }
-
-        /// <summary>
-        /// Anwser to the secret question
+        /// Verification token of the password
         /// </summary>
         [StringLength(128)]
-        public string PasswordAnswer { get; set; }
+        public string PasswordVerificationToken { get; set; }
 
         /// <summary>
-        /// Wether the user is aproved or not
+        /// Expiration date of the verification token
         /// </summary>
-        [Required]
-        public bool IsApproved { get; set; }
-
-        /// <summary>
-        /// Wether the user is locked out or not
-        /// </summary>
-        [Required]
-        public bool IsLockedOut { get; set; }
-
-        /// <summary>
-        /// The date this user was created
-        /// </summary>
-        [Required]
-        public DateTime CreateDate { get; set; }
-
-        /// <summary>
-        /// The date this user has last logged in succesfully
-        /// </summary>
-        [Required]
-        public DateTime LastLoginDate { get; set; }
-
-        /// <summary>
-        /// The date when this user changed his password
-        /// </summary>
-        [Required]
-        public DateTime LastPasswordChangedDate { get; set; }
-
-        /// <summary>
-        /// The date this user was last locked out
-        /// </summary>
-        [Required]
-        public DateTime LastLockoutDate { get; set; }
-
-        /// <summary>
-        /// Indicated how many times this user has typed his password wrong
-        /// </summary>
-        [Required]
-        public int FailedPasswordAttemptCount { get; set; }
-
-        /// <summary>
-        /// The date when this user started to wrongly input the password
-        /// </summary>
-        [Required]
-        public DateTime FailedPasswordAttemptWindowStart { get; set; }
-
-        /// <summary>
-        /// Indicated how many times this user has failed to anwser his secret question
-        /// </summary>
-        [Required]
-        public int FailedPasswordAnswerAttemptCount { get; set; }
-
-        /// <summary>
-        /// The date when this user started to anwser his secret question wrong
-        /// </summary>
-        [Required]
-        public DateTime FailedPasswordAnswerAttemptWindowsStart { get; set; }
-
-        /// <summary>
-        /// Internal comment for this user
-        /// </summary>
-        [StringLength(256)]
-        public string Comment { get; set; }
-
-        [ForeignKey("ApplicationId")]
-        public virtual Application Application { get; set; }
+        public DateTime? PasswordVerificationTokenExirationDate { get; set; }
 
         [ForeignKey("UserId")]
         public virtual User User { get; set; }

@@ -1,14 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Globalization;
-using System.Web.Security;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace KeyHub.Web.Models
 {
-
-    public class ChangePasswordModel
+    public class ChangePasswordViewModel
     {
+        public ChangePasswordViewModel()
+        {}
+
+        /// <summary>
+        /// Viewmodel for changing a users password
+        /// </summary>
+        /// <param name="userName">Username of the user to change password for</param>
+        public ChangePasswordViewModel(string userName)
+        {
+            UserName = userName;
+        }
+
+        [Required]
+        [Display(Name = "Username")]
+        public string UserName { get; set; }
+
         [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Current password")]
@@ -25,21 +36,4 @@ namespace KeyHub.Web.Models
         [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
     }
-
-    public class LoginModel
-    {
-        [Required]
-        [Display(Name = "Username")]
-        public string UserName { get; set; }
-
-        [Required]
-        [DataType(DataType.Password)]
-        [Display(Name = "Password")]
-        public string Password { get; set; }
-
-        [Display(Name = "Remember me?")]
-        public bool RememberMe { get; set; }
-    }
-
-    
 }

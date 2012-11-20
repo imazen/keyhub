@@ -29,7 +29,9 @@ namespace KeyHub.Web.Controllers
                 var vendorGuids = (from v in context.Vendors select v).Select(x => x.ObjectId).ToList();
                 
                 //Eager loading feature
-                var featureQuery = (from f in context.Features where vendorGuids.Contains(f.VendorId) orderby f.FeatureCode select f).Include(x => x.Vendor);
+                var featureQuery = (from f in context.Features where vendorGuids.Contains(f.VendorId) orderby f.FeatureCode select f)
+                    .Include(x => x.Vendor)
+                    .OrderBy(x => x.FeatureName);
 
                 FeatureIndexViewModel viewModel = new FeatureIndexViewModel(featureQuery.ToList());
             

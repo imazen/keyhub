@@ -14,14 +14,14 @@ namespace KeyHub.Model
         /// </summary>
         [Key]
         [Column(Order = 1)]
-        public Guid UserId { get; set; }
+        public int UserId { get; set; }
 
         /// <summary>
         /// Unique Role ID
         /// </summary>
         [Key]
         [Column(Order = 2)]
-        public Guid RoleId { get; set; }
+        public int RoleId { get; set; }
 
         public virtual User User { get; set; }
 

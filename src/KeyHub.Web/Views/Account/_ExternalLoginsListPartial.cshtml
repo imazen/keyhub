@@ -11,15 +11,16 @@ else
 {
     using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = ViewBag.ReturnUrl }))
     {
-    @Html.AntiForgeryToken()
-    <fieldset id="socialLoginList">
-        <legend>Log in using another service</legend>
-        <p>
-        @foreach (AuthenticationClientData p in Model)
-        {
-            <button type="submit" name="provider" value="@p.AuthenticationClient.ProviderName" title="Log in using your @p.DisplayName account">@p.DisplayName</button>
-        }
-        </p>
-    </fieldset>
+        @Html.AntiForgeryToken()
+        <fieldset id="socialLoginList">
+            <legend>Log in using another service</legend>
+            <p>
+            @foreach (AuthenticationClientData p in Model)
+            {
+                <input type="submit" name="provider" value="@p.DisplayName" title="Log in using your @p.DisplayName account" />
+                <br/>
+            }
+            </p>
+        </fieldset>
     }
 }

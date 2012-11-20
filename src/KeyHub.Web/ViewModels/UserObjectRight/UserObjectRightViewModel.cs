@@ -57,7 +57,7 @@ namespace KeyHub.Web.ViewModels.UserObjectRight
         /// The UserId associated with this right entry
         /// </summary>
         [HiddenInput(DisplayValue = false)]
-        public Guid UserId { get; set; }
+        public int UserId { get; set; }
 
         /// <summary>
         /// The ObjectId this right entry refers to

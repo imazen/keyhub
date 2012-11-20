@@ -18,6 +18,7 @@ namespace KeyHub.Model
         public SKU()
         {
             SkuFeatures = new List<SkuFeature>();
+            ReleaseDate = DateTime.Now;
         }
 
         /// <summary>

@@ -76,6 +76,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WebMatrix.WebData, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Boot\EnitityBoot.cs" />
@@ -103,6 +104,7 @@
     <Compile Include="Configuration\Application\TransactionItemConfiguration.cs" />
     <Compile Include="Configuration\Application\UserObjectRightConfiguration.cs" />
     <Compile Include="Configuration\Application\VendorConfiguration.cs" />
+    <Compile Include="Configuration\Membership\OAuthMembershipConfiguration.cs" />
     <Compile Include="Configuration\Membership\MembershipConfiguration.cs" />
     <Compile Include="Configuration\Membership\RoleConfiguration.cs" />
     <Compile Include="Configuration\Membership\UserConfiguration.cs" />
@@ -111,25 +113,9 @@
     <Compile Include="Extensions\EntitylistExtensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="FilteredDbSet.cs" />
-    <Compile Include="Migrations\201208160854088_InitialCreate.cs" />
-    <Compile Include="Migrations\201208160854088_InitialCreate.Designer.cs">
-      <DependentUpon>201208160854088_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201208171033202_TransactionStatus.cs" />
-    <Compile Include="Migrations\201208171033202_TransactionStatus.Designer.cs">
-      <DependentUpon>201208171033202_TransactionStatus.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201208171235022_TransactionCreatedDateTime.cs" />
-    <Compile Include="Migrations\201208171235022_TransactionCreatedDateTime.Designer.cs">
-      <DependentUpon>201208171235022_TransactionCreatedDateTime.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201208221530586_Rights.cs" />
-    <Compile Include="Migrations\201208221530586_Rights.Designer.cs">
-      <DependentUpon>201208221530586_Rights.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201210301401179_AddNameToFeature.cs" />
-    <Compile Include="Migrations\201210301401179_AddNameToFeature.Designer.cs">
-      <DependentUpon>201210301401179_AddNameToFeature.cs</DependentUpon>
+    <Compile Include="Migrations\201211201034232_InitialCreate.cs" />
+    <Compile Include="Migrations\201211201034232_InitialCreate.Designer.cs">
+      <DependentUpon>201211201034232_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\MigrationConfiguration.cs" />
     <Compile Include="Migrations\Internal\DbSeederMigrator.cs" />

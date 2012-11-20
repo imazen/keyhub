@@ -42,14 +42,14 @@ namespace KeyHub.Web.Controllers
         {
             using (DataContext context = new DataContext(User.Identity))
             {
-                var vendorGuids = (from v in context.Vendors select v)//.FilterByUser(UserEntity)
+                var vendorGuids = (from v in context.Vendors select v)
                     .Select(x => x.ObjectId).ToList();
 
-                var vendorQuery = (from x in context.Vendors select x);//.FilterByUser(UserEntity);
+                var vendorQuery = (from x in context.Vendors select x);
                 var privateKeyQuery = from x in context.PrivateKeys where vendorGuids.Contains(x.VendorId) orderby x.DisplayName select x;
-                var featureQuery = from x in context.Features where vendorGuids.Contains(x.VendorId) orderby x.FeatureCode select x;
+                var featureQuery = from x in context.Features where vendorGuids.Contains(x.VendorId) orderby x.FeatureName select x;
 
-                SKUCreateViewModel viewModel = new SKUCreateViewModel(vendorQuery.ToList(), privateKeyQuery.ToList(), 
+                var viewModel = new SKUCreateViewModel(vendorQuery.ToList(), privateKeyQuery.ToList(), 
                     featureQuery.ToList());
 
                 return View(viewModel);
@@ -64,31 +64,21 @@ namespace KeyHub.Web.Controllers
         [HttpPost]
         public ActionResult Create(SKUCreateViewModel viewModel)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                using (var context = new DataContext(User.Identity))
                 {
-                    using (DataContext context = new DataContext(User.Identity))
-                    {
-                        Model.SKU sku = viewModel.ToEntity(null);
-                        context.SKUs.Add(sku);
+                    var sku = viewModel.ToEntity(null);
+                    context.SKUs.Add(sku);
 
-                        //Offload adding SKUFeatures to Dynamic SKU Model
-                        sku.AddFeatures(viewModel.GetNewFeatureGUIDs());
+                    //Offload adding SKUFeatures to Dynamic SKU Model
+                    sku.AddFeatures(viewModel.GetNewFeatureGUIDs());
 
-                        context.SaveChanges();
-                    }
-                    return RedirectToAction("Index");
+                    context.SaveChanges();
                 }
-                else
-                {
-                    return View(viewModel);
-                }
+                return RedirectToAction("Index");
             }
-            catch
-            {
-                throw;
-            }
+            return Create();
         }
 
         /// <summary>
@@ -98,7 +88,7 @@ namespace KeyHub.Web.Controllers
         /// <returns>Edit SKU view</returns>
         public ActionResult Edit(Guid key)
         {
-            using (DataContext context = new DataContext(User.Identity))
+            using (var context = new DataContext(User.Identity))
             {
                 var vendorGuids = (from v in context.Vendors select v)//.FilterByUser(UserEntity)
                     .Select(x => x.ObjectId).ToList();
@@ -108,7 +98,7 @@ namespace KeyHub.Web.Controllers
                 var privateKeyQuery = from x in context.PrivateKeys where vendorGuids.Contains(x.VendorId) select x;
                 var featureQuery = from x in context.Features where vendorGuids.Contains(x.VendorId) select x;
 
-                SKUEditViewModel viewModel = new SKUEditViewModel(skuQuery.FirstOrDefault(), vendorQuery.ToList(),
+                var viewModel = new SKUEditViewModel(skuQuery.FirstOrDefault(), vendorQuery.ToList(),
                     privateKeyQuery.ToList(), featureQuery.ToList());
 
                 return View(viewModel);

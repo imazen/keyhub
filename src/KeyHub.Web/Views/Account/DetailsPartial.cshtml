@@ -23,17 +23,14 @@
         <div class="display-field">
             @Html.DisplayFor(model => model.Email)
         </div>
-
-        <div class="display-label">
-            @Html.DisplayNameFor(model => model.LastActivityDate)
-        </div>
-        <div class="display-field">
-            @Html.DisplayFor(model => model.LastActivityDate)
-        </div>
     </div>
 </fieldset>
 
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.UserId }) |
-    @Html.ActionLink("Change password", "ChangePassword")
+    @Html.ActionLink("Edit", "Edit", new { id=Model.UserId })
+    @if(Model.HasLocalAccount)
+    {
+        @Html.Raw(" | ")
+        @Html.ActionLink("Change password", "ChangePassword")
+    }
 </p>

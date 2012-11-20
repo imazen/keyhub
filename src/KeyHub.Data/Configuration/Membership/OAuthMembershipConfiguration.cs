@@ -11,16 +11,17 @@ using KeyHub.Model;
 namespace KeyHub.Data.DataConfiguration
 {
     /// <summary>
-    /// Configures the <see cref="KeyHub.Model.User"/> table
+    /// Configures the <see cref="KeyHub.Model.OAuthMembership"/> table
     /// </summary>
-    public class UserConfiguration : EntityTypeConfiguration<User>, IEntityConfiguration
+    public class OAuthMembershipConfiguration : EntityTypeConfiguration<OAuthMembership>, IEntityConfiguration
     {
-        public UserConfiguration()
+        /// <summary>
+        /// Configures the OAuthMembership table to the correct tablename.
+        /// Note: Name is forced by WebSecurity
+        /// </summary>
+        public OAuthMembershipConfiguration()
         {
-            ToTable("Users");
-           
-            HasMany(x => x.UserInRoles).WithRequired(x => x.User).WillCascadeOnDelete(true);
-            HasMany(x => x.Rights).WithRequired(x => x.User).WillCascadeOnDelete(true);
+            ToTable("webpages_OAuthMembership");
         }
 
         public void AddConfiguration(System.Data.Entity.ModelConfiguration.Configuration.ConfigurationRegistrar registrar)

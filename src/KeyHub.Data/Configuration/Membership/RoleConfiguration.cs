@@ -15,8 +15,14 @@ namespace KeyHub.Data.DataConfiguration
     /// </summary>
     public class RoleConfiguration : EntityTypeConfiguration<Role>, IEntityConfiguration
     {
+        /// <summary>
+        /// Configures the Roles table to the correct tablename.
+        /// Note: Name is forced by WebSecurity
+        /// </summary>
         public RoleConfiguration()
         {
+            ToTable("webpages_Roles");
+
             HasMany(x => x.UsersInRoles).WithRequired(x => x.Role).WillCascadeOnDelete(false);
         }
 
