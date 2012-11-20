@@ -150,14 +150,13 @@ namespace KeyHub.Web.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Login to KeyHub
         /// </summary>
-        /// <param name="returnUrl"></param>
         /// <returns></returns>
         [AllowAnonymous]
-        public ActionResult Login(string returnUrl)
+        public ActionResult Login()
         {
-            ViewBag.ReturnUrl = returnUrl;
+            ViewBag.ReturnUrl = Url.Action("Index", "Home", null, "http"); ;
             return View();
         }
 

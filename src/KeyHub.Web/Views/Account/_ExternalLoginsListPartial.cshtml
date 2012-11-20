@@ -12,15 +12,17 @@ else
     using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = ViewBag.ReturnUrl }))
     {
         @Html.AntiForgeryToken()
-        <fieldset id="socialLoginList">
+
+        <fieldset> 
             <legend>Log in using another service</legend>
-            <p>
-            @foreach (AuthenticationClientData p in Model)
+            <div class="editor-label" style="width: 270px;">&nbsp;</div>
+            <div class="editor-field" style="width: 270px;">
+            @foreach (AuthenticationClientData p in Model.OrderBy(x => x.DisplayName))
             {
                 <input type="submit" name="provider" value="@p.DisplayName" title="Log in using your @p.DisplayName account" />
-                <br/>
+                <span>&nbsp;</span>
             }
-            </p>
+            </div>
         </fieldset>
     }
 }
