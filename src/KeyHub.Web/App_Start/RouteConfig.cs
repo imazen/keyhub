@@ -15,6 +15,11 @@ namespace KeyHub.Web
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapHttpRoute(
+               name: "TransactionApi",
+               routeTemplate: "api/{controller}/{transactionHandler}"
+           );
+
+            routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }

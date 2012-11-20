@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{982DDF31-5D75-4194-99B4-FCC95CD4BE7F}</ProjectGuid>
+    <ProjectGuid>{16345EA7-4C87-413B-9DC6-1EBA103B3B57}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>KeyHub.Core</RootNamespace>
-    <AssemblyName>KeyHub.Core</AssemblyName>
+    <RootNamespace>IpnTransactionPlugin</RootNamespace>
+    <AssemblyName>IpnTransactionPlugin</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,61 +30,30 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.5.0.0-rc\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Net.Http" />
-    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="SystemWrapper">
-      <HintPath>..\packages\SystemWrapper.0.4\lib\SystemWrapper.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Caching\CacheModes.cs" />
-    <Compile Include="Caching\ICacheProvider.cs" />
-    <Compile Include="Caching\IPerRequestCacheProvider.cs" />
-    <Compile Include="Caching\IRuntimeCacheProvider.cs" />
-    <Compile Include="Data\IEntityConfiguration.cs" />
-    <Compile Include="Dependency\IGenericImportOrder.cs" />
-    <Compile Include="Dependency\InternalDeployedAssemblyLoader.cs" />
-    <Compile Include="Issues\GenericIssue.cs" />
-    <Compile Include="Issues\IIssue.cs" />
-    <Compile Include="Issues\IssueSeverity.cs" />
-    <Compile Include="Kernel\IKernelEvent.cs" />
-    <Compile Include="Kernel\KernelEventCompletedArguments.cs" />
-    <Compile Include="Kernel\KernelEventIncompleteException.cs" />
-    <Compile Include="Kernel\KernelEventsTypes.cs" />
-    <Compile Include="Logging\ILogger.cs" />
-    <Compile Include="Logging\LogTypes.cs" />
+    <Compile Include="IpnTransactionHandler.cs" />
+    <Compile Include="Extensions\Enum.cs" />
+    <Compile Include="Extensions\NameValueCollection.cs" />
+    <Compile Include="Model\NameAndAddress.cs" />
+    <Compile Include="Model\Transaction.cs" />
+    <Compile Include="Model\TransactionItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Settings\ISettingsFile.cs" />
-    <Compile Include="Settings\SettingsFileBase.cs" />
-    <Compile Include="Transactions\ITransactionPostHandler.cs" />
-    <Compile Include="Transactions\TransactionPostDetails.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\KeyHub.Common\KeyHub.Common.csproj">
-      <Project>{cabf1962-0677-497f-b4a8-41edf551d6d3}</Project>
-      <Name>KeyHub.Common</Name>
+    <ProjectReference Include="..\KeyHub.Core\KeyHub.Core.csproj">
+      <Project>{982DDF31-5D75-4194-99B4-FCC95CD4BE7F}</Project>
+      <Name>KeyHub.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\KeyHub.Model\KeyHub.Model.csproj">
-      <Project>{6d9ba48a-476e-4288-b3ad-0cae9008317c}</Project>
-      <Name>KeyHub.Model</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

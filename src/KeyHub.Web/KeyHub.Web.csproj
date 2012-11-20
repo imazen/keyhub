@@ -160,7 +160,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api\Controllers\LicenseValidationRequest.cs" />
-    <Compile Include="Api\Controllers\InvalidPropertyException.cs" />
     <Compile Include="Api\Controllers\LicenseValidationController.cs" />
     <Compile Include="Api\Controllers\LicenseValidationResult.cs" />
     <Compile Include="Api\Controllers\TransactionRequest.cs" />
