@@ -43,6 +43,20 @@ namespace KeyHub.Data.Boot
                     System.Web.Security.Roles.AddUserToRole("admin", Role.SystemAdmin);
             }
 
+            var imazen = System.Web.Security.Membership.GetUser("imazen");
+            if (imazen == null)
+            {
+                // Create administrator user
+                imazen = CreateUser("imazen",
+                                           "nathanael",
+                                           "n@imazen.io");
+
+                // Add users to roles if they exist
+                if (imazen != null)
+                    System.Web.Security.Roles.AddUserToRole("imazen", Role.SystemAdmin);
+            }
+
+
             return new KernelEventCompletedArguments() { AllowContinue = (issueList.Count() == 0), KernelEventSucceeded = (issueList.Count() == 0), Issues = issueList.ToArray() };
         }
 

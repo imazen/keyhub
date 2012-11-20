@@ -49,6 +49,8 @@
     <Compile Include="Constants\Constants.cs" />
     <Compile Include="Extensions\ByteArray.cs" />
     <Compile Include="Extensions\Cryptography.cs" />
+    <Compile Include="Extensions\Enum.cs" />
+    <Compile Include="Extensions\NameValueCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serializers\XmlSerializers.cs" />
     <Compile Include="Serializers\XmlTextWriterFull.cs" />
