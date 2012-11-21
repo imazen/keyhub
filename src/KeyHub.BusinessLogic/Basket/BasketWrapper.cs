@@ -235,7 +235,6 @@ namespace KeyHub.BusinessLogic.Basket
         /// <param name="skus">SKUs to add</param>
         public void AddSkUs(IEnumerable<Guid> skus)
         {
-            //Offload adding TransactionItems to Dynamic Transaction Model
             Transaction.AddTransactionItems(skus);
         }
 

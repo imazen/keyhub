@@ -55,7 +55,7 @@ namespace KeyHub.Web.ViewModels.Transaction
             PurchaserName = (transactionItems.FirstOrDefault().License != null) ?
                 transactionItems.FirstOrDefault().License.PurchasingCustomer.Name : "None";
 
-            SKUSummary = transactionItems.ToSummary(x => x.Sku.SkuCode, 3, ", ");
+            SKUSummary =  transactionItems.ToSummary(x => (x.Sku != null) ? x.Sku.SkuCode : "None", 3, ", ");
 
             StatusName = transaction.Status.GetDescription<TransactionStatus>();
         }

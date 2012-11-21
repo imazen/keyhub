@@ -39,6 +39,12 @@ namespace KeyHub.Model
         public DateTime CreatedDateTime { get; set; }
 
         /// <summary>
+        /// String transactionmessage
+        /// </summary>
+        [MaxLength(Int32.MaxValue)]
+        public string OriginalRequest { get; set; }
+
+        /// <summary>
         /// The list of transaction items this SKU consists of.
         /// </summary>
         public virtual ICollection<TransactionItem> TransactionItems { get; set; }

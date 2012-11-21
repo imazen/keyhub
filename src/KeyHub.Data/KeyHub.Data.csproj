@@ -117,6 +117,10 @@
     <Compile Include="Migrations\201211201034232_InitialCreate.Designer.cs">
       <DependentUpon>201211201034232_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201211211247222_TransactionOriginalMessage.cs" />
+    <Compile Include="Migrations\201211211247222_TransactionOriginalMessage.Designer.cs">
+      <DependentUpon>201211211247222_TransactionOriginalMessage.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\MigrationConfiguration.cs" />
     <Compile Include="Migrations\Internal\DbSeederMigrator.cs" />
     <Compile Include="Migrations\Internal\IMigrationDataSeeder.cs" />

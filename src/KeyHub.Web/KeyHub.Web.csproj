@@ -159,12 +159,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Api\Controllers\LicenseValidationRequest.cs" />
-    <Compile Include="Api\Controllers\InvalidPropertyException.cs" />
+    <Compile Include="Api\Controllers\TransactionByIpnController.cs" />
+    <Compile Include="Api\Controllers\LicenseValidation\LicenseValidationRequest.cs" />
     <Compile Include="Api\Controllers\LicenseValidationController.cs" />
-    <Compile Include="Api\Controllers\LicenseValidationResult.cs" />
-    <Compile Include="Api\Controllers\TransactionRequest.cs" />
-    <Compile Include="Api\Controllers\TransactionResult.cs" />
+    <Compile Include="Api\Controllers\LicenseValidation\LicenseValidationResult.cs" />
+    <Compile Include="Api\Controllers\Transaction\BaseTransactionController.cs" />
+    <Compile Include="Api\Controllers\Transaction\TransactionRequest.cs" />
+    <Compile Include="Api\Controllers\Transaction\TransactionResult.cs" />
     <Compile Include="App_Start\AuthConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />

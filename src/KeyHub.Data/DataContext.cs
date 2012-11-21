@@ -46,11 +46,11 @@ namespace KeyHub.Data
 
             //SKU dependant entities.
             var authorizedSKUIds = ResolveAuthorizedSKUsByAuthorizedLicenses()
-                                   .Union(ResolveAuthorizedSKUsByAuthorizedVendors());
+                                   .Concat(ResolveAuthorizedSKUsByAuthorizedVendors()).ToList();
             this.SKUs = new FilteredDbSet<SKU>(this, s => authorizedSKUIds.Contains(s.SkuId));
             
             //Transaction items depends on current user role
-            if (currentUser.IsVendorAdmin)
+            if (currentUser.IsSystemAdmin || currentUser.IsVendorAdmin)
             {
                 this.TransactionItems = new FilteredDbSet<TransactionItem>(this, ti => authorizedSKUIds.Contains(ti.SkuId));
             }
@@ -69,7 +69,7 @@ namespace KeyHub.Data
 
             //Customer dependant entities
             var authorizedCustomerIds = ResolveAuthorizedCustomersByAuthorizedLicenses()
-                                    .Union(ResolveAuthorizedCustomersByUser(currentUser));
+                                    .Concat(ResolveAuthorizedCustomersByUser(currentUser)).ToList();
             this.Customers = new FilteredDbSet<Customer>(this, c => authorizedCustomerIds.Contains(c.ObjectId));
         }
 
@@ -89,13 +89,13 @@ namespace KeyHub.Data
 
             //License dependant entities.
             var authorizedLicenseIds = ResolveAuthorizedLicensesByUser(currentUser)
-                                       .Union(ResolveAuthorizedLicensesByTransactionId(transactionID));
+                                       .Concat(ResolveAuthorizedLicensesByTransactionId(transactionID)).ToList();
             this.Licenses = new FilteredDbSet<License>(this, l => authorizedLicenseIds.Contains(l.ObjectId));
             this.LicenseCustomerApps = new FilteredDbSet<LicenseCustomerApp>(this, lc => authorizedLicenseIds.Contains(lc.LicenseId));
 
             //SKU dependant entities.
             var authorizedSKUIds = ResolveAuthorizedSKUsByAuthorizedLicenses()
-                                   .Union(ResolveAuthorizedSKUsByAuthorizedVendors());
+                                   .Concat(ResolveAuthorizedSKUsByAuthorizedVendors()).ToList();
             this.SKUs = new FilteredDbSet<SKU>(this, s => authorizedSKUIds.Contains(s.SkuId));
 
             //Transaction items depends on current user role
@@ -120,7 +120,7 @@ namespace KeyHub.Data
 
             //Customer dependant entities
             var authorizedCustomerIds = ResolveAuthorizedCustomersByAuthorizedLicenses()
-                                    .Union(ResolveAuthorizedCustomersByUser(currentUser));
+                                    .Concat(ResolveAuthorizedCustomersByUser(currentUser)).ToList();
             this.Customers = new FilteredDbSet<Customer>(this, c => authorizedCustomerIds.Contains(c.ObjectId));
 
         }

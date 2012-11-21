@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Http;
 using System.Xml;
 using KeyHub.BusinessLogic.LicenseValidation;
+using KeyHub.Web.Api.Controllers.LicenseValidation;
 
 namespace KeyHub.Web.Api.Controllers
 {
@@ -39,7 +40,7 @@ namespace KeyHub.Web.Api.Controllers
         ///         </Domains>
         ///     </LicenseValidationRequest>
         /// </example> 
-        public LicenseValidationResult Post([FromBody] LicenseValidationRequest request)
+        public LicenseValidationResult Post([FromBody]LicenseValidationRequest request)
         {
             var domainsToValidate = (from x in request.Domains select new DomainValidation(x.name, x.Feature)).ToList();
             

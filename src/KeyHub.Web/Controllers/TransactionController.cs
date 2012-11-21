@@ -16,7 +16,7 @@ namespace KeyHub.Web.Controllers
     /// 
     /// </summary>
     [Authorize]
-    public class TransactionController : Controller
+    public class TransactionController : ControllerBase
     {
         /// <summary>
         /// Get list of transactions
@@ -24,15 +24,14 @@ namespace KeyHub.Web.Controllers
         /// <returns>Transaction index list view</returns>
         public ActionResult Index()
         {
-            using (DataContext context = new DataContext(User.Identity))
+            using (var context = new DataContext(User.Identity))
             {
                 //Eager loading Transaction
                 var transactionQuery = (from x in context.Transactions orderby x.CreatedDateTime select x)
                     .Include(x => x.TransactionItems.Select(s => s.Sku))
-                    .Include(x => x.TransactionItems.Select(s => s.License))
-                    .OrderByDescending(x => x.CreatedDateTime);
+                    .Include(x => x.TransactionItems.Select(s => s.License));
 
-                TransactionIndexViewModel viewModel = new TransactionIndexViewModel(transactionQuery.ToList());
+                var viewModel = new TransactionIndexViewModel(transactionQuery.OrderByDescending(x => x.CreatedDateTime).ToList());
 
                 return View(viewModel);
             }
