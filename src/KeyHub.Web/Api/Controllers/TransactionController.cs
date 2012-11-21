@@ -2,9 +2,7 @@
 using System.Web.Http;
 using KeyHub.BusinessLogic.Basket;
 using KeyHub.Common.Utils;
-using KeyHub.Core.Transactions;
 using KeyHub.Data.BusinessRules;
-using KeyHub.Runtime;
 using KeyHub.Web.Controllers;
 using KeyHub.Web.ViewModels.Mail;
 
@@ -18,11 +16,10 @@ namespace KeyHub.Web.Api.Controllers
         /// <summary>
         /// Transaction post
         /// </summary>
-        /// <param name="transactionHandler">transactionHandler</param>
-        /// <param name="data">Transaction data</param>
+        /// <param name="transaction">Transaction to create</param>
         /// <returns>TransactionResult containing success status and optional errormessage</returns>
         /// <example>
-        ///     POST http://keyhub/api/transaction/ HTTP/1.2
+        ///     POST http://localhost:63436/api/transaction/ HTTP/1.2
         ///     User-Agent: Fiddler
         ///     Host: localhost:63436
         ///     Content-Length: 185
@@ -31,13 +28,10 @@ namespace KeyHub.Web.Api.Controllers
         ///         <PurchasedSku>{guid}</PurchasedSku>
         ///     </TransactionRequest>
         /// </example> 
-        public TransactionResult Post([FromUri]string transactionHandler, string data)
+        public TransactionResult Post(TransactionRequest transaction)
         {
-            //if (data == null)
-            //    return new TransactionResult { CreatedSuccessfull = false, ErrorMessage = "Invalid transaction format provided" };
-            var handler = DependencyContext.Instance.GetExportedValue<ITransactionPostHandler>("");
-            var transaction = handler.InterpretTransactionPost(Request);
-            
+            if (transaction == null)
+                return new TransactionResult { CreatedSuccessfull = false, ErrorMessage = "Invalid transaction format provided" };
             if (string.IsNullOrEmpty(transaction.PurchaserName))
                 return new TransactionResult { CreatedSuccessfull = false, ErrorMessage = "No purchaser name set" };
             if (string.IsNullOrEmpty(transaction.PurchaserEmail))

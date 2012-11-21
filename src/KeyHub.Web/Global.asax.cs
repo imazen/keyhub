@@ -18,7 +18,7 @@ namespace KeyHub.Web
         {
             KeyHub.Runtime.ApplicationContext.Instance.Boot();
 
-            //GlobalConfiguration.Configuration.Formatters.XmlFormatter.UseXmlSerializer = true;
+            GlobalConfiguration.Configuration.Formatters.XmlFormatter.UseXmlSerializer = true;
 
             AreaRegistration.RegisterAllAreas();
 

@@ -87,26 +87,6 @@ namespace KeyHub.Runtime
         }
 
         /// <summary>
-        /// Returns a exported value from the internal MEF container
-        /// </summary>
-        /// <typeparam name="T">The type to retrieve</typeparam>
-        /// <returns>An instance of the Type, or null if not found</returns>
-        public T GetExportedValue<T>(string contractName)
-        {
-            return container.GetExportedValueOrDefault<T>(contractName);
-        }
-
-        /// <summary>
-        /// Returns a exported value from the internal MEF container
-        /// </summary>
-        /// <typeparam name="T">The type to retrieve</typeparam>
-        /// <returns>An instance of the Type, or null if not found</returns>
-        public IEnumerable<T> GetExportedValues<T>(string contractName)
-        {
-            return container.GetExportedValues<T>(contractName);
-        }
-
-        /// <summary>
         /// Composes the classes and injects the correct imports
         /// </summary>
         /// <param name="composables">An array of classes to compose</param>
