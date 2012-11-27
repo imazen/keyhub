@@ -11,6 +11,7 @@ using System.Xml;
 using KeyHub.Common.Extensions;
 using KeyHub.Web.Api.Controllers.LicenseValidation;
 using KeyHub.Web.Api.Controllers.Transaction;
+using System.Net.Http.Formatting;
 
 namespace KeyHub.Web.Api.Controllers
 {
@@ -24,12 +25,13 @@ namespace KeyHub.Web.Api.Controllers
         /// </summary>
         /// <param name="vendor"></param>
         /// <param name="postedData"></param>
-        public void Post([FromUri]string vendor, [FromBody]NameValueCollection postedData)
+        public HttpResponseMessage PostTransactionByIpn([FromUri]string id, [FromBody]FormDataCollection postedData)
         {
+            string vendor = id;
             var txn = new Transaction();
             base.ProcessTransaction(txn.ToTransactionRequest(), User.Identity);
-            
-            var d =  postedData;
+
+            var d = postedData.ReadAsNameValueCollection();
 
             //To calculate 'handshake', run 'md5 -s [password]', then 'md5 -s email@domain.com[Last MD5 result]'
             if (!"ff35a320762dcec799d9c0bb9831577c".Equals(d.Pluck("handshake",null), StringComparison.OrdinalIgnoreCase)) throw new Exception("Invalid handshake provided");
@@ -86,10 +88,12 @@ namespace KeyHub.Web.Api.Controllers
                 txn.ProcessorXml.LoadXml(d.Pluck("gc_xml"));
             }
 
-            txn.Other = postedData;
+            txn.Other = d;
 
             //All transactions go through TransactionController
             base.ProcessTransaction(txn.ToTransactionRequest(), User.Identity);
+
+            return new HttpResponseMessage(HttpStatusCode.OK);
         }
 
         private NameAndAddress ParseFrom(NameValueCollection d, string prefix)
