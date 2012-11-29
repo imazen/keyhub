@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Xml;
 using KeyHub.Common.Extensions;
+using KeyHub.Data;
 using KeyHub.Web.Api.Controllers.LicenseValidation;
 using KeyHub.Web.Api.Controllers.Transaction;
 using System.Net.Http.Formatting;
@@ -42,7 +43,7 @@ namespace KeyHub.Web.Api.Controllers
             if (!"Completed".Equals(d.Pluck("payment_status"), StringComparison.OrdinalIgnoreCase)) throw new Exception("Only completed transactions should be sent to this URL");
 
             //var txn = new Transaction();
-            txn.VendorId = vendor;
+            txn.VendorId = Guid.Parse(vendor);
             txn.ExternalTransactionId = txn_id;
             txn.PaymentDate = d.Pluck<DateTime>("payment_date").Value;
             txn.PayerEmail = d.Pluck("payer_email");
@@ -150,7 +151,7 @@ namespace KeyHub.Web.Api.Controllers
             /// <summary>
             /// The vendor ID for the transaction
             /// </summary>
-            public string VendorId { get; set; }
+            public Guid VendorId { get; set; }
             /// <summary>
             /// The currency used for all monetary values in this transaction
             /// </summary>
@@ -216,14 +217,39 @@ namespace KeyHub.Web.Api.Controllers
             /// </summary>
             public NameValueCollection Other { get; set; }
 
+            /// <summary>
+            /// Convert transaction item to a transaction request
+            /// </summary>
+            /// <returns>TransactionRequest</returns>
             public TransactionRequest ToTransactionRequest()
             {
-                return new TransactionRequest()
+                using (var context = new DataContext())
                 {
-                    PurchasedSkus = (Items != null) ? (from x in Items select new Guid(x.SkuString)).ToArray() : new Guid[0],
-                    PurchaserName = (Billing != null) ? Billing.Name : "",
-                    PurchaserEmail = PayerEmail
-                };
+                    var skus = new List<Guid>();
+                    foreach (var item in Items)
+                    {
+                        if (!context.Vendors.Any(x => x.ObjectId == VendorId)) 
+                            throw new ArgumentException(String.Format("Vendor with GUID '{0}' not found!", VendorId));
+
+                        var sku = (from x in context.SKUs
+                                   where
+                                       x.VendorId == VendorId &&
+                                       (x.SkuCode == item.SkuString || x.SkuAternativeCode == item.SkuString)
+                                   select x).FirstOrDefault();
+
+                        if (sku != null)
+                            skus.Add(sku.SkuId);
+                        else
+                            throw new ArgumentException(String.Format("Vendor with GUID '{0}' not found!", VendorId));
+                    }
+
+                    return new TransactionRequest()
+                    {
+                        PurchasedSkus = skus.ToArray(),
+                        PurchaserName = (Billing != null) ? Billing.Name : "",
+                        PurchaserEmail = PayerEmail
+                    };
+                }
             }
         }
 
