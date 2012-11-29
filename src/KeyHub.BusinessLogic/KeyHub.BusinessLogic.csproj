@@ -56,6 +56,7 @@
     <Compile Include="Basket\BasketSteps.cs" />
     <Compile Include="Basket\BasketWrapper.cs" />
     <Compile Include="Basket\InvalidPropertyException.cs" />
+    <Compile Include="BusinessRules\UniqueSkuCodeRule.cs" />
     <Compile Include="BusinessRules\SkuExpirationRule.cs" />
     <Compile Include="Caching\PerRequestCacheProvider.cs" />
     <Compile Include="Caching\RuntimeCacheProvider.cs" />

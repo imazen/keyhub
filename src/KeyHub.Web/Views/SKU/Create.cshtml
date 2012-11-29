@@ -40,6 +40,14 @@
         </div>
 
         <div class="editor-label">
+            @Html.LabelFor(model => model.SKU.SkuAternativeCode)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.SKU.SkuAternativeCode)
+            @Html.ValidationMessageFor(model => model.SKU.SkuAternativeCode)
+        </div>
+
+        <div class="editor-label">
             @Html.LabelFor(model => model.SKU.SelectedFeatureGUIDs)
         </div>
         <div class="editor-field">
