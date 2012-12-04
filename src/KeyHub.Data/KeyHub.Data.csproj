@@ -121,6 +121,10 @@
     <Compile Include="Migrations\201211211247222_TransactionOriginalMessage.Designer.cs">
       <DependentUpon>201211211247222_TransactionOriginalMessage.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201211290753491_SkuAlternativeCode.cs" />
+    <Compile Include="Migrations\201211290753491_SkuAlternativeCode.Designer.cs">
+      <DependentUpon>201211290753491_SkuAlternativeCode.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\MigrationConfiguration.cs" />
     <Compile Include="Migrations\Internal\DbSeederMigrator.cs" />
     <Compile Include="Migrations\Internal\IMigrationDataSeeder.cs" />

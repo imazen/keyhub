@@ -154,9 +154,9 @@ namespace KeyHub.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [AllowAnonymous]
-        public ActionResult Login()
+        public ActionResult Login(string returnUrl)
         {
-            ViewBag.ReturnUrl = Url.Action("Index", "Home", null, "http"); ;
+            ViewBag.ReturnUrl = (!String.IsNullOrEmpty(returnUrl)) ? returnUrl : Url.Action("Index", "Home", null, "http");
             return View();
         }
 

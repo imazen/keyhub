@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using KeyHub.Data.BusinessRules;
 using KeyHub.Runtime;
 using KeyHub.Web.ViewModels.SKU;
 using KeyHub.Data;
@@ -74,11 +75,20 @@ namespace KeyHub.Web.Controllers
                     //Offload adding SKUFeatures to Dynamic SKU Model
                     sku.AddFeatures(viewModel.GetNewFeatureGUIDs());
 
-                    context.SaveChanges();
+                    if (context.SaveChanges(CreateValidationFailed))
+                        return RedirectToAction("Index");
                 }
-                return RedirectToAction("Index");
+                
             }
             return Create();
+        }
+
+        private void CreateValidationFailed(BusinessRuleValidationException businessRuleValidationException)
+        {
+            foreach (var error in businessRuleValidationException.ValidationResults.Where(x => x != BusinessRuleValidationResult.Success))
+            {
+                ModelState.AddModelError("SKU." + error.PropertyName, error.ErrorMessage);
+            }
         }
 
         /// <summary>
@@ -113,33 +123,24 @@ namespace KeyHub.Web.Controllers
         [HttpPost]
         public ActionResult Edit(SKUEditViewModel viewModel)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                using (DataContext context = new DataContext(User.Identity))
                 {
-                    using (DataContext context = new DataContext(User.Identity))
-                    {
-                        Model.SKU sku = (from x in context.SKUs where x.SkuId == viewModel.SKU.SkuId select x).FirstOrDefault();
+                    Model.SKU sku =
+                        (from x in context.SKUs where x.SkuId == viewModel.SKU.SkuId select x).FirstOrDefault();
 
-                        viewModel.ToEntity(sku);
+                    viewModel.ToEntity(sku);
 
-                        //Offload adding and removing SKUFeatures to Dynamic SKU Model
-                        sku.AddFeatures(viewModel.GetNewFeatureGUIDs(sku));
-                        sku.RemoveFeatures(viewModel.GetRemovedFeatureGUIDs(sku));
+                    //Offload adding and removing SKUFeatures to Dynamic SKU Model
+                    sku.AddFeatures(viewModel.GetNewFeatureGUIDs(sku));
+                    sku.RemoveFeatures(viewModel.GetRemovedFeatureGUIDs(sku));
 
-                        context.SaveChanges();
-                    }
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    return View(viewModel);
+                    if (context.SaveChanges(CreateValidationFailed))
+                        return RedirectToAction("Index");
                 }
             }
-            catch
-            {
-                throw;
-            }
+            return Edit(viewModel.SKU.SkuId);
         }
     }
 }

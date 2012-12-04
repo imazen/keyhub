@@ -13,7 +13,7 @@ namespace KeyHub.Model
     /// like the Performance Enterprise, Performance Professional, or Cloud Enterprise bundles.
     /// It combines licensing rules with feature codes and packages.
     /// </summary>
-    public partial class SKU
+    public partial class SKU : IModelItem
     {
         public SKU()
         {
@@ -59,6 +59,14 @@ namespace KeyHub.Model
         [StringLength(256)]
         [Column(TypeName = "varchar")]
         public string SkuCode { get; set; }
+
+        /// <summary>
+        /// An alternative unique (per vendor) SKU indentifier string
+        /// </summary>
+        [Required]
+        [StringLength(256)]
+        [Column(TypeName = "varchar")]
+        public string SkuAternativeCode { get; set; }
 
         /// <summary>
         /// The maximum number of domain licenses permitted by this license.

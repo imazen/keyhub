@@ -9,6 +9,7 @@
     //var defaultNewOwningCustomerPanel = (Model.OwningCustomerIsPurchasingCustomerId) ? "display:none;" : "";
 }
 
+<script type="text/javascript" src="/Scripts/Checkout.js"></script>
 <h2>@ViewBag.ItemName <span>@ViewBag.Title</span></h2>
 
 @using (Html.BeginForm()) {
@@ -96,48 +97,3 @@
         </p>
     </fieldset>
 }
-
-
-<script type="text/javascript">
-
-    //Depending on Radiobutton disable (or perhaps hide) the create new purchasing and owning customer
-    //Partial view. If only disabled please take care or clearing any validationmessages upon disable.
-
-    //Also set disabled state on load
-    $(function () {
-        $('#NewOwningCustomer :input').attr('disabled', true);
-    });
-
-    function EnableNewPurchasingCustomer() {
-        $('#NewPurchasingCustomer :input').removeAttr('disabled');
-    }
-
-    function DisableNewPurchasingCustomer() {
-        $('#NewPurchasingCustomer :input').attr('disabled', true);
-    }
-
-    function EnableNewOwningCustomer() {
-        $('#NewOwningCustomer :input').removeAttr('disabled');
-    }
-
-    function DisableNewOwningCustomer() {
-        $('#NewOwningCustomer :input').attr('disabled', true);
-    }
-
-    var visible = false;
-
-    function ToggleNewOwningCustomer() {
-        if (visible == false) {
-            $('#OwningCustomer').slideDown(function () {
-                $('#NewOwningCustomer :input').removeAttr('disabled');
-            });
-            visible = true;
-        } else {
-            $('#OwningCustomer').slideUp(function () {
-                $('#NewOwningCustomer :input').attr('disabled', true);
-            });
-            visible = false;
-        }
-
-    }
-</script>
