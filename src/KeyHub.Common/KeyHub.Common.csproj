@@ -64,6 +64,7 @@
     <Compile Include="Utils\Regex.cs" />
     <Compile Include="Utils\SaveConvert.cs" />
     <Compile Include="Utils\Strings.cs" />
+    <Compile Include="Utils\TimeZoneAbbreviations.cs" />
     <Compile Include="Utils\UrlService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
