@@ -13,6 +13,7 @@ using KeyHub.Data;
 using KeyHub.Web.Api.Controllers.LicenseValidation;
 using KeyHub.Web.Api.Controllers.Transaction;
 using System.Net.Http.Formatting;
+using System.Globalization;
 
 namespace KeyHub.Web.Api.Controllers
 {
@@ -30,8 +31,6 @@ namespace KeyHub.Web.Api.Controllers
         {
             string vendor = id;
             var txn = new Transaction();
-            base.ProcessTransaction(txn.ToTransactionRequest(), User.Identity);
-
             var d = postedData.ReadAsNameValueCollection();
 
             //To calculate 'handshake', run 'md5 -s [password]', then 'md5 -s email@domain.com[Last MD5 result]'
@@ -45,7 +44,7 @@ namespace KeyHub.Web.Api.Controllers
             //var txn = new Transaction();
             txn.VendorId = Guid.Parse(vendor);
             txn.ExternalTransactionId = txn_id;
-            txn.PaymentDate = d.Pluck<DateTime>("payment_date").Value;
+            txn.PaymentDate = ConvertPayPalDateTime(d.Pluck("payment_date"));
             txn.PayerEmail = d.Pluck("payer_email");
             txn.PassThroughData = d.Pluck("custom");
             txn.Currency = d.Pluck("mc_currency");
@@ -95,6 +94,16 @@ namespace KeyHub.Web.Api.Controllers
             base.ProcessTransaction(txn.ToTransactionRequest(), User.Identity);
 
             return new HttpResponseMessage(HttpStatusCode.OK);
+        }
+
+        public static DateTime ConvertPayPalDateTime(string payPalDateTime)
+        {
+            payPalDateTime = KeyHub.Common.Utils.TimeZoneAbbreviations.ReplaceTimeZoneAbbreviation(payPalDateTime);
+
+            string[] dateFormats = { "HH:mm:ss MMM dd, yyyy zzz", "HH:mm:ss MMM. dd, yyyy zzz" };
+
+            // Parse the date. Throw an exception if it fails.
+            return  DateTime.ParseExact(payPalDateTime, dateFormats, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal);
         }
 
         private NameAndAddress ParseFrom(NameValueCollection d, string prefix)
@@ -240,7 +249,7 @@ namespace KeyHub.Web.Api.Controllers
                         if (sku != null)
                             skus.Add(sku.SkuId);
                         else
-                            throw new ArgumentException(String.Format("Vendor with GUID '{0}' not found!", VendorId));
+                            throw new ArgumentException(String.Format("SKU with SkuString or SkuAlterativeCode '{0}' not found!", item.SkuString));
                     }
 
                     return new TransactionRequest()
