@@ -21,6 +21,9 @@
                 @Html.DisplayNameFor(model => model.Vendors.FirstOrDefault().Name)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Vendors.FirstOrDefault().ObjectId)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Vendors.FirstOrDefault().Street)
             </th>
             <th>
@@ -47,6 +50,9 @@
 
             @Html.ActionLink(item.Name, "Details", new { key = item.ObjectId })
 
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ObjectId)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Street)

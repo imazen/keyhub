@@ -50,6 +50,7 @@ namespace KeyHub.Web.ViewModels.Vendor
         public VendorIndexViewItem(Model.Vendor vendor, Model.Country country)
             : base(vendor)
         {
+            ObjectId = vendor.ObjectId;
             CountryName = country.CountryName;
         }
 
@@ -58,5 +59,12 @@ namespace KeyHub.Web.ViewModels.Vendor
         /// </summary>
         [DisplayName("Country")]
         public string CountryName { get; set; }
+
+
+        /// <summary>
+        /// Vendor Id
+        /// </summary>
+        [DisplayName("Vendor Id")]
+        public Guid ObjectId { get; set; }
     }
 }

@@ -13,6 +13,12 @@
     @Html.HiddenFor(model => model.Vendor.ObjectId)
     <div class="editor-container-sideBySide">
     <div class="display-label">
+         @Html.DisplayNameFor(model => model.Vendor.ObjectId)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Vendor.ObjectId)
+    </div>    
+    <div class="display-label">
          @Html.DisplayNameFor(model => model.Vendor.Name)
     </div>
     <div class="display-field">

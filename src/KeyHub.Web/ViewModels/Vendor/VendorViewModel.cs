@@ -54,7 +54,7 @@ namespace KeyHub.Web.ViewModels.Vendor
         /// <summary>
         /// Unique identifier
         /// </summary>
-        [HiddenInput(DisplayValue = false)]
+        [DisplayName("Vendor Id")]
         public Guid ObjectId { get; set; }
 
         /// <summary>
