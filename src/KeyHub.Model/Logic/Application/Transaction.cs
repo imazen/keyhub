@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace KeyHub.Model
 {
@@ -21,6 +23,44 @@ namespace KeyHub.Model
             }
         }
 
+        /// <summary>
+        /// Check if transaction is waitong for claim
+        /// </summary>
+        public bool IsWaitingForClaim
+        {
+            get { return Status == TransactionStatus.Create || Status == TransactionStatus.Remind; }
+        }
 
+        /// <summary>
+        /// Purchaser name from original request
+        /// </summary>
+        public string PurchaserName
+        {
+            get
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.LoadXml(OriginalRequest);
+
+                XmlElement root = doc.DocumentElement;
+
+                return root != null ? root.Attributes["PurchaserName"].Value : string.Empty;
+            }
+        }
+
+        /// <summary>
+        /// Purchaser email from original request
+        /// </summary>
+        public string PurchaserEmail
+        {
+            get
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.LoadXml(OriginalRequest);
+
+                XmlElement root = doc.DocumentElement;
+
+                return root != null ? root.Attributes["PurchaserEmail"].Value : string.Empty;
+            }
+        }
     }
 }

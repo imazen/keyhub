@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using KeyHub.BusinessLogic.Basket;
 using KeyHub.Model;
 using KeyHub.Runtime;
+using KeyHub.Web.ViewModels.Mail;
 using KeyHub.Web.ViewModels.Transaction;
 using KeyHub.Data;
 
@@ -310,6 +311,33 @@ namespace KeyHub.Web.Controllers
 
                 return View(viewModel);
             }
+        }
+
+        /// <summary>
+        /// Resend an email to claim transaction 
+        /// </summary>
+        /// <param name="key">Id of the transaction</param>
+        /// <returns>Result of sending</returns>
+        public ActionResult Remind(string key)
+        {
+            int transactionId = Common.Utils.SafeConvert.ToInt(key.DecryptUrl(), -1);
+
+            BasketWrapper basket = BasketWrapper.GetByTransactionId(User.Identity, transactionId);
+
+            if (basket.Transaction == null)
+                throw new EntityNotFoundException("Transaction could not be resolved!");
+
+            basket.ExecuteStep(BasketSteps.Remind);
+
+            var transactionEmail = new TransactionMailViewModel
+            {
+                PurchaserName = basket.Transaction.PurchaserName,
+                PurchaserEmail = basket.Transaction.PurchaserEmail,
+                TransactionId = basket.Transaction.TransactionId
+            };
+            new MailController().TransactionEmail(transactionEmail).Deliver();
+
+            return RedirectToAction("Index");
         }
 
     }

@@ -221,6 +221,9 @@ namespace KeyHub.BusinessLogic.Basket
                     }
                     Transaction.Status = TransactionStatus.Complete;
                     break;
+                case BasketSteps.Remind:
+                    Transaction.Status = TransactionStatus.Remind;
+                    break;
                 case BasketSteps.Complete:
                     Transaction.Status = TransactionStatus.Complete;
                     break;

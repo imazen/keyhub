@@ -58,6 +58,8 @@ namespace KeyHub.Web.ViewModels.Transaction
             SKUSummary =  transactionItems.ToSummary(x => (x.Sku != null) ? x.Sku.SkuCode : "None", 3, ", ");
 
             StatusName = transaction.Status.GetDescription<TransactionStatus>();
+
+            IsWaitingForClaim = transaction.IsWaitingForClaim;
         }
 
         /// <summary>
@@ -77,5 +79,11 @@ namespace KeyHub.Web.ViewModels.Transaction
         /// </summary>
         [DisplayName("Status")]
         public string StatusName { get; set; }
+
+        /// <summary>
+        /// Indicate if tranaction status is waiting for claim
+        /// </summary>
+        [DisplayName("")]
+        public bool IsWaitingForClaim { get; set; }
     }
 }

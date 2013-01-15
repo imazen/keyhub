@@ -13,6 +13,7 @@ namespace KeyHub.BusinessLogic.Basket
     {
         None = 0,
         Create,
+        Remind,
         Checkout,
         Complete
     }

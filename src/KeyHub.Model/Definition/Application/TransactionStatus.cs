@@ -14,6 +14,8 @@ namespace KeyHub.Model
     {
         [Description("Transaction ready for checkout")] 
         Create = 0,
+        [Description("Transaction ready for checkout. Email resent.")]
+        Remind = 1,
         [Description("Licenses available")] 
         Complete = 99
     }

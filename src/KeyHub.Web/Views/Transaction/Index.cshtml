@@ -3,7 +3,7 @@
 
 @{
     ViewBag.ItemName = "Transaction";
-    ViewBag.Title = "Overview"; ;
+    ViewBag.Title = "Overview";
 }
 
 <h2>@ViewBag.ItemName <span>@ViewBag.Title</span></h2>
@@ -23,6 +23,8 @@
         <th>
             @Html.DisplayNameFor(model => model.Transactions.FirstOrDefault().StatusName)
         </th>
+        <th>
+        </th>
     </tr>
 </thead>
 @foreach (var item in Model.Transactions) {
@@ -38,6 +40,12 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.StatusName)
+        </td>
+        <td>
+            @if (item.IsWaitingForClaim)
+            {
+                @Html.ActionLink("Remind", "Remind", new {key = item.TransactionId.ToString().EncryptUrl()})
+            }
         </td>
     </tr>
 }
