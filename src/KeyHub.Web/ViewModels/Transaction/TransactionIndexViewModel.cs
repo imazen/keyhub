@@ -53,7 +53,7 @@ namespace KeyHub.Web.ViewModels.Transaction
             : base(transaction)
         {
             PurchaserName = (transactionItems.FirstOrDefault().License != null) ?
-                transactionItems.FirstOrDefault().License.PurchasingCustomer.Name : "None";
+                transactionItems.FirstOrDefault().License.PurchasingCustomer.Name : transaction.PurchaserName;
 
             SKUSummary =  transactionItems.ToSummary(x => (x.Sku != null) ? x.Sku.SkuCode : "None", 3, ", ");
 

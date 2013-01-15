@@ -30,37 +30,5 @@ namespace KeyHub.Model
         {
             get { return Status == TransactionStatus.Create || Status == TransactionStatus.Remind; }
         }
-
-        /// <summary>
-        /// Purchaser name from original request
-        /// </summary>
-        public string PurchaserName
-        {
-            get
-            {
-                XmlDocument doc = new XmlDocument();
-                doc.LoadXml(OriginalRequest);
-
-                XmlElement root = doc.DocumentElement;
-
-                return root != null ? root.Attributes["PurchaserName"].Value : string.Empty;
-            }
-        }
-
-        /// <summary>
-        /// Purchaser email from original request
-        /// </summary>
-        public string PurchaserEmail
-        {
-            get
-            {
-                XmlDocument doc = new XmlDocument();
-                doc.LoadXml(OriginalRequest);
-
-                XmlElement root = doc.DocumentElement;
-
-                return root != null ? root.Attributes["PurchaserEmail"].Value : string.Empty;
-            }
-        }
     }
 }

@@ -44,7 +44,7 @@
         <td>
             @if (item.IsWaitingForClaim)
             {
-                @Html.ActionLink("Remind", "Remind", new {key = item.TransactionId.ToString().EncryptUrl()})
+                @Html.ActionLink("Resend email", "Remind", new {key = item.TransactionId.ToString().EncryptUrl()})
             }
         </td>
     </tr>

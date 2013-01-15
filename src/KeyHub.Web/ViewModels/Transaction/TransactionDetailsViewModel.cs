@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using KeyHub.Data;
@@ -67,8 +68,10 @@ namespace KeyHub.Web.ViewModels.Transaction
             IEnumerable<Model.License> customerapplessLicenseQuery)
             : base(transaction)
         {
+            PurchaserEmail = transaction.PurchaserEmail;
+
             PurchaserName = (transactionItems.Any(l => l.License != null)) ?
-                transactionItems.FirstOrDefault().License.PurchasingCustomer.Name : "None";
+                transactionItems.FirstOrDefault().License.PurchasingCustomer.Name : transaction.PurchaserName;
 
             OwnerName = (transactionItems.Any(l => l.License != null)) ?
                 transactionItems.FirstOrDefault().License.OwningCustomer.Name : "None";
@@ -81,6 +84,13 @@ namespace KeyHub.Web.ViewModels.Transaction
 
             CustomerapplessLicenses = (from x in customerapplessLicenseQuery select x.ObjectId).ToList();
         }
+
+        /// <summary>
+        /// Email of the purchaser.
+        /// </summary>
+        [DisplayName("Purchaser Email")]
+        [DataType(DataType.EmailAddress)]
+        public string PurchaserEmail { get; set; }
 
         /// <summary>
         /// Name of the purchasing customer.

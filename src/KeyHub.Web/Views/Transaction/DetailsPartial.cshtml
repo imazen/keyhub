@@ -9,6 +9,13 @@
     <div class="display-field">
         @Html.DisplayFor(model => model.Transaction.CreatedDateTime)
     </div>
+        
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Transaction.PurchaserEmail)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Transaction.PurchaserEmail)
+    </div>
 
     <div class="display-label">
          @Html.DisplayNameFor(model => model.Transaction.PurchaserName)

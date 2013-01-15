@@ -39,7 +39,10 @@ namespace KeyHub.Web.Api.Controllers.LicenseValidation
                 var basket = BasketWrapper.CreateNewByIdentity(userIdentity);
 
                 basket.AddSkUs(transaction.PurchasedSkus);
-                basket.Transaction.OriginalRequest = GetOriginalRequestValues();
+                string originalRequest = GetOriginalRequestValues();
+                basket.Transaction.OriginalRequest = originalRequest;
+                basket.Transaction.PurchaserName = GetOriginalRequestAttributeValue(originalRequest, "PurchaserName");
+                basket.Transaction.PurchaserEmail = GetOriginalRequestAttributeValue(originalRequest, "PurchaserEmail");
 
                 basket.ExecuteStep(BasketSteps.Create);
 
@@ -86,6 +89,21 @@ namespace KeyHub.Web.Api.Controllers.LicenseValidation
             {
                 return reader.ReadToEnd();
             }
+        }
+
+        /// <summary>
+        /// Gets attribute value from original request message. 
+        /// Attributes names: PurchaserName, PurchaserEmail.
+        /// </summary>
+        /// <returns>attribute value from original request message</returns>
+        private static string GetOriginalRequestAttributeValue(string originalRequest, string attributeName)
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(originalRequest);
+
+            XmlElement root = doc.DocumentElement;
+
+            return root != null ? root.Attributes[attributeName].Value : string.Empty;
         }
     }
 }

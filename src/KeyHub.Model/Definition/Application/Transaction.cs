@@ -45,6 +45,20 @@ namespace KeyHub.Model
         public string OriginalRequest { get; set; }
 
         /// <summary>
+        /// Status of the transaction
+        /// </summary>
+        [Required]
+        [MaxLength(256)]
+        public string PurchaserName { get; set; }
+
+        /// <summary>
+        /// Status of the transaction
+        /// </summary>
+        [Required]
+        [MaxLength(256)]
+        public string PurchaserEmail { get; set; }
+
+        /// <summary>
         /// The list of transaction items this SKU consists of.
         /// </summary>
         public virtual ICollection<TransactionItem> TransactionItems { get; set; }
