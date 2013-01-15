@@ -39,10 +39,9 @@ namespace KeyHub.Web.Api.Controllers.LicenseValidation
                 var basket = BasketWrapper.CreateNewByIdentity(userIdentity);
 
                 basket.AddSkUs(transaction.PurchasedSkus);
-                string originalRequest = GetOriginalRequestValues();
-                basket.Transaction.OriginalRequest = originalRequest;
-                basket.Transaction.PurchaserName = GetOriginalRequestAttributeValue(originalRequest, "PurchaserName");
-                basket.Transaction.PurchaserEmail = GetOriginalRequestAttributeValue(originalRequest, "PurchaserEmail");
+                basket.Transaction.OriginalRequest = GetOriginalRequestValues();
+                basket.Transaction.PurchaserName = transaction.PurchaserName;
+                basket.Transaction.PurchaserEmail = transaction.PurchaserEmail;
 
                 basket.ExecuteStep(BasketSteps.Create);
 
