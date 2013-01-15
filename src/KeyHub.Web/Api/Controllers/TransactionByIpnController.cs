@@ -248,8 +248,6 @@ namespace KeyHub.Web.Api.Controllers
 
                         if (sku != null)
                             skus.Add(sku.SkuId);
-                        else
-                            throw new ArgumentException(String.Format("SKU with SkuString or SkuAlterativeCode '{0}' not found!", item.SkuString));
                     }
 
                     return new TransactionRequest()
