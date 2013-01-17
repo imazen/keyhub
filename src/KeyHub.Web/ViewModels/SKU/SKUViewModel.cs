@@ -102,7 +102,6 @@ namespace KeyHub.Web.ViewModels.SKU
         /// <summary>
         /// An alternative unique (per vendor) SKU indentifier string
         /// </summary>
-        [Required]
         [StringLength(256)]
         [DisplayName("Alternative name")]
         public string SkuAternativeCode { get; set; }

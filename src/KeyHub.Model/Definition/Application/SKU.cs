@@ -63,7 +63,6 @@ namespace KeyHub.Model
         /// <summary>
         /// An alternative unique (per vendor) SKU indentifier string
         /// </summary>
-        [Required]
         [StringLength(256)]
         [Column(TypeName = "varchar")]
         public string SkuAternativeCode { get; set; }
