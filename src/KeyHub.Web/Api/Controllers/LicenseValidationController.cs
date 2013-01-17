@@ -11,6 +11,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 using System.Web.Http;
+using System.Xml.Linq;
 
 namespace KeyHub.Web.Api.Controllers
 {
@@ -21,10 +22,8 @@ namespace KeyHub.Web.Api.Controllers
     {
         #region String Constants (tags)
 
-        private const string LicensesOpenTag = "<licenses>";
-        private const string LicensesCloseTag = "</licenses>";
-        private const string LicenseOpenTag = "<license>";
-        private const string LicenseCloseTag = "</license>";
+        private const string LicensesTag = "licenses";
+        private const string LicenseTag = "license";
 
         #endregion
 
@@ -104,19 +103,14 @@ namespace KeyHub.Web.Api.Controllers
         /// </example>
         private static string Serialize(IEnumerable<DomainValidationResult> domainValidationResults)
         {
-            var stringBuilder = new StringBuilder();
+            var xLicenses = new XElement(LicensesTag);
 
-            stringBuilder.AppendLine(LicensesOpenTag);
             foreach (var domainValidationResult in domainValidationResults)
             {
-                stringBuilder
-                    .Append(LicenseOpenTag)
-                    .Append(Encrypt(domainValidationResult.Serialize()))
-                    .AppendLine(LicenseCloseTag);
+                xLicenses.Add(new XElement(LicenseTag, Encrypt(domainValidationResult.Serialize())));
             }
-            stringBuilder.AppendLine(LicensesCloseTag);
 
-            return stringBuilder.ToString();
+            return xLicenses.ToString();
         }
 
         /// <summary>
