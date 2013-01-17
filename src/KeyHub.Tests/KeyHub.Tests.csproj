@@ -98,6 +98,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\TransactionByIpnTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
   </ItemGroup>
@@ -108,6 +109,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\KeyHub.BusinessLogic\KeyHub.BusinessLogic.csproj">
+      <Project>{7fa54424-5866-4a33-ab6b-01a59d0843c7}</Project>
+      <Name>KeyHub.BusinessLogic</Name>
+    </ProjectReference>
     <ProjectReference Include="..\KeyHub.Web\KeyHub.Web.csproj">
       <Project>{5706BEBF-F361-4845-9514-DC085FBEC39E}</Project>
       <Name>KeyHub.Web</Name>
