@@ -1,10 +1,9 @@
-﻿using System;
+﻿using KeyHub.Data;
+using KeyHub.Model;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using KeyHub.Data;
 
 namespace KeyHub.BusinessLogic.LicenseValidation
 {
@@ -16,29 +15,54 @@ namespace KeyHub.BusinessLogic.LicenseValidation
         /// <summary>
         /// Validate licenses
         /// </summary>
-        /// <param name="customerAppId">AppId to validate</param>
-        /// <param name="domains"></param>
+        /// <param name="appKey">AppKey from CustomerAppKeys table</param>
+        /// <param name="domainValidations"></param>
         /// <returns></returns>
-        public static string ValidateLicense(Guid customerAppId, IEnumerable<DomainValidation> domains)
+        public static IEnumerable<DomainValidationResult> ValidateLicense(Guid appKey, IEnumerable<DomainValidation> domainValidations)
         {
             using (var context = new DataContext())
             {
-                //var application = (from x in context.CustomerApps where x.CustomerAppId == customerAppId select x).Include(x => x.LicenseCustomerApps.li).FirstOrDefault();
+                CustomerApp customerApp = context.CustomerAppKeys
+                    .Where(x => x.AppKey == appKey)
+                    .Select(x => x.CustomerApp)
+                    .Include(x => x.LicenseCustomerApps)
+                    .FirstOrDefault();
 
-                return "";
+                if (customerApp == null)
+                {
+                    return null;
+                }
+
+                IEnumerable<License> licenses = customerApp.LicenseCustomerApps
+                    .Select(x => x.License)
+                    .ToList();
+                var domainValidationResults = new List<DomainValidationResult>();
+
+                foreach (DomainValidation domainValidation in domainValidations)
+                {
+                    foreach (License license in licenses)
+                    {
+                        IEnumerable<Guid> featureIds = license.Sku.SkuFeatures.Select(x => x.FeatureId).ToList();
+                        List<Guid> featureCodes = context.Features
+                            .Where(x => featureIds.Contains(x.FeatureId))
+                            .Select(x => x.FeatureCode)
+                            .ToList();
+
+                        var domainValidationResult = new DomainValidationResult
+                        {
+                            DomainName = domainValidation.DomainName,
+                            OwnerName = license.OwnerName,
+                            Issued = license.LicenseIssued,
+                            Expires = license.LicenseExpires,
+                            Features = featureCodes
+                        };
+
+                        domainValidationResults.Add(domainValidationResult);
+                    }
+                }
+
+                return domainValidationResults;
             }
         }
     }
-
-    public class DomainValidation
-    {
-        public DomainValidation(string domain, Guid[] features)
-        {
-            this.DomainName = domain;
-            this.FeatureCodes = features;
-        }
-
-        public string DomainName { get; set; }
-        public Guid[] FeatureCodes { get; set; }
-    }  
 }
