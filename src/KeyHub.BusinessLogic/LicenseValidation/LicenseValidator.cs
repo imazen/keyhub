@@ -1,10 +1,13 @@
 ﻿using System.Linq.Expressions;
+using KeyHub.BusinessLogic.LicenseValidation.Validators;
+using KeyHub.Core.Logging;
 using KeyHub.Data;
 using KeyHub.Model;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using KeyHub.Runtime;
 
 namespace KeyHub.BusinessLogic.LicenseValidation
 {
@@ -15,9 +18,15 @@ namespace KeyHub.BusinessLogic.LicenseValidation
     {
         private readonly DataContext context;
 
+        private readonly List<IValidator> validators;
+
         private LicenseValidator()
         {
             context = new DataContext();
+            validators = new List<IValidator>
+            {
+                new MaxDomainsCountValidator()
+            };
         }
 
         public void Dispose()
@@ -31,6 +40,8 @@ namespace KeyHub.BusinessLogic.LicenseValidation
         private IEnumerable<DomainValidationResult> Validate(Guid appKey, IEnumerable<DomainValidation> domainValidations)
         {
             List<DomainLicense> domainLicenses = MatchDomainLicenses(appKey, domainValidations);
+
+            domainLicenses = validators.Aggregate(domainLicenses, (current, validator) => validator.Validate(current));
 
             SaveDomainLicenses(domainLicenses);
 
@@ -96,17 +107,17 @@ namespace KeyHub.BusinessLogic.LicenseValidation
                 domainLicenses.Add(domainLicense);
             }
 
-            return domainLicenses.Distinct(new DomainLicenseEqualityComparer()).ToList();
+            return domainLicenses
+                .Distinct(new DomainLicenseEqualityComparer())
+                .OrderByDescending(x => x.DomainLicenseId) // in order to validate already stored first 
+                .ToList();
         }
 
         private void SaveDomainLicenses(IEnumerable<DomainLicense> domainLicenses)
         {
-            foreach (DomainLicense domainLicense in domainLicenses)
+            foreach (DomainLicense domainLicense in domainLicenses.Where(domainLicense => domainLicense.IsNew))
             {
-                if (domainLicense.IsNew)
-                {
-                    context.DomainLicenses.Add(domainLicense);
-                }
+                context.DomainLicenses.Add(domainLicense);
             }
 
             context.SaveChanges();
@@ -122,7 +133,7 @@ namespace KeyHub.BusinessLogic.LicenseValidation
                 OwnerName = x.License.OwnerName,
                 KeyBytes = x.KeyBytes,
                 Features = GetFeatureCodes(x.License).ToList()
-            });
+            }).ToList();
         }
 
         private static IEnumerable<Guid> GetFeatureCodes(License license)

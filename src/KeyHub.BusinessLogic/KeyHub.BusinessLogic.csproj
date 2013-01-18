@@ -63,7 +63,9 @@
     <Compile Include="LicenseValidation\DomainLicenseEqualityComparer.cs" />
     <Compile Include="LicenseValidation\DomainValidation.cs" />
     <Compile Include="LicenseValidation\DomainValidationResult.cs" />
+    <Compile Include="LicenseValidation\Validators\IValidator.cs" />
     <Compile Include="LicenseValidation\LicenseValidator.cs" />
+    <Compile Include="LicenseValidation\Validators\MaxDomainsCountValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BusinessRules\UniqueFeatureCodeRule.cs" />
   </ItemGroup>
