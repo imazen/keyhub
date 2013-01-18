@@ -60,11 +60,9 @@ namespace KeyHub.Web.Api.Controllers
         /// </example> 
         public HttpResponseMessage Post([FromBody]LicenseValidationRequest request)
         {
-            var domainsToValidate = (from x in request.Domains select new DomainValidation(x.name, x.Feature)).ToList();
-
             try
             {
-                IEnumerable<DomainValidationResult> domainValidationResults = LicenseValidator.ValidateLicense(request.AppId, domainsToValidate);
+                IEnumerable<DomainValidationResult> domainValidationResults = LicenseValidator.ValidateLicense(request.AppId, ToDomainValidationList(request));
 
                 string domainValidationString = domainValidationResults != null ? Serialize(domainValidationResults) : string.Empty;
 
@@ -85,6 +83,18 @@ namespace KeyHub.Web.Api.Controllers
                     Content = new StringContent(string.Empty, Encoding.UTF8, "text/html")
                 };
             }
+        }
+
+        /// <summary>
+        /// Converts license validation request to combination of domainName/featureCode
+        /// </summary>
+        /// <param name="licenseValidationRequest"></param>
+        /// <returns></returns>
+        private static IEnumerable<DomainValidation> ToDomainValidationList(LicenseValidationRequest licenseValidationRequest)
+        {
+            return (from licenseValidationRequestDomain in licenseValidationRequest.Domains
+                    from featureCode in licenseValidationRequestDomain.Feature
+                    select new DomainValidation(licenseValidationRequestDomain.name, featureCode)).ToList();
         }
 
         /// <summary>

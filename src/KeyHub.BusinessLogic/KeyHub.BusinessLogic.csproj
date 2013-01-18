@@ -60,6 +60,7 @@
     <Compile Include="BusinessRules\SkuExpirationRule.cs" />
     <Compile Include="Caching\PerRequestCacheProvider.cs" />
     <Compile Include="Caching\RuntimeCacheProvider.cs" />
+    <Compile Include="LicenseValidation\DomainLicenseEqualityComparer.cs" />
     <Compile Include="LicenseValidation\DomainValidation.cs" />
     <Compile Include="LicenseValidation\DomainValidationResult.cs" />
     <Compile Include="LicenseValidation\LicenseValidator.cs" />

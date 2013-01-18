@@ -7,13 +7,13 @@ namespace KeyHub.BusinessLogic.LicenseValidation
     /// </summary>
     public class DomainValidation
     {
-        public DomainValidation(string domain, Guid[] features)
+        public DomainValidation(string domain, Guid features)
         {
-            this.DomainName = domain;
-            this.FeatureCodes = features;
+            DomainName = domain;
+            FeatureCode = features;
         }
 
         public string DomainName { get; set; }
-        public Guid[] FeatureCodes { get; set; }
+        public Guid FeatureCode { get; set; }
     }  
 }

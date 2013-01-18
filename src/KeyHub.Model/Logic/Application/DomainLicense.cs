@@ -17,5 +17,10 @@ namespace KeyHub.Model
             //TODO: Who provides the Key?
             this.KeyBytes = new RSACryptoServiceProvider(2048).ExportCspBlob(true);
         }
+
+        public bool IsNew
+        {
+            get { return DomainLicenseId == default(Guid); }
+        }
     }
 }
