@@ -395,8 +395,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </Content>
     <None Include="Scripts\jquery-1.6.2-vsdoc.js" />
-    <Content Include="App_Data\RsaKeys\private.xml" />
-    <Content Include="App_Data\RsaKeys\public.xml" />
     <Content Include="Scripts\Checkout.js" />
     <Content Include="Scripts\JavaScripts.js" />
     <Content Include="Scripts\jquery-1.6.2.js" />
@@ -519,6 +517,7 @@
     <Content Include="Views\Account\ExternalRegister.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Data\" />
     <Folder Include="Content\Fonts\" />
     <Folder Include="Content\Images\" />
   </ItemGroup>

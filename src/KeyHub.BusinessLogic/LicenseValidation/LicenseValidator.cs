@@ -48,7 +48,7 @@ namespace KeyHub.BusinessLogic.LicenseValidation
             if (matchedCustomerApp == null)
             {
                 // need to notify
-                return null;
+                throw new Exception(string.Format("CustomerApp with appKey={0} has not found", appKey));
             }
 
             IEnumerable<Guid> matchedLicenseIds = matchedCustomerApp.LicenseCustomerApps
@@ -120,6 +120,7 @@ namespace KeyHub.BusinessLogic.LicenseValidation
                 Expires = x.DomainLicenseExpires,
                 Issued = x.DomainLicenseIssued,
                 OwnerName = x.License.OwnerName,
+                KeyBytes = x.KeyBytes,
                 Features = GetFeatureCodes(x.License).ToList()
             });
         }

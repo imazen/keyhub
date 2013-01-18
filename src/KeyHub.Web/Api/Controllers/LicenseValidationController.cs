@@ -28,11 +28,6 @@ namespace KeyHub.Web.Api.Controllers
         #endregion
 
         /// <summary>
-        /// Path to public key for encrypting by RSA validation result
-        /// </summary>
-        private const string PublicKeyPath = @"~/App_Data/RsaKeys/public.xml";
-
-        /// <summary>
         /// License validation post
         /// </summary>
         /// <param name="request">LicenseValidationRequest to validate</param>
@@ -65,9 +60,6 @@ namespace KeyHub.Web.Api.Controllers
                 IEnumerable<DomainValidationResult> domainValidationResults = LicenseValidator.ValidateLicense(request.AppId, ToDomainValidationList(request));
 
                 string domainValidationString = domainValidationResults != null ? Serialize(domainValidationResults) : string.Empty;
-
-                if (domainValidationResults == null)
-                    throw new Exception("Application not found");
 
                 return new HttpResponseMessage
                 {
@@ -117,7 +109,7 @@ namespace KeyHub.Web.Api.Controllers
 
             foreach (var domainValidationResult in domainValidationResults)
             {
-                xLicenses.Add(new XElement(LicenseTag, Encrypt(domainValidationResult.Serialize())));
+                xLicenses.Add(new XElement(LicenseTag, Encrypt(domainValidationResult.Serialize(), domainValidationResult.KeyBytes)));
             }
 
             return xLicenses.ToString();
@@ -127,12 +119,13 @@ namespace KeyHub.Web.Api.Controllers
         /// Get Base64 string encrypted RSA 
         /// </summary>
         /// <param name="text"></param>
+        /// <param name="keyBytes">Blob of RSA private key</param>
         /// <returns>Encrypted text</returns>
-        private static string Encrypt(string text)
+        private static string Encrypt(string text, byte[] keyBytes)
         {
             using (var r = new RSACryptoServiceProvider(2048))
             {
-                r.FromXmlString(File.ReadAllText(HttpContext.Current.Server.MapPath(PublicKeyPath)));
+                r.ImportCspBlob(keyBytes);
                 return Convert.ToBase64String(r.Encrypt(Encoding.UTF8.GetBytes(text), false));
             }
         }

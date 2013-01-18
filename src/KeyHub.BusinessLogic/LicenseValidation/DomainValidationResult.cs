@@ -20,6 +20,8 @@ namespace KeyHub.BusinessLogic.LicenseValidation
 
         public List<Guid> Features { get; set; }
 
+        public byte[] KeyBytes { get; set; }
+
         public DomainValidationResult()
         {
             Features = new List<Guid>();
