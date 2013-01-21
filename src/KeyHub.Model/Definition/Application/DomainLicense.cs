@@ -15,7 +15,7 @@ namespace KeyHub.Model
     /// For simplicity, we do not differentiate between domains and subdomains. 
     /// In the .dll, we automatically strip "www." off domains, but other subdomains will require separate licenses.
     /// </summary>
-    public partial class DomainLicense
+    public partial class DomainLicense : IModelItem
     {
         /// <summary>
         /// Unique LicenseDomainId as identity for a domain
