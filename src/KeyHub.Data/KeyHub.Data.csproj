@@ -110,6 +110,7 @@
     <Compile Include="Configuration\Membership\UserConfiguration.cs" />
     <Compile Include="Configuration\Membership\UserInRoleConfiguration.cs" />
     <Compile Include="DataContext.cs" />
+    <Compile Include="Extensions\DomainLicenseExtensions.cs" />
     <Compile Include="Extensions\EntitylistExtensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="FilteredDbSet.cs" />

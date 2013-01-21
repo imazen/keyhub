@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KeyHub.Data
 {
@@ -36,6 +34,34 @@ namespace KeyHub.Data
                 summary = "None";
 
             return summary;
+        }
+
+        /// <summary>
+        /// Removes all matched entities
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="entitySet"></param>
+        /// <param name="predicate"></param>
+        public static void Remove<TEntity>(this DbSet<TEntity> entitySet, Func<TEntity, bool> predicate) where TEntity : class
+        {
+            foreach (var entity in entitySet.Where(predicate))
+            {
+                entitySet.Remove(entity);
+            }
+        }
+
+        /// <summary>
+        /// Removes all passed entities
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="entitySet"></param>
+        /// <param name="entities"></param>
+        public static void Remove<TEntity>(this DbSet<TEntity> entitySet, IEnumerable<TEntity> entities) where TEntity : class
+        {
+            foreach (var entity in entities)
+            {
+                entitySet.Remove(entity);
+            }
         }
     }
 }

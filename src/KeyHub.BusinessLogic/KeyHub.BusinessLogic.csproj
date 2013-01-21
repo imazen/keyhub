@@ -56,6 +56,7 @@
     <Compile Include="Basket\BasketSteps.cs" />
     <Compile Include="Basket\BasketWrapper.cs" />
     <Compile Include="Basket\InvalidPropertyException.cs" />
+    <Compile Include="BusinessRules\LicenseValidation\MaxDomainsCountRule.cs" />
     <Compile Include="BusinessRules\UniqueSkuCodeRule.cs" />
     <Compile Include="BusinessRules\SkuExpirationRule.cs" />
     <Compile Include="Caching\PerRequestCacheProvider.cs" />
@@ -63,9 +64,7 @@
     <Compile Include="LicenseValidation\DomainLicenseEqualityComparer.cs" />
     <Compile Include="LicenseValidation\DomainValidation.cs" />
     <Compile Include="LicenseValidation\DomainValidationResult.cs" />
-    <Compile Include="LicenseValidation\Validators\IValidator.cs" />
     <Compile Include="LicenseValidation\LicenseValidator.cs" />
-    <Compile Include="LicenseValidation\Validators\MaxDomainsCountValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BusinessRules\UniqueFeatureCodeRule.cs" />
   </ItemGroup>

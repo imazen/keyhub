@@ -1,13 +1,13 @@
-﻿using System.Linq.Expressions;
-using KeyHub.BusinessLogic.LicenseValidation.Validators;
-using KeyHub.Core.Logging;
+﻿using KeyHub.Core.Logging;
 using KeyHub.Data;
+using KeyHub.Data.BusinessRules;
+using KeyHub.Data.Extensions;
 using KeyHub.Model;
+using KeyHub.Runtime;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using KeyHub.Runtime;
 
 namespace KeyHub.BusinessLogic.LicenseValidation
 {
@@ -18,15 +18,9 @@ namespace KeyHub.BusinessLogic.LicenseValidation
     {
         private readonly DataContext context;
 
-        private readonly List<IValidator> validators;
-
         private LicenseValidator()
         {
             context = new DataContext();
-            validators = new List<IValidator>
-            {
-                new MaxDomainsCountValidator()
-            };
         }
 
         public void Dispose()
@@ -39,17 +33,8 @@ namespace KeyHub.BusinessLogic.LicenseValidation
 
         private IEnumerable<DomainValidationResult> Validate(Guid appKey, IEnumerable<DomainValidation> domainValidations)
         {
-            List<DomainLicense> domainLicenses = MatchDomainLicenses(appKey, domainValidations);
+            DeleteExpiredDomainLicenses();
 
-            domainLicenses = validators.Aggregate(domainLicenses, (current, validator) => validator.Validate(current));
-
-            SaveDomainLicenses(domainLicenses);
-
-            return ToDomainVelidationResults(domainLicenses);
-        }
-
-        private List<DomainLicense> MatchDomainLicenses(Guid appKey, IEnumerable<DomainValidation> domainValidations)
-        {
             CustomerApp matchedCustomerApp = context.CustomerAppKeys
                 .Where(x => x.AppKey == appKey)
                 .Select(x => x.CustomerApp)
@@ -68,6 +53,10 @@ namespace KeyHub.BusinessLogic.LicenseValidation
 
             var domainLicenses = new List<DomainLicense>();
 
+            var alreadyFailedDomainLicenses = new List<DomainLicense>();
+
+            IEqualityComparer<DomainLicense> equalityComparer = new DomainLicenseEqualityComparer();
+
             foreach (DomainValidation domainValidation in domainValidations)
             {
                 string domainName = domainValidation.DomainName;
@@ -76,7 +65,7 @@ namespace KeyHub.BusinessLogic.LicenseValidation
                 var domainLicense = context.DomainLicenses
                     .Include(x => x.License.Sku.SkuFeatures.Select(s => s.Feature))
                     .FirstOrDefault(x => x.DomainName == domainName
-                        && matchedLicenseIds.Contains(x.LicenseId) 
+                        && matchedLicenseIds.Contains(x.LicenseId)
                         && x.License.Sku.SkuFeatures.Select(s => s.Feature.FeatureCode).Contains(featureCode));
 
                 if (domainLicense == null)
@@ -102,25 +91,32 @@ namespace KeyHub.BusinessLogic.LicenseValidation
                         License = featureLicense,
                         LicenseId = featureLicense.ObjectId
                     };
+
+                    if (!context.DomainLicenses.AnyEquals(domainLicense) && !alreadyFailedDomainLicenses.Contains(domainLicense, equalityComparer))
+                    {
+                        context.DomainLicenses.Add(domainLicense);
+                        if (!context.SaveChanges(OnValidationFailed))
+                        {
+                            alreadyFailedDomainLicenses.Add(domainLicense);
+                        }
+                    }
                 }
 
-                domainLicenses.Add(domainLicense);
+                if (!domainLicenses.Contains(domainLicense, equalityComparer) && !alreadyFailedDomainLicenses.Contains(domainLicense, equalityComparer))
+                {
+                    domainLicenses.Add(domainLicense);
+                }
             }
 
-            return domainLicenses
-                .Distinct(new DomainLicenseEqualityComparer())
-                .OrderByDescending(x => x.DomainLicenseId) // in order to validate already stored first 
-                .ToList();
+            return ToDomainVelidationResults(domainLicenses);
         }
 
-        private void SaveDomainLicenses(IEnumerable<DomainLicense> domainLicenses)
+        private void OnValidationFailed(BusinessRuleValidationException businessRuleValidationException)
         {
-            foreach (DomainLicense domainLicense in domainLicenses.Where(domainLicense => domainLicense.IsNew))
+            foreach (var error in businessRuleValidationException.ValidationResults.Where(x => x != BusinessRuleValidationResult.Success))
             {
-                context.DomainLicenses.Add(domainLicense);
+                LogContext.Instance.Log(error.ErrorMessage);
             }
-
-            context.SaveChanges();
         }
 
         private IEnumerable<DomainValidationResult> ToDomainVelidationResults(IEnumerable<DomainLicense> domainLicenses)
@@ -134,6 +130,24 @@ namespace KeyHub.BusinessLogic.LicenseValidation
                 KeyBytes = x.KeyBytes,
                 Features = GetFeatureCodes(x.License).ToList()
             }).ToList();
+        }
+
+        private void DeleteExpiredDomainLicenses()
+        {
+            var expiredDomainLicenses = context.DomainLicenses
+                .AutomaticlyCreated()
+                .Expired()
+                .ToList();
+
+            foreach (var expiredDomainLicense in expiredDomainLicenses)
+            {
+                // notify
+                LogContext.Instance.Log(string.Format("Domain expired: id: {0}, name: {1}, licenseId: {2}"
+                    , expiredDomainLicense.DomainLicenseId, expiredDomainLicense.DomainName, expiredDomainLicense.LicenseId), LogTypes.Info);
+            }
+
+            context.DomainLicenses.Remove(expiredDomainLicenses);
+            context.SaveChanges();
         }
 
         private static IEnumerable<Guid> GetFeatureCodes(License license)
