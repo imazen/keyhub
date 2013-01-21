@@ -33,6 +33,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.5.0.0-rc\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
@@ -96,8 +100,13 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20505.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="Telerik.JustMock, Version=2012.3.1220.42, Culture=neutral, PublicKeyToken=721b6c5bc0326b3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\Telerik\JustMock\Libraries\Telerik.JustMock.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\ExampleTest.cs" />
     <Compile Include="Controllers\TransactionByIpnTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
@@ -113,10 +122,21 @@
       <Project>{7fa54424-5866-4a33-ab6b-01a59d0843c7}</Project>
       <Name>KeyHub.BusinessLogic</Name>
     </ProjectReference>
+    <ProjectReference Include="..\KeyHub.Data\KeyHub.Data.csproj">
+      <Project>{D44CE009-6C7E-4E7F-912C-11A34CD094EE}</Project>
+      <Name>KeyHub.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\KeyHub.Model\KeyHub.Model.csproj">
+      <Project>{6D9BA48A-476E-4288-B3AD-0CAE9008317C}</Project>
+      <Name>KeyHub.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\KeyHub.Web\KeyHub.Web.csproj">
       <Project>{5706BEBF-F361-4845-9514-DC085FBEC39E}</Project>
       <Name>KeyHub.Web</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Examples\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

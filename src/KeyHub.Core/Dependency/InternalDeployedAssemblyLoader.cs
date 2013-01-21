@@ -41,7 +41,7 @@ namespace KeyHub.Core.Dependency
             List<string> assemblyFolders = new List<string>();
             
             // Check if we are on ASP.NET
-            if (HttpContext.Current != null)
+            if (HttpContext.Current != null && HttpRuntime.AppDomainAppId != null)
             {
                 assemblyFolders.Add(HttpRuntime.BinDirectory);
             }
