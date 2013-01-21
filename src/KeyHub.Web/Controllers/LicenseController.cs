@@ -76,7 +76,7 @@ namespace KeyHub.Web.Controllers
 
                 LicenseDetailsViewModel viewModel = new LicenseDetailsViewModel(licenseQuery.FirstOrDefault());
 
-                viewModel.RedirectUrl = Request.UrlReferrer.ToString();
+                viewModel.RedirectUrl = Request.UrlReferrer != null ? Request.UrlReferrer.ToString() : string.Empty;
 
                 return View(viewModel);
             }

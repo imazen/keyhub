@@ -59,5 +59,8 @@
 </p>
 
 <p>
-    <a href="@Model.RedirectUrl">Back</a>
+    @if (Model.RedirectUrl.IsEmpty())
+    {
+        <a href="@Model.RedirectUrl">Back</a>
+    }
 </p>

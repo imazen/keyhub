@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using KeyHub.Data;
+using KeyHub.Data.BusinessRules;
+using KeyHub.Data.Extensions;
+using KeyHub.Model;
+using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
-using KeyHub.Data;
-using KeyHub.Data.BusinessRules;
-using KeyHub.Model;
 
 namespace KeyHub.BusinessLogic.BusinessRules.LicenseValidation
 {
@@ -14,11 +16,16 @@ namespace KeyHub.BusinessLogic.BusinessRules.LicenseValidation
     {
         protected override IEnumerable<BusinessRuleValidationResult> ExecuteValidation(DomainLicense entity, DataContext context, DbEntityEntry entityEntry)
         {
-            if (entity.License.Sku.MaxDomains.HasValue 
-                && !context.DomainLicenses.Any(x => x.DomainName == entity.DomainName && x.LicenseId == entity.LicenseId))
+            SKU sku = context.Licenses
+                .Include(x => x.Sku)
+                .Where(x => x.ObjectId == entity.LicenseId)
+                .Select(x => x.Sku)
+                .FirstOrDefault();
+
+            if (sku.MaxDomains.HasValue && !context.DomainLicenses.AnyEquals(entity))
             {
                 int usedDomainsCount = context.DomainLicenses.Count(x => x.LicenseId == entity.LicenseId);
-                int maxDomains = entity.License.Sku.MaxDomains.Value;
+                int maxDomains = sku.MaxDomains.Value;
 
                 if (usedDomainsCount < maxDomains)
                 {

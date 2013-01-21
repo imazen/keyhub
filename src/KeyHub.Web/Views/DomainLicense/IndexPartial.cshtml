@@ -44,6 +44,8 @@
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { key=item.DomainLicenseId })
+            |
+            @Html.ActionLink("Remove", "Remove", new { key=item.DomainLicenseId })
         </td>
     </tr>
 }

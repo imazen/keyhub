@@ -4,6 +4,8 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using KeyHub.Data.BusinessRules;
+using KeyHub.Model;
 using KeyHub.Runtime;
 using KeyHub.Web.ViewModels.DomainLicense;
 using KeyHub.Data;
@@ -49,7 +51,7 @@ namespace KeyHub.Web.Controllers
 
                 var viewModel = new DomainLicenseCreateViewModel(licenseQuery.FirstOrDefault());
 
-                viewModel.RedirectUrl = Request.UrlReferrer.ToString();
+                viewModel.RedirectUrl = new UrlHelper(ControllerContext.RequestContext).Action("Details", "License", new { key = viewModel.DomainLicense.LicenseId });
 
                 return View(viewModel);
             }
@@ -63,37 +65,22 @@ namespace KeyHub.Web.Controllers
         [HttpPost]
         public ActionResult Create(DomainLicenseCreateViewModel viewModel)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                using (var context = new DataContext(User.Identity))
                 {
-                    using (var context = new DataContext(User.Identity))
-                    {
-                        Model.DomainLicense domainLicense = viewModel.ToEntity(null);
+                    DomainLicense domainLicense = viewModel.ToEntity(null);
 
-                        context.DomainLicenses.Add(domainLicense);
+                    context.DomainLicenses.Add(domainLicense);
 
-                        context.SaveChanges();
-                    }
-
-                    if (!string.IsNullOrEmpty(viewModel.RedirectUrl))
+                    if (context.SaveChanges(CreateValidationFailed))
                     {
                         return Redirect(viewModel.RedirectUrl);
                     }
-                    else
-                    {
-                        return RedirectToAction("Details", "License", new {key = viewModel.DomainLicense.LicenseId});
-                    }
-                }
-                else
-                {
-                    return View(viewModel);
                 }
             }
-            catch
-            {
-                throw;
-            }
+
+            return View(viewModel);
         }
 
         /// <summary>
@@ -206,6 +193,31 @@ namespace KeyHub.Web.Controllers
             catch
             {
                 throw;
+            }
+        }
+
+        /// <summary>
+        /// Remove a single domainLicense
+        /// </summary>
+        /// <param name="key">GUID of domainLicense to edit</param>
+        /// <returns></returns>
+        public ActionResult Remove(Guid key)
+        {
+            using (var context = new DataContext(User.Identity))
+            {
+                DomainLicense domainLicense = context.DomainLicenses.FirstOrDefault(x => x.DomainLicenseId == key);
+                context.DomainLicenses.Remove(domainLicense);
+                context.SaveChanges();
+
+                return RedirectToAction("Details", "License", new { key = domainLicense.LicenseId }); ;
+            }
+        }
+
+        private void CreateValidationFailed(BusinessRuleValidationException businessRuleValidationException)
+        {
+            foreach (var error in businessRuleValidationException.ValidationResults.Where(x => x != BusinessRuleValidationResult.Success))
+            {
+                ModelState.AddModelError(error.PropertyName != null ? "DomainLicense." + error.PropertyName : string.Empty, error.ErrorMessage);
             }
         }
 
