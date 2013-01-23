@@ -171,18 +171,18 @@ DIV.editor-container-sideBySide {
     display: inline;
     float: left; }
   DIV.editor-container-sideBySide DIV.editor-label, DIV.editor-container-sideBySide DIV.display-label {
-    width: 180px;
+    width: 230px;
     text-align: right;
     margin-bottom: 10px;
     clear: both;
     padding: 0px 10px 0 0;
     line-height: 32px; }
   DIV.editor-container-sideBySide DIV.editor-field, DIV.editor-container-sideBySide DIV.display-field {
-    width: 310px; }
+    width: 260px; }
     DIV.editor-container-sideBySide DIV.editor-field INPUT, DIV.editor-container-sideBySide DIV.display-field INPUT {
-      width: 288px; }
+      width: 238px; }
     DIV.editor-container-sideBySide DIV.editor-field SPAN.field-validation-error, DIV.editor-container-sideBySide DIV.display-field SPAN.field-validation-error {
-      width: 250px; }
+      width: 200px; }
   DIV.editor-container-sideBySide DIV.display-label, DIV.editor-container-sideBySide DIV.display-field {
     line-height: 20px;
     padding: 0px;

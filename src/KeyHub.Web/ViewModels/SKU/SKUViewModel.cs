@@ -110,12 +110,14 @@ namespace KeyHub.Web.ViewModels.SKU
         /// The maximum number of domain licenses permitted by this license.
         /// Leave empty to disable maximum on domains
         /// </summary>
+        [DisplayName("Max domains")]
         public int? MaxDomains { get; set; }
 
         /// <summary>
         /// How long the owner fields are editable after license is issued (in days)
         /// Leave empty to disable changing the ownership
         /// </summary>
+        [DisplayName("EditOwnershipduration (days)")]
         public int? EditOwnershipDuration { get; set; }
 
         /// <summary>
@@ -128,6 +130,7 @@ namespace KeyHub.Web.ViewModels.SKU
         /// How long the assigned support contact can be changed
         /// Leave empty to disable changing the duration.
         /// </summary>
+        [DisplayName("EditSupportContactsDuration (days)")]
         public int? EditSupportContactsDuration { get; set; }
 
         /// <summary>
@@ -141,12 +144,14 @@ namespace KeyHub.Web.ViewModels.SKU
         /// How long auto-generated domain licenses are valid before they must be auto-renewed
         /// Leave empty to disable auto domains.
         /// </summary>
+        [DisplayName("AutoDomainDuration (months)")]
         public int? AutoDomainDuration { get; set; }
 
         /// <summary>
         /// How long manually generated domain licenses are valid for.
         /// Leave empty to disable manual domains.
         /// </summary>
+        [DisplayName("ManualDomainDuration (months)")]
         public int? ManualDomainDuration { get; set; }
 
         /// <summary>
