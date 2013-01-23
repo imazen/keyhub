@@ -242,14 +242,24 @@ namespace KeyHub.Data
 
             if (entity != null)
             {
-                var validationResults = BusinessRuleExecutor.ExecuteBusinessResult<DataContext>(entity, this, entityEntry);
-                if (!validationResults.All(x => x == BusinessRuleValidationResult.Success))
-                {
-                    throw new BusinessRuleValidationException(validationResults.ToArray());
-                }
+                ValidateModelItem(entity, entityEntry);
             }
 
             return base.ValidateEntity(entityEntry, items);
+        }
+
+        /// <summary>
+        /// Validates entity for unit tests only.
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="entityEntry">It can be null if it is enough for business rules of current entity.</param>
+        public void ValidateModelItem(IModelItem entity, DbEntityEntry entityEntry = null)
+        {
+            var validationResults = BusinessRuleExecutor.ExecuteBusinessResult(entity, this, entityEntry).ToArray();
+            if (validationResults.Any(x => x != BusinessRuleValidationResult.Success))
+            {
+                throw new BusinessRuleValidationException(validationResults);
+            }
         }
 
         #region "Resolving user rights"

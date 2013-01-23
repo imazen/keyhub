@@ -18,7 +18,7 @@ namespace KeyHub.BusinessLogic.LicenseValidation
     {
         private readonly DataContext context;
 
-        private LicenseValidator()
+        public LicenseValidator()
         {
             context = new DataContext();
         }
@@ -63,7 +63,7 @@ namespace KeyHub.BusinessLogic.LicenseValidation
                 Guid featureCode = domainValidation.FeatureCode;
 
                 var domainLicense = context.DomainLicenses
-                    .Include(x => x.License.Sku.SkuFeatures.Select(s => s.Feature))
+                    //.Include(x => x.License.Sku.SkuFeatures.Select(s => s.Feature))
                     .FirstOrDefault(x => x.DomainName == domainName
                         && matchedLicenseIds.Contains(x.LicenseId)
                         && x.License.Sku.SkuFeatures.Select(s => s.Feature.FeatureCode).Contains(featureCode));
@@ -111,7 +111,7 @@ namespace KeyHub.BusinessLogic.LicenseValidation
             return ToDomainVelidationResults(domainLicenses);
         }
 
-        private void OnValidationFailed(BusinessRuleValidationException businessRuleValidationException)
+        public void OnValidationFailed(BusinessRuleValidationException businessRuleValidationException)
         {
             foreach (var error in businessRuleValidationException.ValidationResults.Where(x => x != BusinessRuleValidationResult.Success))
             {
@@ -132,7 +132,7 @@ namespace KeyHub.BusinessLogic.LicenseValidation
             }).ToList();
         }
 
-        private void DeleteExpiredDomainLicenses()
+        public void DeleteExpiredDomainLicenses()
         {
             var expiredDomainLicenses = context.DomainLicenses
                 .AutomaticlyCreated()

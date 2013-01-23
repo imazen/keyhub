@@ -33,7 +33,7 @@ namespace KeyHub.BusinessLogic.BusinessRules.LicenseValidation
                 }
                 else
                 {
-                    yield return new BusinessRuleValidationResult(string.Format("MaxDomains violation: domain: {0}, licenseId: {1}", entity.DomainName, entity.LicenseId));
+                    yield return new BusinessRuleValidationResult(string.Format("MaxDomains violation: domain: {0}, licenseId: {1}", entity.DomainName, entity.LicenseId), this, null);
                 }
             }
             else

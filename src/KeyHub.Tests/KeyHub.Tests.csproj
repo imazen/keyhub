@@ -106,10 +106,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BusinessLogic\LicenseValidation\MaxDomainsCountTest.cs" />
     <Compile Include="Controllers\ExampleTest.cs" />
     <Compile Include="Controllers\TransactionByIpnTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
+    <Compile Include="TestData\CustomerAppKeyTestData.cs" />
+    <Compile Include="TestData\CustomerAppTestData.cs" />
+    <Compile Include="TestData\DomainLicenseTestData.cs" />
+    <Compile Include="TestData\FeatureTestData.cs" />
+    <Compile Include="TestData\LicenseTestData.cs" />
+    <Compile Include="TestData\PrivateKeyTestData.cs" />
+    <Compile Include="TestData\SkuTestData.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />
