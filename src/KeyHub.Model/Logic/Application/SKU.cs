@@ -33,5 +33,15 @@ namespace KeyHub.Model
                 this.SkuFeatures.Remove(removedSKUFeature);
             }
         }
+
+        public DateTime CalculateDomainIssueDate()
+        {
+            return DateTime.Today;
+        }
+
+        public DateTime? CalculateDomainExpiration()
+        {
+            return AutoDomainDuration.HasValue ? CalculateDomainIssueDate().AddMonths(AutoDomainDuration.Value) : (DateTime?)null;
+        }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Linq.Expressions;
 using KeyHub.BusinessLogic.BusinessRules.LicenseValidation;
 using KeyHub.BusinessLogic.LicenseValidation;
 using KeyHub.Data;
@@ -16,6 +18,8 @@ namespace KeyHub.Tests.BusinessLogic.LicenseValidation
     [TestClass]
     public class MaxDomainsCountTest
     {
+        // ReSharper disable InconsistentNaming
+
         private TestContext testContextInstance;
         public TestContext TestContext
         {
@@ -28,8 +32,6 @@ namespace KeyHub.Tests.BusinessLogic.LicenseValidation
                 testContextInstance = value;
             }
         }
-
-        // ReSharper disable InconsistentNaming
 
         private DataContext context;
         private LicenseValidator licenseValidator;
@@ -46,6 +48,7 @@ namespace KeyHub.Tests.BusinessLogic.LicenseValidation
         private CustomerAppKey customerAppKey1;
         private CustomerApp customerApp1;
         private List<DomainLicense> domainLicenses;
+        private DomainLicense domainLicense1;
 
         private List<DomainValidationResult> domainValidationResults;
 
@@ -74,7 +77,12 @@ namespace KeyHub.Tests.BusinessLogic.LicenseValidation
             license1 = LicenseTestData.Create(sku1);
             customerAppKey1 = CustomerAppKeyTestData.Create(appKey);
             customerApp1 = CustomerAppTestData.Create(customerAppKey1, license1);
-            domainLicenses = new List<DomainLicense> { };
+            domainLicenses = new List<DomainLicense> { new DomainLicense() };
+
+            IQueryable<DomainLicense> queryable = new List<DomainLicense>().AsQueryable();
+            Mock.Arrange(() => queryable.Include(Arg.IsAny<Expression<Func<DomainLicense, IEnumerable<Feature>>>>()))
+                .IgnoreInstance()
+                .ReturnsCollection(domainLicenses);
         }
 
         // ReSharper disable ImplicitlyCapturedClosure
@@ -82,6 +90,8 @@ namespace KeyHub.Tests.BusinessLogic.LicenseValidation
         [TestMethod]
         public void AddDomainLicenseWhenMaxDomainsCountNotAssigned()
         {
+            MockSku();
+
             Mock.Arrange(() => context.CustomerAppKeys)
                 .IgnoreInstance()
                 .ReturnsCollection(customerApp1.CustomerAppKeys);
@@ -96,7 +106,7 @@ namespace KeyHub.Tests.BusinessLogic.LicenseValidation
 
             Mock.Arrange(() => context.DomainLicenses.Add(Arg.Matches((DomainLicense d) => d.DomainName == domainName1)))
                 .IgnoreInstance()
-                .DoInstead((DomainLicense d) => domainLicenses.Add(d));
+                .DoInstead((DomainLicense d) => domainLicense1 = d);
 
             Mock.Arrange(() => context.SaveChanges())
                 .IgnoreInstance()
@@ -126,7 +136,7 @@ namespace KeyHub.Tests.BusinessLogic.LicenseValidation
                 .IgnoreInstance()
                 .ReturnsCollection(new List<License> { license1 });
 
-            Mock.Arrange(() => context.DomainLicenses.Add(Arg.Matches((DomainLicense d) => d.DomainName == domainName1)))
+            Mock.Arrange(() => context.DomainLicenses.Add(Arg.Matches((DomainLicense d) => d.DomainName == domainName1 && d.AutomaticlyCreated)))
                 .IgnoreInstance()
                 .DoInstead((DomainLicense d) => domainLicenses.Add(d));
 
@@ -146,7 +156,7 @@ namespace KeyHub.Tests.BusinessLogic.LicenseValidation
         public void NotAddDomainLicenseWhenSameDomainLicense()
         {
             sku1.MaxDomains = 1;
-            DomainLicense domainLicense1 = DomainLicenseTestData.Create(domainName1, license1);
+            domainLicense1 = DomainLicenseTestData.Create(domainName1, license1);
             domainLicenses.Add(domainLicense1);
 
             Mock.Arrange(() => context.CustomerAppKeys)
@@ -225,6 +235,15 @@ namespace KeyHub.Tests.BusinessLogic.LicenseValidation
 
         // ReSharper restore ImplicitlyCapturedClosure
 
+        private void MockSku()
+        {
+            Mock.Arrange(() => sku1.CalculateDomainIssueDate())
+                .MustBeCalled();
+
+            Mock.Arrange(() => sku1.CalculateDomainExpiration())
+                .MustBeCalled();
+        }
+
         private void AssertDomainsNames()
         {
             List<string> domainNames = domainValidations.Select(x => x.DomainName).Distinct().ToList();
@@ -253,6 +272,7 @@ namespace KeyHub.Tests.BusinessLogic.LicenseValidation
 
             Mock.AssertAll(context);
             Mock.AssertAll(licenseValidator);
+            Mock.AssertAll(sku1);
         }
 
         private void ActAndAssert<T>(Action<T> assertAction, T parameter)

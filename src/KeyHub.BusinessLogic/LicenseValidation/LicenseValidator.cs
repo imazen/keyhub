@@ -63,7 +63,7 @@ namespace KeyHub.BusinessLogic.LicenseValidation
                 Guid featureCode = domainValidation.FeatureCode;
 
                 var domainLicense = context.DomainLicenses
-                    //.Include(x => x.License.Sku.SkuFeatures.Select(s => s.Feature))
+                    .Include(x => x.License.Sku.SkuFeatures.Select(s => s.Feature))
                     .FirstOrDefault(x => x.DomainName == domainName
                         && matchedLicenseIds.Contains(x.LicenseId)
                         && x.License.Sku.SkuFeatures.Select(s => s.Feature.FeatureCode).Contains(featureCode));
@@ -85,8 +85,8 @@ namespace KeyHub.BusinessLogic.LicenseValidation
                     {
                         DomainName = domainName,
                         AutomaticlyCreated = true,
-                        DomainLicenseIssued = featureLicense.LicenseIssued,
-                        DomainLicenseExpires = featureLicense.LicenseExpires,
+                        DomainLicenseIssued = featureLicense.Sku.CalculateDomainIssueDate(),
+                        DomainLicenseExpires = featureLicense.Sku.CalculateDomainExpiration(),
                         KeyBytes = featureLicense.Sku.PrivateKey.KeyBytes,
                         License = featureLicense,
                         LicenseId = featureLicense.ObjectId
