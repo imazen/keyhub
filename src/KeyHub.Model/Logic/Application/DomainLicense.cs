@@ -22,5 +22,14 @@ namespace KeyHub.Model
         {
             get { return DomainLicenseId == default(Guid); }
         }
+
+        public bool CanBeManuallyDeleted
+        {
+            get
+            {
+                return (AutomaticlyCreated && License.Sku.CanDeleteAutoDomains) ||
+                       (!AutomaticlyCreated && License.Sku.CanDeleteManualDomains);
+            }
+        }
     }
 }

@@ -31,6 +31,7 @@ namespace KeyHub.Web.ViewModels.DomainLicense
             this.DomainLicenseIssued = domainLicense.DomainLicenseIssued;
             this.DomainLicenseExpires = domainLicense.DomainLicenseExpires;
             this.AutomaticlyCreated = domainLicense.AutomaticlyCreated;
+            this.CanBeManuallyDeleted = domainLicense.CanBeManuallyDeleted;
         }
 
         /// <summary>
@@ -102,5 +103,10 @@ namespace KeyHub.Web.ViewModels.DomainLicense
         /// </summary>
         [DisplayName("License")]
         public string LicenseName { get; set; }
+
+        /// <summary>
+        /// Check if domain license can be deleted
+        /// </summary>
+        public bool CanBeManuallyDeleted { get; set; }
     }
 }
