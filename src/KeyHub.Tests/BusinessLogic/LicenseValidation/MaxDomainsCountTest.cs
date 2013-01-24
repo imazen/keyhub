@@ -63,15 +63,15 @@ namespace KeyHub.Tests.BusinessLogic.LicenseValidation
             licenseValidator = new LicenseValidator();
 
             domainName1 = "domain1";
-            appKey = ToGuid(100);
+            appKey = GuidTestData.Create(100);
             domainValidations = new List<DomainValidation>
             {
-                new DomainValidation(domainName1, ToGuid(1)),
-                new DomainValidation(domainName1, ToGuid(2))
+                new DomainValidation(domainName1, GuidTestData.Create(1)),
+                new DomainValidation(domainName1, GuidTestData.Create(2))
             };
 
-            feature1 = FeatureTestData.Create(ToGuid(1));
-            feature2 = FeatureTestData.Create(ToGuid(2));
+            feature1 = FeatureTestData.Create(GuidTestData.Create(1));
+            feature2 = FeatureTestData.Create(GuidTestData.Create(2));
             privateKey1 = PrivateKeyTestData.Create();
             sku1 = SkuTestData.Create(privateKey1, feature1, feature2);
             license1 = LicenseTestData.Create(sku1);
@@ -301,13 +301,6 @@ namespace KeyHub.Tests.BusinessLogic.LicenseValidation
             return businessRuleValidationResult.ErrorMessage == string.Format("MaxDomains violation: domain: {0}, licenseId: {1}", domainName, licenseId)
                    && businessRuleValidationResult.BusinessRuleName == new MaxDomainsCountRule().BusinessRuleName
                    && string.IsNullOrEmpty(businessRuleValidationResult.PropertyName);
-        }
-
-        private static Guid ToGuid(int value)
-        {
-            byte[] bytes = new byte[16];
-            BitConverter.GetBytes(value).CopyTo(bytes, 0);
-            return new Guid(bytes);
         }
 
         /// <summary>

@@ -33,6 +33,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ActionMailer.Net, Version=0.7.4.0, Culture=neutral, PublicKeyToken=e62db3114c02a1c2, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\ActionMailer.0.7.4\lib\Net40\ActionMailer.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="ActionMailer.Net.Mvc, Version=0.7.4.0, Culture=neutral, PublicKeyToken=e62db3114c02a1c2, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\ActionMailer.0.7.4\lib\Net40\ActionMailer.Net.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.5.0.0-rc\lib\net45\EntityFramework.dll</HintPath>
@@ -109,12 +117,14 @@
     <Compile Include="BusinessLogic\LicenseValidation\MaxDomainsCountTest.cs" />
     <Compile Include="Controllers\ExampleTest.cs" />
     <Compile Include="Controllers\TransactionByIpnTest.cs" />
+    <Compile Include="Controllers\TransactionControllerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
     <Compile Include="TestData\CustomerAppKeyTestData.cs" />
     <Compile Include="TestData\CustomerAppTestData.cs" />
     <Compile Include="TestData\DomainLicenseTestData.cs" />
     <Compile Include="TestData\FeatureTestData.cs" />
+    <Compile Include="TestData\GuidTestData.cs" />
     <Compile Include="TestData\LicenseTestData.cs" />
     <Compile Include="TestData\PrivateKeyTestData.cs" />
     <Compile Include="TestData\SkuTestData.cs" />
