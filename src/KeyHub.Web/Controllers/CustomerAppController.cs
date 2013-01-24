@@ -4,6 +4,8 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using KeyHub.Data.BusinessRules;
+using KeyHub.Model;
 using KeyHub.Runtime;
 using KeyHub.Web.ViewModels.CustomerApp;
 using KeyHub.Data;
@@ -95,46 +97,39 @@ namespace KeyHub.Web.Controllers
         [HttpPost]
         public ActionResult Create(CustomerAppCreateViewModel viewModel)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                using (var context = new DataContext(User.Identity))
                 {
-                    using (var context = new DataContext(User.Identity))
+                    Model.CustomerApp customerApp = viewModel.ToEntity(null);
+                    context.CustomerApps.Add(customerApp);
+
+                    //Offload adding CustomerAppLicenses to Dynamic SKU Model
+                    customerApp.AddLicenses(viewModel.GetNewLicenseGUIDs());
+                    if (!context.SaveChanges(CreateValidationFailed))
                     {
-                        Model.CustomerApp customerApp = viewModel.ToEntity(null);
-                        context.CustomerApps.Add(customerApp);
-
-                        //Offload adding CustomerAppLicenses to Dynamic SKU Model
-                        customerApp.AddLicenses(viewModel.GetNewLicenseGUIDs());
-                        context.SaveChanges();
-
-                        //Create customer application key
-                        var customerAppKey = new Model.CustomerAppKey()
-                        {
-                            CustomerAppId = customerApp.CustomerAppId
-                        };
-                        context.CustomerAppKeys.Add(customerAppKey);
-                        context.SaveChanges();
+                        return Create();
                     }
+
+                    //Create customer application key
+                    var customerAppKey = new Model.CustomerAppKey()
+                    {
+                        CustomerAppId = customerApp.CustomerAppId
+                    };
+
+                    context.CustomerAppKeys.Add(customerAppKey);
+                    context.SaveChanges();
 
                     if (!string.IsNullOrEmpty(viewModel.RedirectUrl))
                     {
                         return Redirect(viewModel.RedirectUrl);
                     }
-                    else
-                    {
-                        return RedirectToAction("Index");
-                    }
-                }
-                else
-                {
-                    return View(viewModel);
+
+                    return RedirectToAction("Index");
                 }
             }
-            catch
-            {
-                throw;
-            }
+
+            return View(viewModel);
         }
 
         /// <summary>
@@ -234,39 +229,55 @@ namespace KeyHub.Web.Controllers
         [HttpPost]
         public ActionResult Edit(CustomerAppEditViewModel viewModel)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                using (var context = new DataContext(User.Identity))
                 {
-                    using (var context = new DataContext(User.Identity))
-                    {
-                        Model.CustomerApp customerApp = (from x in context.CustomerApps where x.CustomerAppId == viewModel.CustomerApp.CustomerAppId select x).FirstOrDefault();
-                        viewModel.ToEntity(customerApp);
+                    CustomerApp customerApp = (from x in context.CustomerApps where x.CustomerAppId == viewModel.CustomerApp.CustomerAppId select x).FirstOrDefault();
+                    viewModel.ToEntity(customerApp);
 
-                        //Offload adding and removing LicenseCustomerApps to Dynamic CustomerApp Model
-                        customerApp.AddLicenses(viewModel.GetNewLicenseGUIDs(customerApp));
-                        customerApp.RemoveLicenses(viewModel.GetRemovedLicenseGUIDs(customerApp));
+                    //Offload adding and removing LicenseCustomerApps to Dynamic CustomerApp Model
+                    customerApp.AddLicenses(viewModel.GetNewLicenseGUIDs(customerApp));
+                    customerApp.RemoveLicenses(viewModel.GetRemovedLicenseGUIDs(customerApp));
 
-                        context.SaveChanges();
-                    }
+                    if (context.SaveChanges(CreateValidationFailed))
+                    {
+                        if (!string.IsNullOrEmpty(viewModel.RedirectUrl))
+                        {
+                            return Redirect(viewModel.RedirectUrl);
+                        }
 
-                    if (!string.IsNullOrEmpty(viewModel.RedirectUrl))
-                    {
-                        return Redirect(viewModel.RedirectUrl);
-                    }
-                    else
-                    {
                         return RedirectToAction("Index");
                     }
                 }
-                else
-                {
-                    return View(viewModel);
-                }
             }
-            catch
+
+            return Edit(viewModel.CustomerApp.CustomerAppId);
+        }
+
+        /// <summary>
+        /// Remove a single CustomerApp
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public ActionResult Remove(Guid key)
+        {
+            using (var context = new DataContext(User.Identity))
             {
-                throw;
+                context.LicenseCustomerApps.Remove(x => x.CustomerAppId == key);
+                context.CustomerAppKeys.Remove(x => x.CustomerAppId == key);
+                context.CustomerApps.Remove(x => x.CustomerAppId == key);
+                context.SaveChanges();
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        private void CreateValidationFailed(BusinessRuleValidationException businessRuleValidationException)
+        {
+            foreach (var error in businessRuleValidationException.ValidationResults.Where(x => x != BusinessRuleValidationResult.Success))
+            {
+                ModelState.AddModelError("CustomerApp." + error.PropertyName, error.ErrorMessage);
             }
         }
     }

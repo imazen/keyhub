@@ -237,6 +237,8 @@ namespace KeyHub.Tests.BusinessLogic.LicenseValidation
 
         private void MockSku()
         {
+            Mock.Initialize<SKU>();
+
             Mock.Arrange(() => sku1.CalculateDomainIssueDate())
                 .MustBeCalled();
 

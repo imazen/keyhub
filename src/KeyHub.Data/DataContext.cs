@@ -262,6 +262,21 @@ namespace KeyHub.Data
             }
         }
 
+        /// <summary>
+        /// Indicates if entity should validate
+        /// </summary>
+        /// <param name="entityEntry"></param>
+        /// <returns></returns>
+        protected override bool ShouldValidateEntity(DbEntityEntry entityEntry)
+        {
+            if (entityEntry.Entity is IModelItem)
+            {
+                return true;
+            }
+
+            return base.ShouldValidateEntity(entityEntry);
+        }
+
         #region "Resolving user rights"
         /// <summary>
         /// Resolve vendor rights based on current user
