@@ -26,6 +26,11 @@ namespace KeyHub.Web.ViewModels.PrivateKey
             this.PrivateKeyId = privateKey.PrivateKeyId;
             this.VendorId = privateKey.VendorId;
             this.DisplayName = privateKey.DisplayName;
+
+            if (privateKey.PrivateKeyId != default(Guid))
+            {
+                this.PrivateKeyXmlString = privateKey.GetPrivateKeyXmlString();
+            }
         }
 
         /// <summary>
@@ -45,6 +50,7 @@ namespace KeyHub.Web.ViewModels.PrivateKey
             current.PrivateKeyId = this.PrivateKeyId;
             current.VendorId = this.VendorId;
             current.DisplayName = this.DisplayName;
+            current.SetPrivateKeyXmlString(PrivateKeyXmlString);
 
             return current;
         }
@@ -67,5 +73,8 @@ namespace KeyHub.Web.ViewModels.PrivateKey
         [Required]
         [StringLength(256)]
         public string DisplayName { get; set; }
+
+        [Required]
+        public string PrivateKeyXmlString { get; set; }
     }
 }

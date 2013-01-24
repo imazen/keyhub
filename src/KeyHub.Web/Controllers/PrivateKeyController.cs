@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -56,6 +57,7 @@ namespace KeyHub.Web.Controllers
         /// <param name="viewModel">Created PrivateKeyViewModel</param>
         /// <returns>Redirectaction to index if successfull</returns>
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult Create(PrivateKeyCreateViewModel viewModel)
         {
             try
@@ -105,6 +107,7 @@ namespace KeyHub.Web.Controllers
         /// <param name="viewModel">Edited PrivateKeyViewModel</param>
         /// <returns>Redirectaction to index if successfull</returns>
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult Edit(PrivateKeyEditViewModel viewModel)
         {
             try
@@ -129,6 +132,22 @@ namespace KeyHub.Web.Controllers
             catch
             {
                 throw;
+            }
+        }
+
+        /// <summary>
+        /// Remove a single privateKey
+        /// </summary>
+        /// <param name="key">GUID of privateKey to remove</param>
+        /// <returns></returns>
+        public ActionResult Remove(Guid key)
+        {
+            using (DataContext context = new DataContext())
+            {
+                context.PrivateKeys.Remove(x => x.PrivateKeyId == key);
+                context.SaveChanges();
+ 
+                return Redirect(Request.UrlReferrer.ToString());
             }
         }
     }
