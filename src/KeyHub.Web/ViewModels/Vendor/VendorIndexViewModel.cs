@@ -59,12 +59,5 @@ namespace KeyHub.Web.ViewModels.Vendor
         /// </summary>
         [DisplayName("Country")]
         public string CountryName { get; set; }
-
-
-        /// <summary>
-        /// Vendor Id
-        /// </summary>
-        [DisplayName("Vendor Id")]
-        public Guid ObjectId { get; set; }
     }
 }
