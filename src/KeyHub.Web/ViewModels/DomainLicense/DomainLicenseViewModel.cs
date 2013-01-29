@@ -32,6 +32,7 @@ namespace KeyHub.Web.ViewModels.DomainLicense
             this.DomainLicenseExpires = domainLicense.DomainLicenseExpires;
             this.AutomaticlyCreated = domainLicense.AutomaticlyCreated;
             this.CanBeManuallyDeleted = domainLicense.CanBeManuallyDeleted;
+            this.CanCalculateDomainExpiration = domainLicense.License.Sku.CanCalculateManualDomainExpiration;
         }
 
         /// <summary>
@@ -108,5 +109,10 @@ namespace KeyHub.Web.ViewModels.DomainLicense
         /// Check if domain license can be deleted
         /// </summary>
         public bool CanBeManuallyDeleted { get; set; }
+
+        /// <summary>
+        /// Check if server can calculate domain expiration, therefore user do not needed to input expiration date
+        /// </summary>
+        public bool CanCalculateDomainExpiration { get; set; }
     }
 }

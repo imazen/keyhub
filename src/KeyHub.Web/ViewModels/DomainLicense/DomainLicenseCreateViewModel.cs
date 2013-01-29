@@ -21,7 +21,19 @@ namespace KeyHub.Web.ViewModels.DomainLicense
         /// <param name="license">Licenses for domain</param>
         public DomainLicenseCreateViewModel(Model.License license)
         {
-            DomainLicense = new DomainLicenseViewModel(new Model.DomainLicense() { LicenseId = license.ObjectId, License = license });
+            var domainLicense = new Model.DomainLicense()
+            {
+                LicenseId = license.ObjectId,
+                License = license,
+                DomainLicenseIssued = license.Sku.CalculateDomainIssueDate()
+            };
+
+            if (license.Sku.CanCalculateManualDomainExpiration)
+            {
+                domainLicense.DomainLicenseExpires = license.Sku.CalculateManualDomainExpiration();
+            }
+
+            DomainLicense = new DomainLicenseViewModel(domainLicense);
         }
 
         /// <summary>
