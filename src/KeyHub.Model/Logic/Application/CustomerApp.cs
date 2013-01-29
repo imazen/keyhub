@@ -9,7 +9,7 @@ namespace KeyHub.Model
     /// <summary>
     /// Add processing logic to CustomerApp
     /// </summary>
-    public partial class CustomerApp
+    public partial class CustomerApp : IModelItem
     {
         /// <summary>
         /// Add LicenseCustomerApp to CustomerApp based on new License Guids

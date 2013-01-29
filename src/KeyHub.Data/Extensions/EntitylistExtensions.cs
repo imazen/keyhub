@@ -42,7 +42,7 @@ namespace KeyHub.Data
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="entitySet"></param>
         /// <param name="predicate"></param>
-        public static void Remove<TEntity>(this DbSet<TEntity> entitySet, Func<TEntity, bool> predicate) where TEntity : class
+        public static void Remove<TEntity>(this IDbSet<TEntity> entitySet, Func<TEntity, bool> predicate) where TEntity : class
         {
             foreach (var entity in entitySet.Where(predicate))
             {
@@ -56,7 +56,7 @@ namespace KeyHub.Data
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="entitySet"></param>
         /// <param name="entities"></param>
-        public static void Remove<TEntity>(this DbSet<TEntity> entitySet, IEnumerable<TEntity> entities) where TEntity : class
+        public static void Remove<TEntity>(this IDbSet<TEntity> entitySet, IEnumerable<TEntity> entities) where TEntity : class
         {
             foreach (var entity in entities)
             {
