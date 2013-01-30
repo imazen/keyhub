@@ -86,7 +86,7 @@ namespace KeyHub.BusinessLogic.LicenseValidation
                         DomainName = domainName,
                         AutomaticlyCreated = true,
                         DomainLicenseIssued = featureLicense.Sku.CalculateDomainIssueDate(),
-                        DomainLicenseExpires = featureLicense.Sku.CalculateDomainExpiration(),
+                        DomainLicenseExpires = featureLicense.Sku.CalculateAutoDomainExpiration(),
                         KeyBytes = featureLicense.Sku.PrivateKey.KeyBytes,
                         License = featureLicense,
                         LicenseId = featureLicense.ObjectId

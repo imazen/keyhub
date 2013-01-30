@@ -39,9 +39,19 @@ namespace KeyHub.Model
             return DateTime.Today;
         }
 
-        public DateTime? CalculateDomainExpiration()
+        public DateTime? CalculateAutoDomainExpiration()
         {
             return AutoDomainDuration.HasValue ? CalculateDomainIssueDate().AddMonths(AutoDomainDuration.Value) : (DateTime?)null;
+        }
+
+        public DateTime? CalculateManualDomainExpiration()
+        {
+            return ManualDomainDuration.HasValue ? CalculateDomainIssueDate().AddMonths(ManualDomainDuration.Value) : (DateTime?)null;
+        }
+
+        public bool CanCalculateManualDomainExpiration
+        {
+            get { return ManualDomainDuration.HasValue; }
         }
     }
 }

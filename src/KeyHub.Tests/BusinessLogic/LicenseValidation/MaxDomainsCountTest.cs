@@ -242,7 +242,7 @@ namespace KeyHub.Tests.BusinessLogic.LicenseValidation
             Mock.Arrange(() => sku1.CalculateDomainIssueDate())
                 .MustBeCalled();
 
-            Mock.Arrange(() => sku1.CalculateDomainExpiration())
+            Mock.Arrange(() => sku1.CalculateAutoDomainExpiration())
                 .MustBeCalled();
         }
 
