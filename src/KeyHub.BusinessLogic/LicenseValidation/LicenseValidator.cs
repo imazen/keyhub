@@ -70,7 +70,7 @@ namespace KeyHub.BusinessLogic.LicenseValidation
 
                 if (domainLicense == null)
                 {
-                    var featureLicense = context.Licenses
+                    var featureLicense = (from x in context.Licenses select x)
                         .Include(x => x.Sku.SkuFeatures.Select(s => s.Feature))
                         .FirstOrDefault(x => x.Sku.SkuFeatures.Select(s => s.Feature.FeatureCode).Any(y => y == featureCode));
 
