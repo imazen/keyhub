@@ -22,7 +22,7 @@ namespace KeyHub.BusinessLogic.BusinessRules.LicenseValidation
                 .Select(x => x.Sku)
                 .FirstOrDefault();
 
-            if (sku.MaxDomains.HasValue && !context.DomainLicenses.AnyEquals(entity))
+            if (sku.MaxDomains.HasValue && !context.DomainLicenses.Contains(entity))
             {
                 int usedDomainsCount = context.DomainLicenses.Count(x => x.LicenseId == entity.LicenseId);
                 int maxDomains = sku.MaxDomains.Value;

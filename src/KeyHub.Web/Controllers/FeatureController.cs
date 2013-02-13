@@ -17,13 +17,20 @@ namespace KeyHub.Web.Controllers
     [Authorize]
     public class FeatureController : ControllerBase
     {
+        private readonly IDataContextFactory dataContextFactory;
+        public FeatureController(IDataContextFactory dataContextFactory)
+            : base(dataContextFactory)
+        {
+            this.dataContextFactory = dataContextFactory;
+        }
+
         /// <summary>
         /// Get list of features
         /// </summary>
         /// <returns>Feature index list view</returns>
         public ActionResult Index()
         {
-            using (DataContext context = new DataContext(User.Identity))
+            using (var context = dataContextFactory.CreateByUser())
             {
                 //Authorized vendors
                 var vendorGuids = (from v in context.Vendors select v).Select(x => x.ObjectId).ToList();
@@ -45,7 +52,7 @@ namespace KeyHub.Web.Controllers
         /// <returns>Create feature view</returns>
         public ActionResult Create()
         {
-            using (DataContext context = new DataContext(User.Identity))
+            using (var context = dataContextFactory.CreateByUser())
             {
                 var vendorQuery = (from c in context.Vendors select c);//.FilterByUser(UserEntity);
 
@@ -65,7 +72,7 @@ namespace KeyHub.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                using (var context = new DataContext(User.Identity))
+                using (var context = dataContextFactory.CreateByUser())
                 {
                     var feature = viewModel.ToEntity(null);
                     context.Features.Add(feature);
@@ -94,7 +101,7 @@ namespace KeyHub.Web.Controllers
         /// <returns>Edit feature view</returns>
         public ActionResult Edit(Guid key)
         {
-            using (DataContext context = new DataContext(User.Identity))
+            using (var context = dataContextFactory.CreateByUser())
             {
                 var featureQuery = from f in context.Features where f.FeatureId == key select f;
                 var vendorQuery = (from v in context.Vendors select v);//;.FilterByUser(UserEntity);
@@ -115,7 +122,7 @@ namespace KeyHub.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                using (DataContext context = new DataContext(User.Identity))
+                using (var context = dataContextFactory.CreateByUser())
                 {
                     Model.Feature feature = (from f in context.Features where f.FeatureId == viewModel.Feature.FeatureId select f).FirstOrDefault();
                     viewModel.ToEntity(feature);

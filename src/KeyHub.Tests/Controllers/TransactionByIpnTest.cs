@@ -68,7 +68,8 @@ namespace KeyHub.Tests.Controllers
         [TestMethod]
         public void TestIpn()
         {
-            new TransactionByIpnController().PostTransactionByIpn(VendorGuid.ToString(), new System.Net.Http.Formatting.FormDataCollection(Request));
+            IDataContextFactory factory = null;//Mock factory
+            new TransactionByIpnController(factory).PostTransactionByIpn(VendorGuid.ToString(), new System.Net.Http.Formatting.FormDataCollection(Request));
         }
     }
 }

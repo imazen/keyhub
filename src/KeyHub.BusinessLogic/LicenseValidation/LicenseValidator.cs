@@ -92,7 +92,7 @@ namespace KeyHub.BusinessLogic.LicenseValidation
                         LicenseId = featureLicense.ObjectId
                     };
 
-                    if (!context.DomainLicenses.AnyEquals(domainLicense) && !alreadyFailedDomainLicenses.Contains(domainLicense, equalityComparer))
+                    if (!context.DomainLicenses.Contains(domainLicense) && !alreadyFailedDomainLicenses.Contains(domainLicense, equalityComparer))
                     {
                         context.DomainLicenses.Add(domainLicense);
                         if (!context.SaveChanges(OnValidationFailed))

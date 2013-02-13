@@ -18,13 +18,19 @@ namespace KeyHub.Web.Controllers
     [Authorize]
     public class CustomerAppController : Controller
     {
+        private readonly IDataContextFactory dataContextFactory;
+        public CustomerAppController(IDataContextFactory dataContextFactory)
+        {
+            this.dataContextFactory = dataContextFactory;
+        }
+
         /// <summary>
         /// Get list of CustomerApps
         /// </summary>
         /// <returns>CustomerApp index list view</returns>
         public ActionResult Index()
         {
-            using (DataContext context = new DataContext(User.Identity))
+            using (var context = dataContextFactory.CreateByUser())
             {
                 //Eager loading CustomerApp, includes Licenses and from License the SKUs
                 var customerAppQuery = (from x in context.CustomerApps select x).Include(x => x.LicenseCustomerApps)
@@ -44,7 +50,7 @@ namespace KeyHub.Web.Controllers
         /// <returns>CustomerApp index list view</returns>
         public ActionResult IndexPartial(int transactionId)
         {
-            using (var context = new DataContext(User.Identity))
+            using (var context = dataContextFactory.CreateByUser())
             {
                 //Eager loading License
                 var licensesByTransaction = (from l in context.Licenses
@@ -77,7 +83,7 @@ namespace KeyHub.Web.Controllers
         /// <returns>Create CustomerApp view</returns>
         public ActionResult Create()
         {
-            using (var context = new DataContext(User.Identity))
+            using (var context = dataContextFactory.CreateByUser())
             {
                 //License will be recognized by SKU, so eager load SKU
                 var licenseQuery = (from x in context.Licenses select x).Include(x => x.Sku);
@@ -99,7 +105,7 @@ namespace KeyHub.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                using (var context = new DataContext(User.Identity))
+                using (var context = dataContextFactory.CreateByUser())
                 {
                     Model.CustomerApp customerApp = viewModel.ToEntity(null);
                     context.CustomerApps.Add(customerApp);
@@ -139,7 +145,7 @@ namespace KeyHub.Web.Controllers
         /// <returns>Create CustomerApp partial view</returns>
         public ActionResult CreatePartial(int transactionId)
         {
-            using (var context = new DataContext(User.Identity))
+            using (var context = dataContextFactory.CreateByUser())
             {
                 //License will be recognized by SKU, so eager load SKU
                 var licenseQuery = (from x in context.TransactionItems where x.TransactionId == transactionId
@@ -164,7 +170,7 @@ namespace KeyHub.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    using (var context = new DataContext(User.Identity))
+                    using (var context = dataContextFactory.CreateByUser())
                     {
                         Model.CustomerApp customerApp = viewModel.ToEntity(null);
                         context.CustomerApps.Add(customerApp);
@@ -209,7 +215,7 @@ namespace KeyHub.Web.Controllers
         /// <returns>Edit CustomerApp view</returns>
         public ActionResult Edit(Guid key)
         {
-            using (var context = new DataContext(User.Identity))
+            using (var context = dataContextFactory.CreateByUser())
             {
                 var customerAppQuery = from x in context.CustomerApps where x.CustomerAppId == key select x;
                 var licenseQuery = from x in context.Licenses select x;
@@ -231,7 +237,7 @@ namespace KeyHub.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                using (var context = new DataContext(User.Identity))
+                using (var context = dataContextFactory.CreateByUser())
                 {
                     CustomerApp customerApp = (from x in context.CustomerApps where x.CustomerAppId == viewModel.CustomerApp.CustomerAppId select x).FirstOrDefault();
                     viewModel.ToEntity(customerApp);
@@ -262,7 +268,7 @@ namespace KeyHub.Web.Controllers
         /// <returns></returns>
         public ActionResult Remove(Guid key)
         {
-            using (var context = new DataContext(User.Identity))
+            using (var context = dataContextFactory.CreateByUser())
             {
                 context.LicenseCustomerApps.Remove(x => x.CustomerAppId == key);
                 context.CustomerAppKeys.Remove(x => x.CustomerAppId == key);

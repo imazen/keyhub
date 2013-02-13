@@ -42,8 +42,10 @@ namespace KeyHub.Tests.Controllers
         [TestMethod]
         public void Index()
         {
+            IDataContextFactory factory = null;//Mock factory!
+
             // Arrange
-            HomeController controller = new HomeController();
+            HomeController controller = new HomeController(factory);
 
             // Act
             ViewResult result = controller.Index() as ViewResult;

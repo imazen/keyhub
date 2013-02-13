@@ -16,29 +16,33 @@ namespace KeyHub.BusinessLogic.Basket
     /// </summary>
     public class BasketWrapper
     {
-        private BasketWrapper(IIdentity userIdentity)
+        private readonly IDataContextFactory dataContextFactory;
+
+        private BasketWrapper(IDataContextFactory dataContextFactory)
         {
-            context = new DataContext(userIdentity);
+            this.dataContextFactory = dataContextFactory;
+            context = dataContextFactory.CreateByUser();
         }
 
-        private BasketWrapper(IIdentity userIdentity, int transactionId)
+        private BasketWrapper(IDataContextFactory dataContextFactory, int transactionId)
         {
-            context = new DataContext(userIdentity, transactionId);
+            this.dataContextFactory = dataContextFactory;
+            context =  dataContextFactory.CreateByTransaction(transactionId);
         }
 
         /// <summary>
         /// DataContext the basket is working with
         /// </summary>
-        private readonly DataContext context;
+        private readonly IDataContext context;
 
         /// <summary>
         /// Start a new basket
         /// </summary>
-        /// <param name="userIdentity">Identity of currently logged in use</param>
+        /// <param name="dataContextFactory">Data context factory</param>
         /// <returns>An instance of a basketwrapper serving a new transaction</returns>
-        public static BasketWrapper CreateNewByIdentity(IIdentity userIdentity)
+        public static BasketWrapper CreateNewByIdentity(IDataContextFactory dataContextFactory)
         {
-            var basket = new BasketWrapper(userIdentity)
+            var basket = new BasketWrapper(dataContextFactory)
                              {Transaction = new Transaction {CreatedDateTime = DateTime.Now}};
 
             return basket;
@@ -47,7 +51,7 @@ namespace KeyHub.BusinessLogic.Basket
         /// <summary>
         /// Get a basketwrapper based on a provided transactionId
         /// </summary>
-        /// <param name="userIdentity">Identity of currently logged in user</param>
+        /// <param name="dataContextFactory">Data context factory</param>
         /// <param name="transactionId">Id of the transaction to load in the basket</param>
         /// <returns>An instance of a basketwrapper serving the transaction</returns>
         /// <remarks>
@@ -56,9 +60,9 @@ namespace KeyHub.BusinessLogic.Basket
         /// have access to transaction (new user or new vendor). Use datacontext based on 
         /// transactionId instead.
         /// </remarks>
-        public static BasketWrapper GetByTransactionId(IIdentity userIdentity, int transactionId)
+        public static BasketWrapper GetByTransactionId(IDataContextFactory dataContextFactory, int transactionId)
         {
-            var basket = new BasketWrapper(userIdentity, transactionId);
+            var basket = new BasketWrapper(dataContextFactory, transactionId);
             var transactionLoaded = basket.LoadTransaction(transactionId);
 
             if (!transactionLoaded)

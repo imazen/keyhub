@@ -17,13 +17,20 @@ namespace KeyHub.Web.Controllers
     [Authorize]
     public class SKUController : ControllerBase
     {
+        private readonly IDataContextFactory dataContextFactory;
+        public SKUController(IDataContextFactory dataContextFactory)
+            : base(dataContextFactory)
+        {
+            this.dataContextFactory = dataContextFactory;
+        }
+
         /// <summary>
         /// Get list of SKUs
         /// </summary>
         /// <returns>SKU index list view</returns>
         public ActionResult Index()
         {
-            using (DataContext context = new DataContext(User.Identity))
+            using (var context = dataContextFactory.CreateByUser())
             {
                 //Eager loading SKU
                 var SKUQuery = (from x in context.SKUs select x).Include(x => x.PrivateKey)
@@ -41,7 +48,7 @@ namespace KeyHub.Web.Controllers
         /// <returns>Create SKU view</returns>
         public ActionResult Create()
         {
-            using (DataContext context = new DataContext(User.Identity))
+            using (var context = dataContextFactory.CreateByUser())
             {
                 var vendorGuids = (from v in context.Vendors select v)
                     .Select(x => x.ObjectId).ToList();
@@ -67,7 +74,7 @@ namespace KeyHub.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                using (var context = new DataContext(User.Identity))
+                using (var context = dataContextFactory.CreateByUser())
                 {
                     var sku = viewModel.ToEntity(null);
                     context.SKUs.Add(sku);
@@ -98,7 +105,7 @@ namespace KeyHub.Web.Controllers
         /// <returns>Edit SKU view</returns>
         public ActionResult Edit(Guid key)
         {
-            using (var context = new DataContext(User.Identity))
+            using (var context = dataContextFactory.CreateByUser())
             {
                 var vendorGuids = (from v in context.Vendors select v)//.FilterByUser(UserEntity)
                     .Select(x => x.ObjectId).ToList();
@@ -125,7 +132,7 @@ namespace KeyHub.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                using (DataContext context = new DataContext(User.Identity))
+                using (var context = dataContextFactory.CreateByUser())
                 {
                     Model.SKU sku =
                         (from x in context.SKUs where x.SkuId == viewModel.SKU.SkuId select x).FirstOrDefault();

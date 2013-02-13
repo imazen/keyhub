@@ -11,6 +11,12 @@ namespace KeyHub.Web.Controllers
     [Authorize]
     public class HomeController : Controller
     {
+        private readonly IDataContextFactory dataContextFactory;
+        public HomeController(IDataContextFactory dataContextFactory)
+        {
+            this.dataContextFactory = dataContextFactory;
+        }
+
         public ActionResult Index()
         {
             var viewModel = new HomeViewModel();

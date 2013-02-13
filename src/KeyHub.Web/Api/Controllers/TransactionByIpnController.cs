@@ -22,6 +22,11 @@ namespace KeyHub.Web.Api.Controllers
     /// </summary>
     public class TransactionByIpnController : BaseTransactionController
     {
+        public TransactionByIpnController(IDataContextFactory dataContextFactory)
+            : base(dataContextFactory)
+        {
+        }
+
         /// <summary>
         /// 
         /// </summary>

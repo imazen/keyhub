@@ -1,4 +1,5 @@
 ﻿using ActionMailer.Net.Mvc;
+using KeyHub.Data;
 using KeyHub.Web.ViewModels.Mail;
 using System.Web.Configuration;
 using System.Web.Mvc;

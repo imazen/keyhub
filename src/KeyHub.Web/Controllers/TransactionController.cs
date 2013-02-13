@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using KeyHub.BusinessLogic.Basket;
 using KeyHub.Model;
@@ -19,13 +16,20 @@ namespace KeyHub.Web.Controllers
     [Authorize]
     public class TransactionController : ControllerBase
     {
+        private readonly IDataContextFactory dataContextFactory;
+        public TransactionController(IDataContextFactory dataContextFactory)
+            : base(dataContextFactory)
+        {
+            this.dataContextFactory = dataContextFactory;
+        }
+
         /// <summary>
         /// Get list of transactions
         /// </summary>
         /// <returns>Transaction index list view</returns>
         public ActionResult Index()
         {
-            using (var context = new DataContext(User.Identity))
+            using (var context = dataContextFactory.CreateByUser())
             {
                 //Eager loading Transaction
                 var transactionQuery = (from x in context.Transactions orderby x.CreatedDateTime select x)
@@ -47,7 +51,7 @@ namespace KeyHub.Web.Controllers
         {
             int decryptedKey = Common.Utils.SafeConvert.ToInt(key.DecryptUrl(), -1);
 
-            using (DataContext context = new DataContext(User.Identity))
+            using (var context = dataContextFactory.CreateByUser())
             {
                 //Eager loading Transaction
                 var transactionQuery = (from x in context.Transactions where x.TransactionId == decryptedKey select x)
@@ -72,7 +76,7 @@ namespace KeyHub.Web.Controllers
         /// <returns>Transaction details partial view</returns>
         public ActionResult DetailsPartial(int key)
         {
-            using (DataContext context = new DataContext(User.Identity))
+            using (var context = dataContextFactory.CreateByUser())
             {
                 //Eager loading Transaction
                 var transactionQuery = (from x in context.Transactions where x.TransactionId == key select x)
@@ -92,9 +96,9 @@ namespace KeyHub.Web.Controllers
         /// <returns>Create transaction view</returns>
         public ActionResult Create()
         {
-            using (DataContext context = new DataContext(User.Identity))
+            using (var context = dataContextFactory.CreateByUser())
             {
-                BasketWrapper basket = BasketWrapper.CreateNewByIdentity(User.Identity);
+                BasketWrapper basket = BasketWrapper.CreateNewByIdentity(dataContextFactory);
                 
                 var skuQuery = from x in context.SKUs orderby x.SkuCode select x;
 
@@ -116,7 +120,7 @@ namespace KeyHub.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    BasketWrapper basket = BasketWrapper.CreateNewByIdentity(User.Identity);
+                    BasketWrapper basket = BasketWrapper.CreateNewByIdentity(dataContextFactory);
 
                     viewModel.ToEntity(basket.Transaction);
                     
@@ -144,11 +148,11 @@ namespace KeyHub.Web.Controllers
         [AllowAnonymous]
         public ActionResult ClaimLicenses(string key)
         {
-            int transactionID = Common.Utils.SafeConvert.ToInt(key.DecryptUrl(), -1);
+            var transactionId = Common.Utils.SafeConvert.ToInt(key.DecryptUrl(), -1);
 
-            using (DataContext context = new DataContext(User.Identity, transactionID))
+            using (var context = dataContextFactory.CreateByTransaction(transactionId))
             {
-                var transaction = (from x in context.Transactions where x.TransactionId == transactionID select x)
+                var transaction = (from x in context.Transactions where x.TransactionId == transactionId select x)
                     .Include(x => x.TransactionItems.Select(s => s.Sku))
                     .Include(x => x.TransactionItems.Select(s => s.License))
                     .FirstOrDefault();
@@ -159,7 +163,7 @@ namespace KeyHub.Web.Controllers
                 if (transaction.Status != TransactionStatus.Create)
                     throw new EntityOperationNotSupportedException("Transaction is already claimed!");
 
-                TransactionDetailsViewModel viewModel = new TransactionDetailsViewModel(transaction);
+                var viewModel = new TransactionDetailsViewModel(transaction);
 
                 return View(viewModel);
             }
@@ -178,7 +182,7 @@ namespace KeyHub.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    BasketWrapper basket = BasketWrapper.GetByTransactionId(User.Identity, viewModel.Transaction.TransactionId);
+                    BasketWrapper basket = BasketWrapper.GetByTransactionId(dataContextFactory, viewModel.Transaction.TransactionId);
 
                     if (basket.Transaction == null)
                         throw new EntityNotFoundException("Transaction could not be resolved!");
@@ -210,9 +214,9 @@ namespace KeyHub.Web.Controllers
         {
             int transactionID = Common.Utils.SafeConvert.ToInt(key.DecryptUrl(), -1);
 
-            using (DataContext context = new DataContext(User.Identity))
+            using (var context = dataContextFactory.CreateByUser())
             {
-                BasketWrapper basket = BasketWrapper.GetByTransactionId(User.Identity, transactionID);
+                BasketWrapper basket = BasketWrapper.GetByTransactionId(dataContextFactory, transactionID);
 
                 if (basket.Transaction == null)
                     throw new EntityNotFoundException("Transaction SKUs are not accessible to current user!");
@@ -243,9 +247,9 @@ namespace KeyHub.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    using (DataContext context = new DataContext(User.Identity))
+                    using (var context = dataContextFactory.CreateByUser())
                     {
-                        BasketWrapper basket = BasketWrapper.GetByTransactionId(User.Identity, viewModel.Transaction.TransactionId);
+                        BasketWrapper basket = BasketWrapper.GetByTransactionId(dataContextFactory, viewModel.Transaction.TransactionId);
 
                         if (basket.Transaction == null)
                             throw new EntityNotFoundException("Transaction SKUs are not accessible to current user!");
@@ -301,9 +305,9 @@ namespace KeyHub.Web.Controllers
         public ActionResult Complete(string key)
         {
             int transactionID = Common.Utils.SafeConvert.ToInt(key.DecryptUrl(), -1);
-            using (DataContext context = new DataContext(User.Identity))
+            using (var context = dataContextFactory.CreateByUser())
             {
-                BasketWrapper basket = BasketWrapper.GetByTransactionId(User.Identity, transactionID);
+                BasketWrapper basket = BasketWrapper.GetByTransactionId(dataContextFactory, transactionID);
                 
                 basket.ExecuteStep(BasketSteps.Complete);
 
@@ -322,7 +326,7 @@ namespace KeyHub.Web.Controllers
         {
             int transactionId = Common.Utils.SafeConvert.ToInt(key.DecryptUrl(), -1);
 
-            BasketWrapper basket = BasketWrapper.GetByTransactionId(User.Identity, transactionId);
+            BasketWrapper basket = BasketWrapper.GetByTransactionId(dataContextFactory, transactionId);
 
             if (basket.Transaction == null)
                 throw new EntityNotFoundException("Transaction could not be resolved!");

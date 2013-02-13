@@ -11,6 +11,7 @@ using System.Web.Mvc;
 using System.Xml;
 using KeyHub.BusinessLogic.Basket;
 using KeyHub.Common.Utils;
+using KeyHub.Data;
 using KeyHub.Data.BusinessRules;
 using KeyHub.Web.Api.Controllers.Transaction;
 using KeyHub.Web.Controllers;
@@ -23,6 +24,12 @@ namespace KeyHub.Web.Api.Controllers.LicenseValidation
     /// </summary>
     public abstract class BaseTransactionController : ApiController
     {
+        private readonly IDataContextFactory dataContextFactory;
+        public BaseTransactionController(IDataContextFactory dataContextFactory)
+        {
+            this.dataContextFactory = dataContextFactory;
+        }
+
         protected TransactionResult ProcessTransaction(TransactionRequest transaction, IIdentity userIdentity)
         {
             if (transaction == null)
@@ -36,7 +43,7 @@ namespace KeyHub.Web.Api.Controllers.LicenseValidation
 
             try
             {
-                var basket = BasketWrapper.CreateNewByIdentity(userIdentity);
+                var basket = BasketWrapper.CreateNewByIdentity(dataContextFactory);
 
                 basket.AddSkUs(transaction.PurchasedSkus);
                 basket.Transaction.OriginalRequest = GetOriginalRequestValues();

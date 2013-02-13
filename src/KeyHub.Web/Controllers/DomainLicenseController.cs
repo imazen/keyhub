@@ -18,6 +18,12 @@ namespace KeyHub.Web.Controllers
     [Authorize]
     public class DomainLicenseController : Controller
     {
+        private readonly IDataContextFactory dataContextFactory;
+        public DomainLicenseController(IDataContextFactory dataContextFactory)
+        {
+            this.dataContextFactory = dataContextFactory;
+        }
+
         /// <summary>
         /// Get list of domain licenses
         /// </summary>
@@ -25,7 +31,7 @@ namespace KeyHub.Web.Controllers
         /// <param name="parentLicense">Guid of the license to show domains for</param>
         public ActionResult IndexPartial(Guid parentLicense)
         {
-            using (var context = new DataContext(User.Identity))
+            using (var context = dataContextFactory.CreateByUser())
             {
                 var domainLicenseQuery = (from x in context.DomainLicenses where x.LicenseId == parentLicense orderby x.DomainName select x)
                     .Include(x => x.License.Sku);
@@ -43,7 +49,7 @@ namespace KeyHub.Web.Controllers
         /// <returns>Create DomainLicense view</returns>
         public ActionResult Create(Guid owningLicense)
         {
-            using (var context = new DataContext(User.Identity))
+            using (var context = dataContextFactory.CreateByUser())
             {
                 var licenseQuery =
                     (from x in context.Licenses where x.ObjectId == owningLicense select x)
@@ -67,7 +73,7 @@ namespace KeyHub.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                using (var context = new DataContext(User.Identity))
+                using (var context = dataContextFactory.CreateByUser())
                 {
                     DomainLicense domainLicense = viewModel.ToEntity(null);
 
@@ -90,7 +96,7 @@ namespace KeyHub.Web.Controllers
         /// <returns>Partial create DomainLicense view</returns>
         public ActionResult CreatePartial(Guid owningLicense)
         {
-            using (var context = new DataContext(User.Identity))
+            using (var context = dataContextFactory.CreateByUser())
             {
                 var licenseQuery =
                     (from x in context.Licenses where x.ObjectId == owningLicense select x)
@@ -113,7 +119,7 @@ namespace KeyHub.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                using (var context = new DataContext(User.Identity))
+                using (var context = dataContextFactory.CreateByUser())
                 {
                     Model.DomainLicense domainLicense = viewModel.ToEntity(null);
 
@@ -142,7 +148,7 @@ namespace KeyHub.Web.Controllers
         /// <returns>Edit domainLicense view</returns>
         public ActionResult Edit(Guid key)
         {
-            using (var context = new DataContext(User.Identity))
+            using (var context = dataContextFactory.CreateByUser())
             {
                 var domainLicenseQuery = (from x in context.DomainLicenses where x.DomainLicenseId == key select x)
                     .Include(x => x.License.Sku);
@@ -167,7 +173,7 @@ namespace KeyHub.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    using (var context = new DataContext(User.Identity))
+                    using (var context = dataContextFactory.CreateByUser())
                     {
                         var domainLicense = (from x in context.DomainLicenses where x.DomainLicenseId == viewModel.DomainLicense.DomainLicenseId select x).FirstOrDefault();
 
@@ -203,7 +209,7 @@ namespace KeyHub.Web.Controllers
         /// <returns></returns>
         public ActionResult Remove(Guid key)
         {
-            using (var context = new DataContext(User.Identity))
+            using (var context = dataContextFactory.CreateByUser())
             {
                 DomainLicense domainLicense = context.DomainLicenses.FirstOrDefault(x => x.DomainLicenseId == key);
                 context.DomainLicenses.Remove(domainLicense);

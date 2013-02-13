@@ -17,13 +17,20 @@ namespace KeyHub.Web.Controllers
     [Authorize]
     public class VendorController : ControllerBase
     {
+        private readonly IDataContextFactory dataContextFactory;
+        public VendorController(IDataContextFactory dataContextFactory)
+            : base(dataContextFactory)
+        {
+            this.dataContextFactory = dataContextFactory;
+        }
+
         /// <summary>
         /// Get list of vendors
         /// </summary>
         /// <returns>Vendor index list view</returns>
         public ActionResult Index()
         {
-            using (DataContext context = new DataContext(User.Identity))
+            using (var context = dataContextFactory.CreateByUser())
             {
                 //Eager loading Vendor
                 var vendorQuery = (from v in context.Vendors select v).Include(x => x.Country);//.FilterByUser(UserEntity);
@@ -41,7 +48,7 @@ namespace KeyHub.Web.Controllers
         /// <returns>Vendor details view</returns>
         public ActionResult Details(Guid key)
         {
-            using (DataContext context = new DataContext(User.Identity))
+            using (var context = dataContextFactory.CreateByUser())
             {
                 //Eager loading Vendor
                 var vendorQuery = (from v in context.Vendors where v.ObjectId == key select v).Include(x => x.Country);
@@ -58,7 +65,7 @@ namespace KeyHub.Web.Controllers
         /// <returns>Create vendor view</returns>
         public ActionResult Create()
         {
-            using (DataContext context = new DataContext(User.Identity))
+            using (var context = dataContextFactory.CreateByUser())
             {
                 var countryQuery = from c in context.Countries select c;
                 
@@ -80,7 +87,7 @@ namespace KeyHub.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    using (DataContext context = new DataContext(User.Identity))
+                    using (var context = dataContextFactory.CreateByUser())
                     {
                         Vendor vendor = viewModel.ToEntity(null);
                         context.Vendors.Add(vendor);
@@ -107,7 +114,7 @@ namespace KeyHub.Web.Controllers
         /// <returns>Edit vendor view</returns>
         public ActionResult Edit(Guid key)
         {
-            using (DataContext context = new DataContext(User.Identity))
+            using (var context = dataContextFactory.CreateByUser())
             {
                 var vendorQuery = from v in context.Vendors where v.ObjectId == key select v;
                 var countryQuery = from c in context.Countries select c;
@@ -130,7 +137,7 @@ namespace KeyHub.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    using (DataContext context = new DataContext(User.Identity))
+                    using (var context = dataContextFactory.CreateByUser())
                     {
                         Vendor vendor = (from v in context.Vendors where v.ObjectId == viewModel.Vendor.ObjectId select v).FirstOrDefault();
 

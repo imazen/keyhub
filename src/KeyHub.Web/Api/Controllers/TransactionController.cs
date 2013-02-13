@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using KeyHub.BusinessLogic.Basket;
 using KeyHub.Common.Utils;
+using KeyHub.Data;
 using KeyHub.Data.BusinessRules;
 using KeyHub.Web.Api.Controllers.LicenseValidation;
 using KeyHub.Web.Api.Controllers.Transaction;
@@ -16,6 +17,11 @@ namespace KeyHub.Web.Api.Controllers
     /// </summary>
     public class TransactionController : BaseTransactionController
     {
+        public TransactionController(IDataContextFactory dataContextFactory)
+            : base(dataContextFactory)
+        {
+        }
+
         /// <summary>
         /// Transaction post
         /// </summary>

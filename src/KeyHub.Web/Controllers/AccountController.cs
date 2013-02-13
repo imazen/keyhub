@@ -22,13 +22,19 @@ namespace KeyHub.Web.Controllers
     [Authorize]
     public class AccountController : Controller
     {
+        private readonly IDataContextFactory dataContextFactory;
+        public AccountController(IDataContextFactory dataContextFactory)
+        {
+            this.dataContextFactory = dataContextFactory;
+        }
+
         /// <summary>
         /// Get list of users
         /// </summary>
         /// <returns>User index view</returns>
         public ActionResult Index()
         {
-            using (var context = new DataContext(User.Identity))
+            using (var context = dataContextFactory.CreateByUser())
             {
                 // Eager loading users (except current user) and roles
                 var usersQuery = (from u in context.Users where u.UserName != User.Identity.Name select u)

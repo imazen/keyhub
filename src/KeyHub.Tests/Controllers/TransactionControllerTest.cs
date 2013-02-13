@@ -127,7 +127,8 @@ namespace KeyHub.Tests.Controllers
                 .DoNothing()
                 .OccursOnce();
 
-            TransactionResult transactionResult = new TransactionController().Post(transactionRequest);
+            IDataContextFactory factory = null;//Mock factory
+            TransactionResult transactionResult = new TransactionController(factory).Post(transactionRequest);
 
             Mock.AssertAll(context);
             Mock.AssertAll(mailController);
@@ -171,7 +172,8 @@ namespace KeyHub.Tests.Controllers
                 .DoNothing()
                 .OccursNever();
 
-            TransactionResult transactionResult = new TransactionController().Post(transactionRequest);
+            IDataContextFactory factory = null;//Mock factory
+            TransactionResult transactionResult = new TransactionController(factory).Post(transactionRequest);
 
             Mock.AssertAll(context);
             Mock.AssertAll(mailController);

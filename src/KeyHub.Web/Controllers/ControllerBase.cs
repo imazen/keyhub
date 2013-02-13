@@ -13,8 +13,11 @@ namespace KeyHub.Web.Controllers
 {
     public abstract class ControllerBase : Controller
     {
-        public ControllerBase()
-        { }
+        private readonly IDataContextFactory dataContextFactory;
+        public ControllerBase(IDataContextFactory dataContextFactory)
+        {
+            this.dataContextFactory = dataContextFactory;
+        }
 
         protected Model.User UserEntity
         {

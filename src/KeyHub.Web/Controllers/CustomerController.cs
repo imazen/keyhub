@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using KeyHub.Runtime;
 using KeyHub.Web.ViewModels.Customer;
 using KeyHub.Data;
 
@@ -16,20 +13,34 @@ namespace KeyHub.Web.Controllers
     [Authorize]
     public class CustomerController : ControllerBase
     {
+        private readonly IDataContextFactory dataContextFactory;
+        public CustomerController(IDataContextFactory dataContextFactory)
+            : base(dataContextFactory)
+        {
+            this.dataContextFactory = dataContextFactory;
+        }
+
         /// <summary>
         /// Get list of Customers
         /// </summary>
         /// <returns>Customer index list view</returns>
         public ActionResult Index()
         {
-            using (DataContext context = new DataContext(User.Identity))
+
+
+            using (var test = dataContextFactory.CreateByTransaction(1))
+            {
+                
+            }
+
+            using (var context = dataContextFactory.CreateByUser())
             {
                 //Eager loading Customer
                 var customerQuery = (from x in context.Customers select x)
                                     .Include(x => x.Country)
                                     .OrderBy(x => x.Name);
 
-                CustomerIndexViewModel viewModel = new CustomerIndexViewModel(customerQuery.ToList());
+                var viewModel = new CustomerIndexViewModel(customerQuery.ToList());
 
                 return View(viewModel);
             }
@@ -41,11 +52,11 @@ namespace KeyHub.Web.Controllers
         /// <returns>Create Customer view</returns>
         public ActionResult Create()
         {
-            using (DataContext context = new DataContext(User.Identity))
+            using (var context = dataContextFactory.CreateByUser())
             {
                 var countryQuery = from x in context.Countries select x;
 
-                CustomerCreateViewModel viewModel = new CustomerCreateViewModel(countryQuery.ToList());
+                var viewModel = new CustomerCreateViewModel(countryQuery.ToList());
 
                 return View(viewModel);
             }
@@ -59,28 +70,18 @@ namespace KeyHub.Web.Controllers
         [HttpPost]
         public ActionResult Create(CustomerCreateViewModel viewModel)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                using (var context = dataContextFactory.CreateByUser())
                 {
-                    using (DataContext context = new DataContext(User.Identity))
-                    {
-                        Model.Customer customer = viewModel.ToEntity(null);
-                        context.Customers.Add(customer);
+                    var customer = viewModel.ToEntity(null);
+                    context.Customers.Add(customer);
 
-                        context.SaveChanges();
-                    }
-                    return RedirectToAction("Index");
+                    context.SaveChanges();
                 }
-                else
-                {
-                    return View(viewModel);
-                }
+                return RedirectToAction("Index");
             }
-            catch
-            {
-                throw;
-            }
+            return View(viewModel);
         }
 
         /// <summary>
@@ -90,12 +91,12 @@ namespace KeyHub.Web.Controllers
         /// <returns>Edit Customer view</returns>
         public ActionResult Edit(Guid key)
         {
-            using (DataContext context = new DataContext(User.Identity))
+            using (var context = dataContextFactory.CreateByUser())
             {
                 var customerQuery = from x in context.Customers where x.ObjectId == key select x;
                 var countryQuery = from x in context.Countries select x;
 
-                CustomerEditViewModel viewModel = new CustomerEditViewModel(customerQuery.FirstOrDefault(),
+                var viewModel = new CustomerEditViewModel(customerQuery.FirstOrDefault(),
                     countryQuery.ToList());
 
                 return View(viewModel);
@@ -110,28 +111,18 @@ namespace KeyHub.Web.Controllers
         [HttpPost]
         public ActionResult Edit(CustomerEditViewModel viewModel)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                using (var context = dataContextFactory.CreateByUser())
                 {
-                    using (DataContext context = new DataContext(User.Identity))
-                    {
-                        Model.Customer customer = (from x in context.Customers where x.ObjectId == viewModel.Customer.ObjectId select x).FirstOrDefault();
-                        viewModel.ToEntity(customer);
+                    var customer = (from x in context.Customers where x.ObjectId == viewModel.Customer.ObjectId select x).FirstOrDefault();
+                    viewModel.ToEntity(customer);
 
-                        context.SaveChanges();
-                    }
-                    return RedirectToAction("Index");
+                    context.SaveChanges();
                 }
-                else
-                {
-                    return View(viewModel);
-                }
+                return RedirectToAction("Index");
             }
-            catch
-            {
-                throw;
-            }
+            return View(viewModel);
         }
     }
 }

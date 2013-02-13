@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Data.Entity.ModelConfiguration;
 using System.Linq;
+using Castle.Windsor;
+using Castle.Windsor.Installer;
 using KeyHub.Core.Kernel;
 
 namespace KeyHub.Runtime

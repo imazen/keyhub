@@ -12,6 +12,12 @@ namespace KeyHub.Web.Controllers
 {
     public class AccountRightsController : Controller
     {
+        private readonly IDataContextFactory dataContextFactory;
+        public AccountRightsController(IDataContextFactory dataContextFactory)
+        {
+            this.dataContextFactory = dataContextFactory;
+        }
+
         /// <summary>
         /// Show list of rights per user
         /// </summary>
@@ -19,7 +25,7 @@ namespace KeyHub.Web.Controllers
         /// <returns>Index view of specific users rights</returns>
         public ActionResult IndexPartial(int userId)
         {
-            using (var context = new DataContext(User.Identity))
+            using (var context = dataContextFactory.CreateByUser())
             {
                 var objectRightsQuery = (from x in context.UserVendorRights where x.UserId == userId select x as UserObjectRight)
                     .Union(from x in context.UserCustomerRights where x.UserId == userId select x as UserObjectRight)
@@ -41,7 +47,7 @@ namespace KeyHub.Web.Controllers
         /// <returns>UserObjectRightCreateViewModel</returns>
         public ActionResult Create(int userId, ObjectTypes objectType)
         {
-            using (var context = new DataContext(User.Identity))
+            using (var context = dataContextFactory.CreateByUser())
             {
                 UserObjectRight userObjectRight = NewUserObjectRight(objectType);
                 SelectList objectList = null;
@@ -87,7 +93,7 @@ namespace KeyHub.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                using (var context = new DataContext(User.Identity))
+                using (var context = dataContextFactory.CreateByUser())
                 {
                     var userObjectRight = viewModel.ToEntity(null);
 
@@ -115,7 +121,7 @@ namespace KeyHub.Web.Controllers
 
         public ActionResult Delete(int userId, Guid rightId, Guid objectId, ObjectTypes type)
         {
-            using (var context = new DataContext(User.Identity))
+            using (var context = dataContextFactory.CreateByUser())
             {
                 switch (type)
                 {

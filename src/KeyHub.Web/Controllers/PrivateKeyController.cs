@@ -16,6 +16,12 @@ namespace KeyHub.Web.Controllers
     [Authorize]
     public class PrivateKeyController : Controller
     {
+        private readonly IDataContextFactory dataContextFactory;
+        public PrivateKeyController(IDataContextFactory dataContextFactory)
+        {
+            this.dataContextFactory = dataContextFactory;
+        }
+
         /// <summary>
         /// Get list of privatekeys
         /// </summary>

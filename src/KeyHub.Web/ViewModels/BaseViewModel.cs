@@ -26,15 +26,10 @@ namespace KeyHub.Web.ViewModels
         where TEntity : class
     {
         /// <summary>
-        /// Constructor is public so ViewModel can be a parameter in the Controller Mothod postback
+        /// Constructor is public so ViewModel can be a parameter in the Controller Method postback
         /// </summary>
         public BaseViewModel()
-        {
-            using (DataContext context = new DataContext(HttpContext.Current.User.Identity))
-            {
-                CurrentUser = new CurrentUserViewModel(context.GetUserByIdentity(HttpContext.Current.User.Identity));
-            }
-        }
+        {}
 
         /// <summary>
         /// Convert self back to entity instance
@@ -46,7 +41,7 @@ namespace KeyHub.Web.ViewModels
         /// <summary>
         /// Gets the current user viewmodel
         /// </summary>
-        public CurrentUserViewModel CurrentUser {get; private set;}
+        public CurrentUserViewModel CurrentUser {get; set;}
 
         public string RedirectUrl { get; set; }
     }

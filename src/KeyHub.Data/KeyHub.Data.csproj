@@ -110,10 +110,15 @@
     <Compile Include="Configuration\Membership\UserConfiguration.cs" />
     <Compile Include="Configuration\Membership\UserInRoleConfiguration.cs" />
     <Compile Include="DataContext.cs" />
+    <Compile Include="DataContextByTransaction.cs" />
     <Compile Include="Extensions\DomainLicenseExtensions.cs" />
     <Compile Include="Extensions\EntitylistExtensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="FilteredDbSet.cs" />
+    <Compile Include="IDataContext.cs" />
+    <Compile Include="IDataContextByTransaction.cs" />
+    <Compile Include="IDataContextFactory.cs" />
+    <Compile Include="IDataContextByUser.cs" />
     <Compile Include="Migrations\201211201034232_InitialCreate.cs" />
     <Compile Include="Migrations\201211201034232_InitialCreate.Designer.cs">
       <DependentUpon>201211201034232_InitialCreate.cs</DependentUpon>
@@ -140,6 +145,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Extensions\SelectListExtensions.cs" />
     <Compile Include="Extensions\UserExtensions.cs" />
+    <Compile Include="DataContextByUser.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
