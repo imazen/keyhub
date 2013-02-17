@@ -5,12 +5,6 @@
 R3Performance | 249.00 | Performance Edition (1 domain)
 R3Creative | 499.00 | Creative Edition (1 domain)
 R3Elite | 849.00 | Elite Edition (1 enterprise)
-
-S30 | 70.00 | 30 Minute Q&A
-S60 | 130.00 | 1 Aided install + 30 Minute QA
-S90 | 190.00 | 2 Aided installs + 30 Minute Q&A
-S1Enterprise | 135.00 | Support Incident
-
 Bronze6MO | 949.00 | Bronze Tier 6 Month Contract
 Bronze2YR | 2000.00 | Bronze Tier 2 Year Contract
 Silver6MO | 3000.00 | Silver Tier 6 Month Contract
@@ -23,8 +17,18 @@ Bronze1YR | 1500.00  | Bronze Tier 1 Year Contract
 
 Support contracts will all behave like `R3Elite`, but active contracts will also get `R4Elite` when it is released.
 
+
+
 Elite and Support contracts will include unlocked versions of Imazen dlls, although it's likely customers will use the NuGet packages regardless, so they will require license support.
 
+Support incident purchases should be recognized, but they have no needed behavior (it would be nice to mark them as used/unused and add notes, but it's not important).
+
+| SKU | Price (USD) | Name |
+| --- | --- | --- |
+S30 | 70.00 | 30 Minute Q&A
+S60 | 130.00 | 1 Aided install + 30 Minute QA
+S90 | 190.00 | 2 Aided installs + 30 Minute Q&A
+S1Enterprise | 135.00 | Support Incident
 
 ## Old Imazen SKUs
 
