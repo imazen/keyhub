@@ -139,7 +139,7 @@ namespace KeyHub.BusinessLogic.Basket
 
                     break;
                 case BasketSteps.Checkout:
-                    var currentUser = context.GetUserByIdentity(HttpContext.Current.User.Identity);
+                    var currentUser = context.GetUser(HttpContext.Current.User.Identity);
 
                     //Add PurchasingCustomer if none existing
                     if (this.PurchasingCustomer.ObjectId == new Guid())

@@ -20,7 +20,7 @@ namespace KeyHub.Web.ViewModels.Customer
         /// </summary>
         /// <param name="Customer">Customer that this viewmodel represents</param>
         public CustomerViewModel(Model.Customer customer)
-            : this()
+            : base()
         {
             ObjectId = customer.ObjectId;
             Name = customer.Name;

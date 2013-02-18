@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Web;
+using KeyHub.Web.ViewModels.User;
 
 namespace KeyHub.Web.ViewModels.Customer
 {
@@ -11,15 +12,19 @@ namespace KeyHub.Web.ViewModels.Customer
     /// </summary>
     public class CustomerIndexViewModel : BaseViewModel<Model.Customer>
     {
-        public CustomerIndexViewModel() : base() { }
+        public CustomerIndexViewModel() : base()
+        { }
 
         /// <summary>
         /// Construct the viewmodel
         /// </summary>
+        /// <param name="currentUser">Current user</param>
         /// <param name="customerList">List of Customer entities</param>
-        public CustomerIndexViewModel(List<Model.Customer> customerList)
-            : this()
+        public CustomerIndexViewModel(Model.User currentUser, IEnumerable<Model.Customer> customerList)
+            : base()
         {
+            CurrentUser = new CurrentUserViewModel(currentUser);
+
             Customers = new List<CustomerIndexViewItem>(
                     customerList.Select(x => new CustomerIndexViewItem(x, x.Country))
                 );
@@ -29,6 +34,11 @@ namespace KeyHub.Web.ViewModels.Customer
         /// List of customers
         /// </summary>
         public List<CustomerIndexViewItem> Customers { get; set; }
+
+        /// <summary>
+        /// Gets the current user viewmodel
+        /// </summary>
+        public CurrentUserViewModel CurrentUser { get; private set; }
 
         /// <summary>
         /// Convert back to Customer instance

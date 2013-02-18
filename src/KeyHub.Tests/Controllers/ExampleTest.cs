@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using KeyHub.Data;
 using KeyHub.Model;
+using KeyHub.Tests.TestCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Telerik.JustMock;
-using Telerik.JustMock.Helpers;
+using Moq;
 
 namespace KeyHub.Tests.Controllers
 {
@@ -13,27 +12,16 @@ namespace KeyHub.Tests.Controllers
     public class ExampleTest
     {
         private TestContext testContextInstance;
+        private Mock<IDataContext> datacontext;
 
         /// <summary>
         /// Initialize all mockin on TestInitialize
         /// </summary>
-        /// <remarks>
-        /// Mock countries collection from DataContext
-        /// http://www.telerik.com/help/justmock/advanced-usage-future-mocking.html
-        /// </remarks>
-        /// <remarks>
-        /// Mock country name
-        /// Uses IgnoreInstance to apply future mocking
-        /// http://www.telerik.com/help/justmock/advanced-usage-entity-framework-mocking.html
-        /// </remarks>
         [TestInitialize]
         public void Initialize()
         {
-            var mockContext = new DataContext();
-            Mock.Arrange(() => mockContext.Countries).IgnoreInstance().ReturnsCollection(new List<Country> { new Country { CountryCode = "LU", CountryName = "Lucracountry" } });
-
-            var countryMock = Mock.Create<Country>();
-            Mock.Arrange(() => countryMock.CountryName).IgnoreInstance().Returns("Lucracountry mock");
+            datacontext = new Mock<IDataContext>();
+            datacontext.Setup(x => x.Countries).Returns(new FakeDbSet<Country> { new Country { CountryCode = "LU", CountryName = "Lucracountry" } });
         }
 
         /// <summary>
@@ -58,13 +46,10 @@ namespace KeyHub.Tests.Controllers
         [TestMethod]
         public void MockCountryInstance()
         {
-            using (var context = new DataContext())
-            {
-                var country = (from x in context.Countries select x).FirstOrDefault();
-                TestContext.WriteLine(String.Format("Country: {0}", country.CountryName));
+            var country = (from x in datacontext.Object.Countries select x).FirstOrDefault();
+            TestContext.WriteLine(String.Format("Country: {0}", country.CountryName));
 
-                Assert.AreEqual("Lucracountry mock", country.CountryName);
-            }
+            Assert.AreEqual("Lucracountry", country.CountryName);
         }
 
         /// <summary>
@@ -73,14 +58,11 @@ namespace KeyHub.Tests.Controllers
         [TestMethod]
         public void MockCountries()
         {
-            using (var context = new DataContext())
-            {
-                var countries = (from x in context.Countries select x);
-                TestContext.WriteLine(String.Format("Countries: {0}, name: {1}", countries.Count(), countries.FirstOrDefault().CountryName));
+            var countries = (from x in datacontext.Object.Countries select x);
+            TestContext.WriteLine(String.Format("Countries: {0}, name: {1}", countries.Count(), countries.FirstOrDefault().CountryName));
 
-                Assert.AreEqual(1, countries.Count());
-                Assert.AreEqual("Lucracountry mock", countries.FirstOrDefault().CountryName);
-            }
+            Assert.AreEqual(1, countries.Count());
+            Assert.AreEqual("Lucracountry", countries.FirstOrDefault().CountryName);
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using KeyHub.BusinessLogic.LicenseValidation;
 using KeyHub.Core.Logging;
+using KeyHub.Common;
+using KeyHub.Data;
 using KeyHub.Runtime;
 using KeyHub.Web.Api.Controllers.LicenseValidation;
 using System;
@@ -20,13 +22,12 @@ namespace KeyHub.Web.Api.Controllers
     /// </summary>
     public class LicenseValidationController : ApiController
     {
-        #region String Constants (tags)
-
-        private const string LicensesTag = "licenses";
-        private const string LicenseTag = "license";
-
-        #endregion
-
+        private readonly IDataContextFactory dataContextFactory;
+        public LicenseValidationController(IDataContextFactory dataContextFactory)
+        {
+            this.dataContextFactory = dataContextFactory;
+        }
+        
         /// <summary>
         /// License validation post
         /// </summary>
@@ -57,7 +58,7 @@ namespace KeyHub.Web.Api.Controllers
         {
             try
             {
-                IEnumerable<DomainValidationResult> domainValidationResults = LicenseValidator.ValidateLicense(request.AppId, ToDomainValidationList(request));
+                IEnumerable<DomainValidationResult> domainValidationResults = LicenseValidator.ValidateLicense(dataContextFactory, request.AppId, ToDomainValidationList(request));
 
                 string domainValidationString = domainValidationResults != null ? Serialize(domainValidationResults) : string.Empty;
 
@@ -105,11 +106,11 @@ namespace KeyHub.Web.Api.Controllers
         /// </example>
         private static string Serialize(IEnumerable<DomainValidationResult> domainValidationResults)
         {
-            var xLicenses = new XElement(LicensesTag);
+            var xLicenses = new XElement(Constants.LicensesTag);
 
             foreach (var domainValidationResult in domainValidationResults)
             {
-                xLicenses.Add(new XElement(LicenseTag, Encrypt(domainValidationResult.Serialize(), domainValidationResult.KeyBytes)));
+                xLicenses.Add(new XElement(Constants.LicenseTag, Encrypt(domainValidationResult.Serialize(), domainValidationResult.KeyBytes)));
             }
 
             return xLicenses.ToString();

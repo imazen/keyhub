@@ -36,8 +36,8 @@ namespace KeyHub.Web.Controllers
                     .Include(x => x.OwningCustomer)
                     .Include(x => x.Sku)
                     .OrderBy(x => x.OwningCustomer.Name);
-                
-                LicenseIndexViewModel viewModel = new LicenseIndexViewModel(licenseQuery.ToList());
+
+                LicenseIndexViewModel viewModel = new LicenseIndexViewModel(context.GetUser(HttpContext.User.Identity), licenseQuery.ToList());
 
                 return View(viewModel);
             }
@@ -61,7 +61,7 @@ namespace KeyHub.Web.Controllers
                                     .Include(x => x.Sku)
                                     .Include(x => x.Domains);
 
-                var viewModel = new LicenseIndexViewModel(licenseQuery.ToList());
+                var viewModel = new LicenseIndexViewModel(context.GetUser(HttpContext.User.Identity), licenseQuery.ToList());
 
                 return PartialView(viewModel);
             }

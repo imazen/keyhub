@@ -14,101 +14,124 @@ namespace KeyHub.BusinessLogic.LicenseValidation
     /// <summary>
     /// Validates licenses
     /// </summary>
-    public class LicenseValidator : IDisposable
+    public class LicenseValidator
     {
-        private readonly DataContext context;
+        private readonly IDataContextFactory dataContextFactory;
 
-        public LicenseValidator()
+        /// <summary>
+        /// Validate licenses
+        /// </summary>
+        /// <param name="dataContextFactory">Factory used by validator</param>
+        /// <param name="appKey">AppKey from CustomerAppKeys table</param>
+        /// <param name="domainValidations">Domains to validate</param>
+        /// <returns>List of DomainValidationResult</returns>
+        public static IEnumerable<DomainValidationResult> ValidateLicense(IDataContextFactory dataContextFactory, Guid appKey, IEnumerable<DomainValidation> domainValidations)
         {
-            context = new DataContext();
+            var licenseValidator = new LicenseValidator(dataContextFactory);
+            return licenseValidator.Validate(appKey, domainValidations);
         }
 
-        public void Dispose()
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="dataContextFactory">Facotry used by validator</param>
+        private LicenseValidator(IDataContextFactory dataContextFactory)
         {
-            if (context != null)
-            {
-                context.Dispose();
-            }
+            this.dataContextFactory = dataContextFactory;
         }
 
+        /// <summary>
+        /// Vaidate DomainLicenses
+        /// </summary>
+        /// <param name="appKey">Customer App key</param>
+        /// <param name="domainValidations">List of domains to validate</param>
+        /// <returns>List of DomainValidationResult</returns>
         private IEnumerable<DomainValidationResult> Validate(Guid appKey, IEnumerable<DomainValidation> domainValidations)
         {
-            DeleteExpiredDomainLicenses();
-
-            CustomerApp matchedCustomerApp = context.CustomerAppKeys
-                .Where(x => x.AppKey == appKey)
-                .Select(x => x.CustomerApp)
-                .Include(x => x.LicenseCustomerApps)
-                .FirstOrDefault();
-
-            if (matchedCustomerApp == null)
+            using (var context = dataContextFactory.Create())
             {
-                // need to notify
-                throw new Exception(string.Format("CustomerApp with appKey={0} has not found", appKey));
-            }
+                DeleteExpiredDomainLicenses();
 
-            IEnumerable<Guid> matchedLicenseIds = matchedCustomerApp.LicenseCustomerApps
-                .Select(x => x.License.ObjectId)
-                .ToList();
+                CustomerApp matchedCustomerApp = context.CustomerAppKeys
+                                                        .Where(x => x.AppKey == appKey)
+                                                        .Select(x => x.CustomerApp)
+                                                        .Include(x => x.LicenseCustomerApps)
+                                                        .FirstOrDefault();
 
-            var domainLicenses = new List<DomainLicense>();
-
-            var alreadyFailedDomainLicenses = new List<DomainLicense>();
-
-            IEqualityComparer<DomainLicense> equalityComparer = new DomainLicenseEqualityComparer();
-
-            foreach (DomainValidation domainValidation in domainValidations)
-            {
-                string domainName = domainValidation.DomainName;
-                Guid featureCode = domainValidation.FeatureCode;
-
-                var domainLicense = context.DomainLicenses
-                    .Include(x => x.License.Sku.SkuFeatures.Select(s => s.Feature))
-                    .FirstOrDefault(x => x.DomainName == domainName
-                        && matchedLicenseIds.Contains(x.LicenseId)
-                        && x.License.Sku.SkuFeatures.Select(s => s.Feature.FeatureCode).Contains(featureCode));
-
-                if (domainLicense == null)
+                if (matchedCustomerApp == null)
                 {
-                    var featureLicense = (from x in context.Licenses select x)
-                        .Include(x => x.Sku.SkuFeatures.Select(s => s.Feature))
-                        .FirstOrDefault(x => x.Sku.SkuFeatures.Select(s => s.Feature.FeatureCode).Any(y => y == featureCode));
+                    // need to notify
+                    throw new Exception(string.Format("CustomerApp with appKey={0} has not found", appKey));
+                }
 
-                    if (featureLicense == null)
-                    {
-                        // we do not have license on a feature or we just do not have this one
-                        // need to notify
-                        continue;
-                    }
+                IEnumerable<Guid> matchedLicenseIds = matchedCustomerApp.LicenseCustomerApps
+                                                                        .Select(x => x.License.ObjectId)
+                                                                        .ToList();
 
-                    domainLicense = new DomainLicense
-                    {
-                        DomainName = domainName,
-                        AutomaticlyCreated = true,
-                        DomainLicenseIssued = featureLicense.Sku.CalculateDomainIssueDate(),
-                        DomainLicenseExpires = featureLicense.Sku.CalculateAutoDomainExpiration(),
-                        KeyBytes = featureLicense.Sku.PrivateKey.KeyBytes,
-                        License = featureLicense,
-                        LicenseId = featureLicense.ObjectId
-                    };
+                var domainLicenses = new List<DomainLicense>();
 
-                    if (!context.DomainLicenses.Contains(domainLicense) && !alreadyFailedDomainLicenses.Contains(domainLicense, equalityComparer))
+                var alreadyFailedDomainLicenses = new List<DomainLicense>();
+
+                IEqualityComparer<DomainLicense> equalityComparer = new DomainLicenseEqualityComparer();
+
+                foreach (DomainValidation domainValidation in domainValidations)
+                {
+                    string domainName = domainValidation.DomainName;
+                    Guid featureCode = domainValidation.FeatureCode;
+
+                    var domainLicense = context.DomainLicenses
+                                               .Include(x => x.License.Sku.SkuFeatures.Select(s => s.Feature))
+                                               .FirstOrDefault(x => x.DomainName == domainName
+                                                                    && matchedLicenseIds.Contains(x.LicenseId)
+                                                                    &&
+                                                                    x.License.Sku.SkuFeatures.Select(
+                                                                        s => s.Feature.FeatureCode)
+                                                                     .Contains(featureCode));
+
+                    if (domainLicense == null)
                     {
-                        context.DomainLicenses.Add(domainLicense);
-                        if (!context.SaveChanges(OnValidationFailed))
+                        var featureLicense = (from x in context.Licenses select x)
+                            .Include(x => x.Sku.SkuFeatures.Select(s => s.Feature))
+                            .FirstOrDefault(
+                                x => x.Sku.SkuFeatures.Select(s => s.Feature.FeatureCode).Any(y => y == featureCode));
+
+                        if (featureLicense == null)
                         {
-                            alreadyFailedDomainLicenses.Add(domainLicense);
+                            // we do not have license on a feature or we just do not have this one
+                            // need to notify
+                            continue;
+                        }
+
+                        domainLicense = new DomainLicense
+                            {
+                                DomainName = domainName,
+                                AutomaticlyCreated = true,
+                                DomainLicenseIssued = featureLicense.Sku.CalculateDomainIssueDate(),
+                                DomainLicenseExpires = featureLicense.Sku.CalculateAutoDomainExpiration(),
+                                KeyBytes = featureLicense.Sku.PrivateKey.KeyBytes,
+                                License = featureLicense,
+                                LicenseId = featureLicense.ObjectId
+                            };
+
+                        if (!context.DomainLicenses.Any(x => x.DomainLicenseId == domainLicense.DomainLicenseId) &&
+                            !alreadyFailedDomainLicenses.Contains(domainLicense, equalityComparer))
+                        {
+                            context.DomainLicenses.Add(domainLicense);
+                            if (!context.SaveChanges(OnValidationFailed))
+                            {
+                                alreadyFailedDomainLicenses.Add(domainLicense);
+                            }
                         }
                     }
-                }
 
-                if (!domainLicenses.Contains(domainLicense, equalityComparer) && !alreadyFailedDomainLicenses.Contains(domainLicense, equalityComparer))
-                {
-                    domainLicenses.Add(domainLicense);
+                    if (!domainLicenses.Contains(domainLicense, equalityComparer) &&
+                        !alreadyFailedDomainLicenses.Contains(domainLicense, equalityComparer))
+                    {
+                        domainLicenses.Add(domainLicense);
+                    }
                 }
+                return ToDomainVelidationResults(domainLicenses);
             }
-
-            return ToDomainVelidationResults(domainLicenses);
         }
 
         public void OnValidationFailed(BusinessRuleValidationException businessRuleValidationException)
@@ -134,39 +157,30 @@ namespace KeyHub.BusinessLogic.LicenseValidation
 
         public void DeleteExpiredDomainLicenses()
         {
-            var expiredDomainLicenses = context.DomainLicenses
-                .AutomaticlyCreated()
-                .Expired()
-                .ToList();
-
-            foreach (var expiredDomainLicense in expiredDomainLicenses)
+            using (var context = dataContextFactory.Create())
             {
-                // notify
-                LogContext.Instance.Log(string.Format("Domain expired: id: {0}, name: {1}, licenseId: {2}"
-                    , expiredDomainLicense.DomainLicenseId, expiredDomainLicense.DomainName, expiredDomainLicense.LicenseId), LogTypes.Info);
-            }
+                var expiredDomainLicenses = context.DomainLicenses
+                                                   .AutomaticlyCreated()
+                                                   .Expired()
+                                                   .ToList();
 
-            context.DomainLicenses.Remove(expiredDomainLicenses);
-            context.SaveChanges();
+                foreach (var expiredDomainLicense in expiredDomainLicenses)
+                {
+                    // notify
+                    LogContext.Instance.Log(string.Format("Domain expired: id: {0}, name: {1}, licenseId: {2}"
+                                                          , expiredDomainLicense.DomainLicenseId,
+                                                          expiredDomainLicense.DomainName,
+                                                          expiredDomainLicense.LicenseId), LogTypes.Info);
+                }
+
+                context.DomainLicenses.Remove(expiredDomainLicenses);
+                context.SaveChanges();
+            }
         }
 
         private static IEnumerable<Guid> GetFeatureCodes(License license)
         {
             return license.Sku.SkuFeatures.Select(s => s.Feature.FeatureCode);
-        }
-
-        /// <summary>
-        /// Validate licenses
-        /// </summary>
-        /// <param name="appKey">AppKey from CustomerAppKeys table</param>
-        /// <param name="domainValidations"></param>
-        /// <returns></returns>
-        public static IEnumerable<DomainValidationResult> ValidateLicense(Guid appKey, IEnumerable<DomainValidation> domainValidations)
-        {
-            using (var licenseValidator = new LicenseValidator())
-            {
-                return licenseValidator.Validate(appKey, domainValidations);
-            }
         }
     }
 }

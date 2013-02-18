@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using KeyHub.Web.ViewModels.User;
 
 namespace KeyHub.Web.ViewModels.Home
 {
@@ -13,9 +14,11 @@ namespace KeyHub.Web.ViewModels.Home
     /// </summary>
     public class MainMenuViewModel : BaseViewModel<Model.User>
     {
-        public MainMenuViewModel(string controllerName)
+        public MainMenuViewModel(Model.User currentUser, string controllerName)
             : base()
         {
+            CurrentUser = new CurrentUserViewModel(currentUser);
+
             this.Controller = controllerName;
         }
 
@@ -23,6 +26,11 @@ namespace KeyHub.Web.ViewModels.Home
         {
             throw new NotImplementedException();
         }
+
+        /// <summary>
+        /// Gets the current user viewmodel
+        /// </summary>
+        public CurrentUserViewModel CurrentUser { get; private set; }
 
         /// <summary>
         /// USername (loginname) for this user

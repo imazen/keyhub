@@ -25,7 +25,7 @@ namespace KeyHub.Web.Controllers
             {
                 if (User.Identity.IsAuthenticated)
                 {
-                    using (DataContext context = new DataContext())
+                    using (var context = dataContextFactory.Create())
                     {
                         return (from x in context.Users where x.UserName == User.Identity.Name select x)
                                 .Include(x => x.Rights).FirstOrDefault();

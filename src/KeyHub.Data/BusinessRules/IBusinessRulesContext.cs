@@ -21,7 +21,7 @@ namespace KeyHub.Data.BusinessRules
         /// <returns>A set of rules associated with the given entity</returns>
         IEnumerable<IBusinessRule> GetBusinessRules<TEntity, TContext>()
             where TEntity : IModelItem
-            where TContext : DbContext;
+            where TContext : IDataContext;
 
         /// <summary>
         /// Gets the business rules for the given entity
@@ -29,6 +29,6 @@ namespace KeyHub.Data.BusinessRules
         /// <typeparam name="TContext">The type of the datacontext</typeparam>
         /// <returns>A set of rules associated with the given entity</returns>
         IEnumerable<IBusinessRule> GetBusinessRules<TContext>(IModelItem entity)
-            where TContext : DbContext;
+            where TContext : IDataContext;
     }
 }

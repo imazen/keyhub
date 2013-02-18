@@ -14,7 +14,7 @@ namespace KeyHub.Model
         /// <summary>
         /// Check if the current user is system administrator
         /// </summary>
-        public bool IsSystemAdmin
+        public virtual bool IsSystemAdmin
         {
             get
             {
@@ -26,7 +26,7 @@ namespace KeyHub.Model
         /// <summary>
         /// Check if the current user is VendorAdmin
         /// </summary>
-        public bool IsVendorAdmin
+        public virtual bool IsVendorAdmin
         {
             get
             {

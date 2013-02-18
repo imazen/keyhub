@@ -26,11 +26,7 @@ namespace KeyHub.Web.ViewModels.PrivateKey
             this.PrivateKeyId = privateKey.PrivateKeyId;
             this.VendorId = privateKey.VendorId;
             this.DisplayName = privateKey.DisplayName;
-
-            if (privateKey.PrivateKeyId != default(Guid))
-            {
-                this.PrivateKeyXmlString = privateKey.GetPrivateKeyXmlString();
-            }
+            this.PrivateKeyXmlString = privateKey.GetPrivateKeyXmlString();
         }
 
         /// <summary>

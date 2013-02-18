@@ -6,12 +6,14 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
+using System.Web.Http.Dispatcher;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
 using KeyHub.Web.ControllerFactory;
+using KeyHub.Web.Installers;
 
 namespace KeyHub.Web
 {
@@ -23,8 +25,9 @@ namespace KeyHub.Web
         {
             container = new WindsorContainer().Install(FromAssembly.This());
             ControllerBuilder.Current.SetControllerFactory(new WindsorControllerFactory(container.Kernel));
+            GlobalConfiguration.Configuration.Services.Replace(typeof(IHttpControllerActivator), new WindsorCompositionRoot(container));
 
-            KeyHub.Runtime.ApplicationContext.Instance.Boot();
+            Runtime.ApplicationContext.Instance.Boot();
 
             GlobalConfiguration.Configuration.Formatters.XmlFormatter.UseXmlSerializer = true;
 

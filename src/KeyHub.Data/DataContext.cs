@@ -44,21 +44,17 @@ namespace KeyHub.Data
         /// <summary>
         /// Gets the user by its current identity
         /// </summary>
-        /// <param name="userIdentity"></param>
-        /// <returns></returns>
-        public User GetUserByIdentity(IIdentity userIdentity)
+        /// <param name="identity">Identity of the user</param>
+        /// <returns>Currently logged in use</returns>
+        public User GetUser(IIdentity identity)
         {
             User currentUser = null;
-            if (userIdentity.IsAuthenticated)
+            if (identity.IsAuthenticated)
             {
-                currentUser = (from x in this.Users where x.UserName == userIdentity.Name select x).Include(x => x.Rights).FirstOrDefault();
+                currentUser = (from x in this.Users where x.UserName == identity.Name select x).Include(x => x.Rights).FirstOrDefault();
             }
 
-            if (currentUser != null)
-                return currentUser;
-            else
-                // Unauthenticated user or authenticated user not found
-                return new User();
+            return currentUser ?? new User();
         }
 
         public IDbSet<Membership> Memberships { get; set; }

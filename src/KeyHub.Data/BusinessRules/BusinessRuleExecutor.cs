@@ -27,7 +27,7 @@ namespace KeyHub.Data.BusinessRules
         /// </param>
         /// <returns>A list of ValidationResult</returns>
         internal static IEnumerable<BusinessRuleValidationResult> ExecuteBusinessResult<TContext>(IModelItem entity, TContext context, DbEntityEntry entityEntry)
-            where TContext : DbContext
+            where TContext : IDataContext
         {
             var businessRules = BusinessRulesContext.Instance.GetBusinessRules<TContext>(entity);
             foreach (var businessRule in businessRules)

@@ -44,8 +44,8 @@ namespace KeyHub.Data
         /// <summary>
         /// Gets the user by its current identity
         /// </summary>
-        /// <param name="userIdentity"></param>
-        /// <returns></returns>
-        User GetUserByIdentity(IIdentity userIdentity);
+        /// <param name="identity">Identity of the user</param>
+        /// <returns>Currently logged in use</returns>
+        User GetUser(IIdentity identity);
     }
 }

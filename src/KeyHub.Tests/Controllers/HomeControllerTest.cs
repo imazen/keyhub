@@ -1,52 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Security.Principal;
-using System.Text;
-using System.Web;
+﻿using System.Security.Principal;
 using System.Web.Mvc;
-using KeyHub.Data;
-using KeyHub.Model;
+using KeyHub.Tests.TestCore;
+using KeyHub.Tests.TestData;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using KeyHub.Web;
 using KeyHub.Web.Controllers;
-using Telerik.JustMock;
+using Moq;
 
 namespace KeyHub.Tests.Controllers
 {
     [TestClass]
     public class HomeControllerTest
     {
+        private HomeController controller;
+
         [TestInitialize]
         public void Initialize()
-        {
-            //Prepare HttpContext and Principal
-            HttpContext.Current = new HttpContext(
-                new HttpRequest("", "http://tempuri.org", ""),
-                new HttpResponse(new StringWriter())
-            );
-
-            // User is logged in
-            HttpContext.Current.User = new GenericPrincipal(
-                new GenericIdentity("admin"),
-                new string[0]
-                );
-
-            // Mock user instance
-            var userMock = Mock.Create<User>();
-            Mock.Arrange(() => userMock.IsVendorAdmin).IgnoreInstance().Returns(true);
-            Mock.Arrange(() => userMock.IsSystemAdmin).IgnoreInstance().Returns(true);
+        {          
+            var dataContextFactory = new FakeDataContextFactory();
+            dataContextFactory.DataContext
+                .Setup(x => x.GetUser(It.IsAny<IIdentity>()))
+                .Returns(UserTestData.CreateSysAdmin());
+            
+            controller = new HomeController(dataContextFactory);
+            controller.SetFakeControllerContext();
+            controller.HttpContext.User = new GenericPrincipal(new GenericIdentity(""), new string[0]);
         }
 
         [TestMethod]
-        public void Index()
+        public void IndexShouldReturnViewResult()
         {
-            IDataContextFactory factory = null;//Mock factory!
-
-            // Arrange
-            HomeController controller = new HomeController(factory);
-
             // Act
             ViewResult result = controller.Index() as ViewResult;
 

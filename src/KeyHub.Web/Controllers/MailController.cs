@@ -1,4 +1,5 @@
-﻿using ActionMailer.Net.Mvc;
+﻿using System.Configuration;
+using ActionMailer.Net.Mvc;
 using KeyHub.Data;
 using KeyHub.Web.ViewModels.Mail;
 using System.Web.Configuration;
@@ -22,8 +23,11 @@ namespace KeyHub.Web.Controllers
         /// <returns>Emailmessage ready to be set to purchaser</returns>
         public EmailResult TransactionEmail(TransactionMailViewModel model)
         {
-            bool redirectMails = bool.Parse(WebConfigurationManager.AppSettings["redirectMails"]);
+            bool redirectMails = (WebConfigurationManager.AppSettings["redirectMails"]!=null) ? bool.Parse(WebConfigurationManager.AppSettings["redirectMails"]) : False;
             string redirectTo = WebConfigurationManager.AppSettings["redirectTo"];
+
+            if (redirectMails && string.IsNullOrEmpty(redirectTo))
+                throw new ConfigurationErrorsException("Mail redirecting enabled without a RedirectTo set");
 
             To.Add(redirectMails ? redirectTo : model.PurchaserEmail);
             From = "no-reply@lucrasoft.nl";

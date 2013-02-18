@@ -20,7 +20,7 @@ namespace KeyHub.Data
         /// </returns>
         public DataContextByUser(IIdentity userIdentity)
         {
-            var currentUser = this.GetUserByIdentity(userIdentity);
+            var currentUser = this.GetUser(userIdentity);
 
             //Vendor dependant entities.
             var authorizedVendorIds = ResolveAuthorizedVendorsByUser(currentUser);
@@ -65,7 +65,7 @@ namespace KeyHub.Data
         /// <summary>
         /// Resolve vendor rights based on current user
         /// </summary>
-        private IEnumerable<Guid> ResolveAuthorizedVendorsByUser(User currentUser)
+        protected IEnumerable<Guid> ResolveAuthorizedVendorsByUser(User currentUser)
         {
             if (currentUser.IsSystemAdmin)
                 return (from x in this.Set<Vendor>() select x.ObjectId).ToList();
@@ -76,7 +76,7 @@ namespace KeyHub.Data
         /// <summary>
         /// Resolve customer rights based on current user
         /// </summary>
-        private IEnumerable<Guid> ResolveAuthorizedCustomersByUser(User currentUser)
+        protected IEnumerable<Guid> ResolveAuthorizedCustomersByUser(User currentUser)
         {
             if (currentUser.IsSystemAdmin)
                 return (from x in this.Set<Customer>() select x.ObjectId).ToList();
@@ -89,7 +89,7 @@ namespace KeyHub.Data
         /// Licenses with authroized skus (from Vendor), licenses from authorized customers (from User)
         /// or authorized licenses (from user)
         /// </summary>
-        private IEnumerable<Guid> ResolveAuthorizedLicensesByUser(User currentUser)
+        protected IEnumerable<Guid> ResolveAuthorizedLicensesByUser(User currentUser)
         {
             var authorizedVendorIds = ResolveAuthorizedVendorsByUser(currentUser);
             var authorizedSKUIds = ResolveAuthorizedSKUsByAuthorizedVendors();
@@ -107,7 +107,7 @@ namespace KeyHub.Data
         /// <summary>
         /// Resolve authorized skus based on authorized vendors
         /// </summary>
-        private IEnumerable<Guid> ResolveAuthorizedSKUsByAuthorizedVendors()
+        protected IEnumerable<Guid> ResolveAuthorizedSKUsByAuthorizedVendors()
         {
             if (Vendors == null)
                 throw new DbSetNotReadyException("Unable to resolve authorized SKUs by authorized vendors, vendor DbSet is not set!");
@@ -119,7 +119,7 @@ namespace KeyHub.Data
         /// <summary>
         /// Based on the current set of licenses resolve skus
         /// </summary>
-        private IEnumerable<Guid> ResolveAuthorizedSKUsByAuthorizedLicenses()
+        protected IEnumerable<Guid> ResolveAuthorizedSKUsByAuthorizedLicenses()
         {
             if (Licenses == null)
                 throw new DbSetNotReadyException("Unable to resolve authorized SKUs by authorized licenses, license DbSet is not set!");
@@ -130,7 +130,7 @@ namespace KeyHub.Data
         /// <summary>
         /// Based on the current set of transaction items resolve transactions
         /// </summary>
-        private IEnumerable<int> ResolveAuthorizedTransactionsByAuthorizedTransactionItems()
+        protected IEnumerable<int> ResolveAuthorizedTransactionsByAuthorizedTransactionItems()
         {
             if (TransactionItems == null)
                 throw new DbSetNotReadyException("Unable to resolve authorized transactions by authorized transaction items, transaction items DbSet is not set!");
@@ -141,7 +141,7 @@ namespace KeyHub.Data
         /// <summary>
         /// Based on the current set of licenses resolve customers
         /// </summary>
-        private IEnumerable<Guid> ResolveAuthorizedCustomersByAuthorizedLicenses()
+        protected IEnumerable<Guid> ResolveAuthorizedCustomersByAuthorizedLicenses()
         {
             if (Licenses == null)
                 throw new DbSetNotReadyException("Unable to resolve authorized customers by authorized licenses, license DbSet is not set!");

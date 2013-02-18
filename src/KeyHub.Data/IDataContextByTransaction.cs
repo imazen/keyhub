@@ -1,6 +1,6 @@
 ﻿namespace KeyHub.Data
 {
-    public interface IDataContextByTransaction : IDataContext
+    public interface IDataContextByTransaction : IDataContextByUser
     {
     }
 }

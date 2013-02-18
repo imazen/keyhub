@@ -32,7 +32,7 @@ namespace KeyHub.Web.Controllers
                     .Union(from x in context.UserLicenseRights where x.UserId == userId select x as UserObjectRight)
                     .Include(x => x.Right);
 
-                var viewModel = new UserObjectRightIndexViewModel(userId, objectRightsQuery.ToList());
+                var viewModel = new UserObjectRightIndexViewModel(context.GetUser(HttpContext.User.Identity), userId, objectRightsQuery.ToList());
 
                 return PartialView(viewModel);
             }

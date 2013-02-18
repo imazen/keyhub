@@ -30,7 +30,7 @@ namespace KeyHub.Data.BusinessRules
         /// Can be null when the rule is called from outside the context
         /// </param>
         /// <returns>A collection of errors, or an empty collection if the business rule succeeded</returns>
-        IEnumerable<BusinessRuleValidationResult> Validate(IModelItem entity, DbContext context, DbEntityEntry entityEntry);
+        IEnumerable<BusinessRuleValidationResult> Validate(IModelItem entity, IDataContext context, DbEntityEntry entityEntry);
 
         /// <summary>
         /// Gets the business rule name

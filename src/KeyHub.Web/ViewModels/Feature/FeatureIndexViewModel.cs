@@ -18,7 +18,7 @@ namespace KeyHub.Web.ViewModels.Feature
         /// </summary>
         /// <param name="vendor">Vendor entity</param>
         public FeatureIndexViewModel(List<Model.Feature> featureList)
-            : this()
+            : base()
         {
             Features = new List<FeatureIndexViewItem>();
             foreach (Model.Feature entity in featureList)

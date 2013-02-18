@@ -195,6 +195,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Installers\WindsorCompositionRoot.cs" />
     <Compile Include="Installers\WindsorControllerInstaller.cs" />
     <Compile Include="Installers\WindsorDataContextInstaller.cs" />
     <Compile Include="Logging\NLogLogger.cs" />

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Web;
 using KeyHub.Data;
+using KeyHub.Web.ViewModels.User;
 
 namespace KeyHub.Web.ViewModels.License
 {
@@ -17,14 +18,22 @@ namespace KeyHub.Web.ViewModels.License
         /// <summary>
         /// Construct the viewmodel
         /// </summary>
+        /// <param name="currentUser">Current user</param>
         /// <param name="licenseList">List of License entities</param>
-        public LicenseIndexViewModel(IEnumerable<Model.License> licenseList)
+        public LicenseIndexViewModel(Model.User currentUser, IEnumerable<Model.License> licenseList)
             : this()
         {
+            CurrentUser = new CurrentUserViewModel(currentUser);
+
             Licenses = new List<LicenseIndexViewItem>(
                     licenseList.Select(x => new LicenseIndexViewItem(x, x.OwningCustomer, x.Sku, x.Domains))
                 );
         }
+
+        /// <summary>
+        /// Gets the current user viewmodel
+        /// </summary>
+        public CurrentUserViewModel CurrentUser { get; private set; }
 
         /// <summary>
         /// List of licenses

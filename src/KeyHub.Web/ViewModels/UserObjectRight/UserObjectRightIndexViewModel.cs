@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Web;
 using KeyHub.Model;
+using KeyHub.Web.ViewModels.User;
 
 namespace KeyHub.Web.ViewModels.UserObjectRight
 {
@@ -19,9 +20,10 @@ namespace KeyHub.Web.ViewModels.UserObjectRight
         /// <summary>
         /// Create new instance
         /// </summary>
+        /// <param name="currentUser">Current user</param>
         /// <param name="userId">Id of the user rights belong to</param>
         /// <param name="rights">List of UserObjectRights to show</param>
-        public UserObjectRightIndexViewModel(int userId, IEnumerable<Model.UserObjectRight> rights)
+        public UserObjectRightIndexViewModel(Model.User currentUser, int userId, IEnumerable<Model.UserObjectRight> rights)
         {
             this.UserId = userId;
             this.Rights = new List<UserObjectRightIndexViewItem>(
@@ -38,6 +40,11 @@ namespace KeyHub.Web.ViewModels.UserObjectRight
         /// List of UserObjectRightViewItems
         /// </summary>
         public IEnumerable<UserObjectRightIndexViewItem> Rights;
+
+        /// <summary>
+        /// Gets the current user viewmodel
+        /// </summary>
+        public CurrentUserViewModel CurrentUser { get; private set; }
 
         /// <summary>
         /// ToEntity is not implemented

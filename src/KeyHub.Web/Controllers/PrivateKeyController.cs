@@ -29,7 +29,7 @@ namespace KeyHub.Web.Controllers
         /// <param name="parentVendor">Guid of the vendor to show private keys for</param>
         public ActionResult IndexPartial(Guid parentVendor)
         {
-            using (DataContext context = new DataContext())
+            using (var context = dataContextFactory.Create())
             {
                 var privateKeyQuery = (from x in context.PrivateKeys where x.VendorId == parentVendor orderby x.DisplayName select x);
                 var vendorQuery = (from v in context.Vendors where v.ObjectId == parentVendor select v);
@@ -47,7 +47,7 @@ namespace KeyHub.Web.Controllers
         /// <returns>Create privateKey view</returns>
         public ActionResult Create(Guid parentVendor)
         {
-            using (DataContext context = new DataContext())
+            using (var context = dataContextFactory.Create())
             {
                 var vendorQuery = from x in context.Vendors where x.ObjectId == parentVendor select x;
 
@@ -70,7 +70,7 @@ namespace KeyHub.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    using (DataContext context = new DataContext())
+                    using (var context = dataContextFactory.Create())
                     {
                         Model.PrivateKey privateKey = viewModel.ToEntity(null);
                         context.PrivateKeys.Add(privateKey);
@@ -97,7 +97,7 @@ namespace KeyHub.Web.Controllers
         /// <returns>Edit privateKey view</returns>
         public ActionResult Edit(Guid key)
         {
-            using (DataContext context = new DataContext())
+            using (var context = dataContextFactory.Create())
             {
                 var privateKeyQuery = from x in context.PrivateKeys where x.PrivateKeyId == key select x;
 
@@ -120,7 +120,7 @@ namespace KeyHub.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    using (DataContext context = new DataContext())
+                    using (var context = dataContextFactory.Create())
                     {
                         Model.PrivateKey privateKey = (from x in context.PrivateKeys where x.PrivateKeyId == viewModel.PrivateKey.PrivateKeyId select x).FirstOrDefault();
 
@@ -148,7 +148,7 @@ namespace KeyHub.Web.Controllers
         /// <returns></returns>
         public ActionResult Remove(Guid key)
         {
-            using (DataContext context = new DataContext())
+            using (var context = dataContextFactory.Create())
             {
                 context.PrivateKeys.Remove(x => x.PrivateKeyId == key);
                 context.SaveChanges();

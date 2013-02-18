@@ -22,9 +22,12 @@ namespace KeyHub.Web.Api.Controllers
     /// </summary>
     public class TransactionByIpnController : BaseTransactionController
     {
+        private IDataContextFactory dataContextFactory;
+
         public TransactionByIpnController(IDataContextFactory dataContextFactory)
             : base(dataContextFactory)
         {
+            this.dataContextFactory = dataContextFactory;
         }
 
         /// <summary>
@@ -96,7 +99,7 @@ namespace KeyHub.Web.Api.Controllers
             txn.Other = d;
 
             //All transactions go through TransactionController
-            base.ProcessTransaction(txn.ToTransactionRequest(), User.Identity);
+            base.ProcessTransaction(txn.ToTransactionRequest(dataContextFactory), User.Identity);
 
             return new HttpResponseMessage(HttpStatusCode.OK);
         }
@@ -235,9 +238,9 @@ namespace KeyHub.Web.Api.Controllers
             /// Convert transaction item to a transaction request
             /// </summary>
             /// <returns>TransactionRequest</returns>
-            public TransactionRequest ToTransactionRequest()
+            public TransactionRequest ToTransactionRequest(IDataContextFactory dataContextFactory)
             {
-                using (var context = new DataContext())
+                using (var context = dataContextFactory.Create())
                 {
                     var skus = new List<Guid>();
                     foreach (var item in Items)

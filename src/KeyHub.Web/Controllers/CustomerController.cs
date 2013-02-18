@@ -26,13 +26,6 @@ namespace KeyHub.Web.Controllers
         /// <returns>Customer index list view</returns>
         public ActionResult Index()
         {
-
-
-            using (var test = dataContextFactory.CreateByTransaction(1))
-            {
-                
-            }
-
             using (var context = dataContextFactory.CreateByUser())
             {
                 //Eager loading Customer
@@ -40,7 +33,7 @@ namespace KeyHub.Web.Controllers
                                     .Include(x => x.Country)
                                     .OrderBy(x => x.Name);
 
-                var viewModel = new CustomerIndexViewModel(customerQuery.ToList());
+                var viewModel = new CustomerIndexViewModel(context.GetUser(HttpContext.User.Identity), customerQuery.ToList());
 
                 return View(viewModel);
             }

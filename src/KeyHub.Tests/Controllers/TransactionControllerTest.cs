@@ -87,7 +87,7 @@ namespace KeyHub.Tests.Controllers
 
             //Mock datacontext
             Mock.Initialize<DataContext>();
-            context = new DataContext();
+            context =new  DataContext();
 
             // Mock user instance to divert role manager
             var userMock = Mock.Create<User>();

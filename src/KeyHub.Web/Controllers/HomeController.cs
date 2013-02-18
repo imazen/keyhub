@@ -19,9 +19,11 @@ namespace KeyHub.Web.Controllers
 
         public ActionResult Index()
         {
-            var viewModel = new HomeViewModel();
-
-            return View(viewModel);
+            using (var context = dataContextFactory.CreateByUser())
+            {
+                var viewModel = new HomeViewModel(context.GetUser(HttpContext.User.Identity));
+                return View(viewModel);
+            }
         }
 
         /// <summary>
@@ -32,8 +34,11 @@ namespace KeyHub.Web.Controllers
         [AllowAnonymous]
         public ActionResult MainMenu(string currentControllerName)
         {
-            var model = new MainMenuViewModel(currentControllerName);
-            return PartialView(model);
+            using (var context = dataContextFactory.CreateByUser())
+            {
+                var model = new MainMenuViewModel(context.GetUser(HttpContext.User.Identity), currentControllerName);
+                return PartialView(model);
+            }
         }
     }
 }

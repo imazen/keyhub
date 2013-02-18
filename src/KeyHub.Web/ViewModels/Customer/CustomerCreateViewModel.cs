@@ -19,6 +19,7 @@ namespace KeyHub.Web.ViewModels.Customer
         /// </summary>
         /// <param name="countries">List of countries to select</param>
         public CustomerCreateViewModel(List<Model.Country> countries)
+            : base()
         {
             Customer = new CustomerViewModel(new Model.Customer());
 

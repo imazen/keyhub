@@ -41,7 +41,7 @@ namespace KeyHub.Web.Controllers
                                  .Include(u => u.Rights.Select(r => r.RightObject))
                                  .OrderBy(u => u.UserName);
 
-                var viewModel = new UserIndexViewModel(usersQuery.ToList());
+                var viewModel = new UserIndexViewModel(context.GetUser(HttpContext.User.Identity), usersQuery.ToList());
 
                 return View(viewModel);
             }
@@ -54,7 +54,7 @@ namespace KeyHub.Web.Controllers
         /// <returns>User index view</returns>
         public ActionResult DetailsPartial(int id)
         {
-            using (var context = new DataContext())
+            using (var context = dataContextFactory.Create())
             {
                 var userQuery = (from u in context.Users where u.UserId == id select u);
                 
@@ -70,12 +70,8 @@ namespace KeyHub.Web.Controllers
         /// <returns>Create User view</returns>
         public ActionResult Create()
         {
-            using (var context = new DataContext())
-            {
-                var viewModel = new UserCreateViewModel(thisOne:true);
-
-                return View(viewModel);
-            }
+            var viewModel = new UserCreateViewModel(thisOne:true);
+            return View(viewModel);
         }
 
         /// <summary>
@@ -116,7 +112,7 @@ namespace KeyHub.Web.Controllers
         /// <returns>Edit User view</returns>
         public ActionResult Edit(int id)
         {
-            using (var context = new DataContext())
+            using (var context = dataContextFactory.Create())
             {
                 var userQuery = (from u in context.Users where u.UserId == id select u);
                 
@@ -136,7 +132,7 @@ namespace KeyHub.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                using (var context = new DataContext())
+                using (var context = dataContextFactory.Create())
                 {
                     var user = context.Users.FirstOrDefault(x => x.UserId == viewModel.User.UserId);
                     if (user != null)
@@ -178,7 +174,6 @@ namespace KeyHub.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-
                 if (WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
                 {
                     //FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
@@ -374,7 +369,7 @@ namespace KeyHub.Web.Controllers
             if (ModelState.IsValid)
             {
                 // Insert a new user into the database
-                using (var db = new DataContext())
+                using (var db = dataContextFactory.Create())
                 {
                     var user = db.Users.FirstOrDefault(u => u.UserName.ToLower() == model.UserName.ToLower());
                     // Check if user already exists

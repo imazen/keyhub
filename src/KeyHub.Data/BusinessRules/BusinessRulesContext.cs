@@ -122,7 +122,7 @@ namespace KeyHub.Data.BusinessRules
         /// <returns>A set of rules associated with the given entity</returns>
         public IEnumerable<IBusinessRule> GetBusinessRules<TEntity, TContext>()
             where TEntity : IModelItem
-            where TContext : DbContext
+            where TContext : IDataContext
         {
             if (typedRules.ContainsKey(typeof(TEntity)))
             {
@@ -138,7 +138,8 @@ namespace KeyHub.Data.BusinessRules
         /// </summary>
         /// <typeparam name="TContext">The type of the datacontext</typeparam>
         /// <returns>A set of rules associated with the given entity</returns>
-        public IEnumerable<IBusinessRule> GetBusinessRules<TContext>(IModelItem entity) where TContext : DbContext
+        public IEnumerable<IBusinessRule> GetBusinessRules<TContext>(IModelItem entity)
+            where TContext : IDataContext
         {
             if (entity == null)
                 throw new ArgumentNullException("entity");

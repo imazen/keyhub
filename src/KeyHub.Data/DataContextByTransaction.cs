@@ -2,36 +2,77 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
-using System.Text;
-using System.Threading.Tasks;
 using KeyHub.Model;
 
 namespace KeyHub.Data
 {
-    public class DataContextByTransaction : DataContext, IDataContextByTransaction
+    public class DataContextByTransaction : DataContextByUser, IDataContextByTransaction
     {
         /// <summary>
         /// Gets a datacontext based on single transaction ID
         /// </summary>
         /// <returns>Returns a single transaction access datacontext</returns>
-        public DataContextByTransaction(int transactionId)
+        public DataContextByTransaction(IIdentity userIdentity, int transactionId)
+            : base(userIdentity)
         {
-            //Transactions depends on provided transactionId
-            this.Transactions = new FilteredDbSet<Transaction>(this, t => t.TransactionId == transactionId);
+            var currentUser = GetUser(userIdentity);
 
-            //Transaction items depends on provided transactionId
-            this.TransactionItems = new FilteredDbSet<TransactionItem>(this, ti => ti.TransactionId == transactionId);
+            //Vendor dependant entities.
+            var authorizedVendorIds = ResolveAuthorizedVendorsByUser(currentUser);
+            Vendors = new FilteredDbSet<Vendor>(this, v => authorizedVendorIds.Contains(v.ObjectId));
+            Features = new FilteredDbSet<Feature>(this, f => authorizedVendorIds.Contains(f.VendorId));
 
-            //Licenses depends on provided transactionItems
-            this.Licenses = new FilteredDbSet<License>(this,
-                l => TransactionItems.Select(t => t.LicenseId).Contains(l.ObjectId));
+            //License dependant entities.
+            var authorizedLicenseIds = ResolveAuthorizedLicensesByUser(currentUser)
+                                       .Concat(ResolveAuthorizedLicensesByTransactionId(transactionId)).ToList();
+            Licenses = new FilteredDbSet<License>(this, l => authorizedLicenseIds.Contains(l.ObjectId));
+            LicenseCustomerApps = new FilteredDbSet<LicenseCustomerApp>(this, lc => authorizedLicenseIds.Contains(lc.LicenseId));
 
-            this.Vendors = new FilteredDbSet<Vendor>(this);
-            this.SKUs = new FilteredDbSet<SKU>(this);
-            this.Features = new FilteredDbSet<Feature>(this);
-            this.Customers = new FilteredDbSet<Customer>(this);
-            this.LicenseCustomerApps = new FilteredDbSet<LicenseCustomerApp>(this);
-            this.CustomerApps = new FilteredDbSet<CustomerApp>(this);
+            //SKU dependant entities.
+            var authorizedSkuIds = ResolveAuthorizedSKUsByAuthorizedLicenses()
+                                   .Concat(ResolveAuthorizedSKUsByAuthorizedVendors()).ToList();
+            SKUs = new FilteredDbSet<SKU>(this, s => authorizedSkuIds.Contains(s.SkuId));
+
+            //Transaction items depends on current user role
+            if (currentUser.IsVendorAdmin)
+            {
+                TransactionItems = new FilteredDbSet<TransactionItem>(this, ti => authorizedSkuIds.Contains(ti.SkuId));
+            }
+            else
+            {
+                //Depends on licenses and provided transaction
+                var transactionItemIdsByTransaction = ResolveAuthorizedTransactionItemsByTransactionId(transactionId);
+                TransactionItems = new FilteredDbSet<TransactionItem>(this, ti => ((authorizedLicenseIds.Contains((Guid)ti.LicenseId)) || (transactionItemIdsByTransaction.Contains(ti.TransactionItemId))));
+            }
+
+            //Transaction Items app dependant entities
+            var authorizedTransactions = ResolveAuthorizedTransactionsByAuthorizedTransactionItems();
+            Transactions = new FilteredDbSet<Transaction>(this, t => authorizedTransactions.Contains(t.TransactionId));
+
+            //Customer app dependant entities
+            var authorizedCustomerApps = (from c in LicenseCustomerApps select c.CustomerAppId).ToList();
+            CustomerApps = new FilteredDbSet<CustomerApp>(this, c => authorizedCustomerApps.Contains(c.CustomerAppId));
+
+            //Customer dependant entities
+            var authorizedCustomerIds = ResolveAuthorizedCustomersByAuthorizedLicenses()
+                                    .Concat(ResolveAuthorizedCustomersByUser(currentUser)).ToList();
+            Customers = new FilteredDbSet<Customer>(this, c => authorizedCustomerIds.Contains(c.ObjectId));
+        }
+
+        /// <summary>
+        /// Resolve authorized licenses by transaction ID
+        /// </summary>
+        private IEnumerable<Guid> ResolveAuthorizedLicensesByTransactionId(int transactionId)
+        {
+            return (from x in Set<TransactionItem>() where x.TransactionId == transactionId && x.LicenseId.HasValue select x.LicenseId.Value).ToList();
+        }
+
+        /// <summary>
+        /// Resolve authorized transactionItems by transaction ID
+        /// </summary>
+        private IEnumerable<int> ResolveAuthorizedTransactionItemsByTransactionId(int transactionId)
+        {
+            return (from x in Set<TransactionItem>() where x.TransactionId == transactionId select x.TransactionItemId).ToList();
         }
     }
 }

@@ -20,7 +20,7 @@ namespace KeyHub.Data.BusinessRules
     [InheritedExport("BusinessRules")]
     public interface IBusinessRule<in TEntity, in TContext> : IBusinessRule
          where TEntity : IModelItem
-         where TContext : DbContext
+         where TContext : IDataContext
     {
         /// <summary>
         /// Validates the entity to ensure this business rule is applied before 

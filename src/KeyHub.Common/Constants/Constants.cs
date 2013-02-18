@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace KeyHub.Common
+﻿namespace KeyHub.Common
 {
     public static class Constants
     {
@@ -12,5 +6,8 @@ namespace KeyHub.Common
         public static readonly string DefaultPasswordEncryption = "KeyHubAbcd!@#";
         public static readonly string BasketCookieName = "KeyHub_BaseketCookie";
         public static readonly int BasketCookieExpirationDays = 1;
+
+        public static readonly string LicensesTag = "licenses";
+        public static readonly string LicenseTag = "license";
     }
 }

@@ -20,10 +20,13 @@ namespace KeyHub.Web.ViewModels.User
         /// <summary>
         /// Construct the viewmodel
         /// </summary>
+        /// <param name="currentUser">Current user</param>
         /// <param name="users">List of users to show</param>
-        public UserIndexViewModel(IEnumerable<Model.User> users)
+        public UserIndexViewModel(Model.User currentUser, IEnumerable<Model.User> users)
             : this()
         {
+            CurrentUser = new CurrentUserViewModel(currentUser);
+
             Users = new List<UserIndexViewItem>(
                 from u in users select new UserIndexViewItem(u)
                 );
@@ -33,6 +36,11 @@ namespace KeyHub.Web.ViewModels.User
         /// List of users
         /// </summary>
         public List<UserIndexViewItem> Users { get; set; }
+
+        /// <summary>
+        /// Gets the current user viewmodel
+        /// </summary>
+        public CurrentUserViewModel CurrentUser { get; private set; }
 
         /// <summary>
         /// Convert back to User instance

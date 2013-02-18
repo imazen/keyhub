@@ -15,7 +15,7 @@ namespace KeyHub.Data.BusinessRules
     /// </summary>
     public abstract class BusinessRule<TEntity, TContext> : IBusinessRule<TEntity, TContext>
         where TEntity : IModelItem
-        where TContext : DbContext
+        where TContext : IDataContext
     {
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace KeyHub.Data.BusinessRules
         /// Can be null when the rule is called from outside the context
         /// </param>
         /// <returns>A collection of errors, or an empty collection if the business rule succeeded</returns>
-        public IEnumerable<BusinessRuleValidationResult> Validate(IModelItem entity, DbContext context, DbEntityEntry entityEntry)
+        public IEnumerable<BusinessRuleValidationResult> Validate(IModelItem entity, IDataContext context, DbEntityEntry entityEntry)
         {
             return ExecuteValidation((TEntity)entity, (TContext)context, entityEntry);
         }
