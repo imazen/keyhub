@@ -33,6 +33,25 @@ namespace KeyHub.Web.Controllers
             Subject = "Please claim your transaction.";
             return Email("NewTransactionEmail", model);
         }
+
+        /// <summary>
+        /// Send out a IssueEmail
+        /// </summary>
+        /// <param name="model">IssueMailViewModel containing issue details</param>
+        /// <returns>Emailmessage ready to be set to purchaser</returns>
+        public EmailResult IssueEmail(IssueMailViewModel model)
+        {
+            bool redirectMails = (WebConfigurationManager.AppSettings["redirectMails"] != null) ? bool.Parse(WebConfigurationManager.AppSettings["redirectMails"]) : false;
+            string redirectTo = WebConfigurationManager.AppSettings["redirectTo"];
+
+            if (redirectMails && string.IsNullOrEmpty(redirectTo))
+                throw new ConfigurationErrorsException("Mail redirecting enabled without a RedirectTo set");
+
+            To.Add(redirectMails ? redirectTo : model.Email);
+            From = "no-reply@lucrasoft.nl";
+            Subject = "An issue occured on you application.";
+            return Email("IssueEmail", model);
+        }
     }
 
 }

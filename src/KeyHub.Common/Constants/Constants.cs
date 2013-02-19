@@ -9,5 +9,8 @@
 
         public static readonly string LicensesTag = "licenses";
         public static readonly string LicenseTag = "license";
+
+        //Send out a warning 4 weeks in advance
+        public const int LicenseExpireWarningDays = 4 * 7;
     }
 }

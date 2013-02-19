@@ -61,7 +61,7 @@ namespace KeyHub.Tests.BusinessLogic.LicenseValidation
 
             IDataContextFactory factory = null;
             context = new DataContext();
-            var test = LicenseValidator.ValidateLicense(factory, new Guid(), null);
+            var test = LicenseValidator.ValidateLicense(factory, null, new Guid(), null);
 
             domainName1 = "domain1";
             appKey = GuidTestData.Create(100);
@@ -270,7 +270,7 @@ namespace KeyHub.Tests.BusinessLogic.LicenseValidation
         private void ActAndAssert(Action assertAction)
         {
             IDataContextFactory dataContextFactory = null;
-            domainValidationResults = LicenseValidator.ValidateLicense(dataContextFactory, appKey, domainValidations).ToList();
+            domainValidationResults = LicenseValidator.ValidateLicense(dataContextFactory, null, appKey, domainValidations).ToList();
 
             assertAction();
 
@@ -282,7 +282,7 @@ namespace KeyHub.Tests.BusinessLogic.LicenseValidation
         private void ActAndAssert<T>(Action<T> assertAction, T parameter)
         {
             IDataContextFactory dataContextFactory = null;
-            domainValidationResults = LicenseValidator.ValidateLicense(dataContextFactory, appKey, domainValidations).ToList();
+            domainValidationResults = LicenseValidator.ValidateLicense(dataContextFactory, null, appKey, domainValidations).ToList();
 
             assertAction(parameter);
 

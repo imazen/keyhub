@@ -26,6 +26,7 @@ namespace KeyHub.Data
         IDbSet<UserLicenseRight> UserLicenseRights { get; set; }
         IDbSet<DomainLicense> DomainLicenses { get; set; }
         IDbSet<CustomerApp> CustomerApps { get; set; }
+        IDbSet<CustomerAppIssue> CustomerAppIssues { get; set; }
         IDbSet<LicenseCustomerApp> LicenseCustomerApps { get; set; }
         IDbSet<CustomerAppKey> CustomerAppKeys { get; set; }
 

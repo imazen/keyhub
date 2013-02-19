@@ -79,6 +79,8 @@
     <Reference Include="WebMatrix.WebData, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationIssues\ApplicationIssueUnitOfWork.cs" />
+    <Compile Include="ApplicationIssues\IApplicationIssueUnitOfWork.cs" />
     <Compile Include="Boot\EnitityBoot.cs" />
     <Compile Include="Boot\MembershipBoot.cs" />
     <Compile Include="Boot\SettingsBoot.cs" />
@@ -138,6 +140,10 @@
     <Compile Include="Migrations\201301170833508_SkuAlternativeCodeMotRequired.cs" />
     <Compile Include="Migrations\201301170833508_SkuAlternativeCodeMotRequired.Designer.cs">
       <DependentUpon>201301170833508_SkuAlternativeCodeMotRequired.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201302191050160_AddCustomerAppIssue.cs" />
+    <Compile Include="Migrations\201302191050160_AddCustomerAppIssue.Designer.cs">
+      <DependentUpon>201302191050160_AddCustomerAppIssue.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\MigrationConfiguration.cs" />
     <Compile Include="Migrations\Internal\DbSeederMigrator.cs" />

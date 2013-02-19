@@ -45,11 +45,12 @@
                 UrlHelper u = new UrlHelper(Request.RequestContext);
                 string url = u.Action("Checkout", "Transaction", new { key = Model.Transaction.TransactionId.ToString().EncryptUrl() });
 
-                @Html.ActionLink("Register and proceed to checkout", "Register", "Account", new { returnUrl = url }, new { @class = "Btn" })                
+                @Html.ActionLink("Register and proceed to checkout", "Register", "Account", new { returnUrl = url }, new { @class = "Btn" })  
                 
                 <html>&nbsp;</html>
-                
-                @Html.ActionLink("Log in and proceed to checkout", "Login", "Account", new { returnUrl = url }, new { @class = "Btn" })
+
+                @Html.ActionLink("Log in and proceed to checkout", "Login", "Account", new { returnUrl = url }, new { @class = "Btn" })    
+                       
             }
         </p>
     </fieldset>

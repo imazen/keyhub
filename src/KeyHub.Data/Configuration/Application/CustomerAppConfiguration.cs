@@ -23,6 +23,7 @@ namespace KeyHub.Data.DataConfiguration
                 m.ToTable("CustomerApps");
             });
             HasMany(x => x.CustomerAppKeys).WithRequired(x => x.CustomerApp).WillCascadeOnDelete(false);
+            HasMany(x => x.CustomerAppIssues).WithRequired(x => x.CustomerApp).WillCascadeOnDelete(true);
         }
 
         public void AddConfiguration(System.Data.Entity.ModelConfiguration.Configuration.ConfigurationRegistrar registrar)

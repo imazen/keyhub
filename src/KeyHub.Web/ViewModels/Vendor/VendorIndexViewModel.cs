@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Web;
+using KeyHub.Web.ViewModels.User;
 
 namespace KeyHub.Web.ViewModels.Vendor
 {
@@ -17,14 +18,22 @@ namespace KeyHub.Web.ViewModels.Vendor
         /// Construct the viewmodel
         /// </summary>
         /// <param name="vendorList">List of vendor entities</param>
-        public VendorIndexViewModel(List<Model.Vendor> vendorList):this()
+        public VendorIndexViewModel(Model.User currentUser, List<Model.Vendor> vendorList)
+            : this()
         {
+            CurrentUser = new CurrentUserViewModel(currentUser);
+
             Vendors = new List<VendorIndexViewItem>();
             foreach (Model.Vendor entity in vendorList)
             {
                 Vendors.Add(new VendorIndexViewItem(entity, entity.Country));
             }
         }
+
+        /// <summary>
+        /// Gets the current user viewmodel
+        /// </summary>
+        public CurrentUserViewModel CurrentUser { get; private set; }
 
         /// <summary>
         /// List of vendors

@@ -35,7 +35,7 @@ namespace KeyHub.Web.Controllers
                 //Eager loading Vendor
                 var vendorQuery = (from v in context.Vendors select v).Include(x => x.Country);//.FilterByUser(UserEntity);
                 
-                VendorIndexViewModel viewModel = new VendorIndexViewModel(vendorQuery.ToList());
+                var viewModel = new VendorIndexViewModel(context.GetUser(HttpContext.User.Identity), vendorQuery.ToList());
                 
                 return View(viewModel);
             }

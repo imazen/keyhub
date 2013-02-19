@@ -163,7 +163,7 @@ namespace KeyHub.Web.Controllers
                 if (transaction == null)
                     throw new EntityNotFoundException("Transaction could not be resolved!");
 
-                if (transaction.Status != TransactionStatus.Create)
+                if (transaction.Status == TransactionStatus.Complete)
                     throw new EntityOperationNotSupportedException("Transaction is already claimed!");
 
                 var viewModel = new TransactionDetailsViewModel(transaction);
@@ -190,7 +190,7 @@ namespace KeyHub.Web.Controllers
                     if (basket.Transaction == null)
                         throw new EntityNotFoundException("Transaction could not be resolved!");
 
-                    if (basket.Transaction.Status != TransactionStatus.Create)
+                    if (basket.Transaction.Status == TransactionStatus.Complete)
                         throw new EntityOperationNotSupportedException("Transaction is already claimed!");
 
                     viewModel.ToEntity(basket.Transaction);
@@ -224,7 +224,7 @@ namespace KeyHub.Web.Controllers
                 if (basket.Transaction == null)
                     throw new EntityNotFoundException("Transaction SKUs are not accessible to current user!");
 
-                if (basket.Transaction.Status != TransactionStatus.Create)
+                if (basket.Transaction.Status == TransactionStatus.Complete)
                     throw new EntityOperationNotSupportedException("Transaction is already claimed!");
 
                 var owningCustomerQuery = (from x in context.Customers orderby x.Name select x);
@@ -246,53 +246,46 @@ namespace KeyHub.Web.Controllers
         [HttpPost]
         public ActionResult Checkout(TransactionCheckoutViewModel viewModel)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                using (var context = dataContextFactory.CreateByUser())
                 {
-                    using (var context = dataContextFactory.CreateByUser())
+                    BasketWrapper basket = BasketWrapper.GetByTransactionId(dataContextFactory, viewModel.Transaction.TransactionId);
+
+                    if (basket.Transaction == null)
+                        throw new EntityNotFoundException("Transaction SKUs are not accessible to current user!");
+
+                    if (basket.Transaction.Status == TransactionStatus.Complete)
+                        throw new EntityOperationNotSupportedException("Transaction is already claimed!");
+
+                    viewModel.ToEntity(basket.Transaction);
+
+                    if (viewModel.ExistingPurchasingCustomer)
+                        basket.PurchasingCustomer = (from x in context.Customers where x.ObjectId == viewModel.PurchasingCustomerId select x).FirstOrDefault();
+                    else
+                        basket.PurchasingCustomer = viewModel.NewPurchasingCustomer.ToEntity(null);
+
+                    if (viewModel.OwningCustomerIsPurchasingCustomerId)
                     {
-                        BasketWrapper basket = BasketWrapper.GetByTransactionId(dataContextFactory, viewModel.Transaction.TransactionId);
-
-                        if (basket.Transaction == null)
-                            throw new EntityNotFoundException("Transaction SKUs are not accessible to current user!");
-
-                        if (basket.Transaction.Status != TransactionStatus.Create)
-                            throw new EntityOperationNotSupportedException("Transaction is already claimed!");
-
-                        viewModel.ToEntity(basket.Transaction);
-
-                        if (viewModel.ExistingPurchasingCustomer)
-                            basket.PurchasingCustomer = (from x in context.Customers where x.ObjectId == viewModel.PurchasingCustomerId select x).FirstOrDefault();
-                        else
-                            basket.PurchasingCustomer = viewModel.NewPurchasingCustomer.ToEntity(null);
-
-                        if (viewModel.OwningCustomerIsPurchasingCustomerId)
-                        {
-                            basket.OwningCustomer = basket.PurchasingCustomer;
-                        }
-                        else
-                        {
-                            if (viewModel.ExistingOwningCustomer)
-                                basket.OwningCustomer = (from x in context.Customers where x.ObjectId == viewModel.OwningCustomerId select x).FirstOrDefault();    
-                            else
-                                basket.OwningCustomer = viewModel.NewOwningCustomer.ToEntity(null);    
-                            
-                        }
-
-                        basket.ExecuteStep(BasketSteps.Checkout);
-
-                        return RedirectToAction("Complete", new { key = basket.Transaction.TransactionId.ToString().EncryptUrl() });
+                        basket.OwningCustomer = basket.PurchasingCustomer;
                     }
-                }
-                else
-                {
-                    return View(viewModel);
+                    else
+                    {
+                        if (viewModel.ExistingOwningCustomer)
+                            basket.OwningCustomer = (from x in context.Customers where x.ObjectId == viewModel.OwningCustomerId select x).FirstOrDefault();    
+                        else
+                            basket.OwningCustomer = viewModel.NewOwningCustomer.ToEntity(null);    
+                            
+                    }
+
+                    basket.ExecuteStep(BasketSteps.Checkout);
+
+                    return RedirectToAction("Complete", new { key = basket.Transaction.TransactionId.ToString().EncryptUrl() });
                 }
             }
-            catch
+            else
             {
-                throw;
+                return View(viewModel);
             }
         }
 

@@ -1,7 +1,10 @@
 ﻿using KeyHub.BusinessLogic.LicenseValidation;
 using KeyHub.Core.Logging;
 using KeyHub.Common;
+using KeyHub.Core.UnitOfWork;
 using KeyHub.Data;
+using KeyHub.Data.ApplicationIssues;
+using KeyHub.Model;
 using KeyHub.Runtime;
 using KeyHub.Web.Api.Controllers.LicenseValidation;
 using System;
@@ -23,9 +26,11 @@ namespace KeyHub.Web.Api.Controllers
     public class LicenseValidationController : ApiController
     {
         private readonly IDataContextFactory dataContextFactory;
-        public LicenseValidationController(IDataContextFactory dataContextFactory)
+        private readonly IApplicationIssueUnitOfWork applicationIssueUnitOfWork;
+        public LicenseValidationController(IDataContextFactory dataContextFactory, IApplicationIssueUnitOfWork applicationIssueUnitOfWork)
         {
             this.dataContextFactory = dataContextFactory;
+            this.applicationIssueUnitOfWork = applicationIssueUnitOfWork;
         }
         
         /// <summary>
@@ -58,7 +63,7 @@ namespace KeyHub.Web.Api.Controllers
         {
             try
             {
-                IEnumerable<DomainValidationResult> domainValidationResults = LicenseValidator.ValidateLicense(dataContextFactory, request.AppId, ToDomainValidationList(request));
+                IEnumerable<DomainValidationResult> domainValidationResults = LicenseValidator.ValidateLicense(dataContextFactory, applicationIssueUnitOfWork, request.AppId, ToDomainValidationList(request));
 
                 string domainValidationString = domainValidationResults != null ? Serialize(domainValidationResults) : string.Empty;
 

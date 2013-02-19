@@ -60,6 +60,8 @@ namespace KeyHub.Web.ViewModels.CustomerApp
                 ActiveCustomerAppKey = customerApp.CustomerAppKeys.Last().AppKey;
 
             WebConfigExample = string.Format(example, ActiveCustomerAppKey);
+
+            IssueCount = customerApp.CustomerAppIssues.Count;
         }
 
         /// <summary>
@@ -73,6 +75,12 @@ namespace KeyHub.Web.ViewModels.CustomerApp
         /// </summary>
         [DisplayName("Customer App Key")]
         public Guid ActiveCustomerAppKey { get; set; }
+
+        /// <summary>
+        /// Summary of assigned Licenses
+        /// </summary>
+        [DisplayName("Issues")]
+        public int IssueCount { get; set; }
 
         /// <summary>
         /// Summary of assigned Licenses

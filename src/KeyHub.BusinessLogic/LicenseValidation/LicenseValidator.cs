@@ -1,5 +1,8 @@
-﻿using KeyHub.Core.Logging;
+﻿using KeyHub.Common;
+using KeyHub.Core.Logging;
+using KeyHub.Core.UnitOfWork;
 using KeyHub.Data;
+using KeyHub.Data.ApplicationIssues;
 using KeyHub.Data.BusinessRules;
 using KeyHub.Data.Extensions;
 using KeyHub.Model;
@@ -17,17 +20,24 @@ namespace KeyHub.BusinessLogic.LicenseValidation
     public class LicenseValidator
     {
         private readonly IDataContextFactory dataContextFactory;
+        private readonly IApplicationIssueUnitOfWork applicationIssueUnitOfWork;
+        private CustomerApp customerApp;
 
         /// <summary>
         /// Validate licenses
         /// </summary>
         /// <param name="dataContextFactory">Factory used by validator</param>
+        /// <param name="applicationIssueUnitOfWork">Unit of work for adding Application Issues</param>
         /// <param name="appKey">AppKey from CustomerAppKeys table</param>
         /// <param name="domainValidations">Domains to validate</param>
         /// <returns>List of DomainValidationResult</returns>
-        public static IEnumerable<DomainValidationResult> ValidateLicense(IDataContextFactory dataContextFactory, Guid appKey, IEnumerable<DomainValidation> domainValidations)
+        public static IEnumerable<DomainValidationResult> ValidateLicense(IDataContextFactory dataContextFactory,
+                                                                          IApplicationIssueUnitOfWork
+                                                                              applicationIssueUnitOfWork, Guid appKey,
+                                                                          IEnumerable<DomainValidation>
+                                                                              domainValidations)
         {
-            var licenseValidator = new LicenseValidator(dataContextFactory);
+            var licenseValidator = new LicenseValidator(dataContextFactory, applicationIssueUnitOfWork);
             return licenseValidator.Validate(appKey, domainValidations);
         }
 
@@ -35,9 +45,12 @@ namespace KeyHub.BusinessLogic.LicenseValidation
         /// Constructor
         /// </summary>
         /// <param name="dataContextFactory">Facotry used by validator</param>
-        private LicenseValidator(IDataContextFactory dataContextFactory)
+        /// <param name="applicationIssueUnitOfWork">Unit of work for adding Application Issues</param>
+        private LicenseValidator(IDataContextFactory dataContextFactory,
+                                 IApplicationIssueUnitOfWork applicationIssueUnitOfWork)
         {
             this.dataContextFactory = dataContextFactory;
+            this.applicationIssueUnitOfWork = applicationIssueUnitOfWork;
         }
 
         /// <summary>
@@ -46,27 +59,25 @@ namespace KeyHub.BusinessLogic.LicenseValidation
         /// <param name="appKey">Customer App key</param>
         /// <param name="domainValidations">List of domains to validate</param>
         /// <returns>List of DomainValidationResult</returns>
-        private IEnumerable<DomainValidationResult> Validate(Guid appKey, IEnumerable<DomainValidation> domainValidations)
+        private IEnumerable<DomainValidationResult> Validate(Guid appKey,
+                                                             IEnumerable<DomainValidation> domainValidations)
         {
             using (var context = dataContextFactory.Create())
             {
                 DeleteExpiredDomainLicenses();
 
-                CustomerApp matchedCustomerApp = context.CustomerAppKeys
-                                                        .Where(x => x.AppKey == appKey)
-                                                        .Select(x => x.CustomerApp)
-                                                        .Include(x => x.LicenseCustomerApps)
-                                                        .FirstOrDefault();
+                customerApp = context.CustomerAppKeys.Where(x => x.AppKey == appKey)
+                                     .Select(x => x.CustomerApp)
+                                     .Include(x => x.LicenseCustomerApps)
+                                     .FirstOrDefault();
 
-                if (matchedCustomerApp == null)
+                if (customerApp == null)
                 {
-                    // need to notify
+                    // need to notify, no customerApp
                     throw new Exception(string.Format("CustomerApp with appKey={0} has not found", appKey));
                 }
 
-                IEnumerable<Guid> matchedLicenseIds = matchedCustomerApp.LicenseCustomerApps
-                                                                        .Select(x => x.License.ObjectId)
-                                                                        .ToList();
+                IEnumerable<Guid> matchedLicenseIds = GetValidLicences(customerApp).ToList();
 
                 var domainLicenses = new List<DomainLicense>();
 
@@ -90,7 +101,7 @@ namespace KeyHub.BusinessLogic.LicenseValidation
 
                     if (domainLicense == null)
                     {
-                        var featureLicense = (from x in context.Licenses select x)
+                        var featureLicense = (from x in context.Licenses where matchedLicenseIds.Contains(x.ObjectId) select x)
                             .Include(x => x.Sku.SkuFeatures.Select(s => s.Feature))
                             .FirstOrDefault(
                                 x => x.Sku.SkuFeatures.Select(s => s.Feature.FeatureCode).Any(y => y == featureCode));
@@ -134,11 +145,59 @@ namespace KeyHub.BusinessLogic.LicenseValidation
             }
         }
 
+        /// <summary>
+        /// Resolves valid licenses and adds issues for expiring and expired ones
+        /// </summary>
+        /// <param name="customerAppliccation">Customer app to get licenses for</param>
+        /// <returns>List of valid license guids</returns>
+        private IEnumerable<Guid> GetValidLicences(CustomerApp customerAppliccation)
+        {
+            var licenses = (from x in customerAppliccation.LicenseCustomerApps select x.License);
+
+            foreach (var license in licenses)
+            {
+                if (!license.LicenseExpires.HasValue)
+                    continue;
+
+                if (license.LicenseExpires.Value < DateTime.Now)
+                {
+                    applicationIssueUnitOfWork.CustomerAppId = customerApp.CustomerAppId;
+                    applicationIssueUnitOfWork.DateTime = DateTime.Now;
+                    applicationIssueUnitOfWork.Severity = ApplicationIssueSeverity.High;
+                    applicationIssueUnitOfWork.Message = "License expired";
+                    applicationIssueUnitOfWork.Details = String.Format("Your license has expired at: {0}",
+                                                                       license.LicenseExpires);
+                    applicationIssueUnitOfWork.Commit();
+                }
+                else if (license.LicenseExpires.Value.AddDays(Constants.LicenseExpireWarningDays*-1) < DateTime.Now)
+                {
+                    applicationIssueUnitOfWork.CustomerAppId = customerApp.CustomerAppId;
+                    applicationIssueUnitOfWork.DateTime = DateTime.Now;
+                    applicationIssueUnitOfWork.Severity = ApplicationIssueSeverity.Medium;
+                    applicationIssueUnitOfWork.Message = "License is about to expire";
+                    applicationIssueUnitOfWork.Details = String.Format("Your license is about to expire at: {0}",
+                                                                       license.LicenseExpires);
+                    applicationIssueUnitOfWork.Commit();
+                }
+                else
+                {
+                    yield return license.ObjectId;
+                }
+            }
+        }
+
         public void OnValidationFailed(BusinessRuleValidationException businessRuleValidationException)
         {
             foreach (var error in businessRuleValidationException.ValidationResults.Where(x => x != BusinessRuleValidationResult.Success))
             {
                 LogContext.Instance.Log(error.ErrorMessage);
+
+                applicationIssueUnitOfWork.CustomerAppId = customerApp.CustomerAppId;
+                applicationIssueUnitOfWork.DateTime = DateTime.Now;
+                applicationIssueUnitOfWork.Severity = ApplicationIssueSeverity.High;
+                applicationIssueUnitOfWork.Message = error.BusinessRuleName;
+                applicationIssueUnitOfWork.Details = error.ErrorMessage;
+                applicationIssueUnitOfWork.Commit();
             }
         }
 

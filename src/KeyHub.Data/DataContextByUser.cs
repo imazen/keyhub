@@ -54,6 +54,7 @@ namespace KeyHub.Data
             //Customer app dependant entities
             var authorizedCustomerApps = (from c in this.LicenseCustomerApps select c.CustomerAppId).ToList();
             this.CustomerApps = new FilteredDbSet<CustomerApp>(this, c => authorizedCustomerApps.Contains(c.CustomerAppId));
+            this.CustomerAppIssues = new FilteredDbSet<CustomerAppIssue>(this, c => authorizedCustomerApps.Contains(c.CustomerAppId));
 
             //Customer dependant entities
             var authorizedCustomerIds = ResolveAuthorizedCustomersByAuthorizedLicenses()

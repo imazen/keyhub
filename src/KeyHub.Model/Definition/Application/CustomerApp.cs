@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KeyHub.Model
 {
@@ -42,5 +39,10 @@ namespace KeyHub.Model
         /// A list of CustomerAppKeys (<see cref="CustomerAppKey"/>) of this application
         /// </summary>
         public virtual ICollection<CustomerAppKey> CustomerAppKeys { get; set; }
+
+        /// <summary>
+        /// A list of CustomerAppIssues (<see cref="CustomerAppIssue"/>) of this application
+        /// </summary>
+        public virtual ICollection<CustomerAppIssue> CustomerAppIssues { get; set; }
     }
 }

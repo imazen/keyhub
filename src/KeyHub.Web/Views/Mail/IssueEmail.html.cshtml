@@ -1,0 +1,22 @@
+﻿@using ActionMailer.Net
+@using ActionMailer.Net.Mvc
+@using KeyHub
+@model KeyHub.Web.ViewModels.Mail.IssueMailViewModel
+
+@{
+    Layout = null;
+}
+
+Welcome @Model.User,
+<br/>
+
+An error occured on your application:
+<br/>
+
+Severity: @Model.Severity
+Message: @Model.Message
+
+@Model.Details
+<br/>
+
+Thanks!

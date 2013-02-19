@@ -38,6 +38,7 @@ namespace KeyHub.Data
             this.Customers = new FilteredDbSet<Customer>(this);
             this.LicenseCustomerApps = new FilteredDbSet<LicenseCustomerApp>(this);
             this.CustomerApps = new FilteredDbSet<CustomerApp>(this);
+            this.CustomerAppIssues = new FilteredDbSet<CustomerAppIssue>(this);
             this.Transactions = new FilteredDbSet<Transaction>(this);
         }
 
@@ -92,6 +93,8 @@ namespace KeyHub.Data
         public IDbSet<DomainLicense> DomainLicenses { get; set; }
 
         public IDbSet<CustomerApp> CustomerApps { get; set; }
+
+        public IDbSet<CustomerAppIssue> CustomerAppIssues { get; set; }
 
         public IDbSet<LicenseCustomerApp> LicenseCustomerApps { get; set; }
 
