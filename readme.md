@@ -6,7 +6,7 @@ KeyHub is a portal for customers to view their purchases, generate license keys,
 * [KeyHub roadmap](https://github.com/imazen/keyhub/blob/master/spec/roadmap.md)
 * [ImageResizer roadmap](https://github.com/imazen/keyhub/blob/master/spec/imageresizer-roadmap.md)
 * [Imazen SKU structure](https://github.com/imazen/keyhub/blob/master/spec/currentuse.md)
-* 
+* [Right structure and current use](https://github.com/imazen/keyhub/blob/master/spec/rights.md)
 * [Diagram of automatic license generation](https://github.com/imazen/keyhub/blob/master/spec/Automatic-licenses.png)
 * [Balsamiq Mockups Source file](https://github.com/imazen/keyhub/blob/master/spec/Automatic-licenses.bmml)
 * [E-Junkie integration](https://github.com/imazen/keyhub/blob/master/spec/ejunkie.md)
