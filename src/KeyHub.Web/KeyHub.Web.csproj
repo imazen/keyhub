@@ -298,6 +298,11 @@
     <Compile Include="ViewModels\BaseViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Images\bgChosenSprite.png" />
+    <Content Include="Content\Images\bgFrmCheckboxRadioSprite.png" />
+    <Content Include="Content\Images\bgIcons.png" />
+    <Content Include="Content\Images\bgLogo.png" />
+    <Content Include="Content\Images\bgSprite.png" />
     <Content Include="Content\Styles\Default.css">
       <DependentUpon>Default.scss</DependentUpon>
     </Content>
@@ -568,7 +573,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\Fonts\" />
-    <Folder Include="Content\Images\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
