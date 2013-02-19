@@ -50,6 +50,8 @@ namespace KeyHub.Tests.Controllers
                 new HttpResponse(new StringWriter())
             );
 
+            var mailService = new FakeMailService();
+            
             var dataContextFactory = new FakeDataContextFactory();
 
             dataContextFactory.DataContext
@@ -70,7 +72,7 @@ namespace KeyHub.Tests.Controllers
                                       new SKU {SkuCode = SkuName, VendorId = VendorGuid}
                                   });
 
-            controller = new TransactionByIpnController(dataContextFactory);
+            controller = new TransactionByIpnController(dataContextFactory, mailService);
         }
 
         [TestMethod]

@@ -9,11 +9,13 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Xml;
 using KeyHub.Common.Extensions;
+using KeyHub.Core.Mail;
 using KeyHub.Data;
 using KeyHub.Web.Api.Controllers.LicenseValidation;
 using KeyHub.Web.Api.Controllers.Transaction;
 using System.Net.Http.Formatting;
 using System.Globalization;
+using KeyHub.Web.Controllers;
 
 namespace KeyHub.Web.Api.Controllers
 {
@@ -24,8 +26,8 @@ namespace KeyHub.Web.Api.Controllers
     {
         private IDataContextFactory dataContextFactory;
 
-        public TransactionByIpnController(IDataContextFactory dataContextFactory)
-            : base(dataContextFactory)
+        public TransactionByIpnController(IDataContextFactory dataContextFactory, IMailService mailService)
+            : base(dataContextFactory, mailService)
         {
             this.dataContextFactory = dataContextFactory;
         }

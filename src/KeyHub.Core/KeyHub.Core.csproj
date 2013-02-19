@@ -65,6 +65,7 @@
     <Compile Include="Kernel\KernelEventsTypes.cs" />
     <Compile Include="Logging\ILogger.cs" />
     <Compile Include="Logging\LogTypes.cs" />
+    <Compile Include="Mail\IMailService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings\ISettingsFile.cs" />
     <Compile Include="Settings\SettingsFileBase.cs" />

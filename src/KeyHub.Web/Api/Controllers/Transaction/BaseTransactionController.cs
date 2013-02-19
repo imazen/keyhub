@@ -11,6 +11,7 @@ using System.Web.Mvc;
 using System.Xml;
 using KeyHub.BusinessLogic.Basket;
 using KeyHub.Common.Utils;
+using KeyHub.Core.Mail;
 using KeyHub.Data;
 using KeyHub.Data.BusinessRules;
 using KeyHub.Web.Api.Controllers.Transaction;
@@ -25,9 +26,11 @@ namespace KeyHub.Web.Api.Controllers.LicenseValidation
     public abstract class BaseTransactionController : ApiController
     {
         private readonly IDataContextFactory dataContextFactory;
-        public BaseTransactionController(IDataContextFactory dataContextFactory)
+        private readonly IMailService mailService;
+        public BaseTransactionController(IDataContextFactory dataContextFactory, IMailService mailService)
         {
             this.dataContextFactory = dataContextFactory;
+            this.mailService = mailService;
         }
 
         protected TransactionResult ProcessTransaction(TransactionRequest transaction, IIdentity userIdentity)
@@ -52,13 +55,9 @@ namespace KeyHub.Web.Api.Controllers.LicenseValidation
 
                 basket.ExecuteStep(BasketSteps.Create);
 
-                var transactionEmail = new TransactionMailViewModel
-                {
-                    PurchaserName = transaction.PurchaserName,
-                    PurchaserEmail = transaction.PurchaserEmail,
-                    TransactionId = basket.Transaction.TransactionId
-                };
-                new MailController().TransactionEmail(transactionEmail).Deliver();
+                mailService.SendTransactionMail(transaction.PurchaserName,
+                                                transaction.PurchaserEmail,
+                                                basket.Transaction.TransactionId);
 
                 return new TransactionResult { CreatedSuccessfull = true };
             }

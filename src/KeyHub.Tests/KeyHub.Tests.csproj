@@ -131,6 +131,7 @@
     <Compile Include="Controllers\HomeControllerTest.cs" />
     <Compile Include="TestCore\FakeDataContextFactory.cs" />
     <Compile Include="TestCore\FakeDbSet.cs" />
+    <Compile Include="TestCore\FakeMailService.cs" />
     <Compile Include="TestCore\MvcMockHelpers.cs" />
     <Compile Include="TestData\CustomerAppKeyTestData.cs" />
     <Compile Include="TestData\CustomerAppTestData.cs" />
@@ -152,6 +153,10 @@
     <ProjectReference Include="..\KeyHub.BusinessLogic\KeyHub.BusinessLogic.csproj">
       <Project>{7fa54424-5866-4a33-ab6b-01a59d0843c7}</Project>
       <Name>KeyHub.BusinessLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\KeyHub.Core\KeyHub.Core.csproj">
+      <Project>{982DDF31-5D75-4194-99B4-FCC95CD4BE7F}</Project>
+      <Name>KeyHub.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\KeyHub.Data\KeyHub.Data.csproj">
       <Project>{D44CE009-6C7E-4E7F-912C-11A34CD094EE}</Project>

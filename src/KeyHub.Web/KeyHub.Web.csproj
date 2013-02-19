@@ -198,7 +198,9 @@
     <Compile Include="Installers\WindsorCompositionRoot.cs" />
     <Compile Include="Installers\WindsorControllerInstaller.cs" />
     <Compile Include="Installers\WindsorDataContextInstaller.cs" />
+    <Compile Include="Installers\WindsorMailServiceInstaller.cs" />
     <Compile Include="Logging\NLogLogger.cs" />
+    <Compile Include="Mail\MailService.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>

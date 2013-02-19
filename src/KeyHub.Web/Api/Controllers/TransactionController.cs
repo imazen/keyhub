@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using KeyHub.BusinessLogic.Basket;
 using KeyHub.Common.Utils;
+using KeyHub.Core.Mail;
 using KeyHub.Data;
 using KeyHub.Data.BusinessRules;
 using KeyHub.Web.Api.Controllers.LicenseValidation;
@@ -17,8 +18,8 @@ namespace KeyHub.Web.Api.Controllers
     /// </summary>
     public class TransactionController : BaseTransactionController
     {
-        public TransactionController(IDataContextFactory dataContextFactory)
-            : base(dataContextFactory)
+        public TransactionController(IDataContextFactory dataContextFactory, IMailService mailService)
+            : base(dataContextFactory, mailService)
         {
         }
 

@@ -22,32 +22,37 @@ namespace KeyHub.BusinessLogic.BusinessRules
         {
             //Uses a full access datacontext, during license claim the user has no sufficient 
             //rights to see details of the SKU untill it is acutually added to the transactionItem
-            var sku =
-                (from x in context.SKUs
-                    where x.SkuId == entity.SkuId
-                    select x).FirstOrDefault();
 
-            if (sku != null)
+            //TODO: How to provide fullcontext here?
+            using (var fullContext = new DataContext())
             {
-                if ((!sku.ExpirationDate.HasValue) || (sku.ExpirationDate.Value >= DateTime.Today))
+                var sku =
+                    (from x in fullContext.SKUs
+                     where x.SkuId == entity.SkuId
+                     select x).FirstOrDefault();
+
+                if (sku != null)
                 {
-                    yield return BusinessRuleValidationResult.Success;
+                    if ((!sku.ExpirationDate.HasValue) || (sku.ExpirationDate.Value >= DateTime.Today))
+                    {
+                        yield return BusinessRuleValidationResult.Success;
+                    }
+                    else
+                    {
+                        yield return
+                            new BusinessRuleValidationResult(
+                                string.Format("TransactionItem SKU '{0}' has expired on {1}.",
+                                              sku.SkuCode, sku.ExpirationDate.Value.ToShortDateString()), this, "SkuId")
+                            ;
+                    }
                 }
                 else
                 {
                     yield return
                         new BusinessRuleValidationResult(
-                            string.Format("TransactionItem SKU '{0}' has expired on {1}.",
-                                            sku.SkuCode, sku.ExpirationDate.Value.ToShortDateString()), this, "SkuId")
-                        ;
+                            string.Format("TransactionItem SKU with ID '{0}' does not exist.",
+                                          entity.SkuId), this, "SkuId");
                 }
-            }
-            else
-            {
-                yield return
-                    new BusinessRuleValidationResult(
-                        string.Format("TransactionItem SKU with ID '{0}' does not exist.",
-                                        entity.SkuId), this, "SkuId");
             }
         }
 

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using KeyHub.BusinessLogic.Basket;
+using KeyHub.Core.Mail;
 using KeyHub.Model;
 using KeyHub.Runtime;
 using KeyHub.Web.ViewModels.Mail;
@@ -17,10 +18,12 @@ namespace KeyHub.Web.Controllers
     public class TransactionController : ControllerBase
     {
         private readonly IDataContextFactory dataContextFactory;
-        public TransactionController(IDataContextFactory dataContextFactory)
+        private readonly IMailService mailService;
+        public TransactionController(IDataContextFactory dataContextFactory, IMailService mailService)
             : base(dataContextFactory)
         {
             this.dataContextFactory = dataContextFactory;
+            this.mailService = mailService;
         }
 
         /// <summary>
@@ -333,13 +336,9 @@ namespace KeyHub.Web.Controllers
 
             basket.ExecuteStep(BasketSteps.Remind);
 
-            var transactionEmail = new TransactionMailViewModel
-            {
-                PurchaserName = basket.Transaction.PurchaserName,
-                PurchaserEmail = basket.Transaction.PurchaserEmail,
-                TransactionId = basket.Transaction.TransactionId
-            };
-            new MailController().TransactionEmail(transactionEmail).Deliver();
+            mailService.SendTransactionMail(basket.Transaction.PurchaserName,
+                                            basket.Transaction.PurchaserEmail,
+                                            basket.Transaction.TransactionId);
 
             return RedirectToAction("Index");
         }

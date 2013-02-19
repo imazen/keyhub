@@ -13,7 +13,6 @@ namespace KeyHub.Web.Controllers
     /// <remarks>
     /// Inherits from ActionMailer's MailerBase
     /// </remarks>
-    [Authorize]
     public class MailController : MailerBase
     {
         /// <summary>
@@ -23,7 +22,7 @@ namespace KeyHub.Web.Controllers
         /// <returns>Emailmessage ready to be set to purchaser</returns>
         public EmailResult TransactionEmail(TransactionMailViewModel model)
         {
-            bool redirectMails = (WebConfigurationManager.AppSettings["redirectMails"]!=null) ? bool.Parse(WebConfigurationManager.AppSettings["redirectMails"]) : False;
+            bool redirectMails = (WebConfigurationManager.AppSettings["redirectMails"]!=null) ? bool.Parse(WebConfigurationManager.AppSettings["redirectMails"]) : false;
             string redirectTo = WebConfigurationManager.AppSettings["redirectTo"];
 
             if (redirectMails && string.IsNullOrEmpty(redirectTo))

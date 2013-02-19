@@ -20,29 +20,35 @@ namespace KeyHub.Data.BusinessRules.Rules
         /// <returns>A collection of errors, or an empty collection if the business rule succeeded</returns>
         protected override IEnumerable<BusinessRuleValidationResult> ExecuteValidation(Feature entity, DataContext context, DbEntityEntry entityEntry)
         {
-
-            var duplicateFeatureCode = 
-                (from x in context.Features 
-                 where x.FeatureCode == entity.FeatureCode && x.VendorId==entity.VendorId && x.FeatureId != entity.FeatureId
-                 select x)
-                .Include(x => x.SkuFeatures.Select(f => f.Sku)).FirstOrDefault();
-
-            if (duplicateFeatureCode != null)
+            //TODO: How to provide fullcontext here?
+            using (var fullContext = new DataContext())
             {
-                if (duplicateFeatureCode.SkuFeatures.Any())
+                var duplicateFeatureCode =
+                    (from x in fullContext.Features
+                     where
+                         x.FeatureCode == entity.FeatureCode && x.VendorId == entity.VendorId &&
+                         x.FeatureId != entity.FeatureId
+                     select x)
+                        .Include(x => x.SkuFeatures.Select(f => f.Sku)).FirstOrDefault();
+
+                if (duplicateFeatureCode != null)
                 {
-                    yield return
-                        new BusinessRuleValidationResult(
-                            string.Format("Feature Code already used for feature '{0}' on SKU '{1}'.",
-                                          duplicateFeatureCode.FeatureName,
-                                          duplicateFeatureCode.SkuFeatures.First().Sku.SkuCode), this, "FeatureCode");
-                }
-                else
-                {
-                    yield return
+                    if (duplicateFeatureCode.SkuFeatures.Any())
+                    {
+                        yield return
+                            new BusinessRuleValidationResult(
+                                string.Format("Feature Code already used for feature '{0}' on SKU '{1}'.",
+                                              duplicateFeatureCode.FeatureName,
+                                              duplicateFeatureCode.SkuFeatures.First().Sku.SkuCode), this, "FeatureCode")
+                            ;
+                    }
+                    else
+                    {
+                        yield return
                             new BusinessRuleValidationResult(
                                 string.Format("Feature Code already used for feature '{0}'.",
                                               duplicateFeatureCode.FeatureName), this, "FeatureCode");
+                    }
                 }
             }
 
