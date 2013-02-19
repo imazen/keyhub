@@ -9,79 +9,87 @@ using KeyHub.Core.Kernel;
 
 namespace KeyHub.Runtime
 {
-    /// <summary>
-    /// Provides runtime access to all Application scoped components
-    /// </summary>
-    public sealed class ApplicationContext : IDisposable
-    {
-        #region "Singleton"
+    // TODO: Store this
 
-        /// <summary>
-        /// Gets the current instance of the ApplicationContext class
-        /// </summary>
-        public static ApplicationContext Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    lock (instanceLock)
-                    {
-                        if (instance == null)
-                            instance = new ApplicationContext();
-                    }
-                }
+    // KernelContext.Instance.RunKernelEvents(KernelEventsTypes.Startup);
 
-                return instance;
-            }
-        }
 
-        private static volatile ApplicationContext instance;
-        private static object instanceLock = new object();
 
-        private ApplicationContext()
-        {
-            // Setup DI container
-            InjectMef();
-        }
 
-        #endregion "Singleton"
 
-        #region "MEF"
+    ///// <summary>
+    ///// Provides runtime access to all Application scoped components
+    ///// </summary>
+    //public sealed class ApplicationContext : IDisposable
+    //{
+    //    #region "Singleton"
 
-        /// <summary>
-        /// Injects the ApplicationContext class with all Imports using MEF
-        /// </summary>
-        private void InjectMef()
-        {
-            // Compose this class using MEF
-            DependencyContext.Instance.Compose(this);
-        }
+    //    /// <summary>
+    //    /// Gets the current instance of the ApplicationContext class
+    //    /// </summary>
+    //    public static ApplicationContext Instance
+    //    {
+    //        get
+    //        {
+    //            if (instance == null)
+    //            {
+    //                lock (instanceLock)
+    //                {
+    //                    if (instance == null)
+    //                        instance = new ApplicationContext();
+    //                }
+    //            }
 
-        #endregion "MEF"
+    //            return instance;
+    //        }
+    //    }
 
-        #region "Boot"
+    //    private static volatile ApplicationContext instance;
+    //    private static object instanceLock = new object();
 
-        /// <summary>
-        /// Boots up the KeyHub application. Will throw exceptions to stop executing application
-        /// </summary>
-        public void Boot()
-        {
-            Runtime.LogContext.Instance.Info("Application started at {0}",
-                                                    DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss"));
+    //    private ApplicationContext()
+    //    {
+    //        // Setup DI container
+    //        InjectMef();
+    //    }
 
-            // Run boot classes
-            KernelContext.Instance.RunKernelEvents(KernelEventsTypes.Startup);
-        }
+    //    #endregion "Singleton"
 
-        #endregion "Boot"
+    //    #region "MEF"
 
-        #region "Dispose"
+    //    /// <summary>
+    //    /// Injects the ApplicationContext class with all Imports using MEF
+    //    /// </summary>
+    //    private void InjectMef()
+    //    {
+    //        // Compose this class using MEF
+    //        DependencyContext.Instance.Compose(this);
+    //    }
 
-        public void Dispose()
-        {
-        }
+    //    #endregion "MEF"
 
-        #endregion "Dispose"
-    }
+    //    #region "Boot"
+
+    //    /// <summary>
+    //    /// Boots up the KeyHub application. Will throw exceptions to stop executing application
+    //    /// </summary>
+    //    public void Boot()
+    //    {
+    //        Runtime.LogContext.Instance.Info("Application started at {0}",
+    //                                                DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss"));
+
+    //        // Run boot classes
+            
+    //    }
+
+    //    #endregion "Boot"
+
+    //    #region "Dispose"
+
+    //    public void Dispose()
+    //    {
+    //    }
+
+    //    #endregion "Dispose"
+    //}
 }

@@ -9,19 +9,18 @@ using KeyHub.Model;
 
 namespace KeyHub.Data.BusinessRules.Rules
 {
-    class UniqueFeatureCodeRule : BusinessRule<Feature, DataContext>
+    public class UniqueFeatureCodeRule : BusinessRule<Feature>
     {
-        /// <summary>
-        /// Validates the entity to ensure this business rule is applied before 
-        /// being saved to the database
-        /// </summary>
-        /// <param name="entity">The entity to validate.</param>
-        /// <param name="context">The data context to use</param>
-        /// <returns>A collection of errors, or an empty collection if the business rule succeeded</returns>
-        protected override IEnumerable<BusinessRuleValidationResult> ExecuteValidation(Feature entity, DataContext context, DbEntityEntry entityEntry)
+        private readonly IDataContextFactory dataContextFactory;
+
+        public UniqueFeatureCodeRule(IDataContextFactory dataContextFactory)
         {
-            //TODO: How to provide fullcontext here?
-            using (var fullContext = new DataContext())
+            this.dataContextFactory = dataContextFactory;
+        }
+
+        protected override IEnumerable<BusinessRuleValidationResult> ExecuteValidation(Feature entity, DbEntityEntry entityEntry)
+        {
+            using (var fullContext = dataContextFactory.Create())
             {
                 var duplicateFeatureCode =
                     (from x in fullContext.Features
@@ -55,9 +54,6 @@ namespace KeyHub.Data.BusinessRules.Rules
             yield return BusinessRuleValidationResult.Success;
         }
 
-        /// <summary>
-        /// Gets the business rule name
-        /// </summary>
         public override string BusinessRuleName
         {
             get { return "Unique Feature Code"; }

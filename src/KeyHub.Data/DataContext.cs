@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition.Hosting;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.ModelConfiguration;
@@ -13,7 +14,6 @@ using KeyHub.Common;
 using KeyHub.Core.Data;
 using KeyHub.Data.BusinessRules;
 using KeyHub.Model;
-using KeyHub.Runtime;
 using System.Web;
 
 namespace KeyHub.Data
@@ -23,6 +23,11 @@ namespace KeyHub.Data
     /// </summary>
     public class DataContext : DbContext, IDataContext
     {
+        /// <summary>
+        /// Gets or sets the BusinessRuleExecutorFactory
+        /// </summary>
+        public IBusinessRuleExecutorFactory BusinessRuleExecutorFactory { get; set; }
+
         /// <summary>
         /// Gets a datacontext based on full administrator rights
         /// </summary>
@@ -106,9 +111,14 @@ namespace KeyHub.Data
         /// <param name="modelBuilder"></param>
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            foreach (var modelConfiguration in DependencyContext.Instance.GetExportedValues<IEntityConfiguration>())
+            // Create the composition container
+            using (var container = new CompositionContainer(new AssemblyCatalog(GetType().Assembly),
+                                                            CompositionOptions.DisableSilentRejection))
             {
-                modelConfiguration.AddConfiguration(modelBuilder.Configurations);
+                foreach (var modelConfiguration in container.GetExportedValues<IEntityConfiguration>())
+                {
+                    modelConfiguration.AddConfiguration(modelBuilder.Configurations);
+                }
             }
 
             base.OnModelCreating(modelBuilder);
@@ -140,7 +150,7 @@ namespace KeyHub.Data
         /// <returns></returns>
         protected override DbEntityValidationResult ValidateEntity(DbEntityEntry entityEntry, IDictionary<object, object> items)
         {
-            IModelItem entity = entityEntry.Entity as IModelItem;
+            var entity = entityEntry.Entity as IModelItem;
 
             if (entity != null)
             {
@@ -157,7 +167,12 @@ namespace KeyHub.Data
         /// <param name="entityEntry">It can be null if it is enough for business rules of current entity.</param>
         public void ValidateModelItem(IModelItem entity, DbEntityEntry entityEntry = null)
         {
-            var validationResults = BusinessRuleExecutor.ExecuteBusinessResult(entity, this, entityEntry).ToArray();
+            if (BusinessRuleExecutorFactory == null)
+                return;
+
+            var executor = BusinessRuleExecutorFactory.Create();
+            var validationResults = executor.ExecuteBusinessResult(entity, entityEntry).ToArray();
+
             if (validationResults.Any(x => x != BusinessRuleValidationResult.Success))
             {
                 throw new BusinessRuleValidationException(validationResults);

@@ -6,7 +6,7 @@ namespace KeyHub.Core.Logging
     /// <summary>
     /// Defines the logging options for KeyHub
     /// </summary>
-    public interface ILogger : IDisposable
+    public interface ILoggingService : IDisposable
     {
         /// <summary>
         /// Writes the diagnostic message for the default level.

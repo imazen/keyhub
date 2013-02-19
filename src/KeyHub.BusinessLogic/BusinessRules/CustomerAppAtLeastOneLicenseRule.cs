@@ -7,16 +7,13 @@ using System.Data.Entity.Infrastructure;
 
 namespace KeyHub.BusinessLogic.BusinessRules
 {
-    public class CustomerAppAtLeastOneLicenseRule : BusinessRule<CustomerApp, DataContext>
+    public class CustomerAppAtLeastOneLicenseRule : BusinessRule<CustomerApp>
     {
         /// <summary>
         /// Validates a CustomerApp to see if it has at least one license
         /// </summary>
-        /// <param name="entity"></param>
-        /// <param name="context"></param>
-        /// <param name="entityEntry"></param>
         /// <returns>A collection of errors, or an empty collection if the business rule succeeded</returns>
-        protected override IEnumerable<BusinessRuleValidationResult> ExecuteValidation(CustomerApp entity, DataContext context, DbEntityEntry entityEntry)
+        protected override IEnumerable<BusinessRuleValidationResult> ExecuteValidation(CustomerApp entity, DbEntityEntry entityEntry)
         {
             if (entity.LicenseCustomerApps.Count == 0 && entityEntry.State != EntityState.Deleted)
             {

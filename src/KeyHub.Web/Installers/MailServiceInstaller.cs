@@ -7,7 +7,7 @@ using KeyHub.Web.Mail;
 
 namespace KeyHub.Web.Installers
 {
-    public class WindsorMailServiceInstaller : IWindsorInstaller
+    public class MailServiceInstaller : IWindsorInstaller
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {

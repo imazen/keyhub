@@ -8,23 +8,25 @@ using KeyHub.Model;
 
 namespace KeyHub.BusinessLogic.BusinessRules
 {
-
-    public class SkuExpirationRule : BusinessRule<TransactionItem, IDataContext>
+    public class SkuExpirationRule : BusinessRule<TransactionItem>
     {
+        private readonly IDataContextFactory dataContextFactory;
+
+        public SkuExpirationRule(IDataContextFactory dataContextFactory)
+        {
+            this.dataContextFactory = dataContextFactory;
+        }
+
         /// <summary>
         /// Validates an TransactionItem to see if the SKU is still valid
         /// </summary>
-        /// <param name="entity">The TransactionItem to validate.</param>
-        /// <param name="context">The data context to use</param>
-        /// <param name="entityEntry">Entry</param>
         /// <returns>A collection of errors, or an empty collection if the business rule succeeded</returns>
-        protected override IEnumerable<BusinessRuleValidationResult> ExecuteValidation(TransactionItem entity, IDataContext context, DbEntityEntry entityEntry)
+        protected override IEnumerable<BusinessRuleValidationResult> ExecuteValidation(TransactionItem entity, DbEntityEntry entityEntry)
         {
             //Uses a full access datacontext, during license claim the user has no sufficient 
             //rights to see details of the SKU untill it is acutually added to the transactionItem
 
-            //TODO: How to provide fullcontext here?
-            using (var fullContext = new DataContext())
+            using (var fullContext = dataContextFactory.Create())
             {
                 var sku =
                     (from x in fullContext.SKUs

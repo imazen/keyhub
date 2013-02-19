@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using KeyHub.Core.Caching;
+using KeyHub.Core.Logging;
 
 namespace KeyHub.BusinessLogic.Caching
 {
@@ -12,12 +13,19 @@ namespace KeyHub.BusinessLogic.Caching
     /// </summary>
     public class RuntimeCacheProvider : IRuntimeCacheProvider
     {
+        private readonly ILoggingService loggingService;
+
+        public RuntimeCacheProvider(ILoggingService loggingService)
+        {
+            this.loggingService = loggingService;
+        }
+
         private void StoreObjectIntoCache(object cacheObject, string cacheKey, System.Web.HttpContext context, int MinutesToLive, CacheModes cacheMode, System.Web.Caching.CacheItemPriority priority)
         {
             // Only add to the cache when the object is not null
             if (cacheObject != null)
             {
-                Runtime.LogContext.Instance.Debug("Storing {0} object {1} into cache", cacheMode.ToString(), cacheKey);
+                loggingService.Debug("Storing {0} object {1} into cache", cacheMode.ToString(), cacheKey);
 
                 // Different insert for different cache mode
                 switch (cacheMode)
@@ -47,7 +55,7 @@ namespace KeyHub.BusinessLogic.Caching
 
         public T GetObjectFromCache<T>(string cacheKey, System.Web.HttpContext context)
         {
-            Runtime.LogContext.Instance.Debug("Getting object {0} from runtime cache", cacheKey);
+            loggingService.Debug("Getting object {0} from runtime cache", cacheKey);
 
             object cacheItem = context.Cache[cacheKey];
 
@@ -76,7 +84,7 @@ namespace KeyHub.BusinessLogic.Caching
             }
             else
             {
-                Runtime.LogContext.Instance.Debug("Getting object {0} from context cache", cacheKey);
+                loggingService.Debug("Getting object {0} from context cache", cacheKey);
 
                 return (T)cacheItem;
             }
@@ -89,7 +97,7 @@ namespace KeyHub.BusinessLogic.Caching
 
         public void RemoveFromCachePrefix(string cacheKeyPrefix, System.Web.HttpContext context)
         {
-            List<string> cacheList = new List<string>();
+            var cacheList = new List<string>();
             var cacheEnumerator = context.Cache.GetEnumerator();
 
             // Fetch all keys from item list

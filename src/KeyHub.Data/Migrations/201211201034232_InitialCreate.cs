@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using KeyHub.Model;
 
 namespace KeyHub.Data.Migrations
@@ -386,10 +387,22 @@ namespace KeyHub.Data.Migrations
             }
 
             // Get all countries from the framework and insert them into the table
-            foreach (var right in Runtime.DependencyContext.Instance.GetExportedValues<IRight>())
+            foreach (var right in GetRights())
             {
                 context.Rights.Add(new Right { DisplayName = right.DisplayName, RightId = right.RightId });
             }
+        }
+
+        private static IEnumerable<IRight> GetRights()
+        {
+            yield return new BelongToEntity();
+            yield return new EditEntityInfo();
+            yield return new EditEntityMembers();
+            yield return new EditLicenseInfo();
+            yield return new GrantMemberRights();
+            yield return new VendorAdmin();
+            yield return new VendorReporting();
+            yield return new ViewLicenseInfo();
         }
     }
 }

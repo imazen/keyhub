@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 using System.Data.Entity;
 using KeyHub.Core.Kernel;
-using KeyHub.Runtime;
 using KeyHub.Data;
 using KeyHub.Data.Migrations;
 using System.Data.Entity.Infrastructure;
@@ -12,8 +11,6 @@ namespace KeyHub.Data.Boot
     /// <summary>
     /// Boots the Entity classes and created the database if neccesary.
     /// </summary>
-    [Export(typeof(IKernelEvent))]
-    [ExportMetadata("Order", 1)]
     public class EnitityBoot : IKernelEvent
     {
         public KernelEventCompletedArguments Execute()
@@ -33,13 +30,13 @@ namespace KeyHub.Data.Boot
                 }
                 catch (System.Exception ex)
                 {
-                    return new KernelEventCompletedArguments()
+                    return new KernelEventCompletedArguments
                     {
                         AllowContinue = false,
                         KernelEventSucceeded = false,
                         Issues = new IIssue[] 
                         { 
-                            new GenericIssue() 
+                            new GenericIssue
                             {
                                 IssueMessage = "Could not migrate to latest version.",
                                 IssueException = ex,
@@ -61,6 +58,11 @@ namespace KeyHub.Data.Boot
         public KernelEventsTypes EventType
         {
             get { return KernelEventsTypes.Startup; }
+        }
+        
+        public int Priority
+        {
+            get { return 1; }
         }
     }
 }

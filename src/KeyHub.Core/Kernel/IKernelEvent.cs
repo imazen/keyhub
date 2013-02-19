@@ -17,6 +17,11 @@
         KernelEventsTypes EventType { get; }
 
         /// <summary>
+        /// Gets the priority for this kernel event
+        /// </summary>
+        int Priority { get; }
+
+        /// <summary>
         /// Gets the display name of this event
         /// </summary>
         string DisplayName { get; }

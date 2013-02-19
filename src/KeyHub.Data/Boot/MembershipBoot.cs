@@ -13,16 +13,10 @@ namespace KeyHub.Data.Boot
     /// Holds the boot procedure for the Membership provider.
     /// This boot procedure must run after the RolesBoot class.
     /// </summary>
-    [Export(typeof(IKernelEvent))]
-    [ExportMetadata("Order", 101)]
     public class MembershipBoot : IKernelEvent
     {
         private List<IIssue> issueList = new List<IIssue>();
 
-        /// <summary>
-        /// Boots the MembershipBoot procedure
-        /// </summary>
-        /// <returns></returns>
         public KernelEventCompletedArguments Execute()
         {
             WebSecurity.InitializeDatabaseConnection("DataContext", "Users", "UserId", "UserName", autoCreateTables:true);
@@ -42,21 +36,24 @@ namespace KeyHub.Data.Boot
                 WebSecurity.CreateUserAndAccount("admin", "password", new { Email = "websites@lucrasoft.nl" });
                 Roles.AddUserToRole("admin", Role.SystemAdmin);
             }
+            if (!WebSecurity.UserExists("fleppie"))
+            {
+                // Create administrator user
+                WebSecurity.CreateUserAndAccount("fleppie", "test", new { Email = "floris@lucrasoft.nl" });
+                Roles.AddUserToRole("fleppie", Role.SystemAdmin);
+            }
 
             // Create an imazen account
             if (!WebSecurity.UserExists("imazen"))
             {
                 // Create administrator user
-                WebSecurity.CreateUserAndAccount("imazen", "nathanael", new { Email = "n@imazen.io" });
+                WebSecurity.CreateUserAndAccount("imazen", "nathanael", new { Email = "nathanael.jones@gmail.com" });
                 Roles.AddUserToRole("imazen", Role.SystemAdmin);
             }
 
             return new KernelEventCompletedArguments { AllowContinue = (!issueList.Any()), KernelEventSucceeded = (!issueList.Any()), Issues = issueList.ToArray() };
         }
 
-        /// <summary>
-        /// Gets the display name for the Membership boot procedure
-        /// </summary>
         public string DisplayName
         {
             get { return "Membership boot"; }
@@ -65,6 +62,11 @@ namespace KeyHub.Data.Boot
         public KernelEventsTypes EventType
         {
             get { return KernelEventsTypes.Startup; }
+        }
+
+        public int Priority
+        {
+            get { return 101; }
         }
     }
 }

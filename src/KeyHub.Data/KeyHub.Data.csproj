@@ -88,9 +88,10 @@
     <Compile Include="BusinessRules\BusinessRuleExecutor.cs" />
     <Compile Include="BusinessRules\BusinessRuleValidationException.cs" />
     <Compile Include="BusinessRules\BusinessRuleValidationResult.cs" />
+    <Compile Include="BusinessRules\IBusinessRuleExecutorFactory.cs" />
     <Compile Include="BusinessRules\IBusinessRule.cs" />
+    <Compile Include="BusinessRules\IBusinessRuleExecutor.cs" />
     <Compile Include="BusinessRules\IBusinessRule`.cs" />
-    <Compile Include="BusinessRules\IBusinessRulesContext.cs" />
     <Compile Include="BusinessRules\BusinessRulesContext.cs" />
     <Compile Include="BusinessRules\Rules\UniqueFeatureCodeRule.cs" />
     <Compile Include="Configuration\Application\CustomerAppConfiguration.cs" />
@@ -168,10 +169,6 @@
     <ProjectReference Include="..\KeyHub.Model\KeyHub.Model.csproj">
       <Project>{6d9ba48a-476e-4288-b3ad-0cae9008317c}</Project>
       <Name>KeyHub.Model</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\KeyHub.Runtime\KeyHub.Runtime.csproj">
-      <Project>{361e7979-9b23-4703-b43e-816b193ebb4e}</Project>
-      <Name>KeyHub.Runtime</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

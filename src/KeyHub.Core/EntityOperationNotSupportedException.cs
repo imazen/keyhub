@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace KeyHub.Runtime
+namespace KeyHub.Core
 {
     /// <summary>
     /// Exception thrown when requested operation on entity is not supported

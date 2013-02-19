@@ -6,7 +6,6 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using KeyHub.Runtime;
 using Microsoft.Web.WebPages.OAuth;
 
 namespace KeyHub.Web.ViewModels.User

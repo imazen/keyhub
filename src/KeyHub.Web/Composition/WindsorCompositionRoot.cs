@@ -4,7 +4,7 @@ using System.Web.Http.Controllers;
 using System.Web.Http.Dispatcher;
 using Castle.Windsor;
 
-namespace KeyHub.Web.Installers
+namespace KeyHub.Web.Composition
 {
     public class WindsorCompositionRoot : IHttpControllerActivator
     {
@@ -41,5 +41,4 @@ namespace KeyHub.Web.Installers
             }
         }
     }
-
 }

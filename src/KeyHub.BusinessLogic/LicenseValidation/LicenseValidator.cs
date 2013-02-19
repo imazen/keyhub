@@ -6,7 +6,6 @@ using KeyHub.Data.ApplicationIssues;
 using KeyHub.Data.BusinessRules;
 using KeyHub.Data.Extensions;
 using KeyHub.Model;
-using KeyHub.Runtime;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -17,40 +16,15 @@ namespace KeyHub.BusinessLogic.LicenseValidation
     /// <summary>
     /// Validates licenses
     /// </summary>
-    public class LicenseValidator
+    public class LicenseValidator : ILicenseValidator
     {
         private readonly IDataContextFactory dataContextFactory;
-        private readonly IApplicationIssueUnitOfWork applicationIssueUnitOfWork;
-        private CustomerApp customerApp;
+        private readonly ILoggingService loggingService;
 
-        /// <summary>
-        /// Validate licenses
-        /// </summary>
-        /// <param name="dataContextFactory">Factory used by validator</param>
-        /// <param name="applicationIssueUnitOfWork">Unit of work for adding Application Issues</param>
-        /// <param name="appKey">AppKey from CustomerAppKeys table</param>
-        /// <param name="domainValidations">Domains to validate</param>
-        /// <returns>List of DomainValidationResult</returns>
-        public static IEnumerable<DomainValidationResult> ValidateLicense(IDataContextFactory dataContextFactory,
-                                                                          IApplicationIssueUnitOfWork
-                                                                              applicationIssueUnitOfWork, Guid appKey,
-                                                                          IEnumerable<DomainValidation>
-                                                                              domainValidations)
-        {
-            var licenseValidator = new LicenseValidator(dataContextFactory, applicationIssueUnitOfWork);
-            return licenseValidator.Validate(appKey, domainValidations);
-        }
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="dataContextFactory">Facotry used by validator</param>
-        /// <param name="applicationIssueUnitOfWork">Unit of work for adding Application Issues</param>
-        private LicenseValidator(IDataContextFactory dataContextFactory,
-                                 IApplicationIssueUnitOfWork applicationIssueUnitOfWork)
+        public LicenseValidator(IDataContextFactory dataContextFactory, ILoggingService loggingService)
         {
             this.dataContextFactory = dataContextFactory;
-            this.applicationIssueUnitOfWork = applicationIssueUnitOfWork;
+            this.loggingService = loggingService;
         }
 
         /// <summary>
@@ -59,8 +33,7 @@ namespace KeyHub.BusinessLogic.LicenseValidation
         /// <param name="appKey">Customer App key</param>
         /// <param name="domainValidations">List of domains to validate</param>
         /// <returns>List of DomainValidationResult</returns>
-        private IEnumerable<DomainValidationResult> Validate(Guid appKey,
-                                                             IEnumerable<DomainValidation> domainValidations)
+        public IEnumerable<DomainValidationResult> Validate(Guid appKey, IEnumerable<DomainValidation> domainValidations)
         {
             using (var context = dataContextFactory.Create())
             {
@@ -141,9 +114,10 @@ namespace KeyHub.BusinessLogic.LicenseValidation
                         domainLicenses.Add(domainLicense);
                     }
                 }
-                return ToDomainVelidationResults(domainLicenses);
+                return ConvertToDomainValidationResults(domainLicenses);
             }
         }
+
 
         /// <summary>
         /// Resolves valid licenses and adds issues for expiring and expired ones
@@ -190,7 +164,7 @@ namespace KeyHub.BusinessLogic.LicenseValidation
         {
             foreach (var error in businessRuleValidationException.ValidationResults.Where(x => x != BusinessRuleValidationResult.Success))
             {
-                LogContext.Instance.Log(error.ErrorMessage);
+                loggingService.Log(error.ErrorMessage);
 
                 applicationIssueUnitOfWork.CustomerAppId = customerApp.CustomerAppId;
                 applicationIssueUnitOfWork.DateTime = DateTime.Now;
@@ -198,10 +172,11 @@ namespace KeyHub.BusinessLogic.LicenseValidation
                 applicationIssueUnitOfWork.Message = error.BusinessRuleName;
                 applicationIssueUnitOfWork.Details = error.ErrorMessage;
                 applicationIssueUnitOfWork.Commit();
-            }
-        }
+ 			}
+		}
+        
 
-        private IEnumerable<DomainValidationResult> ToDomainVelidationResults(IEnumerable<DomainLicense> domainLicenses)
+        private IEnumerable<DomainValidationResult> ConvertToDomainValidationResults(IEnumerable<DomainLicense> domainLicenses)
         {
             return domainLicenses.Select(x => new DomainValidationResult
             {
@@ -214,7 +189,7 @@ namespace KeyHub.BusinessLogic.LicenseValidation
             }).ToList();
         }
 
-        public void DeleteExpiredDomainLicenses()
+        private void DeleteExpiredDomainLicenses()
         {
             using (var context = dataContextFactory.Create())
             {
@@ -226,10 +201,11 @@ namespace KeyHub.BusinessLogic.LicenseValidation
                 foreach (var expiredDomainLicense in expiredDomainLicenses)
                 {
                     // notify
-                    LogContext.Instance.Log(string.Format("Domain expired: id: {0}, name: {1}, licenseId: {2}"
-                                                          , expiredDomainLicense.DomainLicenseId,
-                                                          expiredDomainLicense.DomainName,
-                                                          expiredDomainLicense.LicenseId), LogTypes.Info);
+                    loggingService.Log(string.Format("Domain expired: id: {0}, name: {1}, licenseId: {2}", 
+                                                     expiredDomainLicense.DomainLicenseId,
+                                                     expiredDomainLicense.DomainName,
+                                                     expiredDomainLicense.LicenseId), 
+                                                     LogTypes.Info);
                 }
 
                 context.DomainLicenses.Remove(expiredDomainLicenses);

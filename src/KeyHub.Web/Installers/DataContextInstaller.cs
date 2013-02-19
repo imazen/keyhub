@@ -9,12 +9,10 @@ using KeyHub.Data;
 
 namespace KeyHub.Web.Installers
 {
-    public class WindsorDataContextInstaller : IWindsorInstaller
+    public class DataContextInstaller : IWindsorInstaller
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
-            container.AddFacility<TypedFactoryFacility>();
-
             container.Register(
                 Component.For<IIdentity>()
                          .LifeStyle.PerWebRequest

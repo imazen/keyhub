@@ -1,18 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using KeyHub.Core.Caching;
+using KeyHub.Core.Logging;
 
 namespace KeyHub.BusinessLogic.Caching
 {
     /// <summary>
     /// Provides per request (HttpContext.Items) caching
     /// </summary>
-    public class PerRequestCacheProvider : Core.Caching.IPerRequestCacheProvider
+    public class PerRequestCacheProvider : IPerRequestCacheProvider
     {
+        private readonly ILoggingService loggingService;
+
+        public PerRequestCacheProvider(ILoggingService loggingService)
+        {
+            this.loggingService = loggingService;
+        }
+
         private void StoreObjectIntoCache(object cacheObject, string cacheKey, System.Web.HttpContext context)
         {
             if (cacheObject != null)
-                Runtime.LogContext.Instance.Debug("Storing object {0} into context cache", cacheKey);
+                loggingService.Debug("Storing object {0} into context cache", cacheKey);
 
             // Only add to the cache when the object is not null
             if (cacheObject != null)
@@ -21,7 +30,7 @@ namespace KeyHub.BusinessLogic.Caching
 
         public T GetObjectFromCache<T>(string cacheKey, System.Web.HttpContext context)
         {
-            Runtime.LogContext.Instance.Debug("Getting object {0} from context cache", cacheKey);
+            loggingService.Debug("Getting object {0} from context cache", cacheKey);
 
             object cacheItem = context.Items[cacheKey];
 
@@ -47,7 +56,7 @@ namespace KeyHub.BusinessLogic.Caching
             }
             else
             {
-                Runtime.LogContext.Instance.Debug("Getting object {0} from context cache", cacheKey);
+                loggingService.Debug("Getting object {0} from context cache", cacheKey);
 
                 return (T)cacheItem;
             }
@@ -60,7 +69,7 @@ namespace KeyHub.BusinessLogic.Caching
 
         public void RemoveFromCachePrefix(string cacheKeyPrefix, System.Web.HttpContext context)
         {
-            List<string> cacheList = new List<string>();
+            var cacheList = new List<string>();
             var cacheEnumerator = context.Items.GetEnumerator();
 
             // Fetch all keys from item list
@@ -70,7 +79,7 @@ namespace KeyHub.BusinessLogic.Caching
             }
 
             // Remove from cache if it starts with our prefix
-            foreach (string key in cacheList.Where(x => x.StartsWith(cacheKeyPrefix)))
+            foreach (var key in cacheList.Where(x => x.StartsWith(cacheKeyPrefix)))
             {
                 context.Items.Remove(key);
             }

@@ -46,6 +46,7 @@ namespace KeyHub.Data.BusinessRules
         /// </summary>
         /// <param name="message">The error message to include</param>
         /// <param name="rule">The business rule that instantiated this result</param>
+        /// <param name="propertyName">The name of the property affected</param>
         public BusinessRuleValidationResult(string message, IBusinessRule rule, string propertyName)
             : this(message)
         {

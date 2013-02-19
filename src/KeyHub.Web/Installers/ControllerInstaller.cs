@@ -8,12 +8,22 @@ using KeyHub.Data;
 
 namespace KeyHub.Web.Installers
 {
-    public class WindsorControllerInstaller : IWindsorInstaller
+    public class ControllerInstaller : IWindsorInstaller
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
-            container.Register(Classes.FromThisAssembly().BasedOn<IController>().LifestyleTransient());
+            container.Register(FindControllers().Configure(c => c.LifeStyle.Is(LifestyleType.Transient)));
             container.Register(FindApiControllers().Configure(c => c.LifeStyle.Is(LifestyleType.Transient)));
+        }
+
+        /// <summary>
+        /// Find controllers within this assembly
+        /// </summary>
+        /// <returns></returns>
+        private BasedOnDescriptor FindControllers()
+        {
+            return Classes.FromThisAssembly()
+                    .BasedOn<IController>();
         }
 
         /// <summary>
@@ -23,7 +33,7 @@ namespace KeyHub.Web.Installers
         private BasedOnDescriptor FindApiControllers()
         {
             return AllTypes.FromThisAssembly()
-                .BasedOn<IHttpController>();
+                    .BasedOn<IHttpController>();
         }
     }
 }

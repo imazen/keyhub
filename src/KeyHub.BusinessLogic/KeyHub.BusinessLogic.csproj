@@ -65,6 +65,7 @@
     <Compile Include="LicenseValidation\DomainLicenseEqualityComparer.cs" />
     <Compile Include="LicenseValidation\DomainValidation.cs" />
     <Compile Include="LicenseValidation\DomainValidationResult.cs" />
+    <Compile Include="LicenseValidation\ILicenseValidator.cs" />
     <Compile Include="LicenseValidation\LicenseValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BusinessRules\UniqueFeatureCodeRule.cs" />
@@ -85,10 +86,6 @@
     <ProjectReference Include="..\KeyHub.Model\KeyHub.Model.csproj">
       <Project>{6d9ba48a-476e-4288-b3ad-0cae9008317c}</Project>
       <Name>KeyHub.Model</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\KeyHub.Runtime\KeyHub.Runtime.csproj">
-      <Project>{361e7979-9b23-4703-b43e-816b193ebb4e}</Project>
-      <Name>KeyHub.Runtime</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

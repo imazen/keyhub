@@ -12,8 +12,8 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
-using KeyHub.Web.ControllerFactory;
-using KeyHub.Web.Installers;
+using KeyHub.Core.Kernel;
+using KeyHub.Web.Composition;
 
 namespace KeyHub.Web
 {
@@ -23,11 +23,11 @@ namespace KeyHub.Web
 
         protected void Application_Start()
         {
-            container = new WindsorContainer().Install(FromAssembly.This());
+            container = CompositionContainerFactory.Create();
             ControllerBuilder.Current.SetControllerFactory(new WindsorControllerFactory(container.Kernel));
             GlobalConfiguration.Configuration.Services.Replace(typeof(IHttpControllerActivator), new WindsorCompositionRoot(container));
 
-            Runtime.ApplicationContext.Instance.Boot();
+            container.Resolve<IKernelContext>().RunKernelEvents(KernelEventsTypes.Startup);
 
             GlobalConfiguration.Configuration.Formatters.XmlFormatter.UseXmlSerializer = true;
 
@@ -37,6 +37,11 @@ namespace KeyHub.Web
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
+        }
+
+        protected void Application_Stop()
+        {
+            container.Resolve<IKernelContext>().RunKernelEvents(KernelEventsTypes.Shutdown);
         }
     }
 }

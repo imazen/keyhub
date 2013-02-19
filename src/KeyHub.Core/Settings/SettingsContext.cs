@@ -2,43 +2,18 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
-using KeyHub.Core.Settings;
 
-namespace KeyHub.Runtime
+namespace KeyHub.Core.Settings
 {
     /// <summary>
     /// Provides runtime access to all settings components
     /// </summary>
-    public sealed class SettingsContext
+    public class SettingsContext : ISettingsContext
     {
         #region "Singleton"
 
-        /// <summary>
-        /// Gets the current instance of the SettingsManager class
-        /// </summary>
-        public static SettingsContext Instance
+        public SettingsContext()
         {
-            get
-            {
-                if (instance == null)
-                {
-                    lock (instanceLock)
-                    {
-                        if (instance == null)
-                            instance = new SettingsContext();
-                    }
-                }
-
-                return instance;
-            }
-        }
-
-        private static volatile SettingsContext instance;
-        private static object instanceLock = new object();
-
-        private SettingsContext()
-        {
-            DependencyContext.Instance.Compose(this);
             Initialize();
         }
 
@@ -71,23 +46,22 @@ namespace KeyHub.Runtime
         /// </summary>
         private void Initialize()
         {
-            List<ISettingsFile> newSettings = new List<ISettingsFile>();
+            var newSettings = new List<ISettingsFile>();
 
-            foreach (ISettingsFile setting in settings)
+            foreach (var setting in settings)
             {
                 // Generate the settings path for this settings class
-                string settingsPath = GetSettingsPath(setting);
-                string settingsContent = "";
+                var settingsPath = GetSettingsPath(setting);
 
                 // Generate or read the settings file and add it to the new settings collection
                 if (System.IO.File.Exists(settingsPath))
                 {
-                    settingsContent = ReadSettingsFile(settingsPath);
-                    newSettings.Add(KeyHub.Common.Serializers.Utils.XmlSerializers.SerializeXmlToClass<ISettingsFile>(settingsContent, setting.GetType()));
+                    var settingsContent = ReadSettingsFile(settingsPath);
+                    newSettings.Add(Common.Serializers.Utils.XmlSerializers.SerializeXmlToClass<ISettingsFile>(settingsContent, setting.GetType()));
                 }
                 else
                 {
-                    WriteSettingsFile(settingsPath, KeyHub.Common.Serializers.Utils.XmlSerializers.SerializeClassToXml(setting));
+                    WriteSettingsFile(settingsPath, Common.Serializers.Utils.XmlSerializers.SerializeClassToXml(setting));
                     newSettings.Add(setting);
                 }
             }

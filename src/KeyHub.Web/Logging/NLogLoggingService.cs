@@ -3,7 +3,7 @@ using KeyHub.Core.Logging;
 
 namespace KeyHub.Web.Logging
 {
-    public sealed class NLogLogger : ILogger
+    public sealed class NLogLoggingService : ILoggingService
     {
         private NLog.Logger logger;
 
@@ -28,7 +28,7 @@ namespace KeyHub.Web.Logging
             }
         }
 
-        public NLogLogger()
+        public NLogLoggingService()
         {
             logger = NLog.LogManager.GetCurrentClassLogger();
         }
