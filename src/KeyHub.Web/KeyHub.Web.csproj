@@ -228,6 +228,7 @@
     <Compile Include="Installers\LicenseInstaller.cs" />
     <Compile Include="Installers\LoggingInstaller.cs" />
     <Compile Include="Installers\MailServiceInstaller.cs" />
+    <Compile Include="Installers\UnitOfWorkInstaller.cs" />
     <Compile Include="Logging\NLogLoggingService.cs" />
     <Compile Include="Mail\MailService.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
