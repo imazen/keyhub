@@ -20,11 +20,15 @@ namespace KeyHub.BusinessLogic.LicenseValidation
     {
         private readonly IDataContextFactory dataContextFactory;
         private readonly ILoggingService loggingService;
+        private readonly IApplicationIssueUnitOfWork applicationIssueUnitOfWork;
 
-        public LicenseValidator(IDataContextFactory dataContextFactory, ILoggingService loggingService)
+        private CustomerApp customerApp;
+
+        public LicenseValidator(IDataContextFactory dataContextFactory, ILoggingService loggingService, IApplicationIssueUnitOfWork applicationIssueUnitOfWork)
         {
             this.dataContextFactory = dataContextFactory;
             this.loggingService = loggingService;
+            this.applicationIssueUnitOfWork = applicationIssueUnitOfWork;
         }
 
         /// <summary>

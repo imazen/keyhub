@@ -4,8 +4,9 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using KeyHub.Core;
+using KeyHub.Core.Logging;
 using KeyHub.Data;
-using KeyHub.Runtime;
 using KeyHub.Web.ViewModels.CustomerAppIssue;
 using KeyHub.Web.ViewModels.License;
 
@@ -15,9 +16,12 @@ namespace KeyHub.Web.Controllers
     public class CustomerAppIssueController : Controller
     {
         private readonly IDataContextFactory dataContextFactory;
-        public CustomerAppIssueController(IDataContextFactory dataContextFactory)
+        private readonly ILoggingService loggingService;
+
+        public CustomerAppIssueController(IDataContextFactory dataContextFactory, ILoggingService loggingService)
         {
             this.dataContextFactory = dataContextFactory;
+            this.loggingService = loggingService;
         }
 
         /// <summary>

@@ -5,7 +5,6 @@ using KeyHub.Core.UnitOfWork;
 using KeyHub.Data;
 using KeyHub.Data.ApplicationIssues;
 using KeyHub.Model;
-using KeyHub.Runtime;
 using KeyHub.Web.Api.Controllers.LicenseValidation;
 using System;
 using System.Collections.Generic;
@@ -27,10 +26,16 @@ namespace KeyHub.Web.Api.Controllers
     {
         private readonly IDataContextFactory dataContextFactory;
         private readonly IApplicationIssueUnitOfWork applicationIssueUnitOfWork;
-        public LicenseValidationController(IDataContextFactory dataContextFactory, IApplicationIssueUnitOfWork applicationIssueUnitOfWork)
+        private readonly ILoggingService loggingService;
+        private readonly ILicenseValidator licenseValidator;
+
+        public LicenseValidationController(IDataContextFactory dataContextFactory, IApplicationIssueUnitOfWork applicationIssueUnitOfWork,
+                                           ILoggingService loggingService, ILicenseValidator licenseValidator)
         {
             this.dataContextFactory = dataContextFactory;
             this.applicationIssueUnitOfWork = applicationIssueUnitOfWork;
+            this.loggingService = loggingService;
+            this.licenseValidator = licenseValidator;
         }
         
         /// <summary>
@@ -63,7 +68,7 @@ namespace KeyHub.Web.Api.Controllers
         {
             try
             {
-                IEnumerable<DomainValidationResult> domainValidationResults = LicenseValidator.ValidateLicense(dataContextFactory, applicationIssueUnitOfWork, request.AppId, ToDomainValidationList(request));
+                IEnumerable<DomainValidationResult> domainValidationResults = licenseValidator.Validate(request.AppId, ToDomainValidationList(request));
 
                 string domainValidationString = domainValidationResults != null ? Serialize(domainValidationResults) : string.Empty;
 
@@ -74,7 +79,7 @@ namespace KeyHub.Web.Api.Controllers
             }
             catch (Exception e)
             {
-                LogContext.Instance.Log(e.ToString(), LogTypes.Error);
+                loggingService.Log(e.ToString(), LogTypes.Error);
 
                 return new HttpResponseMessage
                 {
@@ -136,6 +141,4 @@ namespace KeyHub.Web.Api.Controllers
             }
         }
     }
-
-
 }
