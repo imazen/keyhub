@@ -98,52 +98,21 @@ namespace KeyHub.Tests.Controllers
         }
 
         [TestMethod]
-        public void ShouldCreateDbStuffAndSendEmail()
+        public void ShouldCreateTransactionWithTransactionItemsAndSendEmail()
         {
-            
-
-            
-
-
-            //Mock.Arrange(() => context.Transactions)
-            //    .IgnoreInstance()
-            //    .ReturnsCollection(new List<Transaction> {});
-
-            //Mock.Arrange(() => context.Transactions.Add(Arg.Matches<Transaction>(t => t.PurchaserName == purchaserName && t.PurchaserEmail == purchaserEmail)))
-            //    .IgnoreInstance()
-            //    .DoInstead<Transaction>(t => transaction = t);
-
-            //Mock.Arrange(() => context.SaveChanges())
-            //    .IgnoreInstance()
-            //    .DoInstead(() => context.ValidateModelItem(transaction.TransactionItems.First()));
-
-            //Mock.Arrange(() => mailController.TransactionEmail(Arg.Matches<TransactionMailViewModel>(t => t.PurchaserName == purchaserName && t.PurchaserEmail == purchaserEmail)))
-            //    .IgnoreInstance()
-            //    .Returns(emailResult)
-            //    .OccursOnce();
-
-            //Mock.Arrange(() => emailResult.Deliver())
-            //    .DoNothing()
-            //    .OccursOnce();
-
             var transactionResult = controller.Post(transactionRequest);
-
-
-            //Mock.AssertAll(context);
-            //Mock.AssertAll(mailController);
-            //Mock.AssertAll(emailResult);
 
             Assert.IsNotNull(transactionResult);
             Assert.IsTrue(transactionResult.CreatedSuccessfull);
 
+            var createdTransaction = dataContextFactory.DataContext.Object.Transactions.FirstOrDefault();
+            Assert.IsNotNull(createdTransaction);
+            Assert.IsTrue(createdTransaction.PurchaserName == purchaserName);
+            Assert.IsTrue(createdTransaction.PurchaserEmail == purchaserEmail);
+            Assert.IsTrue(createdTransaction.Status == TransactionStatus.Create);
+            Assert.IsTrue(createdTransaction.TransactionItems.Any());
+
             mailService.Verify(x => x.SendTransactionMail(purchaserName, purchaserEmail, It.IsAny<int>()), Times.Once());
-
-            Assert.IsTrue(dataContextFactory.DataContext.Object.Transactions.Any());
-            Assert.IsTrue(dataContextFactory.DataContext.Object.Transactions.FirstOrDefault().PurchaserName == purchaserName);
-            Assert.IsTrue(dataContextFactory.DataContext.Object.Transactions.FirstOrDefault().PurchaserEmail == purchaserEmail);
-            Assert.IsTrue(dataContextFactory.DataContext.Object.Transactions.FirstOrDefault().Status == TransactionStatus.Create);
-
-            Assert.IsTrue(dataContextFactory.DataContext.Object.TransactionItems.Any());
         }
 
         //[TestMethod]
@@ -191,8 +160,6 @@ namespace KeyHub.Tests.Controllers
         //    Assert.IsNotNull(transactionResult);
         //    Assert.IsFalse(transactionResult.CreatedSuccessfull);
         //}
-
-        // ReSharper enable ImplicitlyCapturedClosure
 
         private static string ToXmlString<T>(T obj)
         {
