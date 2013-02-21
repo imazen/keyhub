@@ -88,3 +88,6 @@ Logs
 /keyhub.sublime-workspace
 # NuGet packages folder
 [Pp]ackages/
+# Elmah error folder
+App_Data/Elmah
+error-*.xml
