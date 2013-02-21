@@ -25,8 +25,9 @@ namespace KeyHub.Web.ViewModels.UserObjectRight
         /// <param name="rights">List of UserObjectRights to show</param>
         public UserObjectRightIndexViewModel(Model.User currentUser, int userId, IEnumerable<Model.UserObjectRight> rights)
         {
-            this.UserId = userId;
-            this.Rights = new List<UserObjectRightIndexViewItem>(
+            CurrentUser = new CurrentUserViewModel(currentUser);
+            UserId = userId;
+            Rights = new List<UserObjectRightIndexViewItem>(
                 from r in rights select new UserObjectRightIndexViewItem(r)
                 );
         }
