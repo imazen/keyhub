@@ -25,7 +25,6 @@ namespace KeyHub.Web.Composition
             if (controllerType == null || !kernel.HasComponent(controllerType))
             {
                 return base.GetControllerInstance(requestContext, controllerType);
-                throw new HttpException(404, string.Format("The controller for path '{0}' could not be found.", requestContext.HttpContext.Request.Path));
             }
 
             return (IController)kernel.Resolve(controllerType);
