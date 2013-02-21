@@ -86,3 +86,5 @@ UpgradeLog*.XML
 Logs
 /keyhub.sublime-project
 /keyhub.sublime-workspace
+# NuGet packages folder
+[Pp]ackages/
