@@ -225,6 +225,7 @@
     <Compile Include="Controllers\TransactionController.cs" />
     <Compile Include="Api\Controllers\TransactionController.cs" />
     <Compile Include="Controllers\VendorController.cs" />
+    <Compile Include="Extensions\SelectListExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
