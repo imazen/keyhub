@@ -1,4 +1,5 @@
 ﻿using System;
+using KeyHub.Core.Errors;
 using KeyHub.Core.Logging;
 
 namespace KeyHub.Web.Logging
@@ -43,19 +44,19 @@ namespace KeyHub.Web.Logging
             logger.Log(ConvertLogLevel(type), message);
         }
 
-        public void Log(params Core.Issues.IIssue[] issues)
+        public void Log(params IError[] errors)
         {
-            Array.ForEach<Core.Issues.IIssue>(issues, x => logger.Log(NLog.LogLevel.Info, x.GenerateMessage()));
+            Array.ForEach<IError>(errors, x => logger.Log(NLog.LogLevel.Info, x.GenerateMessage()));
         }
 
-        public void Log(LogTypes type, params Core.Issues.IIssue[] issues)
+        public void Log(LogTypes type, params IError[] errors)
         {
-            Array.ForEach<Core.Issues.IIssue>(issues, x => logger.Log(ConvertLogLevel(type), x.GenerateMessage()));
+            Array.ForEach<IError>(errors, x => logger.Log(ConvertLogLevel(type), x.GenerateMessage()));
         }
 
-        public void Info(params Core.Issues.IIssue[] issues)
+        public void Info(params IError[] errors)
         {
-            Array.ForEach<Core.Issues.IIssue>(issues, x => logger.Log(NLog.LogLevel.Info, x.GenerateMessage()));
+            Array.ForEach<IError>(errors, x => logger.Log(NLog.LogLevel.Info, x.GenerateMessage()));
         }
 
         public void Info(string message, params object[] args)
@@ -63,9 +64,9 @@ namespace KeyHub.Web.Logging
             logger.Log(NLog.LogLevel.Info, message, args);
         }
 
-        public void Debug(params Core.Issues.IIssue[] issues)
+        public void Debug(params IError[] errors)
         {
-            Array.ForEach<Core.Issues.IIssue>(issues, x => logger.Log(NLog.LogLevel.Debug, x.GenerateMessage()));
+            Array.ForEach<IError>(errors, x => logger.Log(NLog.LogLevel.Debug, x.GenerateMessage()));
         }
 
         public void Debug(string message, params object[] args)
@@ -73,9 +74,9 @@ namespace KeyHub.Web.Logging
             logger.Log(NLog.LogLevel.Debug, message, args);
         }
 
-        public void Warn(params Core.Issues.IIssue[] issues)
+        public void Warn(params IError[] errors)
         {
-            Array.ForEach<Core.Issues.IIssue>(issues, x => logger.Log(NLog.LogLevel.Warn, x.GenerateMessage()));
+            Array.ForEach<IError>(errors, x => logger.Log(NLog.LogLevel.Warn, x.GenerateMessage()));
         }
 
         public void Warn(string message, params object[] args)
@@ -83,9 +84,9 @@ namespace KeyHub.Web.Logging
             logger.Log(NLog.LogLevel.Warn, message, args);
         }
 
-        public void Error(params Core.Issues.IIssue[] issues)
+        public void Error(params IError[] errors)
         {
-            Array.ForEach<Core.Issues.IIssue>(issues, x => logger.Log(NLog.LogLevel.Error, x.GenerateMessage()));
+            Array.ForEach<IError>(errors, x => logger.Log(NLog.LogLevel.Error, x.GenerateMessage()));
         }
 
         public void Error(string message, params object[] args)
@@ -93,9 +94,9 @@ namespace KeyHub.Web.Logging
             logger.Log(NLog.LogLevel.Error, message, args);
         }
 
-        public void Fatal(params Core.Issues.IIssue[] issues)
+        public void Fatal(params IError[] errors)
         {
-            Array.ForEach<Core.Issues.IIssue>(issues, x => logger.Log(NLog.LogLevel.Fatal, x.GenerateMessage()));
+            Array.ForEach<IError>(errors, x => logger.Log(NLog.LogLevel.Fatal, x.GenerateMessage()));
         }
 
         public void Fatal(string message, params object[] args)

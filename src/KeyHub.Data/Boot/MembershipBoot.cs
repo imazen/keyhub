@@ -2,7 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Web.Security;
-using KeyHub.Core.Issues;
+using KeyHub.Core.Errors;
 using KeyHub.Core.Kernel;
 using KeyHub.Model;
 using WebMatrix.WebData;
@@ -15,7 +15,7 @@ namespace KeyHub.Data.Boot
     /// </summary>
     public class MembershipBoot : IKernelEvent
     {
-        private List<IIssue> issueList = new List<IIssue>();
+        private List<IError> issueList = new List<IError>();
 
         public KernelEventCompletedArguments Execute()
         {

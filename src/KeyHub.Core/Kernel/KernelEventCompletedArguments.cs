@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using KeyHub.Core.Issues;
+using KeyHub.Core.Errors;
 
 namespace KeyHub.Core.Kernel
 {
@@ -21,11 +21,11 @@ namespace KeyHub.Core.Kernel
         /// <summary>
         /// Gets or sets the issue associated with the kernel event
         /// </summary>
-        public IEnumerable<IIssue> Issues { get; set; }
+        public IEnumerable<IError> Issues { get; set; }
 
         public KernelEventCompletedArguments()
         {
-            Issues = new List<IIssue>();
+            Issues = new List<IError>();
         }
     }
 }

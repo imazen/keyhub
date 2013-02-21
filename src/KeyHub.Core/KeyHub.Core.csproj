@@ -61,9 +61,9 @@
     <Compile Include="Dependency\InternalDeployedAssemblyLoader.cs" />
     <Compile Include="EntityNotFoundException.cs" />
     <Compile Include="EntityOperationNotSupportedException.cs" />
-    <Compile Include="Issues\GenericIssue.cs" />
-    <Compile Include="Issues\IIssue.cs" />
-    <Compile Include="Issues\IssueSeverity.cs" />
+    <Compile Include="Errors\ErrorSeverity.cs" />
+    <Compile Include="Errors\GenericError.cs" />
+    <Compile Include="Errors\IError.cs" />
     <Compile Include="Kernel\IKernelContext.cs" />
     <Compile Include="Kernel\IKernelEvent.cs" />
     <Compile Include="Kernel\KernelContext.cs" />

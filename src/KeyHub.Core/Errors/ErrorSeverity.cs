@@ -1,9 +1,9 @@
-﻿namespace KeyHub.Core.Issues
+namespace KeyHub.Core.Errors
 {
     /// <summary>
-    /// Defines all issue severities supported
+    /// Defines all errors severities supported
     /// </summary>
-    public enum IssueSeverity
+    public enum ErrorSeverity
     {
         /// <summary>
         /// Severe error which causes the application to crash.

@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel.Composition;
 using System.Data.Entity;
+using KeyHub.Core.Errors;
 using KeyHub.Core.Kernel;
 using KeyHub.Data;
 using KeyHub.Data.Migrations;
 using System.Data.Entity.Infrastructure;
-using KeyHub.Core.Issues;
 
 namespace KeyHub.Data.Boot
 {
@@ -34,13 +34,13 @@ namespace KeyHub.Data.Boot
                     {
                         AllowContinue = false,
                         KernelEventSucceeded = false,
-                        Issues = new IIssue[] 
+                        Issues = new IError[] 
                         { 
-                            new GenericIssue
+                            new GenericError
                             {
-                                IssueMessage = "Could not migrate to latest version.",
-                                IssueException = ex,
-                                Severity = IssueSeverity.Critical
+                                ErrorMessage = "Could not migrate to latest version.",
+                                ErrorException = ex,
+                                Severity = ErrorSeverity.Critical
                             }
                         }
                     };

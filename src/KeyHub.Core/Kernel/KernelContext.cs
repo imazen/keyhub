@@ -4,7 +4,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using KeyHub.Common.Collections;
 using KeyHub.Core.Dependency;
-using KeyHub.Core.Issues;
+using KeyHub.Core.Errors;
 using KeyHub.Core.Logging;
 
 namespace KeyHub.Core.Kernel
@@ -72,11 +72,11 @@ namespace KeyHub.Core.Kernel
                 if (kernelEventException != null)
                 {
                     // We got an exception during kernel event time, log this issue with Critical
-                    var bootIssue = new GenericIssue
+                    var bootIssue = new GenericError
                                             {
-                                                IssueException = kernelEventException,
-                                                IssueMessage = "",
-                                                Severity = IssueSeverity.Critical
+                                                ErrorException = kernelEventException,
+                                                ErrorMessage = "",
+                                                Severity = ErrorSeverity.Critical
                                             };
 
                     loggingService.Fatal(bootIssue);
@@ -90,13 +90,13 @@ namespace KeyHub.Core.Kernel
                     {
                         KernelEventSucceeded = false,
                         AllowContinue = false,
-                        Issues = new List<IIssue>
+                        Issues = new List<IError>
                                         {
-                                            new GenericIssue
+                                            new GenericError
                                             {
-                                                IssueException = null,
-                                                IssueMessage = "",
-                                                Severity = IssueSeverity.Critical
+                                                ErrorException = null,
+                                                ErrorMessage = "",
+                                                Severity = ErrorSeverity.Critical
                                             }
                                         }.ToArray()
                     };

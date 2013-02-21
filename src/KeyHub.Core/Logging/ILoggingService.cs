@@ -1,5 +1,5 @@
 ﻿using System;
-using KeyHub.Core.Issues;
+using KeyHub.Core.Errors;
 
 namespace KeyHub.Core.Logging
 {
@@ -24,21 +24,21 @@ namespace KeyHub.Core.Logging
         /// <summary>
         /// Writes the issue for the default level
         /// </summary>
-        /// <param name="issues">The issue to be written</param>
-        void Log(params IIssue[] issues);
+        /// <param name="errors">The issue to be written</param>
+        void Log(params IError[] errors);
 
         /// <summary>
         /// Writes the issue for the specified level
         /// </summary>
-        /// <param name="issues">The issue to be written</param>
+        /// <param name="errors">The issue to be written</param>
         /// <param name="type">The log type</param>
-        void Log(LogTypes type, params IIssue[] issues);
+        void Log(LogTypes type, params IError[] errors);
 
         /// <summary>
         /// Writes the diagnostic message at the Info level.
         /// </summary>
-        /// <param name="issues">The issues to be written</param>
-        void Info(params IIssue[] issues);
+        /// <param name="errors">The issues to be written</param>
+        void Info(params IError[] errors);
 
         /// <summary>
         /// Writes the diagnostic message at the Info level.
@@ -50,8 +50,8 @@ namespace KeyHub.Core.Logging
         /// <summary>
         /// Writes the diagnostic message at the Debug level.
         /// </summary>
-        /// <param name="issues">The issues to be written</param>
-        void Debug(params IIssue[] issues);
+        /// <param name="errors">The issues to be written</param>
+        void Debug(params IError[] errors);
 
         /// <summary>
         /// Writes the diagnostic message at the Debug level.
@@ -63,8 +63,8 @@ namespace KeyHub.Core.Logging
         /// <summary>
         /// Writes the diagnostic message at the Warning level.
         /// </summary>
-        /// <param name="issues">The issues to be written</param>
-        void Warn(params IIssue[] issues);
+        /// <param name="errors">The issues to be written</param>
+        void Warn(params IError[] errors);
 
         /// <summary>
         /// Writes the diagnostic message at the Warning level.
@@ -76,8 +76,8 @@ namespace KeyHub.Core.Logging
         /// <summary>
         /// Writes the diagnostic message at the Error level.
         /// </summary>
-        /// <param name="issues">The issues to be written</param>
-        void Error(params IIssue[] issues);
+        /// <param name="errors">The issues to be written</param>
+        void Error(params IError[] errors);
 
         /// <summary>
         /// Writes the diagnostic message at the Error level.
@@ -89,8 +89,8 @@ namespace KeyHub.Core.Logging
         /// <summary>
         /// Writes the diagnostic message at the Fatal level.
         /// </summary>
-        /// <param name="issues">The issues to be written</param>
-        void Fatal(params IIssue[] issues);
+        /// <param name="errors">The issues to be written</param>
+        void Fatal(params IError[] errors);
 
         /// <summary>
         /// Writes the diagnostic message at the Fatal level.

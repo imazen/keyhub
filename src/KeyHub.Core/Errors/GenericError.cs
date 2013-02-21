@@ -1,54 +1,54 @@
-﻿using System;
+using System;
 using System.Text;
 
-namespace KeyHub.Core.Issues
+namespace KeyHub.Core.Errors
 {
     /// <summary>
-    /// Represents a generic issue
+    /// Represents a generic error
     /// </summary>
-    public class GenericIssue : IIssue
+    public class GenericError : IError
     {
         /// <summary>
-        /// Gets the exception associated with this issue (if available)
+        /// Gets the exception associated with this error (if available)
         /// </summary>
-        public Exception IssueException
+        public Exception ErrorException
         {
             get;
             set;
         }
 
         /// <summary>
-        /// Gets the message associated with this issue
+        /// Gets the message associated with this error
         /// </summary>
-        public string IssueMessage
+        public string ErrorMessage
         {
             get;
             set;
         }
 
         /// <summary>
-        /// Gets the severity of this issue
+        /// Gets the severity of this error
         /// </summary>
-        public IssueSeverity Severity
+        public ErrorSeverity Severity
         {
             get;
             set;
         }
 
         /// <summary>
-        /// Returns the generated message from all fields in the issue
+        /// Returns the generated message from all fields in the error
         /// </summary>
         /// <returns></returns>
         public string GenerateMessage()
         {
-            StringBuilder builder = new StringBuilder();
-            builder.Append("Generic issue: " + IssueMessage + ", Severity: " + Severity.ToString());
+            var builder = new StringBuilder();
+            builder.Append("Generic error: " + ErrorMessage + ", Severity: " + Severity.ToString());
 
-            if (IssueException != null)
+            if (ErrorException != null)
             {
                 builder.AppendLine();
 
-                Exception currentException = IssueException;
+                Exception currentException = ErrorException;
 
                 while (currentException != null)
                 {
@@ -62,12 +62,12 @@ namespace KeyHub.Core.Issues
             return builder.ToString();
         }
 
-        public GenericIssue() { }
+        public GenericError() { }
 
-        public GenericIssue(Exception issueException, string issueMessage, IssueSeverity severity)
+        public GenericError(Exception errorException, string errorMessage, ErrorSeverity severity)
         {
-            IssueException = issueException;
-            IssueMessage = issueMessage;
+            ErrorException = errorException;
+            ErrorMessage = errorMessage;
             Severity = severity;
         }
     }
