@@ -7,6 +7,7 @@
 * Change all primary keys to GUID
 * Solve repeat OpenID login issue
 * Solve username/e-mail issue - username should always be e-mail or sha1 of email, if > 50chars
+* Implement DomainLicense serialization
 
 ## Preview 1 - March 14th 3013 - All new customers
 
