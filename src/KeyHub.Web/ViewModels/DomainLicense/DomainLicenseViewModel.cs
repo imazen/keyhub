@@ -44,7 +44,6 @@ namespace KeyHub.Web.ViewModels.DomainLicense
             if (original == null)
             {
                 original = new Model.DomainLicense();
-                original.SetKeyBytes();
             }
             var current = original;
 

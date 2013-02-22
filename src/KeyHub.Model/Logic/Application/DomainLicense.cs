@@ -14,8 +14,7 @@ namespace KeyHub.Model
         /// </summary>
         public void SetKeyBytes()
         {
-            //TODO: Who provides the Key?
-            this.KeyBytes = new RSACryptoServiceProvider(2048).ExportCspBlob(true);
+
         }
 
         public bool IsNew
