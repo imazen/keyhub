@@ -2,15 +2,19 @@
 
 # Milestones
 
-## Preview 1 (We start deploying this to new customers immediately)
+## Preview 0 - March 1st 2013 - Private beta group
 
 * Change all primary keys to GUID
 * Solve repeat OpenID login issue
 * Solve username/e-mail issue - username should always be e-mail or sha1 of email, if > 50chars
+
+## Preview 1 - March 14th 3013 - All new customers
+
+* Remove all passwords/confidential information from repository, truncate history.
 * Redirect to HTTPS if request is HTTP
 * Don't crash on unrecognized SKUs. Not all SKUs can be linked, this is by design.
 
-## Preview 2 (Deploy to all customers at this point; we can also begin open-sourcing)
+## Preview 2 - Apr. 1st 2013 - All customers, open-sourcing begins
 
 * Add customer data prefill based on transaction data
 * Fix private key management
@@ -20,7 +24,7 @@
 * Add support for linking multiple OpenID accounts
 
 
-## Preview 3 (Imazen is resposible for all development at this point)
+## Preview 3 - Apr. 15th 2013 - Mild license enforcement, Imazen handles all development
 
 * Add secure downloads section
 * Implement alternate mail service
@@ -29,7 +33,7 @@
 * Add e-mail verification support
 
 
-## Preview 4
+## Preview 4 - Apr 30th, 2013 - Full license enforcement
 
 * Display special information to support contract customers
 * Allow transactionitems to have notes.
