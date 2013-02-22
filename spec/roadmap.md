@@ -14,7 +14,7 @@
 * Redirect to HTTPS if request is HTTP
 * Don't crash on unrecognized SKUs. Not all SKUs can be linked, this is by design.
 
-## Preview 2 - Apr. 1st 2013 - All customers, open-sourcing begins
+## Preview 2 - Apr. 1st 2013 - All customers, open-sourcing begins, mostly Imazen development
 
 * Add customer data prefill based on transaction data
 * Fix private key management
