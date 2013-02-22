@@ -134,10 +134,17 @@ namespace KeyHub.Web.Api.Controllers
         /// <returns>Encrypted text</returns>
         private static string Encrypt(string text, byte[] keyBytes)
         {
-            using (var r = new RSACryptoServiceProvider(2048))
+            using (var r = new RSACryptoServiceProvider(2048, new CspParameters() { Flags = CspProviderFlags.NoPrompt | CspProviderFlags.CreateEphemeralKey }))
             {
-                r.ImportCspBlob(keyBytes);
-                return Convert.ToBase64String(r.Encrypt(Encoding.UTF8.GetBytes(text), false));
+                try
+                {
+                    r.ImportCspBlob(keyBytes);
+                    return Convert.ToBase64String(r.Encrypt(Encoding.UTF8.GetBytes(text), false));
+                }
+                finally
+                {
+                    r.PersistKeyInCsp = false;
+                }
             }
         }
     }

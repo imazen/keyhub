@@ -15,25 +15,55 @@ namespace KeyHub.Model
         /// </summary>
         public void SetKeyBytes()
         {
-            //TODO: Who provides the Key?
-            this.KeyBytes = new RSACryptoServiceProvider(2048).ExportCspBlob(true);
+            //Generate a new private key
+            using(var r = new RSACryptoServiceProvider(2048, new CspParameters() { Flags = CspProviderFlags.CreateEphemeralKey | CspProviderFlags.NoPrompt})){
+                try{
+                    this.KeyBytes = r.ExportCspBlob(true);
+                }finally{
+                    r.PersistKeyInCsp = false;
+                }
+            }
+        }
+
+        public string GetPublicKeyXmlString()
+        {
+            return GetXmlString(false);
         }
 
         public string GetPrivateKeyXmlString()
         {
-            using (var r = new RSACryptoServiceProvider(2048))
+            return GetXmlString(true);
+        }
+
+        public string GetXmlString(bool includePrivate)
+        {
+            using (var r = new RSACryptoServiceProvider(2048, new CspParameters() { Flags = CspProviderFlags.CreateEphemeralKey | CspProviderFlags.NoPrompt }))
             {
-                r.ImportCspBlob(KeyBytes);
-                return r.ToXmlString(true);
+                try
+                {
+                    r.ImportCspBlob(KeyBytes);
+                    return r.ToXmlString(includePrivate);
+                }
+                finally
+                {
+                    r.PersistKeyInCsp = false; //Default behavior is to store on filesystem; this is a security issue
+                }
             }
+
         }
 
         public void SetPrivateKeyXmlString(string privateKeyXmlString)
         {
-            using (var r = new RSACryptoServiceProvider(2048))
+            using (var r = new RSACryptoServiceProvider(2048, new CspParameters() { Flags = CspProviderFlags.CreateEphemeralKey | CspProviderFlags.NoPrompt }))
             {
-                r.FromXmlString(privateKeyXmlString);
-                KeyBytes = r.ExportCspBlob(true);
+                try{
+                    r.FromXmlString(privateKeyXmlString);
+                    KeyBytes = r.ExportCspBlob(true);
+                }
+                finally
+                {
+                    r.PersistKeyInCsp = false; //Default behavior is to store on filesystem; this is a security issue
+                }
             }
         }
     }
