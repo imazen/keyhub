@@ -13,6 +13,7 @@
 * Remove all passwords/confidential information from repository, truncate history.
 * Redirect to HTTPS if request is HTTP
 * Don't crash on unrecognized SKUs. Not all SKUs can be linked, this is by design.
+* Add password reset support
 
 ## Preview 2 - Apr. 1st 2013 - All customers, open-sourcing begins, mostly Imazen development
 
@@ -20,9 +21,7 @@
 * Fix private key management
 * Support storage of shared secret keys for transaction REST service
 * Use PayPal's list of countries. Default customer country should match the vendor's country.
-* Add password reset support
 * Add support for linking multiple OpenID accounts
-
 
 ## Preview 3 - Apr. 15th 2013 - Mild license enforcement, Imazen handles all development
 
