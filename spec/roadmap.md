@@ -1,7 +1,43 @@
 #KeyHub's Roadmap to launch
 
-Estimation of hours and planning of items will be added shortly
+# Milestones
 
+## Preview 1 (We start deploying this to new customers immediately)
+
+* Change all primary keys to GUID
+* Solve repeat OpenID login issue
+* Solve username/e-mail issue - username should always be e-mail or sha1 of email, if > 50chars
+* Redirect to HTTPS if request is HTTP
+* Don't crash on unrecognized SKUs. Not all SKUs can be linked, this is by design.
+
+## Preview 2 (Deploy to all customers at this point; we can also begin open-sourcing)
+
+* Add customer data prefill based on transaction data
+* Fix private key management
+* Support storage of shared secret keys for transaction REST service
+* Use PayPal's list of countries. Default customer country should match the vendor's country.
+* Add password reset support
+* Add support for linking multiple OpenID accounts
+
+
+## Preview 3 (Imazen is resposible for all development at this point)
+
+* Add secure downloads section
+* Implement alternate mail service
+* Allow users to manage their e-mail preferences
+* Add diagnostics delivery
+* Add e-mail verification support
+
+
+## Preview 4
+
+* Display special information to support contract customers
+* Allow transactionitems to have notes.
+
+
+---
+
+# Sprints
 
 #Sprint 1: Transaction import, User claiming, License creation, and App ID generation
 
