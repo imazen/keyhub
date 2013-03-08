@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using KeyHub.BusinessLogic.Basket;
@@ -52,7 +53,7 @@ namespace KeyHub.Web.Controllers
         /// <returns>Transaction details view</returns>
         public ActionResult Details(string key)
         {
-            int decryptedKey = Common.Utils.SafeConvert.ToInt(key.DecryptUrl(), -1);
+            var decryptedKey = Common.Utils.SafeConvert.ToGuid(key.DecryptUrl());
 
             using (var context = dataContextFactory.CreateByUser())
             {
@@ -66,7 +67,7 @@ namespace KeyHub.Web.Controllers
                 if (transactionQuery.FirstOrDefault() == null)
                     throw new EntityNotFoundException("Transaction could not be resolved!"); 
 
-                TransactionDetailsViewModel viewModel = new TransactionDetailsViewModel(transactionQuery.FirstOrDefault());
+                var viewModel = new TransactionDetailsViewModel(transactionQuery.FirstOrDefault());
 
                 return View(viewModel);
             }
@@ -77,7 +78,7 @@ namespace KeyHub.Web.Controllers
         /// </summary>
         /// <param name="key">Id of the transaction to show</param>
         /// <returns>Transaction details partial view</returns>
-        public ActionResult DetailsPartial(int key)
+        public ActionResult DetailsPartial(Guid key)
         {
             using (var context = dataContextFactory.CreateByUser())
             {
@@ -87,7 +88,7 @@ namespace KeyHub.Web.Controllers
                     .Include(x => x.TransactionItems.Select(s => s.License))
                     .Include(x => x.TransactionItems.Select(s => s.License.Domains));
 
-                TransactionDetailsViewModel viewModel = new TransactionDetailsViewModel(transactionQuery.FirstOrDefault());
+                var viewModel = new TransactionDetailsViewModel(transactionQuery.FirstOrDefault());
 
                 return PartialView(viewModel);
             }
@@ -101,11 +102,11 @@ namespace KeyHub.Web.Controllers
         {
             using (var context = dataContextFactory.CreateByUser())
             {
-                BasketWrapper basket = BasketWrapper.CreateNewByIdentity(dataContextFactory);
+                var basket = BasketWrapper.CreateNewByIdentity(dataContextFactory);
                 
                 var skuQuery = from x in context.SKUs orderby x.SkuCode select x;
 
-                TransactionCreateViewModel viewModel = new TransactionCreateViewModel(basket.Transaction, skuQuery.ToList());
+                var viewModel = new TransactionCreateViewModel(basket.Transaction, skuQuery.ToList());
 
                 return View(viewModel);
             }
@@ -151,7 +152,7 @@ namespace KeyHub.Web.Controllers
         [AllowAnonymous]
         public ActionResult ClaimLicenses(string key)
         {
-            var transactionId = Common.Utils.SafeConvert.ToInt(key.DecryptUrl(), -1);
+            var transactionId = Common.Utils.SafeConvert.ToGuid(key.DecryptUrl());
 
             using (var context = dataContextFactory.CreateByTransaction(transactionId))
             {
@@ -215,11 +216,11 @@ namespace KeyHub.Web.Controllers
         /// <returns>Transaction checkout view</returns>
         public ActionResult Checkout(string key)
         {
-            int transactionID = Common.Utils.SafeConvert.ToInt(key.DecryptUrl(), -1);
+            var transactionId = Common.Utils.SafeConvert.ToGuid(key.DecryptUrl());
 
             using (var context = dataContextFactory.CreateByUser())
             {
-                BasketWrapper basket = BasketWrapper.GetByTransactionId(dataContextFactory, transactionID);
+                var basket = BasketWrapper.GetByTransactionId(dataContextFactory, transactionId);
 
                 if (basket.Transaction == null)
                     throw new EntityNotFoundException("Transaction SKUs are not accessible to current user!");
@@ -231,7 +232,7 @@ namespace KeyHub.Web.Controllers
                 var purchasingCustomerQuery = (from x in context.Customers orderby x.Name select x);
                 var countryQuery = (from x in context.Countries orderby x.CountryName select x);
 
-                TransactionCheckoutViewModel viewModel = new TransactionCheckoutViewModel(basket.Transaction,
+                var viewModel = new TransactionCheckoutViewModel(basket.Transaction,
                     owningCustomerQuery.ToList(), purchasingCustomerQuery.ToList(), countryQuery.ToList());
 
                 return View(viewModel);
@@ -300,17 +301,15 @@ namespace KeyHub.Web.Controllers
         /// </remarks>
         public ActionResult Complete(string key)
         {
-            int transactionID = Common.Utils.SafeConvert.ToInt(key.DecryptUrl(), -1);
-            using (var context = dataContextFactory.CreateByUser())
-            {
-                BasketWrapper basket = BasketWrapper.GetByTransactionId(dataContextFactory, transactionID);
-                
-                basket.ExecuteStep(BasketSteps.Complete);
+            var transactionId = Common.Utils.SafeConvert.ToGuid(key.DecryptUrl());
 
-                TransactionDetailsViewModel viewModel = new TransactionDetailsViewModel(basket.Transaction);
+            var basket = BasketWrapper.GetByTransactionId(dataContextFactory, transactionId);
 
-                return View(viewModel);
-            }
+            basket.ExecuteStep(BasketSteps.Complete);
+
+            var viewModel = new TransactionDetailsViewModel(basket.Transaction);
+
+            return View(viewModel);
         }
 
         /// <summary>
@@ -320,7 +319,7 @@ namespace KeyHub.Web.Controllers
         /// <returns>Result of sending</returns>
         public ActionResult Remind(string key)
         {
-            int transactionId = Common.Utils.SafeConvert.ToInt(key.DecryptUrl(), -1);
+            var transactionId = Common.Utils.SafeConvert.ToGuid(key.DecryptUrl());
 
             BasketWrapper basket = BasketWrapper.GetByTransactionId(dataContextFactory, transactionId);
 

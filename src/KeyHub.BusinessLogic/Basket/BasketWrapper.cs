@@ -24,7 +24,7 @@ namespace KeyHub.BusinessLogic.Basket
             context = dataContextFactory.CreateByUser();
         }
 
-        private BasketWrapper(IDataContextFactory dataContextFactory, int transactionId)
+        private BasketWrapper(IDataContextFactory dataContextFactory, Guid transactionId)
         {
             this.dataContextFactory = dataContextFactory;
             context =  dataContextFactory.CreateByTransaction(transactionId);
@@ -60,7 +60,7 @@ namespace KeyHub.BusinessLogic.Basket
         /// have access to transaction (new user or new vendor). Use datacontext based on 
         /// transactionId instead.
         /// </remarks>
-        public static BasketWrapper GetByTransactionId(IDataContextFactory dataContextFactory, int transactionId)
+        public static BasketWrapper GetByTransactionId(IDataContextFactory dataContextFactory, Guid transactionId)
         {
             var basket = new BasketWrapper(dataContextFactory, transactionId);
             var transactionLoaded = basket.LoadTransaction(transactionId);
@@ -249,16 +249,15 @@ namespace KeyHub.BusinessLogic.Basket
         /// Load a certain transaction into the BasketWrapper
         /// </summary>
         /// <returns>True if transaction could be loaded</returns>
-        private bool LoadTransaction(int transactionId)
+        private bool LoadTransaction(Guid transactionId)
         {
             //Select transaction
-            if (transactionId > 0)
-                Transaction = (from x in context.Transactions where x.TransactionId == transactionId select x)
-                    .Include(x => x.TransactionItems.Select(s => s.Sku))
-                    .Include(x => x.TransactionItems.Select(s => s.License))
-                    .Include(x => x.TransactionItems.Select(s => s.License.Domains))
-                    .Include(x => x.TransactionItems.Select(s => s.License.LicenseCustomerApps))
-                    .FirstOrDefault();
+            Transaction = (from x in context.Transactions where x.TransactionId == transactionId select x)
+                            .Include(x => x.TransactionItems.Select(s => s.Sku))
+                            .Include(x => x.TransactionItems.Select(s => s.License))
+                            .Include(x => x.TransactionItems.Select(s => s.License.Domains))
+                            .Include(x => x.TransactionItems.Select(s => s.License.LicenseCustomerApps))
+                            .FirstOrDefault();
 
             return (Transaction != null);
         }

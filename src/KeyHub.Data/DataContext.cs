@@ -194,12 +194,4 @@ namespace KeyHub.Data
             return base.ShouldValidateEntity(entityEntry);
         }
     }
-
-    public class DbSetNotReadyException : Exception
-    {
-        public DbSetNotReadyException(string message)
-            : base(message)
-        {
-        }
-    }
 }

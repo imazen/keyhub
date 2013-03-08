@@ -30,6 +30,17 @@ namespace KeyHub.Common.Utils
             return ToBoolean(input, false);
         }
 
+        public static Guid ToGuid(object input)
+        {
+            var guidString = ToString(input);
+            var guid = default(Guid);
+
+            if (Guid.TryParse(guidString, out guid))
+                return guid;
+
+            return Guid.Empty;
+        }
+
         public static int ToInt(object input, int def)
         {
             if (Strings.IsNumeric(input)) return Convert.ToInt32(input);

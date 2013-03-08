@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace KeyHub.Model
 {
-    // TODO: Finish this entity
     /// <summary>
     /// Transaction row for storing transaction information
     /// </summary>
@@ -18,14 +17,14 @@ namespace KeyHub.Model
         /// Indentifier for the TransactionItem entity.
         /// </summary>
         [Key]
-        [DatabaseGenerated(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity)]
-        public int TransactionItemId { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid TransactionItemId { get; set; }
 
         /// <summary>
         /// The transaction main records (parent of this row)
         /// </summary>
         [Required]
-        public int TransactionId { get; set; }
+        public Guid TransactionId { get; set; }
 
         /// <summary>
         /// The transaction main records (parent of this row)
@@ -34,12 +33,12 @@ namespace KeyHub.Model
         public Transaction Transaction { get; set; }
 
         /// <summary>
-        /// 
+        /// The license with this transaction item
         /// </summary>
         public Guid? LicenseId { get; set; }
 
         /// <summary>
-        /// 
+        /// The license with this transaction item
         /// </summary>
         [ForeignKey("LicenseId")]
         public virtual License License { get; set; }

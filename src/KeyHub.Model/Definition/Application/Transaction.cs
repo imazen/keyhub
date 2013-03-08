@@ -23,8 +23,8 @@ namespace KeyHub.Model
         /// Indentifier for the Transaction entity.
         /// </summary>
         [Key]
-        [DatabaseGenerated(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity)]
-        public int TransactionId { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid TransactionId { get; set; }
 
         /// <summary>
         /// Status of the transaction

@@ -13,17 +13,12 @@ namespace KeyHub.Model
     /// </summary>
     public class CustomerAppKey
     {
-        public CustomerAppKey()
-        {
-            AppKey = Guid.NewGuid();
-        }
-
         /// <summary>
-        /// Indentifier for the CustomerAppKey entity
+        /// Unique application key this <see cref="CustomerApp"/> is generated with.
         /// </summary>
         [Key]
-        [DatabaseGenerated(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity)]
-        public int CustomerAppKeyId { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid AppKey { get; set; }
 
         /// <summary>
         /// Indentifier for the CustomerApp entity
@@ -36,11 +31,5 @@ namespace KeyHub.Model
         /// </summary>
         [ForeignKey("CustomerAppId")]
         public CustomerApp CustomerApp { get; set; }
-
-        /// <summary>
-        /// Unique application key this <see cref="CustomerApp"/> is generated with.
-        /// </summary>
-        [Required]
-        public Guid AppKey { get; set; }
     }
 }

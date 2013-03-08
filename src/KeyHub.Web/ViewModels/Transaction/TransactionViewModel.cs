@@ -49,7 +49,7 @@ namespace KeyHub.Web.ViewModels.Transaction
         /// Indentifier for the Transaction entity.
         /// </summary>
         [HiddenInput(DisplayValue = false)]
-        public int TransactionId { get; set; }
+        public Guid TransactionId { get; set; }
 
         /// <summary>
         /// Status of the transaction

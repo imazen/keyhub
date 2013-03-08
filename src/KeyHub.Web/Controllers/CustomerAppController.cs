@@ -48,7 +48,7 @@ namespace KeyHub.Web.Controllers
         /// </summary>
         /// <param name="transactionId">TransactionID to show customer apps for for</param>
         /// <returns>CustomerApp index list view</returns>
-        public ActionResult IndexPartial(int transactionId)
+        public ActionResult IndexPartial(Guid transactionId)
         {
             using (var context = dataContextFactory.CreateByUser())
             {
@@ -143,7 +143,7 @@ namespace KeyHub.Web.Controllers
         /// </summary>
         /// <param name="transactionId">Id of the transaction to create a CustomerApp for</param>
         /// <returns>Create CustomerApp partial view</returns>
-        public ActionResult CreatePartial(int transactionId)
+        public ActionResult CreatePartial(Guid transactionId)
         {
             using (var context = dataContextFactory.CreateByUser())
             {

@@ -94,6 +94,7 @@
     <Compile Include="Configuration\Membership\UserInRoleConfiguration.cs" />
     <Compile Include="DataContext.cs" />
     <Compile Include="DataContextByTransaction.cs" />
+    <Compile Include="DbSetNotReadyException.cs" />
     <Compile Include="Extensions\DomainLicenseExtensions.cs" />
     <Compile Include="Extensions\EntitylistExtensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
@@ -102,29 +103,9 @@
     <Compile Include="IDataContextByTransaction.cs" />
     <Compile Include="IDataContextFactory.cs" />
     <Compile Include="IDataContextByUser.cs" />
-    <Compile Include="Migrations\201211201034232_InitialCreate.cs" />
-    <Compile Include="Migrations\201211201034232_InitialCreate.Designer.cs">
-      <DependentUpon>201211201034232_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201211211247222_TransactionOriginalMessage.cs" />
-    <Compile Include="Migrations\201211211247222_TransactionOriginalMessage.Designer.cs">
-      <DependentUpon>201211211247222_TransactionOriginalMessage.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201211290753491_SkuAlternativeCode.cs" />
-    <Compile Include="Migrations\201211290753491_SkuAlternativeCode.Designer.cs">
-      <DependentUpon>201211290753491_SkuAlternativeCode.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201301151244046_AddTransactionPurchaser.cs" />
-    <Compile Include="Migrations\201301151244046_AddTransactionPurchaser.Designer.cs">
-      <DependentUpon>201301151244046_AddTransactionPurchaser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201301170833508_SkuAlternativeCodeMotRequired.cs" />
-    <Compile Include="Migrations\201301170833508_SkuAlternativeCodeMotRequired.Designer.cs">
-      <DependentUpon>201301170833508_SkuAlternativeCodeMotRequired.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201302191050160_AddCustomerAppIssue.cs" />
-    <Compile Include="Migrations\201302191050160_AddCustomerAppIssue.Designer.cs">
-      <DependentUpon>201302191050160_AddCustomerAppIssue.cs</DependentUpon>
+    <Compile Include="Migrations\201303081036564_InitialCreate.cs" />
+    <Compile Include="Migrations\201303081036564_InitialCreate.Designer.cs">
+      <DependentUpon>201303081036564_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\MigrationConfiguration.cs" />
     <Compile Include="Migrations\Internal\DbSeederMigrator.cs" />
@@ -150,6 +131,11 @@
       <Project>{6d9ba48a-476e-4288-b3ad-0cae9008317c}</Project>
       <Name>KeyHub.Model</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201303081036564_InitialCreate.resx">
+      <DependentUpon>201303081036564_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

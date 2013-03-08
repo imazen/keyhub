@@ -112,7 +112,7 @@ namespace KeyHub.Tests.Controllers
             Assert.IsTrue(createdTransaction.Status == TransactionStatus.Create);
             Assert.IsTrue(createdTransaction.TransactionItems.Any());
 
-            mailService.Verify(x => x.SendTransactionMail(purchaserName, purchaserEmail, It.IsAny<int>()), Times.Once());
+            mailService.Verify(x => x.SendTransactionMail(purchaserName, purchaserEmail, It.IsAny<Guid>()), Times.Once());
         }
 
         //[TestMethod]

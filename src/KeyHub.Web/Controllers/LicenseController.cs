@@ -47,7 +47,7 @@ namespace KeyHub.Web.Controllers
         /// </summary>
         /// <param name="transactionId">TransactionID to show licenses for</param>
         /// <returns>License index list view</returns>
-        public ActionResult IndexPartial(int transactionId)
+        public ActionResult IndexPartial(Guid transactionId)
         {
             using (var context = dataContextFactory.CreateByUser())
             {

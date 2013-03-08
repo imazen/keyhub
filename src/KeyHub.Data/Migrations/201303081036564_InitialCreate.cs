@@ -3,8 +3,9 @@ using KeyHub.Model;
 
 namespace KeyHub.Data.Migrations
 {
+    using System;
     using System.Data.Entity.Migrations;
-
+    
     public partial class InitialCreate : DbMigration, IMigrationDataSeeder<DataContext>
     {
         public override void Up()
@@ -69,6 +70,7 @@ namespace KeyHub.Data.Migrations
                         VendorId = c.Guid(nullable: false),
                         PrivateKeyId = c.Guid(nullable: false),
                         SkuCode = c.String(nullable: false, maxLength: 256, unicode: false),
+                        SkuAternativeCode = c.String(maxLength: 256, unicode: false),
                         MaxDomains = c.Int(),
                         EditOwnershipDuration = c.Int(),
                         MaxSupportContacts = c.Int(),
@@ -156,8 +158,8 @@ namespace KeyHub.Data.Migrations
                 "dbo.TransactionItems",
                 c => new
                     {
-                        TransactionItemId = c.Int(nullable: false, identity: true),
-                        TransactionId = c.Int(nullable: false),
+                        TransactionItemId = c.Guid(nullable: false, identity: true),
+                        TransactionId = c.Guid(nullable: false),
                         LicenseId = c.Guid(),
                         SkuId = c.Guid(nullable: false),
                     })
@@ -173,9 +175,12 @@ namespace KeyHub.Data.Migrations
                 "dbo.Transactions",
                 c => new
                     {
-                        TransactionId = c.Int(nullable: false, identity: true),
+                        TransactionId = c.Guid(nullable: false, identity: true),
                         Status = c.Int(nullable: false),
                         CreatedDateTime = c.DateTime(nullable: false, storeType: "datetime2"),
+                        OriginalRequest = c.String(),
+                        PurchaserName = c.String(nullable: false, maxLength: 256),
+                        PurchaserEmail = c.String(nullable: false, maxLength: 256),
                     })
                 .PrimaryKey(t => t.TransactionId);
             
@@ -205,12 +210,26 @@ namespace KeyHub.Data.Migrations
                 "dbo.CustomerAppKeys",
                 c => new
                     {
-                        CustomerAppKeyId = c.Int(nullable: false, identity: true),
+                        AppKey = c.Guid(nullable: false, identity: true),
                         CustomerAppId = c.Guid(nullable: false),
-                        AppKey = c.Guid(nullable: false),
                     })
-                .PrimaryKey(t => t.CustomerAppKeyId)
+                .PrimaryKey(t => t.AppKey)
                 .ForeignKey("dbo.CustomerApps", t => t.CustomerAppId)
+                .Index(t => t.CustomerAppId);
+            
+            CreateTable(
+                "dbo.CustomerAppIssues",
+                c => new
+                    {
+                        CustomerAppIssueId = c.Int(nullable: false, identity: true),
+                        CustomerAppId = c.Guid(nullable: false),
+                        DateTime = c.DateTime(nullable: false),
+                        Severity = c.Int(nullable: false),
+                        Message = c.String(),
+                        Details = c.String(),
+                    })
+                .PrimaryKey(t => t.CustomerAppIssueId)
+                .ForeignKey("dbo.CustomerApps", t => t.CustomerAppId, cascadeDelete: true)
                 .Index(t => t.CustomerAppId);
             
             CreateTable(
@@ -311,6 +330,7 @@ namespace KeyHub.Data.Migrations
             DropIndex("dbo.Vendors", new[] { "CountryCode" });
             DropIndex("dbo.UserObjectRights", new[] { "UserId" });
             DropIndex("dbo.UserObjectRights", new[] { "RightId" });
+            DropIndex("dbo.CustomerAppIssues", new[] { "CustomerAppId" });
             DropIndex("dbo.CustomerAppKeys", new[] { "CustomerAppId" });
             DropIndex("dbo.LicenseCustomerApps", new[] { "CustomerAppId" });
             DropIndex("dbo.LicenseCustomerApps", new[] { "LicenseId" });
@@ -334,6 +354,7 @@ namespace KeyHub.Data.Migrations
             DropForeignKey("dbo.Vendors", "CountryCode", "dbo.Countries");
             DropForeignKey("dbo.UserObjectRights", "UserId", "dbo.Users");
             DropForeignKey("dbo.UserObjectRights", "RightId", "dbo.Rights");
+            DropForeignKey("dbo.CustomerAppIssues", "CustomerAppId", "dbo.CustomerApps");
             DropForeignKey("dbo.CustomerAppKeys", "CustomerAppId", "dbo.CustomerApps");
             DropForeignKey("dbo.LicenseCustomerApps", "CustomerAppId", "dbo.CustomerApps");
             DropForeignKey("dbo.LicenseCustomerApps", "LicenseId", "dbo.Licenses");
@@ -356,6 +377,7 @@ namespace KeyHub.Data.Migrations
             DropTable("dbo.webpages_OAuthMembership");
             DropTable("dbo.UserObjectRights");
             DropTable("dbo.Rights");
+            DropTable("dbo.CustomerAppIssues");
             DropTable("dbo.CustomerAppKeys");
             DropTable("dbo.CustomerApps");
             DropTable("dbo.LicenseCustomerApps");

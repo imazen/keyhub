@@ -13,7 +13,7 @@ Welcome @Model.PurchaserName,
 Please claim your transaction with the activation link below:
 <br/>
 
-@Url.AbsoluteAction("ClaimLicenses", "Transaction", new { key = @Model.TransactionId.ToString().EncryptUrl() });
+@Url.AbsoluteAction("ClaimLicenses", "Transaction", new { key = @Model.TransactionId.ToString().EncryptUrl() })
 <br/>
 
 Thanks!

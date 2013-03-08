@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Definition\Application\ApplicationIssueSeverity.cs" />
     <Compile Include="Definition\Application\CustomerAppIssue.cs" />
     <Compile Include="Definition\Application\TransactionStatus.cs" />
     <Compile Include="Definition\Membership\OAuthMembership.cs" />

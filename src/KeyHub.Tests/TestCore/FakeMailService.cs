@@ -10,7 +10,7 @@ namespace KeyHub.Tests.TestCore
 {
     public class FakeMailService : IMailService
     {
-        public virtual void SendTransactionMail(string purchaserName, string purchaserEmail, int transactionId)
+        public virtual void SendTransactionMail(string purchaserName, string purchaserEmail, Guid transactionId)
         {
             //What should the mail service under test do?
         }

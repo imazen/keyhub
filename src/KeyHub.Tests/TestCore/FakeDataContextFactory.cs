@@ -1,4 +1,5 @@
-﻿using KeyHub.Data;
+﻿using System;
+using KeyHub.Data;
 using KeyHub.Model;
 using Moq;
 
@@ -41,7 +42,7 @@ namespace KeyHub.Tests.TestCore
             return DataContext.Object;
         }
 
-        public IDataContextByTransaction CreateByTransaction(int transactionId)
+        public IDataContextByTransaction CreateByTransaction(Guid transactionId)
         {
             return DataContext.Object;
         }

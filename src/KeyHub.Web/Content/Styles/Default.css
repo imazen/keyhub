@@ -1,4 +1,4 @@
-@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,200,200italic,300,400italic,300italic,600,600italic,700,700italic,900,900italic);
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,200,200italic,300,400italic,300italic,600,600italic,700,700italic,900,900italic);
 BODY, INPUT {
   font-family: Source Sans Pro, Arial, Helvetica, sans-serif;
   font-size: 12px;
@@ -171,18 +171,18 @@ DIV.editor-container-sideBySide {
     display: inline;
     float: left; }
   DIV.editor-container-sideBySide DIV.editor-label, DIV.editor-container-sideBySide DIV.display-label {
-    width: 230px;
+    width: 180px;
     text-align: right;
     margin-bottom: 10px;
     clear: both;
     padding: 0px 10px 0 0;
     line-height: 32px; }
   DIV.editor-container-sideBySide DIV.editor-field, DIV.editor-container-sideBySide DIV.display-field {
-    width: 260px; }
+    width: 310px; }
     DIV.editor-container-sideBySide DIV.editor-field INPUT, DIV.editor-container-sideBySide DIV.display-field INPUT {
-      width: 238px; }
+      width: 288px; }
     DIV.editor-container-sideBySide DIV.editor-field SPAN.field-validation-error, DIV.editor-container-sideBySide DIV.display-field SPAN.field-validation-error {
-      width: 200px; }
+      width: 250px; }
   DIV.editor-container-sideBySide DIV.display-label, DIV.editor-container-sideBySide DIV.display-field {
     line-height: 20px;
     padding: 0px;

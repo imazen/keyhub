@@ -12,7 +12,7 @@ namespace KeyHub.Data
         /// Gets a datacontext based on single transaction ID
         /// </summary>
         /// <returns>Returns a single transaction access datacontext</returns>
-        public DataContextByTransaction(IIdentity userIdentity, int transactionId)
+        public DataContextByTransaction(IIdentity userIdentity, Guid transactionId)
             : base(userIdentity)
         {
             var currentUser = GetUser(userIdentity);
@@ -63,7 +63,7 @@ namespace KeyHub.Data
         /// <summary>
         /// Resolve authorized licenses by transaction ID
         /// </summary>
-        private IEnumerable<Guid> ResolveAuthorizedLicensesByTransactionId(int transactionId)
+        private IEnumerable<Guid> ResolveAuthorizedLicensesByTransactionId(Guid transactionId)
         {
             return (from x in Set<TransactionItem>() where x.TransactionId == transactionId && x.LicenseId.HasValue select x.LicenseId.Value).ToList();
         }
@@ -71,7 +71,7 @@ namespace KeyHub.Data
         /// <summary>
         /// Resolve authorized transactionItems by transaction ID
         /// </summary>
-        private IEnumerable<int> ResolveAuthorizedTransactionItemsByTransactionId(int transactionId)
+        private IEnumerable<Guid> ResolveAuthorizedTransactionItemsByTransactionId(Guid transactionId)
         {
             return (from x in Set<TransactionItem>() where x.TransactionId == transactionId select x.TransactionItemId).ToList();
         }

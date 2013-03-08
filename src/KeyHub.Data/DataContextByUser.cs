@@ -92,7 +92,6 @@ namespace KeyHub.Data
         /// </summary>
         protected IEnumerable<Guid> ResolveAuthorizedLicensesByUser(User currentUser)
         {
-            var authorizedVendorIds = ResolveAuthorizedVendorsByUser(currentUser);
             var authorizedSKUIds = ResolveAuthorizedSKUsByAuthorizedVendors();
             var authorizedCustomerIds = ResolveAuthorizedCustomersByUser(currentUser);
 
@@ -131,7 +130,7 @@ namespace KeyHub.Data
         /// <summary>
         /// Based on the current set of transaction items resolve transactions
         /// </summary>
-        protected IEnumerable<int> ResolveAuthorizedTransactionsByAuthorizedTransactionItems()
+        protected IEnumerable<Guid> ResolveAuthorizedTransactionsByAuthorizedTransactionItems()
         {
             if (TransactionItems == null)
                 throw new DbSetNotReadyException("Unable to resolve authorized transactions by authorized transaction items, transaction items DbSet is not set!");

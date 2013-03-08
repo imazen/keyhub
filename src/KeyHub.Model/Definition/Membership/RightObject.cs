@@ -19,7 +19,7 @@ namespace KeyHub.Model
         /// The primary key and identifier for this object
         /// </summary>
         [Key]
-        [DatabaseGenerated(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid ObjectId { get; set; }
     }
 }

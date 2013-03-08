@@ -45,11 +45,4 @@ namespace KeyHub.Model
         [ForeignKey("CustomerAppId")]
         public CustomerApp CustomerApp { get; set; }
     }
-
-    public enum ApplicationIssueSeverity
-    {
-        High,
-        Medium,
-        Low
-    }
 }

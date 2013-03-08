@@ -21,7 +21,7 @@ namespace KeyHub.Model
         /// Unique LicenseDomainId as identity for a domain
         /// </summary>
         [Key]
-        [DatabaseGenerated(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid DomainLicenseId { get; set; }
 
         /// <summary>

@@ -11,7 +11,7 @@ namespace KeyHub.Web.Mail
 {
     public class MailService : IMailService
     {
-        public void SendTransactionMail(string purchaserName, string purchaserEmail, int transactionId)
+        public void SendTransactionMail(string purchaserName, string purchaserEmail, Guid transactionId)
         {
             var transactionEmail = new TransactionMailViewModel
             {

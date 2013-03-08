@@ -27,7 +27,7 @@ namespace KeyHub.Model
         /// Indentifier for the Feature entity
         /// </summary>
         [Key]
-        [DatabaseGenerated(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid FeatureId { get; set; }
 
         /// <summary>

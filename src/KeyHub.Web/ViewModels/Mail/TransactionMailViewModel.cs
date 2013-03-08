@@ -10,6 +10,6 @@ namespace KeyHub.Web.ViewModels.Mail
     {
         public string PurchaserName { get; set; }
         public string PurchaserEmail { get; set; }
-        public int TransactionId { get; set; }
+        public Guid TransactionId { get; set; }
     }
 }

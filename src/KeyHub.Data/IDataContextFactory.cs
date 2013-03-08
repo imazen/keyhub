@@ -1,4 +1,5 @@
-﻿using System.Security.Principal;
+﻿using System;
+using System.Security.Principal;
 
 namespace KeyHub.Data
 {
@@ -6,7 +7,7 @@ namespace KeyHub.Data
     {
         IDataContext Create();
         IDataContextByUser CreateByUser();
-        IDataContextByTransaction CreateByTransaction(int transactionId);
+        IDataContextByTransaction CreateByTransaction(Guid transactionId);
         void Release(IDataContext dataContext);
     }
 }
