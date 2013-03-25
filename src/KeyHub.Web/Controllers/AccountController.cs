@@ -197,9 +197,9 @@ namespace KeyHub.Web.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Log off
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Redirect to home</returns>
         public ActionResult LogOff()
         {
             WebSecurity.Logout();
@@ -208,10 +208,10 @@ namespace KeyHub.Web.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Register a new user
         /// </summary>
-        /// <param name="returnUrl"></param>
-        /// <returns></returns>
+        /// <param name="returnUrl">Url to return to upon successfull registration</param>
+        /// <returns>Register user view</returns>
         [AllowAnonymous]
         public ActionResult Register(string returnUrl)
         {
@@ -252,18 +252,21 @@ namespace KeyHub.Web.Controllers
             return View(model);
         }
 
-        //
-        // GET: /Account/ChangePassword
-
+        /// <summary>
+        /// Change password
+        /// </summary>
+        /// <returns>Change password view</returns>
         public ActionResult ChangePassword()
         {
             var viewModel = new ChangePasswordViewModel(User.Identity.Name);
             return View(viewModel);
         }
 
-        //
-        // POST: /Account/ChangePassword
-
+        /// <summary>
+        /// Change password
+        /// </summary>
+        /// <param name="model">Changed password model</param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult ChangePassword(ChangePasswordViewModel model)
         {
@@ -283,20 +286,21 @@ namespace KeyHub.Web.Controllers
             return View(model);
         }
 
-        //
-        // GET: /Account/ChangePasswordSuccess
-
+        /// <summary>
+        /// Successfull password change
+        /// </summary>
+        /// <returns></returns>
         public ActionResult ChangePasswordSuccess()
         {
             return View();
         }
 
-        private IEnumerable<string> GetErrorsFromModelState()
-        {
-            return ModelState.SelectMany(x => x.Value.Errors.Select(error => error.ErrorMessage));
-        }
-
         #region OpenAuth
+        /// <summary>
+        /// Get a list of external logins
+        /// </summary>
+        /// <param name="returnUrl">Return url to go to upon successfull login</param>
+        /// <returns></returns>
         [AllowAnonymous]
         public ActionResult ExternalLoginsList(string returnUrl)
         {
@@ -304,6 +308,12 @@ namespace KeyHub.Web.Controllers
             return PartialView("_ExternalLoginsListPartial", OAuthWebSecurity.RegisteredClientData);
         }
 
+        /// <summary>
+        /// Login from external
+        /// </summary>
+        /// <param name="provider">Provider to login with</param>
+        /// <param name="returnUrl">Url to go to upon successfull login</param>
+        /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
         public ActionResult ExternalLogin(string provider, string returnUrl)
@@ -311,95 +321,74 @@ namespace KeyHub.Web.Controllers
             return new ExternalLoginResult(provider, Url.Action("ExternalLoginCallback", new { ReturnUrl = returnUrl }));
         }
 
+        /// <summary>
+        /// Handle external login from OpenID provider
+        /// </summary>
+        /// <param name="returnUrl">Url to go to upon successfull login</param>
+        /// <returns></returns>
         [AllowAnonymous]
         public ActionResult ExternalLoginCallback(string returnUrl)
         {
-            AuthenticationResult result = OAuthWebSecurity.VerifyAuthentication(Url.Action("ExternalLoginCallback", new { ReturnUrl = returnUrl }));
-            if (!result.IsSuccessful)
+            //Get result from OpenID provider
+            AuthenticationResult authenticationResult = OAuthWebSecurity.VerifyAuthentication(Url.Action("ExternalLoginCallback", new { ReturnUrl = returnUrl }));
+            if (!authenticationResult.IsSuccessful)
             {
                 return RedirectToAction("ExternalLoginFailure");
             }
 
-            if(OAuthWebSecurity.Login(result.Provider, result.ProviderUserId, createPersistentCookie: true))
+            //Login with authentication result
+            if(OAuthWebSecurity.Login(authenticationResult.Provider, authenticationResult.ProviderUserId, createPersistentCookie: true))
             {
-                if (Url.IsLocalUrl(returnUrl))
-                {
-                    return Redirect(returnUrl);
-                }
-                else
-                {
-                    return RedirectToAction("Index", "Home");
-                }
+                return RedirectTo(returnUrl);
             }
 
+            var userName = OAuthWebSecurity.GetUserName(authenticationResult.Provider, authenticationResult.ProviderUserId);
+            var loginData = OAuthWebSecurity.SerializeProviderUserId(authenticationResult.Provider, authenticationResult.ProviderUserId);
+            var displayName = OAuthWebSecurity.GetOAuthClientData(authenticationResult.Provider).DisplayName;
+
+            // If the current user is logged in add the new account
             if (User.Identity.IsAuthenticated)
             {
-                // If the current user is logged in add the new account
-                OAuthWebSecurity.CreateOrUpdateAccount(result.Provider, result.ProviderUserId, User.Identity.Name);
-                return Redirect(returnUrl);
+                OAuthWebSecurity.CreateOrUpdateAccount(authenticationResult.Provider, authenticationResult.ProviderUserId, User.Identity.Name);
+                return RedirectTo(returnUrl);
             }
-            else
+
+            // Insert a new user into the database
+            using (var db = dataContextFactory.Create())
             {
-                // User is new, ask for their desired membership name
-                var loginData = OAuthWebSecurity.SerializeProviderUserId(result.Provider, result.ProviderUserId);
-                ViewBag.ProviderDisplayName = OAuthWebSecurity.GetOAuthClientData(result.Provider).DisplayName;
-                ViewBag.ReturnUrl = returnUrl;
-                return View("ExternalRegister", new ExternalUserCreateViewModel { Email = result.UserName, ExternalLoginData = loginData });
+                // Insert name into the profile table
+                db.Users.Add(new User { UserName = authenticationResult.UserName, Email = authenticationResult.UserName });
+                db.SaveChanges();
             }
+
+            OAuthWebSecurity.CreateOrUpdateAccount(authenticationResult.Provider, authenticationResult.ProviderUserId, authenticationResult.UserName);
+            OAuthWebSecurity.Login(authenticationResult.Provider, authenticationResult.ProviderUserId, createPersistentCookie: true);
+
+            return RedirectTo(returnUrl);     
         }
 
+        /// <summary>
+        /// Show login failure
+        /// </summary>
+        /// <returns></returns>
         [AllowAnonymous]
         public ActionResult ExternalLoginFailure()
         {
             return View();
         }
 
-        [HttpPost]
-        [AllowAnonymous]
-        public ActionResult ExternalRegister(ExternalUserCreateViewModel model, string returnUrl)
+        /// <summary>
+        /// Redirect to url or home
+        /// </summary>
+        /// <param name="url">Url to redirect to</param>
+        /// <returns></returns>
+        private ActionResult RedirectTo(string url)
         {
-            string provider = null;
-            string providerUserId = null;
-
-            if (User.Identity.IsAuthenticated || !OAuthWebSecurity.TryDeserializeProviderUserId(model.ExternalLoginData, out provider, out providerUserId))
+            if (Url.IsLocalUrl(url))
             {
-                return RedirectToAction("");
+                return Redirect(url);
             }
-
-            if (ModelState.IsValid)
-            {
-                // Insert a new user into the database
-                using (var db = dataContextFactory.Create())
-                {
-                    var user = db.Users.FirstOrDefault(u => u.UserName.ToLower() == model.UserName.ToLower());
-                    // Check if user already exists
-                    if (user == null)
-                    {
-                        // Insert name into the profile table
-                        db.Users.Add(new User { UserName = model.UserName, Email= model.Email });
-                        db.SaveChanges();
-
-                        OAuthWebSecurity.CreateOrUpdateAccount(provider, providerUserId, model.UserName);
-                        OAuthWebSecurity.Login(provider, providerUserId, createPersistentCookie: true);
-
-                        if (Url.IsLocalUrl(returnUrl))
-                        {
-                            return Redirect(returnUrl);
-                        }
-                        else
-                        {
-                            return RedirectToAction("Index", "Home");
-                        }
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("UserName", "User name already exists. Please enter a different user name.");
-                    }
-                }
-            }
-
-            // If we got this far, something failed, redisplay form
-            return View(model);
+            return RedirectToAction("Index", "Home");
         }
 
         internal class ExternalLoginResult : ActionResult

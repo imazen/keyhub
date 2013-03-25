@@ -24,7 +24,6 @@ namespace KeyHub.Web.ViewModels.User
         public UserViewModel(Model.User user):this()
         {
             this.UserId = user.UserId;
-            this.UserName = user.UserName;
             this.Email = user.Email;
             this.HasLocalAccount = OAuthWebSecurity.HasLocalAccount(user.UserId);
         }
@@ -52,13 +51,6 @@ namespace KeyHub.Web.ViewModels.User
         public int UserId { get; set; }
 
         /// <summary>
-        /// USername (loginname) for this user
-        /// </summary>
-        [Required]
-        [StringLength(50)]
-        public string UserName { get; set; }
-
-        /// <summary>
         /// Email address
         /// </summary>
         [Required]
@@ -70,5 +62,14 @@ namespace KeyHub.Web.ViewModels.User
         /// Indicates if the user has a local acount. If <b>False</b> then OpenAuth account.
         /// </summary>
         public Boolean HasLocalAccount { get; set; }
+
+        /// <summary>
+        /// The username
+        /// </summary>
+        /// <remarks>Readonly and based on email</remarks>
+        public string UserName
+        {
+            get { return Email; }
+        }
     }
 }

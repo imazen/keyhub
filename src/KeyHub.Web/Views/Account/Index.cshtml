@@ -21,9 +21,6 @@
         <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Users.FirstOrDefault().UserName)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Users.FirstOrDefault().Email)
             </th>
             <th>
@@ -35,9 +32,6 @@
         @foreach (var item in Model.Users)
         {
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UserName)
-                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Email)
                 </td>

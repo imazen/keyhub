@@ -16,9 +16,13 @@ namespace KeyHub.Web
             var microsoftClientSecret = WebConfigurationManager.AppSettings["microsoftClientSecret"];
             if (!string.IsNullOrEmpty(microsoftClientId) && !string.IsNullOrEmpty(microsoftClientSecret))
             {
-                OAuthWebSecurity.RegisterMicrosoftClient(
-                    clientId: microsoftClientId,
-                    clientSecret: microsoftClientSecret);
+                OAuthWebSecurity.RegisterClient(
+                    new MicrosoftScopedClient(microsoftClientId,
+                                              microsoftClientSecret,
+                                              "wl.basic wl.emails"),
+                                              "Microsoft",
+                                              null);
+                
             }
 
             var twitterConsumerKey = WebConfigurationManager.AppSettings["twitterConsumerKey"];

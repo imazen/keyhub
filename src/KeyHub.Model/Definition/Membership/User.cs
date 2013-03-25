@@ -27,7 +27,7 @@ namespace KeyHub.Model
         /// USername (loginname) for this user
         /// </summary>
         [Required]
-        [StringLength(50)]
+        [StringLength(256)]
         public string UserName { get; set; }
 
         /// <summary>

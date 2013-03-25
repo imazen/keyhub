@@ -20,14 +20,6 @@
         @Html.HiddenFor(model => model.User.UserId)
 
         <div class="editor-label">
-            @Html.LabelFor(m => m.User.UserName)
-        </div>
-        <div class="editor-field">
-            @Html.TextBoxFor(m => m.User.UserName)
-            @Html.ValidationMessageFor(m => m.User.UserName)
-        </div>
-
-        <div class="editor-label">
             @Html.LabelFor(m => m.User.Email)
         </div>
         <div class="editor-field">
