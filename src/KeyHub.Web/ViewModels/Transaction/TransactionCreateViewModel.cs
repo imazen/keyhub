@@ -50,9 +50,9 @@ namespace KeyHub.Web.ViewModels.Transaction
         /// Retrieve a list of SKU Guids
         /// </summary>
         /// <returns>List of assigned SKU Guids</returns>
-        public List<Guid> GetSelectedSKUGUIDs()
+        public IEnumerable<string> GetSelectedSkuGuids()
         {
-            return Transaction.SelectedSKUGuids.ToList();
+            return Transaction.SelectedSKUGuids.Select(x => x.ToString()).ToList();
         }
     }
 

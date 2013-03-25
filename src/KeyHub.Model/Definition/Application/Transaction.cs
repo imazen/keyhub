@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace KeyHub.Model
         public Transaction()
         {
             TransactionItems = new List<TransactionItem>();
+            IgnoredItems = new List<TransactionIgnoredItem>();
             Status = TransactionStatus.Create;
         }
 
@@ -62,5 +64,10 @@ namespace KeyHub.Model
         /// The list of transaction items this SKU consists of.
         /// </summary>
         public virtual ICollection<TransactionItem> TransactionItems { get; set; }
+
+        /// <summary>
+        /// The list of transaction ignored items.
+        /// </summary>
+        public virtual ICollection<TransactionIgnoredItem> IgnoredItems { get; set; }
     }
 }

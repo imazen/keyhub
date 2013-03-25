@@ -107,6 +107,10 @@
     <Compile Include="Migrations\201303081036564_InitialCreate.Designer.cs">
       <DependentUpon>201303081036564_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201303251918446_TransactionIgnoredItems.cs" />
+    <Compile Include="Migrations\201303251918446_TransactionIgnoredItems.Designer.cs">
+      <DependentUpon>201303251918446_TransactionIgnoredItems.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\MigrationConfiguration.cs" />
     <Compile Include="Migrations\Internal\DbSeederMigrator.cs" />
     <Compile Include="Migrations\Internal\IMigrationDataSeeder.cs" />
@@ -135,6 +139,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201303081036564_InitialCreate.resx">
       <DependentUpon>201303081036564_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201303251918446_TransactionIgnoredItems.resx">
+      <DependentUpon>201303251918446_TransactionIgnoredItems.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

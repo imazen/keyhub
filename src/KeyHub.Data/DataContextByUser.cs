@@ -46,10 +46,11 @@ namespace KeyHub.Data
             {
                 this.TransactionItems = new FilteredDbSet<TransactionItem>(this, ti => authorizedLicenseIds.Contains((Guid)ti.LicenseId));
             }
-
+            
             //Transaction Items app dependant entities
             var authorizedTransactions = ResolveAuthorizedTransactionsByAuthorizedTransactionItems();
             this.Transactions = new FilteredDbSet<Transaction>(this, t => authorizedTransactions.Contains(t.TransactionId));
+            this.TransactionIgnoredItems = new FilteredDbSet<TransactionIgnoredItem>(this, t => authorizedTransactions.Contains(t.TransactionId));
 
             //Customer app dependant entities
             var authorizedCustomerApps = (from c in this.LicenseCustomerApps select c.CustomerAppId).ToList();
@@ -135,7 +136,9 @@ namespace KeyHub.Data
             if (TransactionItems == null)
                 throw new DbSetNotReadyException("Unable to resolve authorized transactions by authorized transaction items, transaction items DbSet is not set!");
 
-            return (from t in this.TransactionItems select t.TransactionId).ToList();
+            return  (from t in this.TransactionItems select t.TransactionId)
+                    .Union(from t in this.TransactionIgnoredItems select t.TransactionId)
+                    .ToList();
         }
 
         /// <summary>

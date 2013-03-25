@@ -65,7 +65,7 @@ namespace KeyHub.Tests.Controllers
             {
                 PurchaserName = purchaserName,
                 PurchaserEmail = purchaserEmail,
-                PurchasedSkus = new[] { purchasedSkuId }
+                PurchasedSkus = new[] { purchasedSkuId.ToString() }
             };
 
             feature1 = FeatureTestData.Create(GuidTestData.Create(1));

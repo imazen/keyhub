@@ -45,6 +45,9 @@ namespace KeyHub.Data
                 TransactionItems = new FilteredDbSet<TransactionItem>(this, ti => ((authorizedLicenseIds.Contains((Guid)ti.LicenseId)) || (transactionItemIdsByTransaction.Contains(ti.TransactionItemId))));
             }
 
+            var transactionIgnoredItemIdsByTransaction = ResolveAuthorizedTransactionIgnoredItemsByTransactionId(transactionId);
+            TransactionIgnoredItems = new FilteredDbSet<TransactionIgnoredItem>(this, ti => transactionIgnoredItemIdsByTransaction.Contains(ti.TransactionItemId));
+
             //Transaction Items app dependant entities
             var authorizedTransactions = ResolveAuthorizedTransactionsByAuthorizedTransactionItems();
             Transactions = new FilteredDbSet<Transaction>(this, t => authorizedTransactions.Contains(t.TransactionId));
@@ -74,6 +77,14 @@ namespace KeyHub.Data
         private IEnumerable<Guid> ResolveAuthorizedTransactionItemsByTransactionId(Guid transactionId)
         {
             return (from x in Set<TransactionItem>() where x.TransactionId == transactionId select x.TransactionItemId).ToList();
+        }
+
+        /// <summary>
+        /// Resolve authorized transactionItems by transaction ID
+        /// </summary>
+        private IEnumerable<Guid> ResolveAuthorizedTransactionIgnoredItemsByTransactionId(Guid transactionId)
+        {
+            return (from x in Set<TransactionIgnoredItem>() where x.TransactionId == transactionId select x.TransactionItemId).ToList();
         }
     }
 }

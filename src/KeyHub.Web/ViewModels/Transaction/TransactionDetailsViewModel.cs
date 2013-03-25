@@ -34,6 +34,7 @@ namespace KeyHub.Web.ViewModels.Transaction
 
             Transaction = new TransactionDetailsViewItem(transaction, 
                 transaction.TransactionItems, 
+                transaction.IgnoredItems,
                 domainlessLicenseQuery.ToList(),
                 customerapplessLicenseQuery.ToList());
         }
@@ -64,6 +65,7 @@ namespace KeyHub.Web.ViewModels.Transaction
 
         public TransactionDetailsViewItem(Model.Transaction transaction, 
             IEnumerable<Model.TransactionItem> transactionItems,
+            IEnumerable<Model.TransactionIgnoredItem> transactionIgnoredItems,
             IEnumerable<Model.License> domainlessLicenseQuery,
             IEnumerable<Model.License> customerapplessLicenseQuery)
             : base(transaction)
@@ -77,6 +79,8 @@ namespace KeyHub.Web.ViewModels.Transaction
                 transactionItems.FirstOrDefault().License.OwningCustomer.Name : "None";
 
             SKUSummary = (from x in transactionItems select x.Sku).ToSummary(x => x.SkuCode, 99, ", ");
+
+            IgnoredSummary = (from x in transactionIgnoredItems select x.Description).ToSummary(x => x, 99, ", ");
 
             StatusName = transaction.Status.GetDescription<Model.TransactionStatus>();
 
@@ -109,6 +113,12 @@ namespace KeyHub.Web.ViewModels.Transaction
         /// </summary>
         [DisplayName("Purchased SKUs")]
         public string SKUSummary { get; set; }
+
+        /// <summary>
+        /// SKUs ignored for this transation.
+        /// </summary>
+        [DisplayName("Ignored SKUs")]
+        public string IgnoredSummary { get; set; }
 
         /// <summary>
         /// Status of the transaction

@@ -1,25 +1,20 @@
-﻿using System;
+﻿using System.Xml.Serialization;
 
 namespace KeyHub.Web.Api.Controllers.Transaction
 {
     /// <summary>
     /// Transaction object
     /// </summary>
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
+    [XmlTypeAttribute(AnonymousType = true), XmlRoot(Namespace = "", IsNullable = false)]
     public class TransactionRequest
     {
-        [System.Xml.Serialization.XmlElementAttribute("PurchasedSku")]
-        public Guid[] PurchasedSkus { get; set; }
+        [XmlElementAttribute("PurchasedSku")]
+        public string[] PurchasedSkus { get; set; }
 
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttributeAttribute]
         public string PurchaserName { get; set; }
 
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [XmlAttributeAttribute]
         public string PurchaserEmail { get; set; }
     }
-
-
-
-
 }
