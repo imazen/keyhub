@@ -11,18 +11,25 @@ namespace KeyHub.Model
     public partial class Transaction
     {
         /// <summary>
-        /// Add SKUs to Transaction based on selected SKU Guids
+        /// Adds a tranction item to this transaction
         /// </summary>
-        /// <param name="SKUGuids">List of selected SKU Guids</param>
-        public void AddTransactionItems(IEnumerable<Guid> SKUGuids)
+        /// <param name="item">The item to add</param>
+        public void AddTransactionItem(TransactionItem item)
         {
-            foreach (Guid skuGuid in SKUGuids)
-            {
-                if (!(from x in this.TransactionItems where x.SkuId == skuGuid select x).Any())
-                    this.TransactionItems.Add(new TransactionItem() { TransactionId = this.TransactionId, SkuId = skuGuid });
-            }
+            if (TransactionItems.All(x => x.SkuId != item.SkuId))
+                TransactionItems.Add(item);
         }
 
+        /// <summary>
+        /// Adds an ignored item to this transaction
+        /// </summary>
+        /// <param name="ignoredItem">The ignored item to add</param>
+        public void AddIgnoredItem(TransactionIgnoredItem ignoredItem)
+        {
+            if (IgnoredItems.All(x => x.Description != ignoredItem.Description))
+                IgnoredItems.Add(ignoredItem);
+        }
+        
         /// <summary>
         /// Check if transaction is waitong for claim
         /// </summary>

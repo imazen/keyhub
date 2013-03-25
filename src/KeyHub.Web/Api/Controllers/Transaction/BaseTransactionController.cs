@@ -48,7 +48,8 @@ namespace KeyHub.Web.Api.Controllers.LicenseValidation
             {
                 var basket = BasketWrapper.CreateNewByIdentity(dataContextFactory);
 
-                basket.AddSkUs(transaction.PurchasedSkus);
+                basket.AddItems(transaction.PurchasedSkus);
+
                 basket.Transaction.OriginalRequest = GetOriginalRequestValues();
                 basket.Transaction.PurchaserName = transaction.PurchaserName;
                 basket.Transaction.PurchaserEmail = transaction.PurchaserEmail;

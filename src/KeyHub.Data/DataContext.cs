@@ -40,6 +40,7 @@ namespace KeyHub.Data
             this.Features = new FilteredDbSet<Feature>(this);
             this.Licenses = new FilteredDbSet<License>(this);
             this.TransactionItems = new FilteredDbSet<TransactionItem>(this);
+            this.TransactionIgnoredItems = new FilteredDbSet<TransactionIgnoredItem>(this);
             this.Customers = new FilteredDbSet<Customer>(this);
             this.LicenseCustomerApps = new FilteredDbSet<LicenseCustomerApp>(this);
             this.CustomerApps = new FilteredDbSet<CustomerApp>(this);
@@ -80,6 +81,8 @@ namespace KeyHub.Data
         public IDbSet<Transaction> Transactions { get; set; }
 
         public IDbSet<TransactionItem> TransactionItems { get; set; }
+
+        public IDbSet<TransactionIgnoredItem> TransactionIgnoredItems { get; set; }
 
         public IDbSet<Vendor> Vendors { get; set; }
 

@@ -37,7 +37,14 @@
     <div class="display-field">
         @Html.DisplayFor(model => model.Transaction.SKUSummary)
     </div>
-
+        
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Transaction.IgnoredSummary)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Transaction.IgnoredSummary)
+    </div>
+        
     <div class="display-label">
          @Html.DisplayNameFor(model => model.Transaction.StatusName)
     </div>

@@ -69,7 +69,7 @@ namespace KeyHub.Tests.Controllers
                               .Setup(x => x.SKUs)
                               .Returns(new FakeDbSet<SKU>
                                   {
-                                      new SKU {SkuCode = SkuName, VendorId = VendorGuid}
+                                      new SKU {SkuId = Guid.NewGuid(), SkuCode = SkuName, VendorId = VendorGuid}
                                   });
 
             controller = new TransactionByIpnController(dataContextFactory, mailService);

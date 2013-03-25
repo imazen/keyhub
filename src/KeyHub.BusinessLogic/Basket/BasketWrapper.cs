@@ -148,7 +148,7 @@ namespace KeyHub.BusinessLogic.Basket
                         context.SaveChanges();
                         if (!currentUser.IsVendorAdmin)
                         {
-                            context.UserCustomerRights.Add(new UserCustomerRight()
+                            context.UserCustomerRights.Add(new UserCustomerRight
                             {
                                 RightObject = PurchasingCustomer,
                                 RightId = EditEntityMembers.Id,
@@ -167,7 +167,7 @@ namespace KeyHub.BusinessLogic.Basket
                             context.SaveChanges();
                             if (!currentUser.IsVendorAdmin)
                             {
-                                context.UserCustomerRights.Add(new UserCustomerRight()
+                                context.UserCustomerRights.Add(new UserCustomerRight
                                 {
                                     RightObject = OwningCustomer,
                                     RightId = EditEntityInfo.Id,
@@ -235,16 +235,62 @@ namespace KeyHub.BusinessLogic.Basket
             
             context.SaveChanges();
         }
-
+        
         /// <summary>
-        /// Add a list of SKUs to the current transaction
+        /// Add SKUs to Transaction based on selected SKU strings.
+        /// If the value could not be parsed the string will be added the the ignored items collection
         /// </summary>
-        /// <param name="skus">SKUs to add</param>
-        public void AddSkUs(IEnumerable<Guid> skus)
+        public void AddItems(IEnumerable<string> skus)
         {
-            Transaction.AddTransactionItems(skus);
+            foreach (var sku in skus)
+            {
+                var skuGuid = ParseGuid(sku);
+
+                if (skuGuid.HasValue)
+                {
+                    if(CheckIfSkuExistsInDatabase(skuGuid.Value))
+                        InsertTransactionItem(skuGuid.Value);
+                    else
+                        InsertIgnoredItem(sku);
+                }
+                else
+                    InsertIgnoredItem(sku);
+            }
         }
 
+        private bool CheckIfSkuExistsInDatabase(Guid skuGuid)
+        {
+            return (context.SKUs.Any(x => x.SkuId == skuGuid));
+        }
+
+        private void InsertIgnoredItem(string description)
+        {
+            Transaction.AddIgnoredItem(new TransactionIgnoredItem
+                                           {
+                                               TransactionId = Transaction.TransactionId,
+                                               Description = description
+                                           });
+        }
+
+        private void InsertTransactionItem(Guid skuGuid)
+        {
+            Transaction.AddTransactionItem(new TransactionItem
+                                               {
+                                                   TransactionId = Transaction.TransactionId,
+                                                   SkuId = skuGuid
+                                               });
+        }
+
+        private static Guid? ParseGuid(string guid)
+        {
+            Guid newGuid;
+
+            if (!Guid.TryParse(guid, out newGuid))
+                return null;
+
+            return newGuid;
+        }
+        
         /// <summary>
         /// Load a certain transaction into the BasketWrapper
         /// </summary>
@@ -253,6 +299,7 @@ namespace KeyHub.BusinessLogic.Basket
         {
             //Select transaction
             Transaction = (from x in context.Transactions where x.TransactionId == transactionId select x)
+                            .Include(x => x.IgnoredItems)
                             .Include(x => x.TransactionItems.Select(s => s.Sku))
                             .Include(x => x.TransactionItems.Select(s => s.License))
                             .Include(x => x.TransactionItems.Select(s => s.License.Domains))

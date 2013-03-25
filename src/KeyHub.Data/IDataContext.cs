@@ -17,6 +17,7 @@ namespace KeyHub.Data
         IDbSet<SKU> SKUs { get; set; }
         IDbSet<Transaction> Transactions { get; set; }
         IDbSet<TransactionItem> TransactionItems { get; set; }
+        IDbSet<TransactionIgnoredItem> TransactionIgnoredItems { get; set; }
         IDbSet<Vendor> Vendors { get; set; }
         IDbSet<Customer> Customers { get; set; }
         IDbSet<License> Licenses { get; set; }

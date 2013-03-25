@@ -20,7 +20,7 @@ using KeyHub.Web.Controllers;
 namespace KeyHub.Web.Api.Controllers
 {
     /// <summary>
-    /// Ipn specific REST controller for creating new transactions.
+    /// Ipn specific REST controller for creating new transactions. (E-JUNKIE)
     /// </summary>
     public class TransactionByIpnController : BaseTransactionController
     {
@@ -244,7 +244,7 @@ namespace KeyHub.Web.Api.Controllers
             {
                 using (var context = dataContextFactory.Create())
                 {
-                    var skus = new List<Guid>();
+                    var skus = new List<string>();
                     foreach (var item in Items)
                     {
                         if (!context.Vendors.Any(x => x.ObjectId == VendorId)) 
@@ -257,14 +257,16 @@ namespace KeyHub.Web.Api.Controllers
                                    select x).FirstOrDefault();
 
                         if (sku != null)
-                            skus.Add(sku.SkuId);
+                            skus.Add(sku.SkuId.ToString());
+                        else
+                            skus.Add(string.Format("{0} - {1}", item.ItemName, item.SkuString));
                     }
 
                     return new TransactionRequest()
                     {
                         PurchasedSkus = skus.ToArray(),
                         PurchaserName = (Billing != null) ? Billing.Name : "",
-                        PurchaserEmail = PayerEmail
+                        PurchaserEmail = PayerEmail,
                     };
                 }
             }

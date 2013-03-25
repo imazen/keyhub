@@ -59,6 +59,7 @@ namespace KeyHub.Web.Controllers
             {
                 //Eager loading Transaction
                 var transactionQuery = (from x in context.Transactions where x.TransactionId == decryptedKey select x)
+                    .Include(x => x.IgnoredItems)
                     .Include(x => x.TransactionItems.Select(s => s.Sku))
                     .Include(x => x.TransactionItems.Select(s => s.License))
                     .Include(x => x.TransactionItems.Select(s => s.License.Domains))
@@ -84,6 +85,7 @@ namespace KeyHub.Web.Controllers
             {
                 //Eager loading Transaction
                 var transactionQuery = (from x in context.Transactions where x.TransactionId == key select x)
+                    .Include(x => x.IgnoredItems)
                     .Include(x => x.TransactionItems.Select(s => s.Sku))
                     .Include(x => x.TransactionItems.Select(s => s.License))
                     .Include(x => x.TransactionItems.Select(s => s.License.Domains));
@@ -128,7 +130,7 @@ namespace KeyHub.Web.Controllers
 
                     viewModel.ToEntity(basket.Transaction);
                     
-                    basket.AddSkUs(viewModel.GetSelectedSKUGUIDs());
+                    basket.AddItems(viewModel.GetSelectedSkuGuids());
                     basket.ExecuteStep(BasketSteps.Create);
 
                     return RedirectToAction("Checkout", new { key = basket.Transaction.TransactionId.ToString().EncryptUrl() });
@@ -157,6 +159,7 @@ namespace KeyHub.Web.Controllers
             using (var context = dataContextFactory.CreateByTransaction(transactionId))
             {
                 var transaction = (from x in context.Transactions where x.TransactionId == transactionId select x)
+                    .Include(x => x.IgnoredItems)
                     .Include(x => x.TransactionItems.Select(s => s.Sku))
                     .Include(x => x.TransactionItems.Select(s => s.License))
                     .FirstOrDefault();
