@@ -107,6 +107,10 @@
     <Compile Include="Migrations\201303260850051_InitialCreate.Designer.cs">
       <DependentUpon>201303260850051_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201303261006171_CountryRightsSeed.cs" />
+    <Compile Include="Migrations\201303261006171_CountryRightsSeed.Designer.cs">
+      <DependentUpon>201303261006171_CountryRightsSeed.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\MigrationConfiguration.cs" />
     <Compile Include="Migrations\Internal\DbSeederMigrator.cs" />
     <Compile Include="Migrations\Internal\IMigrationDataSeeder.cs" />
@@ -135,6 +139,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201303260850051_InitialCreate.resx">
       <DependentUpon>201303260850051_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201303261006171_CountryRightsSeed.resx">
+      <DependentUpon>201303261006171_CountryRightsSeed.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
