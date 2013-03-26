@@ -5,13 +5,13 @@ namespace KeyHub.Data.Migrations
     using System.Data.Entity.Migrations.Infrastructure;
     using System.Resources;
     
-    public sealed partial class TransactionIgnoredItems : IMigrationMetadata
+    public sealed partial class InitialCreate : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(TransactionIgnoredItems));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialCreate));
         
         string IMigrationMetadata.Id
         {
-            get { return "201303251918446_TransactionIgnoredItems"; }
+            get { return "201303260850051_InitialCreate"; }
         }
         
         string IMigrationMetadata.Source

@@ -49,7 +49,6 @@ namespace KeyHub.Tests.Controllers
         private Feature feature2;
         private PrivateKey privateKey1;
         private SKU sku1;
-        private Transaction transaction;
 
 
         // ReSharper restore InconsistentNaming

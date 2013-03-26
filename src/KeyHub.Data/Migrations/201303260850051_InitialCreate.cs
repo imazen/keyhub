@@ -1,12 +1,9 @@
-using System.Collections.Generic;
-using KeyHub.Model;
-
 namespace KeyHub.Data.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitialCreate : DbMigration, IMigrationDataSeeder<DataContext>
+    public partial class InitialCreate : DbMigration
     {
         public override void Up()
         {
@@ -35,7 +32,7 @@ namespace KeyHub.Data.Migrations
                 c => new
                     {
                         UserId = c.Int(nullable: false, identity: true),
-                        UserName = c.String(nullable: false, maxLength: 50),
+                        UserName = c.String(nullable: false, maxLength: 256),
                         Email = c.String(maxLength: 256),
                     })
                 .PrimaryKey(t => t.UserId);
@@ -183,6 +180,18 @@ namespace KeyHub.Data.Migrations
                         PurchaserEmail = c.String(nullable: false, maxLength: 256),
                     })
                 .PrimaryKey(t => t.TransactionId);
+            
+            CreateTable(
+                "dbo.TransactionIgnoredItems",
+                c => new
+                    {
+                        TransactionItemId = c.Guid(nullable: false, identity: true),
+                        TransactionId = c.Guid(nullable: false),
+                        Description = c.String(nullable: false, maxLength: 1024),
+                    })
+                .PrimaryKey(t => t.TransactionItemId)
+                .ForeignKey("dbo.Transactions", t => t.TransactionId, cascadeDelete: true)
+                .Index(t => t.TransactionId);
             
             CreateTable(
                 "dbo.LicenseCustomerApps",
@@ -334,6 +343,7 @@ namespace KeyHub.Data.Migrations
             DropIndex("dbo.CustomerAppKeys", new[] { "CustomerAppId" });
             DropIndex("dbo.LicenseCustomerApps", new[] { "CustomerAppId" });
             DropIndex("dbo.LicenseCustomerApps", new[] { "LicenseId" });
+            DropIndex("dbo.TransactionIgnoredItems", new[] { "TransactionId" });
             DropIndex("dbo.TransactionItems", new[] { "SkuId" });
             DropIndex("dbo.TransactionItems", new[] { "LicenseId" });
             DropIndex("dbo.TransactionItems", new[] { "TransactionId" });
@@ -358,6 +368,7 @@ namespace KeyHub.Data.Migrations
             DropForeignKey("dbo.CustomerAppKeys", "CustomerAppId", "dbo.CustomerApps");
             DropForeignKey("dbo.LicenseCustomerApps", "CustomerAppId", "dbo.CustomerApps");
             DropForeignKey("dbo.LicenseCustomerApps", "LicenseId", "dbo.Licenses");
+            DropForeignKey("dbo.TransactionIgnoredItems", "TransactionId", "dbo.Transactions");
             DropForeignKey("dbo.TransactionItems", "SkuId", "dbo.SKUs");
             DropForeignKey("dbo.TransactionItems", "LicenseId", "dbo.Licenses");
             DropForeignKey("dbo.TransactionItems", "TransactionId", "dbo.Transactions");
@@ -381,6 +392,7 @@ namespace KeyHub.Data.Migrations
             DropTable("dbo.CustomerAppKeys");
             DropTable("dbo.CustomerApps");
             DropTable("dbo.LicenseCustomerApps");
+            DropTable("dbo.TransactionIgnoredItems");
             DropTable("dbo.Transactions");
             DropTable("dbo.TransactionItems");
             DropTable("dbo.DomainLicenses");
@@ -393,38 +405,6 @@ namespace KeyHub.Data.Migrations
             DropTable("dbo.webpages_UsersInRoles");
             DropTable("dbo.Users");
             DropTable("dbo.webpages_Membership");
-        }
-
-        public void Seed(DataContext context)
-        {
-            // Get all countries from the framework and insert them into the table
-            foreach (var country in Common.Utils.Globalization.Countries.GetAllCountries())
-            {
-                context.Countries.Add(new Country
-                {
-                    CountryCode = country.CountryCode,
-                    CountryName = country.CountryName,
-                    NativeCountryName = country.NativeCountryName
-                });
-            }
-
-            // Get all countries from the framework and insert them into the table
-            foreach (var right in GetRights())
-            {
-                context.Rights.Add(new Right { DisplayName = right.DisplayName, RightId = right.RightId });
-            }
-        }
-
-        private static IEnumerable<IRight> GetRights()
-        {
-            yield return new BelongToEntity();
-            yield return new EditEntityInfo();
-            yield return new EditEntityMembers();
-            yield return new EditLicenseInfo();
-            yield return new GrantMemberRights();
-            yield return new VendorAdmin();
-            yield return new VendorReporting();
-            yield return new ViewLicenseInfo();
         }
     }
 }

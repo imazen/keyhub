@@ -103,17 +103,9 @@
     <Compile Include="IDataContextByTransaction.cs" />
     <Compile Include="IDataContextFactory.cs" />
     <Compile Include="IDataContextByUser.cs" />
-    <Compile Include="Migrations\201303081036564_InitialCreate.cs" />
-    <Compile Include="Migrations\201303081036564_InitialCreate.Designer.cs">
-      <DependentUpon>201303081036564_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201303251608438_ExtendedUsernameField.cs" />
-    <Compile Include="Migrations\201303251608438_ExtendedUsernameField.Designer.cs">
-      <DependentUpon>201303251608438_ExtendedUsernameField.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201303251918446_TransactionIgnoredItems.cs" />
-    <Compile Include="Migrations\201303251918446_TransactionIgnoredItems.Designer.cs">
-      <DependentUpon>201303251918446_TransactionIgnoredItems.cs</DependentUpon>
+    <Compile Include="Migrations\201303260850051_InitialCreate.cs" />
+    <Compile Include="Migrations\201303260850051_InitialCreate.Designer.cs">
+      <DependentUpon>201303260850051_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\MigrationConfiguration.cs" />
     <Compile Include="Migrations\Internal\DbSeederMigrator.cs" />
@@ -141,16 +133,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201303081036564_InitialCreate.resx">
-      <DependentUpon>201303081036564_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-<<<<<<< HEAD
-    <EmbeddedResource Include="Migrations\201303251608438_ExtendedUsernameField.resx">
-      <DependentUpon>201303251608438_ExtendedUsernameField.cs</DependentUpon>
-=======
-    <EmbeddedResource Include="Migrations\201303251918446_TransactionIgnoredItems.resx">
-      <DependentUpon>201303251918446_TransactionIgnoredItems.cs</DependentUpon>
->>>>>>> db7173e2ff4ef48f91015dfb007ec1d5d373fa85
+    <EmbeddedResource Include="Migrations\201303260850051_InitialCreate.resx">
+      <DependentUpon>201303260850051_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
