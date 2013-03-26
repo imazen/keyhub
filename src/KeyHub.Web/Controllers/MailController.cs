@@ -1,4 +1,8 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
+using System.Net;
+using System.Net.Mail;
+using ActionMailer.Net;
 using ActionMailer.Net.Mvc;
 using KeyHub.Data;
 using KeyHub.Web.ViewModels.Mail;
@@ -15,6 +19,28 @@ namespace KeyHub.Web.Controllers
     /// </remarks>
     public class MailController : MailerBase
     {
+        private static SmtpClient GetSmtpClient()
+        {
+            var smtpClient = new SmtpClient
+                                 {
+                                     Host = WebConfigurationManager.AppSettings["smtpServer"],
+                                     Port = Convert.ToInt32(WebConfigurationManager.AppSettings["smtpServerPort"])
+                                 };
+
+            if (WebConfigurationManager.AppSettings["smtpUser"] != null)
+            {
+                smtpClient.Credentials = new NetworkCredential(WebConfigurationManager.AppSettings["smtpUser"],
+                                                           WebConfigurationManager.AppSettings["smtpPassword"]);
+            }
+
+            return smtpClient;
+        }
+
+        public MailController()
+            : base(new SmtpMailSender(GetSmtpClient()))
+        {
+        }
+
         /// <summary>
         /// Send out a TransactionEmail
         /// </summary>
@@ -22,7 +48,7 @@ namespace KeyHub.Web.Controllers
         /// <returns>Emailmessage ready to be set to purchaser</returns>
         public EmailResult TransactionEmail(TransactionMailViewModel model)
         {
-            bool redirectMails = (WebConfigurationManager.AppSettings["redirectMails"]!=null) ? bool.Parse(WebConfigurationManager.AppSettings["redirectMails"]) : false;
+            bool redirectMails = (WebConfigurationManager.AppSettings["redirectMails"] !=null) && bool.Parse(WebConfigurationManager.AppSettings["redirectMails"]);
             string redirectTo = WebConfigurationManager.AppSettings["redirectTo"];
 
             if (redirectMails && string.IsNullOrEmpty(redirectTo))
@@ -41,7 +67,7 @@ namespace KeyHub.Web.Controllers
         /// <returns>Emailmessage ready to be set to purchaser</returns>
         public EmailResult IssueEmail(IssueMailViewModel model)
         {
-            bool redirectMails = (WebConfigurationManager.AppSettings["redirectMails"] != null) ? bool.Parse(WebConfigurationManager.AppSettings["redirectMails"]) : false;
+            bool redirectMails = (WebConfigurationManager.AppSettings["redirectMails"] != null) && bool.Parse(WebConfigurationManager.AppSettings["redirectMails"]);
             string redirectTo = WebConfigurationManager.AppSettings["redirectTo"];
 
             if (redirectMails && string.IsNullOrEmpty(redirectTo))
