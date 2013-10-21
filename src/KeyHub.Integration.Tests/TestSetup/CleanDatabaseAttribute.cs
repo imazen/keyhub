@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -24,6 +25,21 @@ namespace KeyHub.Integration.Tests.TestSetup
                 deleteProcess.StartProcess("SQLLocalDB.exe", "delete v11.0");
 
                 deleteProcess.WaitForConsoleOutputMatching(@"(deleted\.)|(does not exist)");
+            }
+
+            var dataDirectory = Path.GetFullPath("../../../KeyHub.Web/App_Data");
+            if (!Directory.Exists(dataDirectory))
+                throw new Exception("Could not find data directory " + dataDirectory);
+
+            foreach (var file in new[]
+            {
+                "KeyHub.mdf",
+                "KeyHub_log.ldf"
+            })
+            {
+                var fullFilepath = Path.Combine(dataDirectory, file);
+                if (File.Exists(fullFilepath))
+                    File.Delete(fullFilepath);
             }
         }
     }

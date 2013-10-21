@@ -18,5 +18,10 @@ namespace KeyHub.Integration.Tests.TestSetup
 
             base.Start("KeyHub.Web", "../../applicationhost.config");
         }
+
+        public Uri UrlFor(string path)
+        {
+            return new Uri(new Uri(base.Url), path);
+        }
     }
 }
