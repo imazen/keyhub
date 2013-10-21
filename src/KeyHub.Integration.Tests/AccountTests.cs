@@ -40,6 +40,14 @@ namespace KeyHub.Integration.Tests
                 var errorText = browser.FindElementByCssSelector(".validation-summary-errors li").Text;
 
                 Assert.Contains("The email address used to login is already in use", errorText);
+
+                // TODO: drive UI login with local password
+                // TODO: verify returnUrl was honored
+
+                // TODO: drive UI to associate google login
+
+                // TODO: in new browser session, make session google login works.
+                // TODO: verify returnUrl was honored
             }
         }
 

@@ -1,0 +1,7 @@
+﻿User text passed to TempData["LoginFailureReason"] is hard to read
+  
+have test username/password in source control (a test gmail account)
+  
+use a more distinct database name for localhostdb  (don't use v11.0)
+  
+merge columns User.Email and User.Username into User.Email
