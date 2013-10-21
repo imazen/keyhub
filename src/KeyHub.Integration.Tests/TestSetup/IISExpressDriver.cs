@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 
-namespace KeyHub.Integration.Tests
+namespace KeyHub.Integration.Tests.TestSetup
 {
     class IISExpressDriver : ProcessDriver
     {

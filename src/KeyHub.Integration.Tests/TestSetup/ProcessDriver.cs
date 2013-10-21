@@ -2,12 +2,11 @@
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.IO;
-using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace KeyHub.Integration.Tests
+namespace KeyHub.Integration.Tests.TestSetup
 {
     public abstract class ProcessDriver : IDisposable
     {
