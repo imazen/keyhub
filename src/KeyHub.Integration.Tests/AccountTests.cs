@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using KeyHub.Integration.Tests.TestSetup;
 using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.PhantomJS;
+using OpenQA.Selenium.Remote;
 using Xunit;
 
 namespace KeyHub.Integration.Tests
@@ -24,6 +26,7 @@ namespace KeyHub.Integration.Tests
                 CreateLocalAccount(site, email, password);
 
                 var browser = new FirefoxDriver();
+                browser.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(5));
 
                 browser.Navigate().GoToUrl(site.UrlFor("/Account/Login"));
                 browser.FindElementByCssSelector("input[name=provider][value=Google]").Click();
@@ -36,13 +39,13 @@ namespace KeyHub.Integration.Tests
 
                 var errorText = browser.FindElementByCssSelector(".validation-summary-errors li").Text;
 
-                Assert.Contains("That email has already been registered at this site.", errorText);
+                Assert.Contains("The email address used to login is already in use", errorText);
             }
         }
 
         private static void CreateLocalAccount(KeyHubWebDriver site, string email, string password)
         {
-            using (var browser = new FirefoxDriver())
+            using (var browser = new PhantomJSDriver())
             {
                 browser.Navigate().GoToUrl(site.UrlFor("Account/Register"));
 

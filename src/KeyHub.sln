@@ -32,6 +32,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{1DB957
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyHub.Integration.Tests", "KeyHub.Integration.Tests\KeyHub.Integration.Tests.csproj", "{A2EA4FF4-7DF9-4782-A9B7-5E4EDA8FF105}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5706BEBF-F361-4845-9514-DC085FBEC39E} = {5706BEBF-F361-4845-9514-DC085FBEC39E}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
