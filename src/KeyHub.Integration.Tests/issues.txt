@@ -1,5 +1,7 @@
 ﻿Trying replacing TempData["LoginFailureReason"] with MvcFlash
 
+Check better error messaging when registering an existing user account
+
 Do the integration tests work on other people's machines ok?
   (They do require stopping IISExpress if its already debugging.  They will delete your localhost database)
 

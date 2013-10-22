@@ -593,6 +593,7 @@
     <Content Include="Views\CustomerApp\Details.cshtml" />
     <Content Include="Views\CustomerAppIssue\Details.cshtml" />
     <Content Include="Views\Account\LinkLogin.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Shared\Flash.cshtml" />
   </ItemGroup>
   <ItemGroup>

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using KeyHub.Integration.Tests.TestSetup;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.PhantomJS;
 using OpenQA.Selenium.Remote;
@@ -25,31 +26,33 @@ namespace KeyHub.Integration.Tests
             {
                 CreateLocalAccount(site, email, password);
 
-                var browser = new FirefoxDriver();
-                browser.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(5));
+                using (var browser = new PhantomJSDriver())
+                {
+                    browser.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(5));
 
-                browser.Navigate().GoToUrl(site.UrlFor("/Account/Login"));
-                browser.FindElementByCssSelector("input[name=provider][value=Google]").Click();
+                    browser.Navigate().GoToUrl(site.UrlFor("/Account/Login"));
+                    browser.FindElementByCssSelector("input[name=provider][value=Google]").Click();
 
-                FillGoogleLoginForm(browser, email, password);
+                    FillGoogleLoginForm(browser, email, password);
 
-                var errorText = browser.FindElementByCssSelector(".validation-summary-errors li").Text;
-                Assert.Contains("The email address used to login is already in use", errorText);
+                    var errorText = browser.FindElementByCssSelector(".error").Text;
+                    Assert.Contains("The email address used to login is already in use", errorText);
 
-                browser.Navigate().GoToUrl(site.UrlFor("/Account/LinkLogin"));
-                browser.FindElementByCssSelector("input#UserName").SendKeys(email);
-                browser.FindElementByCssSelector("input#Password").SendKeys(password);
-                browser.FindElementByCssSelector("input[value='Log in']").Click();
+                    browser.Navigate().GoToUrl(site.UrlFor("/Account/LinkLogin"));
+                    browser.FindElementByCssSelector("input#UserName").SendKeys(email);
+                    browser.FindElementByCssSelector("input#Password").SendKeys(password);
+                    browser.FindElementByCssSelector("input[value='Log in']").Click();
 
-                // TODO: verify returnUrl was honored  (need to start auth flow on an authenticated page,
-                // check that we're there now)
+                    // TODO: verify returnUrl was honored  (need to start auth flow on an authenticated page,
+                    // check that we're there now)
 
-                browser.Navigate().GoToUrl(site.UrlFor("/Account/LinkLogin"));
-                Console.WriteLine("Page is " + browser.Url);
-                browser.FindElementByCssSelector("input[name=provider][value=Google]").Click();
+                    browser.Navigate().GoToUrl(site.UrlFor("/Account/LinkLogin"));
+                    Console.WriteLine("Page is " + browser.Url);
+                    browser.FindElementByCssSelector("input[name=provider][value=Google]").Click();
 
-                var successText = browser.FindElementByCssSelector(".flash-info").Text;
-                Assert.Contains("Your google login has been linked", successText);
+                    var successText = browser.FindElementByCssSelector(".success").Text;
+                    Assert.Contains("Your google login has been linked", successText);
+                }
             }
         }
 
@@ -68,7 +71,7 @@ namespace KeyHub.Integration.Tests
             }
         }
 
-        private static void FillGoogleLoginForm(FirefoxDriver browser, string email, string password)
+        private static void FillGoogleLoginForm(RemoteWebDriver browser, string email, string password)
         {
             browser.FindElementByCssSelector("form#gaia_loginform");
             browser.FindElementByCssSelector("input#Email").SendKeys(email);

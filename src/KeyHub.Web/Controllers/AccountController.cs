@@ -163,11 +163,6 @@ namespace KeyHub.Web.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
-            if (TempData.ContainsKey("LoginFailureReason"))
-            {
-                ModelState.AddModelError("", TempData["LoginFailureReason"].ToString());
-            }
-
             ViewBag.ReturnUrl = (!String.IsNullOrEmpty(returnUrl)) ? returnUrl : Url.Action("Index", "Home", null, "http");
             return View();
         }
@@ -387,9 +382,9 @@ namespace KeyHub.Web.Controllers
 
                 if (innerExceptionMessage.Contains("IX_Email") && innerExceptionMessage.Contains("duplicate"))
                 {
-                    TempData["LoginFailureReason"] = "The email address used to login is already in use on this site using a different login method.  "
+                    Flash.Error("The email address used to login is already in use on this site using a different login method.  "
                         + "Please login with the original login method used for that email.  "
-                        + "Then you may associate other login methods with your account.  ";
+                        + "Then you may associate other login methods with your account.  ");
 
                     return RedirectToAction("Login");
                 }
