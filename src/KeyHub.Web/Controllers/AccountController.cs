@@ -410,36 +410,36 @@ namespace KeyHub.Web.Controllers
             return View();
         }
 
-        public ActionResult LinkLogin()
+        public ActionResult LinkAccount()
         {
-            return View("LinkLogin");
+            return View("LinkAccount");
         }
 
         [HttpPost]
-        public ActionResult LinkLogin(string provider)
+        public ActionResult LinkAccount(string provider)
         {
-            return new ExternalLoginResult(provider, Url.Action("LinkLoginCallback"));
+            return new ExternalLoginResult(provider, Url.Action("LinkAccountCallback"));
         }
 
-        public ActionResult LinkLoginCallback()
+        public ActionResult LinkAccountCallback()
         {
-            AuthenticationResult authenticationResult = OAuthWebSecurity.VerifyAuthentication(Url.Action("LinkLoginCallback"));
+            AuthenticationResult authenticationResult = OAuthWebSecurity.VerifyAuthentication(Url.Action("LinkAccountCallback"));
             if (!authenticationResult.IsSuccessful)
             {
                 Flash.Error("The account was unable to be linked.");
-                return RedirectToAction("LinkLogin");
+                return RedirectToAction("LinkAccount");
             }
 
             if (OAuthWebSecurity.Login(authenticationResult.Provider, authenticationResult.ProviderUserId, createPersistentCookie: true))
             {
                 Flash.Success("Your " + authenticationResult.Provider + " login was already linked.");
                 TempData["flash-info"] = "Your " + authenticationResult.Provider + " login was already linked.";
-                return RedirectToAction("LinkLogin");
+                return RedirectToAction("LinkAccount");
             }
 
             OAuthWebSecurity.CreateOrUpdateAccount(authenticationResult.Provider, authenticationResult.ProviderUserId, User.Identity.Name);
             Flash.Success("Your " + authenticationResult.Provider + " login has been linked.");
-            return RedirectToAction("LinkLogin");
+            return RedirectToAction("LinkAccount");
         }
 
         /// <summary>

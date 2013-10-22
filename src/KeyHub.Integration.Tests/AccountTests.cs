@@ -38,7 +38,7 @@ namespace KeyHub.Integration.Tests
                     var errorText = browser.FindElementByCssSelector(".error").Text;
                     Assert.Contains("The email address used to login is already in use", errorText);
 
-                    browser.Navigate().GoToUrl(site.UrlFor("/Account/LinkLogin"));
+                    browser.Navigate().GoToUrl(site.UrlFor("/Account/LinkAccount"));
                     browser.FindElementByCssSelector("input#UserName").SendKeys(email);
                     browser.FindElementByCssSelector("input#Password").SendKeys(password);
                     browser.FindElementByCssSelector("input[value='Log in']").Click();
@@ -46,7 +46,7 @@ namespace KeyHub.Integration.Tests
                     // TODO: verify returnUrl was honored  (need to start auth flow on an authenticated page,
                     // check that we're there now)
 
-                    browser.Navigate().GoToUrl(site.UrlFor("/Account/LinkLogin"));
+                    browser.Navigate().GoToUrl(site.UrlFor("/Account/LinkAccount"));
                     Console.WriteLine("Page is " + browser.Url);
                     browser.FindElementByCssSelector("input[name=provider][value=Google]").Click();
 
