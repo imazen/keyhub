@@ -1,7 +1,4 @@
-﻿Trying replacing TempData["LoginFailureReason"] with MvcFlash
-
-Check better error messaging when registering an existing user account
-
+﻿
 Do the integration tests work on other people's machines ok?
   (They do require stopping IISExpress if its already debugging.  They will delete your localhost database)
 
@@ -9,9 +6,14 @@ Do we need these features?
   Let use disassociate OpenID login
   Let user associated local username/password with their account (we must do email validation in this case)
 
-  
-User text passed to TempData["LoginFailureReason"] is hard to read
+
+Poor messaging when registering an existing user account
+
   
 have test username/password in source control (a test gmail account)
+
   
 merge columns User.Email and User.Username into User.Email
+
+
+resharper test runner stalls if I try to run MSTest tests (it used to work, hmm.  Tests do pass when using VS test runner)
