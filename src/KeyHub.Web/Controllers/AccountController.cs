@@ -416,6 +416,7 @@ namespace KeyHub.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult LinkAccount(string provider)
         {
             return new ExternalLoginResult(provider, Url.Action("LinkAccountCallback"));
@@ -433,7 +434,6 @@ namespace KeyHub.Web.Controllers
             if (OAuthWebSecurity.Login(authenticationResult.Provider, authenticationResult.ProviderUserId, createPersistentCookie: true))
             {
                 Flash.Success("Your " + authenticationResult.Provider + " login was already linked.");
-                TempData["flash-info"] = "Your " + authenticationResult.Provider + " login was already linked.";
                 return RedirectToAction("LinkAccount");
             }
 

@@ -8,6 +8,7 @@ Do we need these features?
 
 
 Poor messaging when registering an existing user account
+   -> we should have a link to /Account/LinkAccount somewhere
 
   
 have test username/password in source control (a test gmail account)
