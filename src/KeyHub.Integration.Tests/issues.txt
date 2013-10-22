@@ -6,8 +6,10 @@ If get stuck, move onto the licensing code
 
 
 How to repro 50 character email problem?
-  Google max name size is 30.
-  I have a long MSN account, but microsoft OpenID isn't working
+  -> local accounts don't stay logged in with long username
+  Maybe OpenID has issues?  Hard to test:
+	  Google max name size is 30.
+	  I have a long MSN account, but microsoft OpenID isn't working
 
 
 Do the integration tests work on other people's machines ok?
