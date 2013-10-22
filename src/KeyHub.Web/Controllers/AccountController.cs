@@ -15,6 +15,7 @@ using Microsoft.Web.WebPages.OAuth;
 using KeyHub.Data;
 using KeyHub.Web.Models;
 using KeyHub.Web.ViewModels.User;
+using MvcFlash.Core;
 using WebMatrix.WebData;
 using Membership = System.Web.Security.Membership;
 
@@ -430,18 +431,19 @@ namespace KeyHub.Web.Controllers
             AuthenticationResult authenticationResult = OAuthWebSecurity.VerifyAuthentication(Url.Action("LinkLoginCallback"));
             if (!authenticationResult.IsSuccessful)
             {
-                // TODO: error message
+                Flash.Error("The account was unable to be linked.");
                 return RedirectToAction("LinkLogin");
             }
 
             if (OAuthWebSecurity.Login(authenticationResult.Provider, authenticationResult.ProviderUserId, createPersistentCookie: true))
             {
+                Flash.Success("Your " + authenticationResult.Provider + " login was already linked.");
                 TempData["flash-info"] = "Your " + authenticationResult.Provider + " login was already linked.";
                 return RedirectToAction("LinkLogin");
             }
 
             OAuthWebSecurity.CreateOrUpdateAccount(authenticationResult.Provider, authenticationResult.ProviderUserId, User.Identity.Name);
-            TempData["flash-info"] = "Your " + authenticationResult.Provider + " login has been linked.";
+            Flash.Success("Your " + authenticationResult.Provider + " login has been linked.");
             return RedirectToAction("LinkLogin");
         }
 
