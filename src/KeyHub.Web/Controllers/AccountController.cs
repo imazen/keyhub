@@ -414,6 +414,37 @@ namespace KeyHub.Web.Controllers
             return View();
         }
 
+        public ActionResult LinkLogin()
+        {
+            return View("LinkLogin");
+        }
+
+        [HttpPost]
+        public ActionResult LinkLogin(string provider)
+        {
+            return new ExternalLoginResult(provider, Url.Action("LinkLoginCallback"));
+        }
+
+        public ActionResult LinkLoginCallback()
+        {
+            AuthenticationResult authenticationResult = OAuthWebSecurity.VerifyAuthentication(Url.Action("LinkLoginCallback"));
+            if (!authenticationResult.IsSuccessful)
+            {
+                // TODO: error message
+                return RedirectToAction("LinkLogin");
+            }
+
+            if (OAuthWebSecurity.Login(authenticationResult.Provider, authenticationResult.ProviderUserId, createPersistentCookie: true))
+            {
+                TempData["flash-info"] = "Your " + authenticationResult.Provider + " login was already linked.";
+                return RedirectToAction("LinkLogin");
+            }
+
+            OAuthWebSecurity.CreateOrUpdateAccount(authenticationResult.Provider, authenticationResult.ProviderUserId, User.Identity.Name);
+            TempData["flash-info"] = "Your " + authenticationResult.Provider + " login has been linked.";
+            return RedirectToAction("LinkLogin");
+        }
+
         /// <summary>
         /// Redirect to url or home
         /// </summary>

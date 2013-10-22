@@ -31,23 +31,25 @@ namespace KeyHub.Integration.Tests
                 browser.Navigate().GoToUrl(site.UrlFor("/Account/Login"));
                 browser.FindElementByCssSelector("input[name=provider][value=Google]").Click();
 
-                //  Fill out username & email at accounts.google.com
-                browser.FindElementByCssSelector("form#gaia_loginform");
-                browser.FindElementByCssSelector("input#Email").SendKeys(email);
-                browser.FindElementByCssSelector("input#Passwd").SendKeys(password);
-                browser.FindElementByCssSelector("input#signIn").Click();
+                FillGoogleLoginForm(browser, email, password);
 
                 var errorText = browser.FindElementByCssSelector(".validation-summary-errors li").Text;
-
                 Assert.Contains("The email address used to login is already in use", errorText);
 
-                // TODO: drive UI login with local password
-                // TODO: verify returnUrl was honored
+                browser.Navigate().GoToUrl(site.UrlFor("/Account/LinkLogin"));
+                browser.FindElementByCssSelector("input#UserName").SendKeys(email);
+                browser.FindElementByCssSelector("input#Password").SendKeys(password);
+                browser.FindElementByCssSelector("input[value='Log in']").Click();
 
-                // TODO: drive UI to associate google login
+                // TODO: verify returnUrl was honored  (need to start auth flow on an authenticated page,
+                // check that we're there now)
 
-                // TODO: in new browser session, make session google login works.
-                // TODO: verify returnUrl was honored
+                browser.Navigate().GoToUrl(site.UrlFor("/Account/LinkLogin"));
+                Console.WriteLine("Page is " + browser.Url);
+                browser.FindElementByCssSelector("input[name=provider][value=Google]").Click();
+
+                var successText = browser.FindElementByCssSelector(".flash-info").Text;
+                Assert.Contains("Your google login has been linked", successText);
             }
         }
 
@@ -64,6 +66,14 @@ namespace KeyHub.Integration.Tests
 
                 browser.FindElementByCssSelector("a[href='/Account/LogOff']");
             }
+        }
+
+        private static void FillGoogleLoginForm(FirefoxDriver browser, string email, string password)
+        {
+            browser.FindElementByCssSelector("form#gaia_loginform");
+            browser.FindElementByCssSelector("input#Email").SendKeys(email);
+            browser.FindElementByCssSelector("input#Passwd").SendKeys(password);
+            browser.FindElementByCssSelector("input#signIn").Click();
         }
     }
 }

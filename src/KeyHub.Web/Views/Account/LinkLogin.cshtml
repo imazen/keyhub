@@ -1,0 +1,47 @@
+﻿@model KeyHub.Web.Models.LoginViewModel
+
+@{
+    ViewBag.Title = "Link OpenID Accounts";
+}
+<hgroup class="title">
+    <h1>@ViewBag.Title.</h1>
+    
+</hgroup>
+
+<table cellpadding="30px">
+    @if(TempData.ContainsKey("flash-info")) {
+        <tr>
+            <td valign="top" class="flash-info">
+                <h3>
+                    @TempData["flash-info"]
+                </h3>
+            </td>
+        </tr>
+    }
+    <tr>
+        <td valign="top">
+            <h2>Associate OpenID accounts with your login.</h2>
+
+            @using (Html.BeginForm("LinkLogin", "Account"))
+            {
+                @Html.AntiForgeryToken()
+
+                <fieldset> 
+                    <legend>Associate OpenID accounts with your login.</legend>
+                    <div class="editor-field" style="width: 270px;">
+                    @foreach (AuthenticationClientData p in OAuthWebSecurity.RegisteredClientData.OrderBy(x => x.DisplayName))
+                    {
+                        <input type="submit" name="provider" value="@p.DisplayName" title="Link your @p.DisplayName account" />
+                        <span>&nbsp;</span>
+                    }
+                    </div>
+                </fieldset>
+            }
+        </td>
+    </tr>
+</table>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
