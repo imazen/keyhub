@@ -237,7 +237,23 @@ namespace KeyHub.Web.Controllers
             if (ModelState.IsValid)
             {
                 // Attempt to register the user
-                WebSecurity.CreateUserAndAccount(model.UserName, model.Password, new {Email = model.Email});
+                try
+                {
+                    WebSecurity.CreateUserAndAccount(model.UserName, model.Password, new { Email = model.Email });
+                }
+                catch (MembershipCreateUserException membershipException)
+                {
+                    if (membershipException.Message.Contains("username is already in use"))
+                    {
+                        ModelState.AddModelError("", 
+                            "The email address registered is already in use on this site using a different login method.  "
+                            + "Please login with the original login method used for that email.  "
+                            + "Then you may associate other login methods with your account.  ");
+
+                        return View(model);
+                    }
+                    throw;
+                }
 
                 if (WebSecurity.Login(model.UserName, model.Password))
                 {

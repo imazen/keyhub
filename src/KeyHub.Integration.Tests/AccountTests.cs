@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using KeyHub.Integration.Tests.TestSetup;
@@ -15,6 +16,12 @@ namespace KeyHub.Integration.Tests
 {
     public class AccountTests
     {
+        public static RemoteWebDriver GetBrowser()
+        {
+            return new PhantomJSDriver(); // faster
+            //return new FirefoxDriver(); // easier debugging
+        }
+
         [Fact]
         [CleanDatabase]
         public void CanRegisterLocallyThenAssociate3rdPartyLogin()
@@ -26,7 +33,7 @@ namespace KeyHub.Integration.Tests
             {
                 CreateLocalAccount(site, email, password);
 
-                using (var browser = new PhantomJSDriver())
+                using (var browser = GetBrowser())
                 {
                     browser.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(5));
 
@@ -56,9 +63,32 @@ namespace KeyHub.Integration.Tests
             }
         }
 
-        private static void CreateLocalAccount(KeyHubWebDriver site, string email, string password)
+        [Fact]
+        [CleanDatabase]
+        public void ShouldGiveWarningMessageWhenUserRegistersEmailAlreadyInUse()
         {
-            using (var browser = new PhantomJSDriver())
+            var email = ConfigurationManager.AppSettings.Get("googleTestEmail");
+            var password = ConfigurationManager.AppSettings.Get("googleTestPassword");
+
+            using (var site = new KeyHubWebDriver())
+            {
+                CreateLocalAccount(site, email, password);
+                CreateLocalAccount(site, email, password, browser =>
+                {
+                    var errorText = browser.FindElementByCssSelector(".validation-summary-errors li").Text;
+                    Assert.Contains("The email address registered is already in use", errorText);
+                });
+            }
+        }
+
+        private static void CreateLocalAccount(KeyHubWebDriver site, string email, string password, Action<RemoteWebDriver> onFinish = null)
+        {
+            onFinish = onFinish ?? delegate(RemoteWebDriver browser)
+            {
+                browser.FindElementByCssSelector("a[href='/Account/LogOff']");
+            };
+
+            using (var browser = GetBrowser())
             {
                 browser.Navigate().GoToUrl(site.UrlFor("Account/Register"));
 
@@ -67,7 +97,7 @@ namespace KeyHub.Integration.Tests
                 browser.FindElementByCssSelector("input[name=ConfirmPassword]").SendKeys(password);
                 browser.FindElementByCssSelector("input[value=Register]").Click();
 
-                browser.FindElementByCssSelector("a[href='/Account/LogOff']");
+                onFinish(browser);
             }
         }
 
