@@ -7,6 +7,9 @@ Do we need these features?
   Let user associated local username/password with their account (we must do email validation in this case)
 
 
+registration page asks for email, but allows non-email
+
+
 Poor messaging when registering an existing user account
    -> we should have a link to /Account/LinkAccount somewhere
 
