@@ -1,7 +1,15 @@
-﻿User text passed to TempData["LoginFailureReason"] is hard to read
+﻿Trying replacing TempData["LoginFailureReason"] with MvcFlash
+
+Do the integration tests work on other people's machines ok?
+  (They do require stopping IISExpress if its already debugging.  They will delete your localhost database)
+
+Do we need these features?
+  Let use disassociate OpenID login
+  Let user associated local username/password with their account (we must do email validation in this case)
+
+  
+User text passed to TempData["LoginFailureReason"] is hard to read
   
 have test username/password in source control (a test gmail account)
-  
-use a more distinct database name for localhostdb  (don't use v11.0)
   
 merge columns User.Email and User.Username into User.Email
