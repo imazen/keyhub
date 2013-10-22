@@ -5,12 +5,6 @@ If get stuck, move onto the licensing code
   
 
 
-Put these issues into github (these shouldn't affect the data model, so milestone is afterwards)
-  /account/LinkAccount should let user see what openid providers are associated
-  /account/LinkAccount should let user disassociate a login account
-  /account/LinkAccount should let user associate local password with their account (we must do email validation in this case, or someone could hijack someone's openID login)
-  /account/register page asks for email, but allows non-email
-
 How to repro 50 character email problem?
   Google max name size is 30.
   I have a long MSN account, but microsoft OpenID isn't working
