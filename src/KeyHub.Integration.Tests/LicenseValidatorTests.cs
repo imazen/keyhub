@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ using KeyHub.Data.ApplicationIssues;
 using KeyHub.Integration.Tests.TestSetup;
 using KeyHub.Model;
 using Moq;
+using Newtonsoft.Json;
 using Xunit;
 
 namespace KeyHub.Integration.Tests
@@ -22,10 +24,10 @@ namespace KeyHub.Integration.Tests
         [CleanDatabase]
         public void CanValidateLicense()
         {
-            var appKey = Guid.NewGuid();
+            Guid appKey;
             var featureGuid = Guid.NewGuid();
             var domain = "foobar.com";
-
+            
             using (var dataContext = new DataContext())
             {
                 var customerApp = new CustomerApp()
@@ -36,15 +38,14 @@ namespace KeyHub.Integration.Tests
                 dataContext.CustomerApps.Add(customerApp);
                 dataContext.SaveChanges();
 
-                Console.WriteLine("id" + customerApp.CustomerAppId);
-
-                dataContext.CustomerAppKeys.Add(new CustomerAppKey()
+                var customerAppKey = new CustomerAppKey()
                 {
-                    CustomerAppId = customerApp.CustomerAppId,
-                    AppKey = appKey
-                });
-
+                    CustomerAppId = customerApp.CustomerAppId
+                };
+                dataContext.CustomerAppKeys.Add(customerAppKey);
                 dataContext.SaveChanges();
+
+                appKey = customerAppKey.AppKey;
             }
 
             var identity = new Mock<IIdentity>(MockBehavior.Loose);
