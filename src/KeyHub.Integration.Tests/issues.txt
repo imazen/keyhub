@@ -1,0 +1,40 @@
+﻿
+Nathanael will be out Wednesday (out of office, but maybe on email at end of day), available Thursday afternoon.
+If get stuck, move onto the licensing code
+  (like https://github.com/imazen/keyhub/issues/36)
+  
+
+
+How to repro 50 character email problem?
+  -> local accounts seem to work ok with long email.  
+  Maybe OpenID has issues?  Hard to test:
+	  Google max name size is 30.
+	  I have a long MSN account, but microsoft OpenID isn't working  (need appsettings to configure that OpenID provider)
+
+
+Do the integration tests work on other people's machines ok?
+  (warning: They will delete your localhost keyhub database)
+  (They do require stopping IISExpress if its already debugging)
+  ->  PhantomJS was't installed.  After being installed, it was't on the path.
+  ->  It fails due to a config issue.  Stop bin-copying the config file and use whatever VS has.
+
+
+
+Do we strongly couple the users email with username?
+
+
+
+Poor messaging when registering an existing user account
+   -> we should have a link to /Account/LinkAccount somewhere
+
+If the user has invalid cookies, they might get forced to error screen 
+  (to repro, login locally then delete local database.  This creates a cookie for a non-existant account)
+
+  
+have test username/password in source control (a test gmail account)
+
+  
+merge columns User.Email and User.Username into User.Email
+
+
+resharper test runner stalls if I try to run MSTest tests (it used to work, hmm.  Tests do pass when using VS test runner)

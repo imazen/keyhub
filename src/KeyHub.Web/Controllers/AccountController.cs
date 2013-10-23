@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -11,6 +15,7 @@ using Microsoft.Web.WebPages.OAuth;
 using KeyHub.Data;
 using KeyHub.Web.Models;
 using KeyHub.Web.ViewModels.User;
+using MvcFlash.Core;
 using WebMatrix.WebData;
 using Membership = System.Web.Security.Membership;
 
@@ -232,7 +237,23 @@ namespace KeyHub.Web.Controllers
             if (ModelState.IsValid)
             {
                 // Attempt to register the user
-                WebSecurity.CreateUserAndAccount(model.UserName, model.Password, new {Email = model.Email});
+                try
+                {
+                    WebSecurity.CreateUserAndAccount(model.UserName, model.Password, new { Email = model.Email });
+                }
+                catch (MembershipCreateUserException membershipException)
+                {
+                    if (membershipException.Message.Contains("username is already in use"))
+                    {
+                        ModelState.AddModelError("", 
+                            "The email address registered is already in use on this site using a different login method.  "
+                            + "Please login with the original login method used for that email.  "
+                            + "Then you may associate other login methods with your account.  ");
+
+                        return View(model);
+                    }
+                    throw;
+                }
 
                 if (WebSecurity.Login(model.UserName, model.Password))
                 {
@@ -353,12 +374,40 @@ namespace KeyHub.Web.Controllers
                 return RedirectTo(returnUrl);
             }
 
-            // Insert a new user into the database
-            using (var db = dataContextFactory.Create())
+            try
             {
-                // Insert name into the profile table
-                db.Users.Add(new User { UserName = authenticationResult.UserName, Email = authenticationResult.UserName });
-                db.SaveChanges();
+                // Insert a new user into the database
+                using (var db = dataContextFactory.Create())
+                {
+                    // Insert name into the profile table
+                    db.Users.Add(new User { UserName = authenticationResult.UserName, Email = authenticationResult.UserName });
+                    db.SaveChanges();
+                }
+            }
+            catch (DbUpdateException e)
+            {
+                var innerException1 = e.InnerException as UpdateException;
+                if (innerException1 == null)
+                    throw;
+
+                var innerException2 = innerException1.InnerException as SqlException;
+                if (innerException2 == null)
+                    throw;
+
+                var innerExceptionMessage = innerException2.Message ?? "";
+
+                if (innerExceptionMessage.Contains("IX_Email") && innerExceptionMessage.Contains("duplicate"))
+                {
+                    Flash.Error("The email address used to login is already in use on this site using a different login method.  "
+                        + "Please login with the original login method used for that email.  "
+                        + "Then you may associate other login methods with your account.  ");
+
+                    return RedirectToAction("Login");
+                }
+                else
+                {
+                    throw;
+                }
             }
 
             OAuthWebSecurity.CreateOrUpdateAccount(authenticationResult.Provider, authenticationResult.ProviderUserId, authenticationResult.UserName);
@@ -375,6 +424,38 @@ namespace KeyHub.Web.Controllers
         public ActionResult ExternalLoginFailure()
         {
             return View();
+        }
+
+        public ActionResult LinkAccount()
+        {
+            return View("LinkAccount");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult LinkAccount(string provider)
+        {
+            return new ExternalLoginResult(provider, Url.Action("LinkAccountCallback"));
+        }
+
+        public ActionResult LinkAccountCallback()
+        {
+            AuthenticationResult authenticationResult = OAuthWebSecurity.VerifyAuthentication(Url.Action("LinkAccountCallback"));
+            if (!authenticationResult.IsSuccessful)
+            {
+                Flash.Error("The account was unable to be linked.");
+                return RedirectToAction("LinkAccount");
+            }
+
+            if (OAuthWebSecurity.Login(authenticationResult.Provider, authenticationResult.ProviderUserId, createPersistentCookie: true))
+            {
+                Flash.Success("Your " + authenticationResult.Provider + " login was already linked.");
+                return RedirectToAction("LinkAccount");
+            }
+
+            OAuthWebSecurity.CreateOrUpdateAccount(authenticationResult.Provider, authenticationResult.ProviderUserId, User.Identity.Name);
+            Flash.Success("Your " + authenticationResult.Provider + " login has been linked.");
+            return RedirectToAction("LinkAccount");
         }
 
         /// <summary>
