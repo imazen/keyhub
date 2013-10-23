@@ -11,6 +11,12 @@ namespace KeyHub.Integration.Tests.TestSetup
 {
     public class CleanDatabaseAttribute : BeforeAfterTestAttribute
     {
+        private string GetDatabaseDirectory()
+        {
+            //return Path.GetFullPath("../../../KeyHub.Web/App_Data");
+            return "c:\\temp";
+        }
+
         public override void Before(MethodInfo methodUnderTest)
         {
             using (var stopProcess = new PlainProcessDriver())
@@ -27,7 +33,7 @@ namespace KeyHub.Integration.Tests.TestSetup
                 deleteProcess.WaitForConsoleOutputMatching(@"(deleted\.)|(does not exist)");
             }
 
-            var dataDirectory = Path.GetFullPath("../../../KeyHub.Web/App_Data");
+            var dataDirectory = GetDatabaseDirectory();
             if (!Directory.Exists(dataDirectory))
                 throw new Exception("Could not find data directory " + dataDirectory);
 
