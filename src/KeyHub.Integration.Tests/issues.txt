@@ -1,4 +1,6 @@
 ﻿
+
+
 Nathanael will be out Wednesday (out of office, but maybe on email at end of day), available Thursday afternoon.
 If get stuck, move onto the licensing code
   (like https://github.com/imazen/keyhub/issues/36)
