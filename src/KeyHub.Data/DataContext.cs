@@ -38,6 +38,7 @@ namespace KeyHub.Data
             this.Vendors = new FilteredDbSet<Vendor>(this);
             this.SKUs = new FilteredDbSet<SKU>(this);
             this.Features = new FilteredDbSet<Feature>(this);
+            this.SkuFeatures = new FilteredDbSet<SkuFeature>(this);
             this.Licenses = new FilteredDbSet<License>(this);
             this.TransactionItems = new FilteredDbSet<TransactionItem>(this);
             this.TransactionIgnoredItems = new FilteredDbSet<TransactionIgnoredItem>(this);
@@ -77,6 +78,8 @@ namespace KeyHub.Data
         public IDbSet<PrivateKey> PrivateKeys { get; set; }
 
         public IDbSet<SKU> SKUs { get; set; }
+
+        public IDbSet<SkuFeature> SkuFeatures { get; set; }
 
         public IDbSet<Transaction> Transactions { get; set; }
 
