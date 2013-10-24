@@ -25,7 +25,7 @@ namespace KeyHub.Integration.Tests
         public void CanValidateLicense()
         {
             Guid appKey;
-            var featureGuid = Guid.NewGuid();
+            Guid featureCode;
             var domain = "foobar.com";
 
             Guid skuId;
@@ -33,6 +33,27 @@ namespace KeyHub.Integration.Tests
 
             using (var dataContext = new DataContext())
             {
+                var country = new Country()
+                {
+                    CountryCode = "foo",
+                    CountryName = "country.name",
+                    NativeCountryName = "country.nativeCountryName"
+                };
+
+                dataContext.Countries.Add(country);
+                dataContext.SaveChanges();
+
+                var customer = new Customer()
+                {
+                    Name = "customer.name",
+                    Street = "customer.street",
+                    PostalCode = "customer.postalCode",
+                    City = "customer.city",
+                    Region =  "customer.region",
+                    CountryCode = country.CountryCode
+                };
+                dataContext.Customers.Add(customer);
+ 
                 var customerApp = new CustomerApp()
                 {
                     ApplicationName = "test CustomerApp"
@@ -49,16 +70,6 @@ namespace KeyHub.Integration.Tests
                 dataContext.SaveChanges();
 
                 appKey = customerAppKey.AppKey;
-
-                var country = new Country()
-                {
-                    CountryCode = "foo",
-                    CountryName = "country.name",
-                    NativeCountryName = "country.nativeCountryName"
-                };
-
-                dataContext.Countries.Add(country);
-                dataContext.SaveChanges();
 
                 var vendor = new Vendor()
                 {
@@ -99,6 +110,8 @@ namespace KeyHub.Integration.Tests
                 dataContext.Features.Add(feature);
                 dataContext.SaveChanges();
 
+                featureCode = feature.FeatureCode;
+
                 var skuFeature = new SkuFeature()
                 {
                     SkuId = sku.SkuId,
@@ -110,15 +123,14 @@ namespace KeyHub.Integration.Tests
 
                 skuId = sku.SkuId;
                 customerAppId = customerApp.CustomerAppId;
-            }
 
-            using (var dataContext = new DataContext())
-            {
                 var license = new License()
                 {
                     OwnerName = "license.ownerName",
                     LicenseExpires = DateTime.Now.AddDays(100),
-                    SkuId = skuId
+                    SkuId = skuId,
+                    PurchasingCustomerId = customer.ObjectId,
+                    OwningCustomerId = customer.ObjectId
                 };
 
                 dataContext.Licenses.Add(license);
@@ -141,10 +153,10 @@ namespace KeyHub.Integration.Tests
                 var validator = new LicenseValidator(dataContextFactory, loggingService.Object,
                     applicationIssuesUnitOfWork.Object);
 
-                var result = validator.Validate(appKey, new[] {new DomainValidation(domain, featureGuid)}).Single();
+                var result = validator.Validate(appKey, new[] {new DomainValidation(domain, featureCode)}).Single();
 
-                Assert.Equal(result.DomainName, "foorbar.com");
-                Assert.Contains(featureGuid, result.Features);
+                Assert.Equal(result.DomainName, domain);
+                Assert.Contains(featureCode, result.Features);
             }
         }
     }
