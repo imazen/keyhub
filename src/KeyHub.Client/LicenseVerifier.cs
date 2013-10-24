@@ -94,6 +94,7 @@ namespace KeyHub.Client
     /// </summary>
     internal class LicenseVerifier : ILicenseService
     {
+        Config config;
 
         internal LicenseVerifier()
         {
@@ -276,13 +277,11 @@ namespace KeyHub.Client
                 try
                 {
                     //No verification of license store needed; they can be replaced by user
-                    ILicenseStore s = c.Plugins.GetOrInstall<ILicenseStore>(new LicenseStore());
+                    ILicenseStore s = config.Plugins.GetOrInstall<ILicenseStore>(new LicenseStore());
                     //Get all encrypted licenses and 
                     // Decrypt them, grouping by normalized domain name
                     var licenses = RemovedExpired(DecryptAll(s.GetLicenses()));
-
-
-
+                    
                     //Fix all possible pendingFeatures using existing license data.
                     UpdateFeatureStatus(licenses);
 
@@ -291,7 +290,16 @@ namespace KeyHub.Client
                         //Send off https request based on appId and pendingFeatures pairs.
                         //Get List<byte> in return.
 
-                        var newLicenses = DecryptAll(RequestLicenses(pendingFeatures));
+
+                        var requestLicenses = new List<byte[]>();
+
+                        string appStr = config.get("licenses.auto.appId", null);
+                        if (!string.IsNullOrEmpty(appStr))
+                        {
+                            requestLicenses = new LicenseDownloader().RequestLicenses(LicensingUrl, new Guid(appStr), pendingFeatures);                            
+                        }
+                        
+                        var newLicenses = DecryptAll(requestLicenses);
 
                         if (newLicenses.Count > 0)
                         {
@@ -343,66 +351,6 @@ namespace KeyHub.Client
             }
             return n;
         }
-        /// <summary>
-        /// Performs a remote request to the license server to get 
-        /// </summary>
-        /// <param name="domainFeatures"></param>
-        /// <returns></returns>
-        private List<byte[]> RequestLicenses(Dictionary<string, List<Guid>> domainFeatures)
-        {
-            var results = new List<byte[]>();
-            string appStr = c.get("licenses.auto.appId", null);
-            if (string.IsNullOrEmpty(appStr)) return results;
-
-            Guid appId = new Guid(appStr);
-
-            XmlDocument doc = new XmlDocument();
-            var root = doc.CreateElement("licenseReqeust");
-            doc.AppendChild(root);
-            var appIdElement = doc.CreateElement("appId");
-            appIdElement.AppendChild(doc.CreateTextNode(appId.ToString()));
-            root.AppendChild(appIdElement);
-            var domains = doc.CreateElement("domains");
-            root.AppendChild(domains);
-            foreach (string domain in domainFeatures.Keys)
-            {
-                var d = doc.CreateElement("domain");
-                d.SetAttribute("name", domain);
-                foreach (Guid g in domainFeatures[domain])
-                {
-                    var feature = doc.CreateElement("feature");
-                    feature.AppendChild(doc.CreateTextNode(g.ToString()));
-                    d.AppendChild(feature);
-                }
-                root.AppendChild(d);
-            }
-            var request = (System.Net.HttpWebRequest)System.Net.HttpWebRequest.Create(LicensingUrl);
-            request.ContentType = "application/xml";
-            request.Method = "POST";
-            byte[] body = UTF8Encoding.UTF8.GetBytes(doc.OuterXml);
-            request.ContentLength = body.Length;
-            using (var upstream = request.GetRequestStream())
-            {
-                upstream.Write(body, 0, body.Length);
-            }
-            using (var response = request.GetResponse())
-            {
-                XmlDocument rdoc = new XmlDocument();
-                rdoc.Load(response.GetResponseStream());
-                foreach (var l in rdoc.DocumentElement.ChildNodes)
-                {
-                    var lic = l as XmlElement;
-                    if (lic != null && lic.Name == "license")
-                    {
-                        results.Add(Convert.FromBase64String(lic.InnerText.Trim()));
-                    }
-                }
-            }
-            return results;
-        }
-
-
-
 
 
         private Dictionary<string, List<DomainLicense>> RemovedExpired(Dictionary<string, List<DomainLicense>> licenses)
@@ -612,10 +560,9 @@ namespace KeyHub.Client
         }
 
 
-        Config c;
         public IPlugin Install(Config c)
         {
-            this.c = c;
+            this.config = c;
             c.Plugins.add_plugin(this);
             return this;
         }
