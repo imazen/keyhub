@@ -4,7 +4,7 @@ using System.Security.Cryptography;
 
 namespace KeyHub.Client
 {
-    internal class LicenseVerifierBase
+    public class LicenseDecrypter
     {
         private static object decryptionLock = new object();
         private static RSACryptoServiceProvider crypto;

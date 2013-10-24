@@ -5,9 +5,9 @@ using System.Text;
 
 namespace KeyHub.Client
 {
-    internal class DomainLicense
+    public class DomainLicense
     {
-        internal DomainLicense(string publicKeyXml,byte[] encryptedLicense, LicenseVerifierBase v)
+        internal DomainLicense(string publicKeyXml,byte[] encryptedLicense, LicenseDecrypter v)
         {
             Decrypted = v.Decrypt(publicKeyXml, encryptedLicense);
             Encrypted = encryptedLicense;

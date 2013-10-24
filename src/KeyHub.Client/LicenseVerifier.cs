@@ -270,7 +270,7 @@ namespace KeyHub.Client
                     ILicenseStore s = config.Plugins.GetOrInstall<ILicenseStore>(new LicenseStore());
                     //Get all encrypted licenses and 
                     // Decrypt them, grouping by normalized domain name
-                    var licenses = RemovedExpired(new LicenseVerifierBase().DecryptAll(PublicKeyXml, s.GetLicenses()));
+                    var licenses = RemovedExpired(new LicenseDecrypter().DecryptAll(PublicKeyXml, s.GetLicenses()));
                     
                     //Fix all possible pendingFeatures using existing license data.
                     UpdateFeatureStatus(licenses);
@@ -288,7 +288,7 @@ namespace KeyHub.Client
                         {
                             requestLicenses = new LicenseDownloader().RequestLicenses(LicensingUrl, new Guid(appStr), pendingFeatures);
 
-                            var newLicenses = new LicenseVerifierBase().DecryptAll(PublicKeyXml, requestLicenses);
+                            var newLicenses = new LicenseDecrypter().DecryptAll(PublicKeyXml, requestLicenses);
 
                             if (newLicenses.Count > 0)
                             {

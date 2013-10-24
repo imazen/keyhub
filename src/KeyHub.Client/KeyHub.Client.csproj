@@ -45,7 +45,7 @@
     <Compile Include="DomainUtility.cs" />
     <Compile Include="LicenseVerifier.cs" />
     <Compile Include="LicenseDownloader.cs" />
-    <Compile Include="LicenseVerifierBase.cs" />
+    <Compile Include="LicenseDecrypter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
