@@ -41,8 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DomainLicense.cs" />
+    <Compile Include="DomainUtility.cs" />
     <Compile Include="LicenseVerifier.cs" />
     <Compile Include="LicenseDownloader.cs" />
+    <Compile Include="LicenseVerifierBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
