@@ -56,7 +56,7 @@ namespace KeyHub.Integration.Tests
 
             using (var site = new KeyHubWebDriver())
             {
-                var licensingUrl = site.UrlFor("/Lice");
+                var licensingUrl = site.UrlFor("/api/LicenseValidation");
 
                 var encryptedLicenses = new LicenseDownloader().RequestLicenses(licensingUrl, scenario.AppKey, new Dictionary<string,List<Guid>>()
                 {
