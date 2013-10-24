@@ -110,7 +110,10 @@ namespace KeyHub.Integration.Tests
 
                 skuId = sku.SkuId;
                 customerAppId = customerApp.CustomerAppId;
+            }
 
+            using (var dataContext = new DataContext())
+            {
                 var license = new License()
                 {
                     OwnerName = "license.ownerName",
@@ -119,7 +122,7 @@ namespace KeyHub.Integration.Tests
                 };
 
                 dataContext.Licenses.Add(license);
-                dataContext.SaveChanges();
+                dataContext.SaveChanges();  // EF can't determine the order to do things...
 
                 dataContext.LicenseCustomerApps.Add(new LicenseCustomerApp()
                 {
