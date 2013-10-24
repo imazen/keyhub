@@ -13,6 +13,7 @@ namespace KeyHub.Integration.Tests
     {
         public Guid AppKey;
         public Guid FeatureCode;
+        public string PublicKeyXml;
 
         public LicenseValidationScenario()
         {
@@ -57,12 +58,17 @@ namespace KeyHub.Integration.Tests
                     CountryCode = country.CountryCode
                 });
 
-                var privateKey = InsertItem(dataContext, dataContext.PrivateKeys, new PrivateKey()
+                var privateKey = new PrivateKey()
                 {
                     DisplayName = "I am a private key",
-                    KeyBytes = new byte[] { 1, 2, 3 },
                     VendorId = vendor.ObjectId
-                });
+                };
+
+                privateKey.SetKeyBytes();
+
+                privateKey = InsertItem(dataContext, dataContext.PrivateKeys, privateKey);
+
+                PublicKeyXml = privateKey.GetPublicKeyXmlString();
 
                 var sku = InsertItem(dataContext, dataContext.SKUs, new SKU()
                 {

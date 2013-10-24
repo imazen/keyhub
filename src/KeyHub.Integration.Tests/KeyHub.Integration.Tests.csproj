@@ -97,6 +97,10 @@
       <Project>{7FA54424-5866-4A33-AB6B-01A59D0843C7}</Project>
       <Name>KeyHub.BusinessLogic</Name>
     </ProjectReference>
+    <ProjectReference Include="..\KeyHub.Client\KeyHub.Client.csproj">
+      <Project>{46F597BD-70D9-4A1C-8D91-B4CA2D604C36}</Project>
+      <Name>KeyHub.Client</Name>
+    </ProjectReference>
     <ProjectReference Include="..\KeyHub.Core\KeyHub.Core.csproj">
       <Project>{982DDF31-5D75-4194-99B4-FCC95CD4BE7F}</Project>
       <Name>KeyHub.Core</Name>

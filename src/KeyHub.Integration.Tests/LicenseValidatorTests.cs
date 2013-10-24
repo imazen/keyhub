@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using KeyHub.BusinessLogic.BusinessRules;
 using KeyHub.BusinessLogic.LicenseValidation;
+using KeyHub.Client;
 using KeyHub.Core.Logging;
 using KeyHub.Data;
 using KeyHub.Data.ApplicationIssues;
@@ -42,6 +43,27 @@ namespace KeyHub.Integration.Tests
 
                 Assert.Equal(result.DomainName, domain);
                 Assert.Contains(scenario.FeatureCode, result.Features);
+            }
+        }
+
+        [Fact]
+        [CleanDatabase]
+        public void CanValidateLicenseRemotely()
+        {
+            var domain = "foobar.com";
+
+            var scenario = new LicenseValidationScenario();
+
+            using (var site = new KeyHubWebDriver())
+            {
+                var licensingUrl = site.UrlFor("/Lice");
+
+                var encryptedLicenses = new LicenseDownloader().RequestLicenses(licensingUrl, scenario.AppKey, new Dictionary<string,List<Guid>>()
+                {
+                    {domain, new List<Guid>() {scenario.FeatureCode}}
+                });
+
+                var newLicenses = new LicenseDecrypter().DecryptAll(scenario.PublicKeyXml, encryptedLicenses);
             }
         }
     }
