@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Security.Principal;
@@ -28,22 +29,16 @@ namespace KeyHub.Integration.Tests
             Guid featureCode;
             var domain = "foobar.com";
 
-            Guid skuId;
-            Guid customerAppId;
-
             using (var dataContext = new DataContext())
             {
-                var country = new Country()
+                var country = InsertItem(dataContext, dataContext.Countries, new Country()
                 {
                     CountryCode = "foo",
                     CountryName = "country.name",
                     NativeCountryName = "country.nativeCountryName"
-                };
+                });
 
-                dataContext.Countries.Add(country);
-                dataContext.SaveChanges();
-
-                var customer = new Customer()
+                var customer = InsertItem(dataContext, dataContext.Customers, new Customer()
                 {
                     Name = "customer.name",
                     Street = "customer.street",
@@ -51,27 +46,21 @@ namespace KeyHub.Integration.Tests
                     City = "customer.city",
                     Region =  "customer.region",
                     CountryCode = country.CountryCode
-                };
-                dataContext.Customers.Add(customer);
+                });
  
-                var customerApp = new CustomerApp()
+                var customerApp = InsertItem(dataContext, dataContext.CustomerApps, new CustomerApp()
                 {
                     ApplicationName = "test CustomerApp"
-                };
+                });
 
-                dataContext.CustomerApps.Add(customerApp);
-                dataContext.SaveChanges();
-
-                var customerAppKey = new CustomerAppKey()
+                var customerAppKey = InsertItem(dataContext, dataContext.CustomerAppKeys, new CustomerAppKey()
                 {
                     CustomerAppId = customerApp.CustomerAppId
-                };
-                dataContext.CustomerAppKeys.Add(customerAppKey);
-                dataContext.SaveChanges();
+                });
 
                 appKey = customerAppKey.AppKey;
 
-                var vendor = new Vendor()
+                var vendor = InsertItem(dataContext, dataContext.Vendors, new Vendor()
                 {
                     Name = "vendor.name",
                     Street = "vendor.street",
@@ -79,69 +68,50 @@ namespace KeyHub.Integration.Tests
                     City = "vendor.city",
                     Region = "vendor.region",
                     CountryCode = country.CountryCode
-                };
-                dataContext.Vendors.Add(vendor);
-                dataContext.SaveChanges();
+                });
 
-                var privateKey = new PrivateKey()
+                var privateKey = InsertItem(dataContext, dataContext.PrivateKeys, new PrivateKey()
                 {
                     DisplayName = "I am a private key",
                     KeyBytes = new byte[] {1, 2, 3},
                     VendorId = vendor.ObjectId
-                };
-                dataContext.PrivateKeys.Add(privateKey);
-                dataContext.SaveChanges();
+                });
 
-                var sku = new SKU()
+                var sku = InsertItem(dataContext, dataContext.SKUs, new SKU()
                 {
                     SkuCode = "super sku",
                     PrivateKeyId = privateKey.PrivateKeyId,
                     VendorId = vendor.ObjectId
-                };
-                dataContext.SKUs.Add(sku);
-                dataContext.SaveChanges();
+                });
 
-                var feature = new Feature()
+                var feature = InsertItem(dataContext, dataContext.Features, new Feature()
                 {
                     FeatureName = "feature.featureName",
-                    VendorId = vendor.ObjectId,
-                    //FeatureCode = featureGuid
-                };
-                dataContext.Features.Add(feature);
-                dataContext.SaveChanges();
+                    VendorId = vendor.ObjectId
+                });
 
                 featureCode = feature.FeatureCode;
 
-                var skuFeature = new SkuFeature()
+                InsertItem(dataContext, dataContext.SkuFeatures, new SkuFeature()
                 {
                     SkuId = sku.SkuId,
                     FeatureId = feature.FeatureId
-                };
+                });
 
-                dataContext.SkuFeatures.Add(skuFeature);
-                dataContext.SaveChanges();
-
-                skuId = sku.SkuId;
-                customerAppId = customerApp.CustomerAppId;
-
-                var license = new License()
+                var license = InsertItem(dataContext, dataContext.Licenses, new License()
                 {
                     OwnerName = "license.ownerName",
                     LicenseExpires = DateTime.Now.AddDays(100),
-                    SkuId = skuId,
+                    SkuId = sku.SkuId,
                     PurchasingCustomerId = customer.ObjectId,
                     OwningCustomerId = customer.ObjectId
-                };
+                });
 
-                dataContext.Licenses.Add(license);
-                dataContext.SaveChanges();  // EF can't determine the order to do things...
-
-                dataContext.LicenseCustomerApps.Add(new LicenseCustomerApp()
+                InsertItem(dataContext, dataContext.LicenseCustomerApps, new LicenseCustomerApp()
                 {
-                    CustomerAppId = customerAppId,
+                    CustomerAppId = customerApp.CustomerAppId,
                     LicenseId = license.ObjectId
                 });
-                dataContext.SaveChanges();
             }
 
             var identity = new Mock<IIdentity>(MockBehavior.Loose);
@@ -158,6 +128,15 @@ namespace KeyHub.Integration.Tests
                 Assert.Equal(result.DomainName, domain);
                 Assert.Contains(featureCode, result.Features);
             }
+        }
+
+        private static TItem InsertItem<TItem>(DataContext dataContext, IDbSet<TItem> dbSet, TItem country1) where TItem : class
+        {
+            var country = country1;
+
+            dbSet.Add(country);
+            dataContext.SaveChanges();
+            return country;
         }
     }
 }
