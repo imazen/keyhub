@@ -18,8 +18,8 @@ namespace KeyHub.Integration.Tests
     {
         public static RemoteWebDriver GetBrowser()
         {
-            return new PhantomJSDriver(); // faster
-            //return new FirefoxDriver(); // easier debugging
+            //return new PhantomJSDriver(); // faster
+            return new FirefoxDriver(); // easier debugging
         }
 
         [Fact]

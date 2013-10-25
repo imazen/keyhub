@@ -25,7 +25,7 @@ namespace KeyHub.Integration.Tests.TestSetup
             if (!Directory.Exists(path))
                 throw new Exception("Could not find KeyHub.Web");
 
-            base.Start("KeyHub.Web", "../../applicationhost.config");
+            base.Start("KeyHub.Web");
         }
 
         public Uri UrlFor(string path)

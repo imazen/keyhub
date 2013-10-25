@@ -7,17 +7,13 @@ namespace KeyHub.Integration.Tests.TestSetup
     {
         public string Url { get; private set;  }
 
-        public void Start(string siteName, string configPath)
+        public void Start(string siteName)
         {
             var processFileName = File.Exists(@"c:\program files (x86)\IIS Express\IISExpress.exe")
                 ? @"c:\program files (x86)\IIS Express\IISExpress.exe"
                 : @"c:\program files\IIS Express\IISExpress.exe";
 
-            var fullConfigPath = Path.GetFullPath(configPath);
-            if (!File.Exists(fullConfigPath))
-                throw new Exception("Could not find config file " + configPath);
-
-            StartProcess(processFileName, "/systray:false /trace:error /site:\"" + siteName + "\" /config:\"" + fullConfigPath + "\"");
+            StartProcess(processFileName, "/systray:false /trace:error /site:\"" + siteName + "\"");
 
             var match = WaitForConsoleOutputMatching(@"Successfully registered URL ""([^""]*)""");
 
