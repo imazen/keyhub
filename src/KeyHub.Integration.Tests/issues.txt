@@ -1,22 +1,11 @@
-﻿license response format:
-	<licenses>
-	  <license>
-		<value>RG9tYWluOiBmb29iYXIuY29tCk93bmVyTmFtZTogbGljZW5zZS5vd25lck5hbWUKSXNzdWVkOiAxMC8yNS8yMDEzIDc6MDA6MDAgQU0KRXhwaXJlczogMTAvMjUvMjAxNCA3OjAwOjAwIEFNCkZlYXR1cmVzOiA5NmMxOGQ5YS1hOTFjLTQ2YzAtOTU3OC0zNGY5MGQwMjQyNTQK</value>
-		<signature>c+eF8jeWDj2befKBm82/ld9B1GcE8NT7+u3cKnoKp79ABraDACaei5LOe1JJtGB3HxJPsjhZdxdhnxhDeacz5zAbZ8CV8Dn80uyo8XQohUNqw3zxnhE7TDkQPGr+4789+COBybbFTfcURFtQ2dOQnvNJ7HuXPZrAY0oGMDYYo9z2Qb96gzlE4xAaSUZ2N6l36j2XKpj3zWoowooEbq0wJwBwttLKbU7ArL6aJIG2PdgVQaIz4UDuZiy++DextGeu4yoIoX8dcnohifKijrKJIuNpi68faf7EzoF0XjUcXnS45kF29qXfHA7h6moZ9HcJMP0V/ckGNYjJB2J8+6Gs7g==</signature>
-	  </license>
-	</licenses>
-
-
-domain licenses will be generated even if sku.AutoDomainDuration is null
-        /// <summary>
-        /// How long auto-generated domain licenses are valid before they must be auto-renewed
-        /// Leave empty to disable auto domains.
-        /// </summary>
-        public int? AutoDomainDuration { get; set; }
-
-
+﻿
 What algorithm should be used for signing the licenses?  (using SHA256Managed since it is in .NET 2.0)
-Did we need to keep the licenses encrypted on the client for any reason?
+	I believe this is not actually very significant.  If we use a weak hash, I believe the only 
+	risk created is that there are other documents that would have the same hash that could 
+	validated by the signature-- but such documents would be highly unlikely to be formatted like
+	a license.  I believe using a weaker hash would not risk the private key being shared, that 
+	is protected by how RSA applies the private key to the hash.  I am using SHA256Managed for 
+	now since it is available as far back as .NET 2.0.
 
 
 How to repro 50 character email problem?
@@ -30,7 +19,7 @@ Do the integration tests work on other people's machines ok?
   (warning: They will delete your localhost keyhub database)
   (They do require stopping IISExpress if its already debugging)
   ->  PhantomJS was't installed.  After being installed, it was't on the path.
-  ->  It fails due to a config issue.  Stop bin-copying the config file and use whatever VS has.
+  ->  It may assume that IISEXpress has had a chance to create a config entry for KeyHub in the user's applicationhost.config
 
 
 
