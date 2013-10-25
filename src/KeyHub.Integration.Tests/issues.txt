@@ -1,5 +1,4 @@
 ﻿
-KeyHub.Client shouldn't have a dependency on ImageResizer  
 
 
 How to repro 50 character email problem?

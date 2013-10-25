@@ -32,9 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ImageResizer">
-      <HintPath>..\packages\ImageResizer.3.4.0\lib\ImageResizer.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Web" />
@@ -43,7 +40,6 @@
   <ItemGroup>
     <Compile Include="DomainLicense.cs" />
     <Compile Include="DomainUtility.cs" />
-    <Compile Include="LicenseVerifier.cs" />
     <Compile Include="LicenseDownloader.cs" />
     <Compile Include="LicenseDecrypter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

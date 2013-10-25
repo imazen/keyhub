@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Xml;
-using ImageResizer.Configuration;
+
 
 namespace KeyHub.Client
 {

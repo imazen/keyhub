@@ -71,16 +71,5 @@ namespace KeyHub.Client
                 return r.Encrypt(Encoding.UTF8.GetBytes(SerializeUnencrypted()), false);
             }
         }
-        /// <summary>
-        /// Returns a human readable, single-line description of the license
-        /// </summary>
-        /// <returns></returns>
-        internal string GetShortDescription()
-        {
-            StringBuilder sb = new StringBuilder(OwnerName + " - " + Domain + " - " + Issued.ToString() + " - " + Expires.ToString() + " - ");
-            foreach (var id in Features)
-                sb.Append(LicenseVerifier.GetFriendlyName(id) + " ");
-            return sb.ToString().TrimEnd();
-        }
     }
 }
