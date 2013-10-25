@@ -15,9 +15,9 @@ namespace KeyHub.Client
         /// </summary>
         /// <param name="domainFeatures"></param>
         /// <returns></returns>
-        public List<byte[]> RequestLicenses(Uri licensingUrl, Guid appId, Dictionary<string, List<Guid>> domainFeatures)
+        public List<KeyValuePair<string, byte[]>> RequestLicenses(Uri licensingUrl, Guid appId, Dictionary<string, List<Guid>> domainFeatures)
         {
-            var results = new List<byte[]>();
+            var results = new List<KeyValuePair<string,byte[]>>();
 
             XmlDocument doc = new XmlDocument();
             var root = doc.CreateElement("licenseRequest");
@@ -57,7 +57,17 @@ namespace KeyHub.Client
                     var lic = l as XmlElement;
                     if (lic != null && lic.Name == "license")
                     {
-                        results.Add(Convert.FromBase64String(lic.InnerText.Trim()));
+                        var signatures = lic.GetElementsByTagName("signature");
+                        if (signatures.Count != 1)
+                            continue;
+
+                        var values = lic.GetElementsByTagName("value");
+                        if (values.Count != 1)
+                            continue;
+
+                        results.Add(new KeyValuePair<string, byte[]>(
+                            values[0].InnerText, 
+                            Convert.FromBase64String(signatures[0].InnerText)));
                     }
                 }
             }

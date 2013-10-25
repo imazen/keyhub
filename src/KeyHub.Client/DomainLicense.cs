@@ -7,11 +7,9 @@ namespace KeyHub.Client
 {
     public class DomainLicense
     {
-        internal DomainLicense(string publicKeyXml,byte[] encryptedLicense, LicenseDecrypter v)
+        internal DomainLicense(string licenseText)
         {
-            Decrypted = v.Decrypt(publicKeyXml, encryptedLicense);
-            Encrypted = encryptedLicense;
-            string[] lines = Decrypted.Split('\n');
+            string[] lines = licenseText.Split('\n');
             foreach (string l in lines)
             {
                 int colon = l.IndexOf(':');
@@ -38,8 +36,6 @@ namespace KeyHub.Client
             }
         }
 
-        internal string Decrypted { get; private set; }
-        internal byte[] Encrypted { get; private set; }
         internal string Domain { get; private set; }
         internal string OwnerName { get; private set; }
         internal DateTime Issued { get; private set; }
@@ -61,15 +57,6 @@ namespace KeyHub.Client
                    "Issued: " + Issued.ToString() + "\n" +
                    "Expires: " + Expires.ToString() + "\n" +
                    "Features: " + Join(Features) + "\n";
-        }
-
-        internal byte[] SerializeAndEncrypt(string xmlKeyPair)
-        {
-            using (var r = new RSACryptoServiceProvider(2048))
-            {
-                r.FromXmlString(xmlKeyPair);
-                return r.Encrypt(Encoding.UTF8.GetBytes(SerializeUnencrypted()), false);
-            }
         }
     }
 }

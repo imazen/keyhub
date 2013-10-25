@@ -120,26 +120,34 @@ namespace KeyHub.Web.Api.Controllers
 
             foreach (var domainValidationResult in domainValidationResults)
             {
-                xLicenses.Add(new XElement(Constants.LicenseTag, Encrypt(domainValidationResult.Serialize(), domainValidationResult.KeyBytes)));
+                var value = domainValidationResult.Serialize();
+                var valueElement = new XElement(Constants.LicenseValueTag, value);
+
+                var signature = SignData(value, domainValidationResult.KeyBytes);
+                var signatureElement = new XElement(Constants.LicenseSignatureTag, signature);
+
+
+                var licenseElement = new XElement(Constants.LicenseTag, valueElement, signatureElement);
+                xLicenses.Add(licenseElement);
             }
 
             return xLicenses.ToString();
         }
 
         /// <summary>
-        /// Get Base64 string encrypted RSA 
+        /// Get Base64 string RSA signature 
         /// </summary>
         /// <param name="text"></param>
         /// <param name="keyBytes">Blob of RSA private key</param>
         /// <returns>Encrypted text</returns>
-        private static string Encrypt(string text, byte[] keyBytes)
+        public static string SignData(string text, byte[] keyBytes)
         {
             using (var r = new RSACryptoServiceProvider(2048, new CspParameters() { Flags = CspProviderFlags.NoPrompt | CspProviderFlags.CreateEphemeralKey }))
             {
                 try
                 {
                     r.ImportCspBlob(keyBytes);
-                    return Convert.ToBase64String(r.Encrypt(Encoding.UTF8.GetBytes(text), false));
+                    return Convert.ToBase64String(r.SignData(Encoding.UTF8.GetBytes(text), new SHA256Managed()));
                 }
                 finally
                 {

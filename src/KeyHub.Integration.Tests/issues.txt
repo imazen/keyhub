@@ -1,4 +1,6 @@
 ﻿
+What algorithm should be used for signing the licenses?  (using SHA256Managed since it is in .NET 2.0)
+Did we need to keep the licenses encrypted on the client for any reason?
 
 
 How to repro 50 character email problem?
