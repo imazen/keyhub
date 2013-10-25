@@ -1,4 +1,13 @@
-﻿domain licenses will be generated even if sku.AutoDomainDuration is null
+﻿license response format:
+	<licenses>
+	  <license>
+		<value>RG9tYWluOiBmb29iYXIuY29tCk93bmVyTmFtZTogbGljZW5zZS5vd25lck5hbWUKSXNzdWVkOiAxMC8yNS8yMDEzIDc6MDA6MDAgQU0KRXhwaXJlczogMTAvMjUvMjAxNCA3OjAwOjAwIEFNCkZlYXR1cmVzOiA5NmMxOGQ5YS1hOTFjLTQ2YzAtOTU3OC0zNGY5MGQwMjQyNTQK</value>
+		<signature>c+eF8jeWDj2befKBm82/ld9B1GcE8NT7+u3cKnoKp79ABraDACaei5LOe1JJtGB3HxJPsjhZdxdhnxhDeacz5zAbZ8CV8Dn80uyo8XQohUNqw3zxnhE7TDkQPGr+4789+COBybbFTfcURFtQ2dOQnvNJ7HuXPZrAY0oGMDYYo9z2Qb96gzlE4xAaSUZ2N6l36j2XKpj3zWoowooEbq0wJwBwttLKbU7ArL6aJIG2PdgVQaIz4UDuZiy++DextGeu4yoIoX8dcnohifKijrKJIuNpi68faf7EzoF0XjUcXnS45kF29qXfHA7h6moZ9HcJMP0V/ckGNYjJB2J8+6Gs7g==</signature>
+	  </license>
+	</licenses>
+
+
+domain licenses will be generated even if sku.AutoDomainDuration is null
         /// <summary>
         /// How long auto-generated domain licenses are valid before they must be auto-renewed
         /// Leave empty to disable auto domains.

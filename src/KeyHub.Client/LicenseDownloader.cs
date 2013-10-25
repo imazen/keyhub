@@ -11,13 +11,13 @@ namespace KeyHub.Client
     public class LicenseDownloader
     {
         /// <summary>
-        /// Performs a remote request to the license server to get 
+        /// Performs a remote request to the license server to get a list of license and signature pairs
         /// </summary>
         /// <param name="domainFeatures"></param>
         /// <returns></returns>
-        public List<KeyValuePair<string, byte[]>> RequestLicenses(Uri licensingUrl, Guid appId, Dictionary<string, List<Guid>> domainFeatures)
+        public List<KeyValuePair<string, string>> RequestLicenses(Uri licensingUrl, Guid appId, Dictionary<string, List<Guid>> domainFeatures)
         {
-            var results = new List<KeyValuePair<string,byte[]>>();
+            var results = new List<KeyValuePair<string,string>>();
 
             XmlDocument doc = new XmlDocument();
             var root = doc.CreateElement("licenseRequest");
@@ -65,9 +65,9 @@ namespace KeyHub.Client
                         if (values.Count != 1)
                             continue;
 
-                        results.Add(new KeyValuePair<string, byte[]>(
+                        results.Add(new KeyValuePair<string, string>(
                             values[0].InnerText, 
-                            Convert.FromBase64String(signatures[0].InnerText)));
+                            signatures[0].InnerText));
                     }
                 }
             }

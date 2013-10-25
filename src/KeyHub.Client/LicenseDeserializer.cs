@@ -7,7 +7,7 @@ namespace KeyHub.Client
 {
     public class LicenseDeserializer
     {
-        public Dictionary<string, List<DomainLicense>> DeserializeAll(string publicKeyXml, ICollection<KeyValuePair<string,byte[]>> licensesAndSignatures)
+        public Dictionary<string, List<DomainLicense>> DeserializeAll(string publicKeyXml, ICollection<KeyValuePair<string,string>> licensesAndSignatures)
         {
             var licenses = new Dictionary<string, List<DomainLicense>>(StringComparer.OrdinalIgnoreCase);
 
@@ -18,10 +18,11 @@ namespace KeyHub.Client
 
                 foreach (var licenseAndSignature in licensesAndSignatures)
                 {
-                    var domainLicense = new DomainLicense(licenseAndSignature.Key);
+                    var licenseBytes = Convert.FromBase64String(licenseAndSignature.Key);
+                    var domainLicense = new DomainLicense(Encoding.UTF8.GetString(licenseBytes));
 
-                    if (!r.VerifyData(Encoding.UTF8.GetBytes(licenseAndSignature.Key), new SHA256Managed(),
-                            licenseAndSignature.Value))
+                    if (!r.VerifyData(licenseBytes, new SHA256Managed(),
+                            Convert.FromBase64String(licenseAndSignature.Value)))
                     {
                         throw new Exception("Signature failed for license of domain " + domainLicense.Domain);
                     }

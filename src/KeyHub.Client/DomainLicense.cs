@@ -36,11 +36,11 @@ namespace KeyHub.Client
             }
         }
 
-        internal string Domain { get; private set; }
-        internal string OwnerName { get; private set; }
-        internal DateTime Issued { get; private set; }
-        internal DateTime Expires { get; private set; }
-        internal IList<Guid> Features { get; private set; }
+        public string Domain { get; private set; }
+        public string OwnerName { get; private set; }
+        public DateTime Issued { get; private set; }
+        public DateTime Expires { get; private set; }
+        public IList<Guid> Features { get; private set; }
 
         internal string Join(ICollection<Guid> items)
         {

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Security.Cryptography;
 using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +19,7 @@ using KeyHub.Model;
 using Moq;
 using Newtonsoft.Json;
 using Xunit;
+using DomainLicense = KeyHub.Client.DomainLicense;
 
 namespace KeyHub.Integration.Tests
 {
@@ -45,7 +48,7 @@ namespace KeyHub.Integration.Tests
                 Assert.Contains(scenario.FeatureCode, result.Features);
             }
         }
-
+        
         [Fact]
         [CleanDatabase]
         public void CanValidateLicenseRemotely()
@@ -58,12 +61,17 @@ namespace KeyHub.Integration.Tests
             {
                 var licensingUrl = site.UrlFor("/api/LicenseValidation");
 
-                var encryptedLicenses = new LicenseDownloader().RequestLicenses(licensingUrl, scenario.AppKey, new Dictionary<string,List<Guid>>()
+                var licensesAndSignature = new LicenseDownloader().RequestLicenses(licensingUrl, scenario.AppKey, new Dictionary<string, List<Guid>>()
                 {
                     {domain, new List<Guid>() {scenario.FeatureCode}}
                 });
 
-                var newLicenses = new LicenseDecrypter().DecryptAll(scenario.PublicKeyXml, encryptedLicenses);
+                var newLicenses = new LicenseDeserializer().DeserializeAll(scenario.PublicKeyXml, licensesAndSignature);
+
+                DomainLicense license = newLicenses["foobar.com"].Single();
+
+                Assert.Equal(license.Domain, domain);
+                Assert.Contains(scenario.FeatureCode, license.Features);
             }
         }
     }
