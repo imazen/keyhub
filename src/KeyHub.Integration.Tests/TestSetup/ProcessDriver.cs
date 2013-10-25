@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
@@ -93,6 +94,17 @@ namespace KeyHub.Integration.Tests.TestSetup
         {
             Dispose(false);
         }
+
+        public List<string> GetConsoleAndErrorOutput()
+        {
+            List<string> result = new List<string>();
+
+            string nextLine;
+            while(output.TryTake(out nextLine))
+                result.Add(nextLine);
+
+            return result;
+        } 
 
         protected Match WaitForConsoleOutputMatching(string pattern, int msMaxWait = 10000, int msWaitInterval = 500)
         {
