@@ -98,7 +98,7 @@ namespace KeyHub.Model
         public int? LicenseDuration { get; set; }
 
         /// <summary>
-        /// How long auto-generated domain licenses are valid before they must be auto-renewed
+        /// How long auto-generated domain licenses are valid before they must be auto-renewed in months
         /// Leave empty to disable auto domains.
         /// </summary>
         public int? AutoDomainDuration { get; set; }

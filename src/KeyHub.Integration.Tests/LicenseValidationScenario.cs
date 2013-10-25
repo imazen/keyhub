@@ -74,7 +74,8 @@ namespace KeyHub.Integration.Tests
                 {
                     SkuCode = "super sku",
                     PrivateKeyId = privateKey.PrivateKeyId,
-                    VendorId = vendor.ObjectId
+                    VendorId = vendor.ObjectId,
+                    AutoDomainDuration = 12
                 });
 
                 var feature = InsertItem(dataContext, dataContext.Features, new Feature()

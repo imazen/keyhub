@@ -1,4 +1,11 @@
-﻿
+﻿domain licenses will be generated even if sku.AutoDomainDuration is null
+        /// <summary>
+        /// How long auto-generated domain licenses are valid before they must be auto-renewed
+        /// Leave empty to disable auto domains.
+        /// </summary>
+        public int? AutoDomainDuration { get; set; }
+
+
 What algorithm should be used for signing the licenses?  (using SHA256Managed since it is in .NET 2.0)
 Did we need to keep the licenses encrypted on the client for any reason?
 
