@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Xml;
 using ImageResizer.Configuration;
@@ -19,7 +21,7 @@ namespace KeyHub.Client
             var results = new List<byte[]>();
 
             XmlDocument doc = new XmlDocument();
-            var root = doc.CreateElement("licenseReqeust");
+            var root = doc.CreateElement("licenseRequest");
             doc.AppendChild(root);
             var appIdElement = doc.CreateElement("appId");
             appIdElement.AppendChild(doc.CreateTextNode(appId.ToString()));
@@ -36,10 +38,10 @@ namespace KeyHub.Client
                     feature.AppendChild(doc.CreateTextNode(g.ToString()));
                     d.AppendChild(feature);
                 }
-                root.AppendChild(d);
+                domains.AppendChild(d);
             }
             var request = (System.Net.HttpWebRequest)WebRequest.Create((Uri) licensingUrl);
-            request.ContentType = "application/xml";
+            request.ContentType = "application/xml; charset=utf-8";
             request.Method = "POST";
             byte[] body = UTF8Encoding.UTF8.GetBytes(doc.OuterXml);
             request.ContentLength = body.Length;
