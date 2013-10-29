@@ -9,6 +9,8 @@
 
         public static readonly string LicensesTag = "licenses";
         public static readonly string LicenseTag = "license";
+        public static readonly string LicenseSignatureTag = "signature";
+        public static readonly string LicenseValueTag = "value";
 
         //Send out a warning 4 weeks in advance
         public const int LicenseExpireWarningDays = 4 * 7;

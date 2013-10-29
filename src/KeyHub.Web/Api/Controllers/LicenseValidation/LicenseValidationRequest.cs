@@ -4,7 +4,7 @@ namespace KeyHub.Web.Api.Controllers.LicenseValidation
 {
     /// <remarks/>
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
+    [System.Xml.Serialization.XmlRootAttribute(ElementName = "licenseRequest", Namespace = "", IsNullable = false)]
     public partial class LicenseValidationRequest
     {
 
@@ -13,6 +13,7 @@ namespace KeyHub.Web.Api.Controllers.LicenseValidation
         private LicenseValidationRequestDomain[] domainsField;
 
         /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("appId")]
         public Guid AppId
         {
             get
@@ -26,7 +27,9 @@ namespace KeyHub.Web.Api.Controllers.LicenseValidation
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlArrayItemAttribute("Domain", IsNullable = false)]
+        /// 
+        [System.Xml.Serialization.XmlArrayAttribute("domains", IsNullable = false)]
+        [System.Xml.Serialization.XmlArrayItemAttribute("domain", IsNullable = false)]
         public LicenseValidationRequestDomain[] Domains
         {
             get
@@ -50,7 +53,7 @@ namespace KeyHub.Web.Api.Controllers.LicenseValidation
         private string nameField;
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("Feature")]
+        [System.Xml.Serialization.XmlElementAttribute("feature")]
         public Guid[] Feature
         {
             get

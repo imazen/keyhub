@@ -74,6 +74,10 @@
     <Compile Include="BusinessRules\UniqueFeatureCodeRule.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\KeyHub.Client\KeyHub.Client.csproj">
+      <Project>{46f597bd-70d9-4a1c-8d91-b4ca2d604c36}</Project>
+      <Name>KeyHub.Client</Name>
+    </ProjectReference>
     <ProjectReference Include="..\KeyHub.Common\KeyHub.Common.csproj">
       <Project>{cabf1962-0677-497f-b4a8-41edf551d6d3}</Project>
       <Name>KeyHub.Common</Name>

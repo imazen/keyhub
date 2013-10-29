@@ -1,4 +1,5 @@
-﻿@model KeyHub.Web.Models.LoginViewModel
+﻿@using MvcFlash.Core.Extensions
+@model KeyHub.Web.Models.LoginViewModel
 
 @{
     ViewBag.Title = "Log in";
@@ -7,6 +8,8 @@
     <h1>@ViewBag.Title.</h1>
     
 </hgroup>
+
+@Html.Flash()
 
 <table cellpadding="30px">
     <tr>

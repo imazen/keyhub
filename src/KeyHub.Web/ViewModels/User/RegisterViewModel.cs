@@ -11,6 +11,7 @@ namespace KeyHub.Web.ViewModels.User
         [Required]
         [DataType(DataType.EmailAddress)]
         [Display(Name = "Email address")]
+        [EmailAddress(ErrorMessage = "The email address is not valid.")]
         public string Email { get; set; }
 
         [Required]

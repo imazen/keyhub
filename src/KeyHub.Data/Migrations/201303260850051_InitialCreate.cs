@@ -33,9 +33,10 @@ namespace KeyHub.Data.Migrations
                     {
                         UserId = c.Int(nullable: false, identity: true),
                         UserName = c.String(nullable: false, maxLength: 256),
-                        Email = c.String(maxLength: 256),
+                        Email = c.String(nullable: false, maxLength: 256),
                     })
-                .PrimaryKey(t => t.UserId);
+                .PrimaryKey(t => t.UserId)
+                .Index(t => t.Email, unique:true);
             
             CreateTable(
                 "dbo.webpages_UsersInRoles",
