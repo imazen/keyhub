@@ -33,22 +33,8 @@ namespace KeyHub.Data.Boot
             if (!WebSecurity.UserExists("admin"))
             {
                 // Create administrator user
-                WebSecurity.CreateUserAndAccount("admin", "password", new { Email = "websites@lucrasoft.nl" });
+                WebSecurity.CreateUserAndAccount("admin", "password", new { Email = "admin@example.com" });
                 Roles.AddUserToRole("admin", Role.SystemAdmin);
-            }
-            if (!WebSecurity.UserExists("fleppie"))
-            {
-                // Create administrator user
-                WebSecurity.CreateUserAndAccount("fleppie", "test", new { Email = "floris@lucrasoft.nl" });
-                Roles.AddUserToRole("fleppie", Role.SystemAdmin);
-            }
-
-            // Create an imazen account
-            if (!WebSecurity.UserExists("imazen"))
-            {
-                // Create administrator user
-                WebSecurity.CreateUserAndAccount("imazen", "nathanael", new { Email = "nathanael.jones@gmail.com" });
-                Roles.AddUserToRole("imazen", Role.SystemAdmin);
             }
 
             return new KernelEventCompletedArguments { AllowContinue = (!issueList.Any()), KernelEventSucceeded = (!issueList.Any()), Issues = issueList.ToArray() };
