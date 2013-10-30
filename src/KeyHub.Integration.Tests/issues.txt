@@ -8,6 +8,8 @@
     - private key should be encrypted with a private key that is set in the app-setting
 
 
+  - lucrasoft.nl is in the codebase in a few places
+
   - what to do about usernames that are in the sourcecode?
     - have a default admin and warn people to change it
     - require an appSetting with the admin email, require OpenID login
