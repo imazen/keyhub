@@ -76,7 +76,7 @@ namespace KeyHub.Web.Controllers
 
                         context.SaveChanges();
                     }
-                    return RedirectToAction("Details", "Vendor", new { key = viewModel.PrivateKey.VendorId });
+                    return RedirectToAction("Details", "Vendor", new { key = viewModel.VendorId });
                 }
                 else
                 {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -9,7 +10,7 @@ namespace KeyHub.Web.ViewModels.PrivateKey
     /// <summary>
     /// Viewmodel for creation of a PrivateKey
     /// </summary>
-    public class PrivateKeyCreateViewModel : BaseViewModel<Model.PrivateKey>
+    public class PrivateKeyCreateViewModel
     {
         public PrivateKeyCreateViewModel() : base() { }
 
@@ -19,25 +20,35 @@ namespace KeyHub.Web.ViewModels.PrivateKey
         /// <param name="vendor">Vendor of this PrivateKey</param>
         public PrivateKeyCreateViewModel(Model.Vendor vendor)
         {
-            var privateKey = new Model.PrivateKey();
-            privateKey.SetKeyBytes();
-
-            PrivateKey = new PrivateKeyViewModel(privateKey);
-            PrivateKey.VendorId = vendor.ObjectId;
+            VendorId = vendor.ObjectId;
         }
-        
+
         /// <summary>
-        /// Edited privateKey
+        /// The vendor this key is owned by.
         /// </summary>
-        public PrivateKeyViewModel PrivateKey { get; set; }
+        [Required]
+        public Guid VendorId { get; set; }
+
+        /// <summary>
+        /// Display name for this private key
+        /// </summary>
+        [Required]
+        [StringLength(256)]
+        public string DisplayName { get; set; }
 
         /// <summary>
         /// Convert back to PrivateKey instance
         /// </summary>
         /// <returns>New privateKey containing viewmodel data </returns>
-        public override Model.PrivateKey ToEntity(Model.PrivateKey original)
+        public Model.PrivateKey ToEntity(Model.PrivateKey original)
         {
-            return PrivateKey.ToEntity(null);
+            var privateKey = new Model.PrivateKey();
+            privateKey.SetKeyBytes();
+
+            privateKey.DisplayName = DisplayName;
+            privateKey.VendorId = VendorId;
+
+            return privateKey;
         }
     }
 }

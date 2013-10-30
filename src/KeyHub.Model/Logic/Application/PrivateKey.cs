@@ -30,11 +30,6 @@ namespace KeyHub.Model
             return GetXmlString(false);
         }
 
-        public string GetPrivateKeyXmlString()
-        {
-            return GetXmlString(true);
-        }
-
         public string GetXmlString(bool includePrivate)
         {
             using (var r = new RSACryptoServiceProvider(2048, new CspParameters() { Flags = CspProviderFlags.CreateEphemeralKey | CspProviderFlags.NoPrompt }))
@@ -50,21 +45,6 @@ namespace KeyHub.Model
                 }
             }
 
-        }
-
-        public void SetPrivateKeyXmlString(string privateKeyXmlString)
-        {
-            using (var r = new RSACryptoServiceProvider(2048, new CspParameters() { Flags = CspProviderFlags.CreateEphemeralKey | CspProviderFlags.NoPrompt }))
-            {
-                try{
-                    r.FromXmlString(privateKeyXmlString);
-                    KeyBytes = r.ExportCspBlob(true);
-                }
-                finally
-                {
-                    r.PersistKeyInCsp = false; //Default behavior is to store on filesystem; this is a security issue
-                }
-            }
         }
     }
 }
