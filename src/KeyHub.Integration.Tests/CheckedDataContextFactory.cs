@@ -47,7 +47,7 @@ namespace KeyHub.Integration.Tests
 
         public void Dispose()
         {
-            /*  I think we have a bug- the code is called .Dispose() on the contexts, but Windsor expects factory.Release(context) to be used.
+            /*  Not sure this test should pass (it doesn't for a lot of the KeyHub business logic code)
             if (releaseCount != instanceCount)
                 throw new Exception(String.Format("CheckedDataContextFactory detected a leak- {0} allocations had {1} releases. (the values should match)", instanceCount, releaseCount));
              */
