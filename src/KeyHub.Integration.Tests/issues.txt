@@ -1,4 +1,7 @@
 ﻿
+Why does CanValidateLicense test fail when its not ran first?
+Probably need to clear connection string pool.
+
 Possible next steps:
 	- explore/understand the existing admin web pages
 	    - to enable, need membership role

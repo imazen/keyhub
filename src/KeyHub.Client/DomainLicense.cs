@@ -7,8 +7,34 @@ namespace KeyHub.Client
 {
     public class DomainLicense
     {
-        internal DomainLicense(string licenseText)
+        public DomainLicense(
+            string domain, 
+            string ownerName, 
+            DateTime issued, 
+            DateTime? expires,
+            IList<Guid> features)
         {
+            Domain = domain;
+            OwnerName = ownerName;
+            Issued = issued;
+            Expires = expires;
+            Features = features;
+        }
+
+        internal DomainLicense()
+        {
+        }
+             
+        public string Domain { get; private set; }
+        public string OwnerName { get; private set; }
+        public DateTime Issued { get; private set; }
+        public DateTime? Expires { get; private set; }
+        public IList<Guid> Features { get; private set; }
+
+        public static DomainLicense Parse(string licenseText)
+        {
+            var result = new DomainLicense();
+
             string[] lines = licenseText.Split('\n');
             foreach (string l in lines)
             {
@@ -19,10 +45,21 @@ namespace KeyHub.Client
 
                 switch (key)
                 {
-                    case "domain": Domain = value; break;
-                    case "owner": OwnerName = value; break;
-                    case "issued": Issued = DateTime.Parse(value); break;
-                    case "expires": Expires = DateTime.Parse(value); break;
+                    case "domain": result.Domain = value; break;
+                    case "owner": result.OwnerName = value; break;
+                    case "issued": result.Issued = DateTime.Parse(value); break;
+                    case "expires":
+
+                        if (value.Trim().Length == 0)
+                        {
+                            result.Expires = null;
+                        }
+                        else
+                        {
+                            result.Expires = DateTime.Parse(value);
+                        }
+
+                        break;
                     case "features":
                         List<Guid> ids = new List<Guid>();
                         string[] parts = value.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
@@ -30,17 +67,24 @@ namespace KeyHub.Client
                         {
                             ids.Add(new Guid(p));
                         }
-                        Features = ids;
+                        result.Features = ids;
                         break;
                 }
             }
+
+            return result;
         }
 
-        public string Domain { get; private set; }
-        public string OwnerName { get; private set; }
-        public DateTime Issued { get; private set; }
-        public DateTime Expires { get; private set; }
-        public IList<Guid> Features { get; private set; }
+        public string SerializeUnencrypted()
+        {
+            string expires = Expires.HasValue ? Expires.Value.ToUniversalTime().ToString() : string.Empty;
+
+            return "Domain: " + Domain.Replace('\n', ' ') + "\n" +
+                   "OwnerName: " + OwnerName.Replace('\n', ' ') + "\n" +
+                   "Issued: " + Issued.ToString() + "\n" +
+                   "Expires: " + expires + "\n" +
+                   "Features: " + Join(Features) + "\n";
+        }
 
         internal string Join(ICollection<Guid> items)
         {
@@ -48,15 +92,6 @@ namespace KeyHub.Client
             foreach (Guid g in items)
                 sb.Append(g.ToString() + ",");
             return sb.ToString().TrimEnd(',');
-        }
-
-        internal string SerializeUnencrypted()
-        {
-            return "Domain: " + Domain.Replace('\n', ' ') + "\n" +
-                   "OwnerName: " + OwnerName.Replace('\n', ' ') + "\n" +
-                   "Issued: " + Issued.ToString() + "\n" +
-                   "Expires: " + Expires.ToString() + "\n" +
-                   "Features: " + Join(Features) + "\n";
         }
     }
 }

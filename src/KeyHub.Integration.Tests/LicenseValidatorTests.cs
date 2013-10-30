@@ -44,8 +44,8 @@ namespace KeyHub.Integration.Tests
 
                 var result = validator.Validate(scenario.AppKey, new[] { new DomainValidation(domain, scenario.FeatureCode) }).Single();
 
-                Assert.Equal(result.DomainName, domain);
-                Assert.Contains(scenario.FeatureCode, result.Features);
+                Assert.Equal(result.DomainLicense.Domain, domain);
+                Assert.Contains(scenario.FeatureCode, result.DomainLicense.Features);
             }
         }
         

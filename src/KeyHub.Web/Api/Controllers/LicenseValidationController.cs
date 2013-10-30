@@ -120,7 +120,7 @@ namespace KeyHub.Web.Api.Controllers
 
             foreach (var domainValidationResult in domainValidationResults)
             {
-                var value = domainValidationResult.Serialize();
+                var value = domainValidationResult.DomainLicense.SerializeUnencrypted();
                 var valueElement = new XElement(Constants.LicenseValueTag, Convert.ToBase64String(Encoding.UTF8.GetBytes(value)));
 
                 var signature = SignData(value, domainValidationResult.KeyBytes);

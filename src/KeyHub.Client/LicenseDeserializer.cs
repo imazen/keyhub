@@ -19,7 +19,7 @@ namespace KeyHub.Client
                 foreach (var licenseAndSignature in licensesAndSignatures)
                 {
                     var licenseBytes = Convert.FromBase64String(licenseAndSignature.Key);
-                    var domainLicense = new DomainLicense(Encoding.UTF8.GetString(licenseBytes));
+                    var domainLicense = DomainLicense.Parse(Encoding.UTF8.GetString(licenseBytes));
 
                     if (!r.VerifyData(licenseBytes, new SHA256Managed(),
                             Convert.FromBase64String(licenseAndSignature.Value)))

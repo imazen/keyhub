@@ -608,6 +608,10 @@
       <Project>{7fa54424-5866-4a33-ab6b-01a59d0843c7}</Project>
       <Name>KeyHub.BusinessLogic</Name>
     </ProjectReference>
+    <ProjectReference Include="..\KeyHub.Client\KeyHub.Client.csproj">
+      <Project>{46F597BD-70D9-4A1C-8D91-B4CA2D604C36}</Project>
+      <Name>KeyHub.Client</Name>
+    </ProjectReference>
     <ProjectReference Include="..\KeyHub.Common\KeyHub.Common.csproj">
       <Project>{cabf1962-0677-497f-b4a8-41edf551d6d3}</Project>
       <Name>KeyHub.Common</Name>
