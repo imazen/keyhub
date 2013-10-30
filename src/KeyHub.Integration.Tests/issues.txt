@@ -1,18 +1,22 @@
 ﻿
-What algorithm should be used for signing the licenses?  (using SHA256Managed since it is in .NET 2.0)
-	I believe this is not actually very significant.  If we use a weak hash, I believe the only 
-	risk created is that there are other documents that would have the same hash that could 
-	validated by the signature-- but such documents would be highly unlikely to be formatted like
-	a license.  I believe using a weaker hash would not risk the private key being shared, that 
-	is protected by how RSA applies the private key to the hash.  I am using SHA256Managed for 
-	now since it is available as far back as .NET 2.0.
+Possible next steps:
+	- explore/understand the existing admin web pages
+	    - to enable, need membership role
+		- how are the following created?  transactions, licenses, and licensed applications?
+
+	- consider alternatives to domain normalization
+	     - Risk is that identifying which domain labels correspond to a top-level domain is non-trivial, and normalization puts that decision making in a hard-to-change-place
+		 - Alternative would be to pass the entire domain, but have the license validation look for a domainlicense with a matching substring
+	- is the licensing plugin going to be able to detect the domain?  What if the server is behind a load balancer?
+	- figure out why google OAuth stopped working
 
 
-How to repro 50 character email problem?
-  -> local accounts seem to work ok with long email.  
-  Maybe OpenID has issues?  Hard to test:
-	  Google max name size is 30.
-	  I have a long MSN account, but microsoft OpenID isn't working  (need appsettings to configure that OpenID provider)
+Shelved concerns:
+	How to repro 50 character email problem?
+	  -> local accounts seem to work ok with long email.  
+	  Maybe OpenID has issues?  Hard to test:
+		  Google max name size is 30.
+		  I have a long MSN account, but microsoft OpenID isn't working  (need appsettings to configure that OpenID provider)
 
 
 Do the integration tests work on other people's machines ok?
@@ -24,7 +28,6 @@ Do the integration tests work on other people's machines ok?
 
 
 Do we strongly couple the users email with username?
-
 
 
 Poor messaging when registering an existing user account
