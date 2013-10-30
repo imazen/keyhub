@@ -1,0 +1,52 @@
+﻿
+Why does CanValidateLicense test fail when its not ran first?
+Probably need to clear connection string pool.
+
+Possible next steps:
+	- Do we have a bug in the DataContext usage?  The code is calling .Dispose() on the contexts, but Windsor expects factory.Release(context) to be used.
+	  Windsor may be tracking all these instances.  (if we are releasing the factories, then windsor is fine)
+
+	- explore/understand the existing admin web pages
+	    - to enable, need membership role
+		- how are the following created?  transactions, licenses, and licensed applications?
+
+	- consider alternatives to domain normalization
+	     - Risk is that identifying which domain labels correspond to a top-level domain is non-trivial, and normalization puts that decision making in a hard-to-change-place
+		 - Alternative would be to pass the entire domain, but have the license validation look for a domainlicense with a matching substring
+	- is the licensing plugin going to be able to detect the domain?  What if the server is behind a load balancer?
+	- figure out why google OAuth stopped working
+
+
+Shelved concerns:
+	How to repro 50 character email problem?
+	  -> local accounts seem to work ok with long email.  
+	  Maybe OpenID has issues?  Hard to test:
+		  Google max name size is 30.
+		  I have a long MSN account, but microsoft OpenID isn't working  (need appsettings to configure that OpenID provider)
+
+
+Do the integration tests work on other people's machines ok?
+  (warning: They will delete your localhost keyhub database)
+  (They do require stopping IISExpress if its already debugging)
+  ->  PhantomJS was't installed.  After being installed, it was't on the path.
+  ->  It may assume that IISEXpress has had a chance to create a config entry for KeyHub in the user's applicationhost.config
+
+
+
+Do we strongly couple the users email with username?
+
+
+Poor messaging when registering an existing user account
+   -> we should have a link to /Account/LinkAccount somewhere
+
+If the user has invalid cookies, they might get forced to error screen 
+  (to repro, login locally then delete local database.  This creates a cookie for a non-existant account)
+
+  
+have test username/password in source control (a test gmail account)
+
+  
+merge columns User.Email and User.Username into User.Email
+
+
+resharper test runner stalls if I try to run MSTest tests (it used to work, hmm.  Tests do pass when using VS test runner)

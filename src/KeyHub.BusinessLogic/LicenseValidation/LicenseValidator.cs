@@ -184,12 +184,8 @@ namespace KeyHub.BusinessLogic.LicenseValidation
         {
             return domainLicenses.Select(x => new DomainValidationResult
             {
-                DomainName = x.DomainName,
-                Expires = x.DomainLicenseExpires,
-                Issued = x.DomainLicenseIssued,
-                OwnerName = x.License.OwnerName,
+                DomainLicense = new KeyHub.Client.DomainLicense(x.DomainName, x.License.OwnerName, x.DomainLicenseIssued,  x.DomainLicenseExpires, GetFeatureCodes(x.License).ToList()),
                 KeyBytes = x.KeyBytes,
-                Features = GetFeatureCodes(x.License).ToList()
             }).ToList();
         }
 
