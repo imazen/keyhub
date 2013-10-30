@@ -3,13 +3,14 @@
   - use shared keys for accepting transactions, but those shared keys are in the code
     - vendor should have a UI for managing named shared keys, and they might have multiples
 
-  - what to do about usernames that are in the sourcecode?
-    - have a default admin and warn people to change it
-    - require an appSetting with the admin email, require OpenID login
-
   - keyhub issue for the private key
     - it shouldnt' be displayed
     - private key should be encrypted with a private key that is set in the app-setting
+
+
+  - what to do about usernames that are in the sourcecode?
+    - have a default admin and warn people to change it
+    - require an appSetting with the admin email, require OpenID login
 
 
 
