@@ -64,6 +64,7 @@
     <Compile Include="Definition\Membership\Rights\IRight.cs" />
     <Compile Include="Definition\Membership\Rights\VendorAdmin.cs" />
     <Compile Include="Definition\Membership\Rights\VendorReporting.cs" />
+    <Compile Include="Definition\Application\VendorSecret.cs" />
     <Compile Include="IModelItem.cs" />
     <Compile Include="Logic\Application\CustomerApp.cs" />
     <Compile Include="Logic\Application\DomainLicense.cs" />

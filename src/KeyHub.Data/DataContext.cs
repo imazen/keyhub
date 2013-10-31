@@ -36,6 +36,7 @@ namespace KeyHub.Data
             : base(Constants.ConnectionStringName)
         {
             this.Vendors = new FilteredDbSet<Vendor>(this);
+            this.VendorSecrets = new FilteredDbSet<VendorSecret>(this);
             this.SKUs = new FilteredDbSet<SKU>(this);
             this.Features = new FilteredDbSet<Feature>(this);
             this.SkuFeatures = new FilteredDbSet<SkuFeature>(this);
@@ -88,6 +89,8 @@ namespace KeyHub.Data
         public IDbSet<TransactionIgnoredItem> TransactionIgnoredItems { get; set; }
 
         public IDbSet<Vendor> Vendors { get; set; }
+
+        public IDbSet<VendorSecret> VendorSecrets { get; set; }
 
         public IDbSet<Customer> Customers { get; set; }
 

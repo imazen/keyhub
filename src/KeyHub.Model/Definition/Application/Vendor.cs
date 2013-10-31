@@ -66,5 +66,7 @@ namespace KeyHub.Model
         /// A list of private keys this vendor owns
         /// </summary>
         public virtual ICollection<PrivateKey> PrivateKeys { get; set; }
+
+        public virtual ICollection<VendorSecret> VendorSecrets { get; set; } 
     }
 }
