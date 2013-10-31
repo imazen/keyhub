@@ -13,7 +13,7 @@ namespace KeyHub.Tests.Common.Utils
         [Fact]
         public void CanEncryptDecrypt()
         {
-            var privateKey = "this is my secret key!";
+            var privateKey = "this is my encryption key!!";
             byte[] original = Encoding.UTF8.GetBytes("Hello world");
 
             var encrypted = SymmetricEncryption.Encrypt(original, privateKey);
