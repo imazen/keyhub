@@ -51,6 +51,8 @@ Do the integration tests work on other people's machines ok?
 Do we strongly couple the users email with username?
    -> default user (admin) does not have an email, so its hard to make username/email match.
 
+Low priority:  Vendors should be able to edit their vendor page, but not others.
+
 Poor messaging when registering an existing user account
    -> we should have a link to /Account/LinkAccount somewhere
 
