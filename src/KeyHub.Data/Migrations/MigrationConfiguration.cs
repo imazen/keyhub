@@ -5,7 +5,7 @@ namespace KeyHub.Data.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class MigrationConfiguration : DbMigrationsConfiguration<KeyHub.Data.DataContext>
+    public sealed class MigrationConfiguration : DbMigrationsConfiguration<KeyHub.Data.DataContext>
     {
         public MigrationConfiguration()
         {

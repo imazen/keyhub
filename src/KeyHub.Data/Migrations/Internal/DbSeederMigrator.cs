@@ -15,7 +15,7 @@ namespace KeyHub.Data.Migrations
     /// deploying new features and you want to include initial data). Seeders will be executing 
     /// in the correct order after all migrations have been completed.
     /// </summary>
-    internal class DbSeederMigrator<TContext> : DbMigrator where TContext : DbContext, new()
+    public class DbSeederMigrator<TContext> : DbMigrator where TContext : DbContext, new()
     {
         private static readonly System.Text.RegularExpressions.Regex _migrationIdPattern = new Regex(@"\d{15}_.+");
         private const string _migrationTypeFormat = "{0}.{1}, {2}";
@@ -25,14 +25,14 @@ namespace KeyHub.Data.Migrations
         /// Initializes a new instance of the DbMigrator class.
         /// </summary>
         /// <param name="configuration">Configuration to be used for the migration process.</param>
-        internal DbSeederMigrator(DbMigrationsConfiguration configuration)
+        public DbSeederMigrator(DbMigrationsConfiguration configuration)
             : base(configuration)
         { }
 
         /// <summary>
         /// Migrates the database to the latest version
         /// </summary>
-        internal void MigrateToLatestVersion()
+        public void MigrateToLatestVersion()
         {
             var seedList = new List<IMigrationDataSeeder<TContext>>();
 
