@@ -42,10 +42,9 @@ namespace KeyHub.Model
         public string DisplayName { get; set; }
 
         /// <summary>
-        /// The private key in bytes
+        /// The private key in bytes, encrypted with KeyHub.Common.SymmetricEncryption
         /// </summary>
         [Required]
-        [MaxLength(4096)]
         public byte[] KeyBytes { get; set; }
 
         /// <summary>

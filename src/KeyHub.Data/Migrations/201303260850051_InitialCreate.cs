@@ -104,7 +104,7 @@ namespace KeyHub.Data.Migrations
                         PrivateKeyId = c.Guid(nullable: false, identity: true),
                         VendorId = c.Guid(nullable: false),
                         DisplayName = c.String(nullable: false, maxLength: 256, unicode: false),
-                        KeyBytes = c.Binary(nullable: false, maxLength: 4096),
+                        KeyBytes = c.Binary(nullable: false),
                     })
                 .PrimaryKey(t => t.PrivateKeyId)
                 .ForeignKey("dbo.Vendors", t => t.VendorId, cascadeDelete: true)
@@ -146,7 +146,7 @@ namespace KeyHub.Data.Migrations
                         DomainLicenseIssued = c.DateTime(nullable: false, storeType: "datetime2"),
                         DomainLicenseExpires = c.DateTime(storeType: "datetime2"),
                         AutomaticlyCreated = c.Boolean(nullable: false),
-                        KeyBytes = c.Binary(nullable: false, maxLength: 4096),
+                        KeyBytes = c.Binary(nullable: false),
                     })
                 .PrimaryKey(t => t.DomainLicenseId)
                 .ForeignKey("dbo.Licenses", t => t.LicenseId, cascadeDelete: true)

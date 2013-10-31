@@ -9,19 +9,6 @@ namespace KeyHub.Model
 {
     public partial class DomainLicense
     {
-        /// <summary>
-        /// Generates keybytes for the private key
-        /// </summary>
-        public void SetKeyBytes()
-        {
-
-        }
-
-        public bool IsNew
-        {
-            get { return DomainLicenseId == default(Guid); }
-        }
-
         public bool CanBeManuallyDeleted
         {
             get
