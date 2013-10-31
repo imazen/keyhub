@@ -39,12 +39,13 @@ namespace KeyHub.Web.Api.Controllers
         /// <param name="postedData"></param>
         public HttpResponseMessage PostTransactionByIpn([FromUri]string id, [FromBody]FormDataCollection postedData)
         {
-            string vendor = id;
+            var vendor = Guid.Parse(id);
             var txn = new Transaction();
             var d = postedData.ReadAsNameValueCollection();
 
             //To calculate 'handshake', run 'md5 -s [password]', then 'md5 -s email@domain.com[Last MD5 result]'
-            if (!"ff35a320762dcec799d9c0bb9831577c".Equals(d.Pluck("handshake",null), StringComparison.OrdinalIgnoreCase)) throw new Exception("Invalid handshake provided");
+            string handshakeParameter = d.Pluck("handshake",null);
+            if (!"ff35a320762dcec799d9c0bb9831577c".Equals(handshakeParameter, StringComparison.OrdinalIgnoreCase)) throw new Exception("Invalid handshake provided");
 
             string txn_id = d.Pluck("txn_id");
             //TODO: We must ignore duplicate POSTs with the same txn_id - all POSTs will contain the same information
@@ -52,7 +53,7 @@ namespace KeyHub.Web.Api.Controllers
             if (!"Completed".Equals(d.Pluck("payment_status"), StringComparison.OrdinalIgnoreCase)) throw new Exception("Only completed transactions should be sent to this URL");
 
             //var txn = new Transaction();
-            txn.VendorId = Guid.Parse(vendor);
+            txn.VendorId = vendor;
             txn.ExternalTransactionId = txn_id;
             txn.PaymentDate = ConvertPayPalDateTime(d.Pluck("payment_date"));
             txn.PayerEmail = d.Pluck("payer_email");
