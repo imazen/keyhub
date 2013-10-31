@@ -13,28 +13,34 @@ namespace KeyHub.Client
 
             using (var r = new RSACryptoServiceProvider(2048))
             {
-                r.PersistKeyInCsp = false;
-                r.FromXmlString(publicKeyXml);
-
-                foreach (var licenseAndSignature in licensesAndSignatures)
+                try
                 {
-                    var licenseBytes = Convert.FromBase64String(licenseAndSignature.Key);
-                    var domainLicense = DomainLicense.Parse(Encoding.UTF8.GetString(licenseBytes));
+                    r.FromXmlString(publicKeyXml);
 
-                    if (!r.VerifyData(licenseBytes, new SHA256Managed(),
-                            Convert.FromBase64String(licenseAndSignature.Value)))
+                    foreach (var licenseAndSignature in licensesAndSignatures)
                     {
-                        throw new Exception("Signature failed for license of domain " + domainLicense.Domain);
-                    }
+                        var licenseBytes = Convert.FromBase64String(licenseAndSignature.Key);
+                        var domainLicense = DomainLicense.Parse(Encoding.UTF8.GetString(licenseBytes));
 
-                    string domain = DomainUtility.NormalizeDomain(domainLicense.Domain);
-                    List<DomainLicense> forDomain;
-                    if (!licenses.TryGetValue(domain, out forDomain))
-                    {
-                        forDomain = new List<DomainLicense>();
-                        licenses[domain] = forDomain;
+                        if (!r.VerifyData(licenseBytes, new SHA256Managed(),
+                                Convert.FromBase64String(licenseAndSignature.Value)))
+                        {
+                            throw new Exception("Signature failed for license of domain " + domainLicense.Domain);
+                        }
+
+                        string domain = DomainUtility.NormalizeDomain(domainLicense.Domain);
+                        List<DomainLicense> forDomain;
+                        if (!licenses.TryGetValue(domain, out forDomain))
+                        {
+                            forDomain = new List<DomainLicense>();
+                            licenses[domain] = forDomain;
+                        }
+                        forDomain.Add(domainLicense);
                     }
-                    forDomain.Add(domainLicense);
+                }
+                finally
+                {
+                    r.PersistKeyInCsp = false;
                 }
             }
 
