@@ -143,7 +143,7 @@ namespace KeyHub.Web.Api.Controllers
         /// <returns>Encrypted text</returns>
         public static byte[] SignData(string text, byte[] keyBytes)
         {
-            byte[] decryptedKey = SymmetricEncryption.Decrypt(keyBytes, ConfigurationManager.AppSettings["internalPrivateKey"]);
+            byte[] decryptedKey = SymmetricEncryption.Decrypt(keyBytes, ConfigurationManager.AppSettings["DatabaseEncryptionKey"]);
             
             using (var r = new RSACryptoServiceProvider(2048, new CspParameters() { Flags = CspProviderFlags.NoPrompt | CspProviderFlags.CreateEphemeralKey }))
             {

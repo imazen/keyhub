@@ -3,11 +3,6 @@
   - use shared keys for accepting transactions, but those shared keys are in the code
     - vendor should have a UI for managing named shared keys, and they might have multiples
 
-  - keyhub issue for the private key
-    - it shouldnt' be displayed
-    - private key should be encrypted with a private key that is set in the app-setting
-
-
   - upgrade to entity framework 6.0?
 
   - lucrasoft.nl is in the codebase in a few places

@@ -22,7 +22,7 @@ namespace KeyHub.Model
                 try
                 {
                     var privateKeyBytes = r.ExportCspBlob(true);
-                    this.KeyBytes = SymmetricEncryption.Encrypt(privateKeyBytes, ConfigurationManager.AppSettings["internalPrivateKey"]);
+                    this.KeyBytes = SymmetricEncryption.Encrypt(privateKeyBytes, ConfigurationManager.AppSettings["DatabaseEncryptionKey"]);
                 }
                 finally{
                     r.PersistKeyInCsp = false;
@@ -39,7 +39,7 @@ namespace KeyHub.Model
             {
                 try
                 {
-                    var privateKey = SymmetricEncryption.Decrypt(KeyBytes, ConfigurationManager.AppSettings["internalPrivateKey"]);
+                    var privateKey = SymmetricEncryption.Decrypt(KeyBytes, ConfigurationManager.AppSettings["DatabaseEncryptionKey"]);
 
                     r.ImportCspBlob(privateKey);
                     return r.ToXmlString(false);
