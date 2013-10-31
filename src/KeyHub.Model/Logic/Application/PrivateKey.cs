@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -21,7 +22,7 @@ namespace KeyHub.Model
                 try
                 {
                     var privateKeyBytes = r.ExportCspBlob(true);
-                    this.KeyBytes = SymmetricEncryption.Encrypt(privateKeyBytes, "123");
+                    this.KeyBytes = SymmetricEncryption.Encrypt(privateKeyBytes, ConfigurationManager.AppSettings["internalPrivateKey"]);
                 }
                 finally{
                     r.PersistKeyInCsp = false;
@@ -38,7 +39,7 @@ namespace KeyHub.Model
             {
                 try
                 {
-                    var privateKey = SymmetricEncryption.Decrypt(KeyBytes, "123");
+                    var privateKey = SymmetricEncryption.Decrypt(KeyBytes, ConfigurationManager.AppSettings["internalPrivateKey"]);
 
                     r.ImportCspBlob(privateKey);
                     return r.ToXmlString(false);

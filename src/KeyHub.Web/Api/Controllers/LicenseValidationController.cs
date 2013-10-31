@@ -1,4 +1,5 @@
-﻿using KeyHub.BusinessLogic.LicenseValidation;
+﻿using System.Configuration;
+using KeyHub.BusinessLogic.LicenseValidation;
 using KeyHub.Common.Utils;
 using KeyHub.Core.Logging;
 using KeyHub.Common;
@@ -142,9 +143,8 @@ namespace KeyHub.Web.Api.Controllers
         /// <returns>Encrypted text</returns>
         public static byte[] SignData(string text, byte[] keyBytes)
         {
-            byte[] decryptedKey = SymmetricEncryption.Decrypt(keyBytes, "123");
-
-
+            byte[] decryptedKey = SymmetricEncryption.Decrypt(keyBytes, ConfigurationManager.AppSettings["internalPrivateKey"]);
+            
             using (var r = new RSACryptoServiceProvider(2048, new CspParameters() { Flags = CspProviderFlags.NoPrompt | CspProviderFlags.CreateEphemeralKey }))
             {
                 try
