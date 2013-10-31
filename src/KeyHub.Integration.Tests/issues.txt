@@ -8,6 +8,8 @@
     - private key should be encrypted with a private key that is set in the app-setting
 
 
+  - upgrade to entity framework 6.0?
+
   - lucrasoft.nl is in the codebase in a few places
 
   - what to do about usernames that are in the sourcecode?

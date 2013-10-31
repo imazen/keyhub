@@ -69,6 +69,7 @@ namespace KeyHub.Model
         /// The private key in bytes, encrypted with KeyHub.Common.SymmetricEncryption
         /// </summary>
         [Required]
+        [MaxLength(4096)]
         public byte[] KeyBytes { get; set; }
     }
 }
