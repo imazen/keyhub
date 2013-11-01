@@ -1,13 +1,13 @@
-﻿  how is VendorSecretController secured for limited access?  How about PrivateKeyController?
-
-  remember to encrypt the VenderSecret in the database
-
-  PrivateKeyController.Remove should be an HTTP post
+﻿  PrivateKeyController.Remove should be an HTTP post
   PrivateKeyController should use anti-forgery tokens
 
   https://github.com/imazen/keyhub/issues/assigned/fschwiet?milestone=&state=open
   - use shared keys for accepting transactions, but those shared keys are in the code
     - vendor should have a UI for managing named shared keys, and they might have multiples
+
+
+  - authorization of admin pages is only checked if the use is logged in.
+    It should check that the user is an admin, or the user is editing something that belongs to them.
 
   - upgrade to entity framework 6.0?
 

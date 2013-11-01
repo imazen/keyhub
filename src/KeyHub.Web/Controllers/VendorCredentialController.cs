@@ -10,6 +10,7 @@ using MvcFlash.Core;
 
 namespace KeyHub.Web.Controllers
 {
+    [Authorize]
     public class VendorCredentialController : Controller
     {
         private IDataContextFactory dataContextFactory;
