@@ -50,9 +50,12 @@ namespace KeyHub.Web.Controllers
             using (var context = dataContextFactory.CreateByUser())
             {
                 //Eager loading Vendor
-                var vendorQuery = (from v in context.Vendors where v.ObjectId == key select v).Include(x => x.Country);
+                var vendorQuery = (from v in context.Vendors where v.ObjectId == key select v).Include(x => x.Country).Include(x => x.VendorSecrets);
+                var vendor = vendorQuery.FirstOrDefault();
+                var venderSecrets = vendor.VendorSecrets;
 
-                VendorDetailsViewModel viewModel = new VendorDetailsViewModel(vendorQuery.FirstOrDefault());
+                VendorDetailsViewModel viewModel = new VendorDetailsViewModel(vendor);
+                viewModel.Vendor.VendorSecrets = venderSecrets;
 
                 return View(viewModel);
             }

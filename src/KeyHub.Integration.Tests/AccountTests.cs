@@ -16,12 +16,6 @@ namespace KeyHub.Integration.Tests
 {
     public class AccountTests
     {
-        public static RemoteWebDriver GetBrowser()
-        {
-            //return new PhantomJSDriver(); // faster
-            return new FirefoxDriver(); // easier debugging
-        }
-
         [Fact]
         [CleanDatabase]
         public void CanRegisterLocallyThenAssociate3rdPartyLogin()
@@ -33,7 +27,7 @@ namespace KeyHub.Integration.Tests
             {
                 CreateLocalAccount(site, email, password);
 
-                using (var browser = GetBrowser())
+                using (var browser = BrowserUtil.GetBrowser())
                 {
                     browser.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(5));
 
@@ -88,7 +82,7 @@ namespace KeyHub.Integration.Tests
                 browser.FindElementByCssSelector("a[href='/Account/LogOff']");
             };
 
-            using (var browser = GetBrowser())
+            using (var browser = BrowserUtil.GetBrowser())
             {
                 browser.Navigate().GoToUrl(site.UrlFor("Account/Register"));
 

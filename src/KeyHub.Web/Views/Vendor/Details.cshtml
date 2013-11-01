@@ -69,3 +69,33 @@
 <p>
     @Html.Action("IndexPartial", "PrivateKey", new { parentVendor = Model.Vendor.ObjectId })
 </p>
+
+<p>
+
+    <h2>VendorSecret</h2>
+    <p>
+        @Html.ActionLink("Create New Private Key ", "Create", "VendorSecret", new { parentVendor = Model.Vendor.ObjectId }, new { @class="Btn New"})
+    </p>
+    <table border="0" border="0" cellspacing="0" cellpadding="0" class="GridTable" style="width:auto">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Vendor.VendorSecrets.FirstOrDefault().Name)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        @foreach (var item in Model.Vendor.VendorSecrets) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { key=item.VendorSecretId })
+                    |
+                    @Html.ActionLink("Remove", "Remove", new { key=item.VendorSecretId })
+                </td>
+            </tr>
+        }
+
+</table></p>

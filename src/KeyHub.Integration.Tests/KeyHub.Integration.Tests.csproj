@@ -73,11 +73,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountTests.cs" />
-    <Compile Include="CanLoadVendorWithSecrets.cs" />
+    <Compile Include="AdminTests.cs" />
     <Compile Include="CheckedDataContextFactory.cs" />
     <Compile Include="LicenseValidationScenario.cs" />
     <Compile Include="LicenseValidatorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestSetup\BrowserUtil.cs" />
     <Compile Include="TestSetup\CleanDatabaseAttribute.cs" />
     <Compile Include="TestSetup\DatabaseUtil.cs" />
     <Compile Include="TestSetup\IISExpressDriver.cs" />

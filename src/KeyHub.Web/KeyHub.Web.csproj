@@ -240,6 +240,7 @@
     <Compile Include="Controllers\TransactionController.cs" />
     <Compile Include="Api\Controllers\TransactionController.cs" />
     <Compile Include="Controllers\VendorController.cs" />
+    <Compile Include="Controllers\VendorSecretController.cs" />
     <Compile Include="Extensions\SelectListExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -595,6 +596,7 @@
     <Content Include="Views\Account\LinkAccount.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Shared\Flash.cshtml" />
+    <Content Include="Views\VendorSecret\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
