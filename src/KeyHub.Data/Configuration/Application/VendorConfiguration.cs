@@ -23,7 +23,7 @@ namespace KeyHub.Data.DataConfiguration
                 m.ToTable("Vendors");
             });
 
-            HasMany(x => x.VendorCredentials).WithRequired(x => x.Vendor).WillCascadeOnDelete(false);
+            HasMany(x => x.VendorCredentials).WithRequired(x => x.Vendor);
         }
 
         public void AddConfiguration(System.Data.Entity.ModelConfiguration.Configuration.ConfigurationRegistrar registrar)
