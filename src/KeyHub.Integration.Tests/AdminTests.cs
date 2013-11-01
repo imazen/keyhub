@@ -15,12 +15,11 @@ namespace KeyHub.Integration.Tests
     {
         [Fact]
         [CleanDatabase]
-        public void CanCreateVendorWithSharedSecret()
+        public void CanManageVendorSecret()
         {
             using (var site = new KeyHubWebDriver())
             {
-                //using (var browser = BrowserUtil.GetBrowser())
-                var browser = BrowserUtil.GetBrowser();
+                using (var browser = BrowserUtil.GetBrowser())
                 {
                     //  Log in as pre-created admin user
                     browser.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(3));
