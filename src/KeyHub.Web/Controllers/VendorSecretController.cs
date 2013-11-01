@@ -72,6 +72,7 @@ namespace KeyHub.Web.Controllers
         }
         
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Create(VendorSecretModel inputModel)
         {
             if (!ModelState.IsValid)
@@ -93,7 +94,8 @@ namespace KeyHub.Web.Controllers
                 dataContext.SaveChanges();
             }
 
-            return RedirectToAction("Details", "Vendor", new {key = inputModel.VendorId});
+            Flash.Success("VendorSecret was successfully saved.");
+            return RedirectToAction("Details", "Vendor", new { key = inputModel.VendorId });
         }
 
         public ActionResult Edit(Guid key)
@@ -104,6 +106,7 @@ namespace KeyHub.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Edit(VendorSecretModel inputModel)
         {
             if (!ModelState.IsValid)
@@ -125,6 +128,7 @@ namespace KeyHub.Web.Controllers
                 dataContext.SaveChanges();
             }
 
+            Flash.Success("VendorSecret was successfully modified.");
             return RedirectToAction("Details", "Vendor", new { key = inputModel.VendorId });
         }
 
@@ -137,6 +141,7 @@ namespace KeyHub.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Remove(Guid VendorId, Guid VendorSecretId)
         {
             if (!ModelState.IsValid)

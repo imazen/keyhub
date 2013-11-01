@@ -6,7 +6,7 @@
 }
 
 @using (Html.BeginForm()) {
-    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken();
 
     <p>Are you sure you want to delete VendorSecret '@Model.CredentialName' from vendor @Model.VendorName?  This action cannot be undone.</p>
         

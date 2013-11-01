@@ -5,6 +5,7 @@
   remember to encrypt the VenderSecret in the database
 
   PrivateKeyController.Remove should be an HTTP post
+  PrivateKeyController should use anti-forgery tokens
 
   https://github.com/imazen/keyhub/issues/assigned/fschwiet?milestone=&state=open
   - use shared keys for accepting transactions, but those shared keys are in the code
