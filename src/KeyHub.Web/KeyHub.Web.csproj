@@ -596,7 +596,8 @@
     <Content Include="Views\Account\LinkAccount.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Shared\Flash.cshtml" />
-    <Content Include="Views\VendorSecret\Create.cshtml" />
+    <Content Include="Views\VendorSecret\CreateEdit.cshtml" />
+    <Content Include="Views\VendorSecret\Remove.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

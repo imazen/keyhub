@@ -1,4 +1,5 @@
-﻿@model KeyHub.Web.ViewModels.Vendor.VendorDetailsViewModel
+﻿@using MvcFlash.Core.Extensions
+@model KeyHub.Web.ViewModels.Vendor.VendorDetailsViewModel
 
 @{
     ViewBag.ItemName = "Vendor";
@@ -6,6 +7,10 @@
 }
 
 <h2>@ViewBag.ItemName <span>@ViewBag.Title</span></h2>
+
+<h3>
+    @Html.Flash()
+</h3>
 
 <fieldset>
     <legend>VendorDetailsViewItem</legend>
@@ -74,7 +79,7 @@
 
     <h2>VendorSecret</h2>
     <p>
-        @Html.ActionLink("Create New Private Key ", "Create", "VendorSecret", new { parentVendor = Model.Vendor.ObjectId }, new { @class="Btn New"})
+        @Html.ActionLink("Create New VendorSecret", "Create", "VendorSecret", new { parentVendor = Model.Vendor.ObjectId }, new { @class="Btn New"})
     </p>
     <table border="0" border="0" cellspacing="0" cellpadding="0" class="GridTable" style="width:auto">
         <thead>
@@ -91,9 +96,9 @@
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { key=item.VendorSecretId })
+                    @Html.ActionLink("Edit", "Edit", "VendorSecret", new { key=item.VendorSecretId }, new {})
                     |
-                    @Html.ActionLink("Remove", "Remove", new { key=item.VendorSecretId })
+                    @Html.ActionLink("Remove", "Remove", "VendorSecret", new { key=item.VendorSecretId }, new {})
                 </td>
             </tr>
         }

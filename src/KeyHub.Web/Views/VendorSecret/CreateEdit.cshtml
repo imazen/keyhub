@@ -1,4 +1,5 @@
-﻿@model KeyHub.Web.Controllers.VendorSecretController.VendorSecretEditModel
+﻿@using Microsoft.Ajax.Utilities
+@model KeyHub.Web.Controllers.VendorSecretController.VendorSecretModel
 
 @{
     ViewBag.Title = "Create VendorSecret";
@@ -12,7 +13,6 @@
         
         @Html.HiddenFor(model => model.VendorId)
         @Html.HiddenFor(model => model.VendorSecretId)
-        @Html.HiddenFor(model => model.VendorName)
         
         <div class="editor-label">
             @Html.LabelFor(model => model.CredentialName)
@@ -31,7 +31,10 @@
         </div>
 
         <p>
-            <input type="submit" value="Create VendorSecret" />
+            @{
+                var action = Model.VendorSecretId.HasValue ? "Edit" : "Create";
+            }
+            <input type="submit" value="@action VendorSecret" />
         </p>
     </fieldset>
 }

@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using KeyHub.Data;
 using KeyHub.Model;
+using MvcFlash.Core;
 
 namespace KeyHub.Web.Controllers
 {
@@ -15,7 +17,7 @@ namespace KeyHub.Web.Controllers
             this.dataContextFactory = dataContextFactory;
         }
 
-        public class VendorSecretEditModel
+        public class VendorSecretModel
         {
             public Guid VendorId { get; set; }
             public string VendorName { get; set; }
@@ -23,15 +25,15 @@ namespace KeyHub.Web.Controllers
             public string CredentialName { get; set; }
             public string CredentialValue { get; set; }
 
-            public static VendorSecretEditModel ForVendor(Guid parentVendor, IDataContextFactory contextFactory)
+            public static VendorSecretModel ForVendor(Guid parentVendor, IDataContextFactory contextFactory)
             {
-                VendorSecretEditModel vendorSecretEditModel;
+                VendorSecretModel vendorSecretEditModel;
 
                 using (var context = contextFactory.Create())
                 {
                     var vendor = (from x in context.Vendors where x.ObjectId == parentVendor select x).FirstOrDefault();
 
-                    vendorSecretEditModel = new VendorSecretEditModel()
+                    vendorSecretEditModel = new VendorSecretModel()
                     {
                         VendorId = vendor.ObjectId,
                         VendorName = vendor.Name,
@@ -40,49 +42,117 @@ namespace KeyHub.Web.Controllers
                 return vendorSecretEditModel;
             }
 
+            public static VendorSecretModel ForVendorSecret(IDataContextFactory dataContextFactory, Guid key)
+            {
+                VendorSecretModel vendorSecretEditModel;
+
+                using (var dataContext = dataContextFactory.Create())
+                {
+                    var vendorSecret =
+                        dataContext.VendorSecrets.Where(vs => vs.VendorSecretId == key).Include(x => x.Vendor).Single();
+
+                    vendorSecretEditModel = new VendorSecretModel()
+                    {
+                        VendorId = vendorSecret.Vendor.ObjectId,
+                        VendorName = vendorSecret.Vendor.Name,
+                        VendorSecretId = vendorSecret.VendorSecretId,
+                        CredentialName = vendorSecret.Name,
+                        CredentialValue = vendorSecret.SharedSecret
+                    };
+                }
+                return vendorSecretEditModel;
+            }
         }
 
         public ActionResult Create(Guid parentVendor)
         {
-            var vendorSecretEditModel = VendorSecretEditModel.ForVendor(parentVendor, dataContextFactory);
+            var model = VendorSecretModel.ForVendor(parentVendor, dataContextFactory);
 
-            return View(vendorSecretEditModel);
+            return View("CreateEdit", model);
         }
-
-
+        
         [HttpPost]
-        public ActionResult Create(VendorSecretEditModel viewModel)
+        public ActionResult Create(VendorSecretModel inputModel)
         {
             if (!ModelState.IsValid)
             {
-                var vendorSecretEditModel = VendorSecretEditModel.ForVendor(viewModel.VendorId, dataContextFactory);
-                vendorSecretEditModel.CredentialName = viewModel.CredentialName;
-                vendorSecretEditModel.CredentialValue = viewModel.CredentialValue;
-                return View(vendorSecretEditModel);
+                var resultModel = VendorSecretModel.ForVendor(inputModel.VendorId, dataContextFactory);
+                resultModel.CredentialName = inputModel.CredentialName;
+                resultModel.CredentialValue = inputModel.CredentialValue;
+                return View("CreateEdit", resultModel);
             }
 
             using (var dataContext = dataContextFactory.Create())
             {
                 dataContext.VendorSecrets.Add(new VendorSecret()
                 {
-                    VendorId = viewModel.VendorId,
-                    Name = viewModel.CredentialName,
-                    SharedSecret = viewModel.CredentialValue
+                    VendorId = inputModel.VendorId,
+                    Name = inputModel.CredentialName,
+                    SharedSecret = inputModel.CredentialValue
                 });
                 dataContext.SaveChanges();
             }
 
-            return RedirectToAction("Details", "Vendor", new {key = viewModel.VendorId});
+            return RedirectToAction("Details", "Vendor", new {key = inputModel.VendorId});
         }
 
         public ActionResult Edit(Guid key)
         {
-            throw new NotImplementedException();
+            var vendorSecretEditModel = VendorSecretModel.ForVendorSecret(dataContextFactory, key);
+
+            return View("CreateEdit", vendorSecretEditModel);
         }
 
+        [HttpPost]
+        public ActionResult Edit(VendorSecretModel inputModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                var resultModel = VendorSecretModel.ForVendorSecret(dataContextFactory, inputModel.VendorSecretId.Value);
+                resultModel.CredentialName = inputModel.CredentialName;
+                resultModel.CredentialValue = inputModel.CredentialValue;
+                return View("CreateEdit", resultModel);
+            }
+
+            using (var dataContext = dataContextFactory.Create())
+            {
+                var vendorSecret =
+                    dataContext.VendorSecrets.Where(x => x.VendorSecretId == inputModel.VendorSecretId.Value).Single();
+
+                vendorSecret.Name = inputModel.CredentialName;
+                vendorSecret.SharedSecret = inputModel.CredentialValue;
+
+                dataContext.SaveChanges();
+            }
+
+            return RedirectToAction("Details", "Vendor", new { key = inputModel.VendorId });
+        }
+
+        [HttpGet]
         public ActionResult Remove(Guid key)
         {
-            throw new NotImplementedException();
+            var model = VendorSecretModel.ForVendorSecret(dataContextFactory, key);
+
+            return View("Remove", model);
+        }
+
+        [HttpPost]
+        public ActionResult Remove(Guid VendorId, Guid VendorSecretId)
+        {
+            if (!ModelState.IsValid)
+            {
+                var resultModel = VendorSecretModel.ForVendorSecret(dataContextFactory, VendorSecretId);
+                return View("Remove", resultModel);
+            }
+
+            using (var dataContext = dataContextFactory.Create())
+            {
+                dataContext.VendorSecrets.Remove(s => s.VendorSecretId == VendorSecretId);
+                dataContext.SaveChanges();
+            }
+
+            Flash.Success("VendorSecret was successfully deleted.");
+            return RedirectToAction("Details", "Vendor", new { key = VendorId });
         }
     }
 }

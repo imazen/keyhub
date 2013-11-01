@@ -1,4 +1,11 @@
-﻿
+﻿  how is VendorSecretController secured for limited access?  How about PrivateKeyController?
+
+  VendorSecretController should use anti-forgery token
+
+  remember to encrypt the VenderSecret in the database
+
+  PrivateKeyController.Remove should be an HTTP post
+
   https://github.com/imazen/keyhub/issues/assigned/fschwiet?milestone=&state=open
   - use shared keys for accepting transactions, but those shared keys are in the code
     - vendor should have a UI for managing named shared keys, and they might have multiples

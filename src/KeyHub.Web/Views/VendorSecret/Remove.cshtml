@@ -1,0 +1,27 @@
+﻿@using Microsoft.Ajax.Utilities
+@model KeyHub.Web.Controllers.VendorSecretController.VendorSecretModel
+
+@{
+    ViewBag.Title = "Remove VendorSecret";
+}
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <p>Are you sure you want to delete VendorSecret '@Model.CredentialName' from vendor @Model.VendorName?  This action cannot be undone.</p>
+        
+    @Html.HiddenFor(model => model.VendorId)
+    @Html.HiddenFor(model => model.VendorSecretId)
+        
+    <p>
+        <input type="submit" value="Delete VendorSecret" />
+    </p>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Details", "Vendor", new { key = Model.VendorId }, null)
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
