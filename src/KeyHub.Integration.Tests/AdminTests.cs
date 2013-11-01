@@ -43,6 +43,9 @@ namespace KeyHub.Integration.Tests
                     browser.FindElementByCssSelector("form[action^='/VendorSecret/Create'] input[type=submit]").Click();
 
                     browser.FindElementByCssSelector("foo.barr");
+                    // TODO: Make sure edit button works
+
+                    // TODO: Make sure the Remove button works
                 }
             }
         }

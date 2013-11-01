@@ -17,31 +17,62 @@ namespace KeyHub.Web.Controllers
 
         public class VendorSecretEditModel
         {
-            public Guid VendorId;
-            public string VendorName;
-            public Guid? VendorSecretId;
-            public string CredentialName;
-            public string CredentialValue;
+            public Guid VendorId { get; set; }
+            public string VendorName { get; set; }
+            public Guid? VendorSecretId { get; set; }
+            public string CredentialName { get; set; }
+            public string CredentialValue { get; set; }
+
+            public static VendorSecretEditModel ForVendor(Guid parentVendor, IDataContextFactory contextFactory)
+            {
+                VendorSecretEditModel vendorSecretEditModel;
+
+                using (var context = contextFactory.Create())
+                {
+                    var vendor = (from x in context.Vendors where x.ObjectId == parentVendor select x).FirstOrDefault();
+
+                    vendorSecretEditModel = new VendorSecretEditModel()
+                    {
+                        VendorId = vendor.ObjectId,
+                        VendorName = vendor.Name,
+                    };
+                }
+                return vendorSecretEditModel;
+            }
+
         }
 
         public ActionResult Create(Guid parentVendor)
         {
-            using (var context = dataContextFactory.Create())
-            {
-                var vendor = (from x in context.Vendors where x.ObjectId == parentVendor select x).FirstOrDefault();
+            var vendorSecretEditModel = VendorSecretEditModel.ForVendor(parentVendor, dataContextFactory);
 
-                return View(new VendorSecretEditModel()
-                {
-                    VendorId = vendor.ObjectId,
-                    VendorName = vendor.Name,
-                });
-            }
+            return View(vendorSecretEditModel);
         }
 
+
         [HttpPost]
-        public ActionResult Create(VendorSecretEditModel model)
+        public ActionResult Create(VendorSecretEditModel viewModel)
         {
-            throw new NotImplementedException();
+            if (!ModelState.IsValid)
+            {
+                var vendorSecretEditModel = VendorSecretEditModel.ForVendor(viewModel.VendorId, dataContextFactory);
+                vendorSecretEditModel.CredentialName = viewModel.CredentialName;
+                vendorSecretEditModel.CredentialValue = viewModel.CredentialValue;
+                return View(vendorSecretEditModel);
+            }
+
+            using (var dataContext = dataContextFactory.Create())
+            {
+                dataContext.VendorSecrets.Add(new VendorSecret()
+                {
+                    VendorId = viewModel.VendorId,
+                    Name = viewModel.CredentialName,
+                    SharedSecret = viewModel.CredentialValue
+                });
+                dataContext.SaveChanges();
+            }
+
+            return RedirectToAction("Details", "Vendor", new {key = viewModel.VendorId});
         }
 
         public ActionResult Edit(Guid key)

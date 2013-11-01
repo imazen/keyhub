@@ -9,8 +9,10 @@
 
     <fieldset>
         <legend>VendorSecret for @Model.VendorName</legend>
-
+        
         @Html.HiddenFor(model => model.VendorId)
+        @Html.HiddenFor(model => model.VendorSecretId)
+        @Html.HiddenFor(model => model.VendorName)
         
         <div class="editor-label">
             @Html.LabelFor(model => model.CredentialName)
