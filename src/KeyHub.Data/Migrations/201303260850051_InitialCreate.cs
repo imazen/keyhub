@@ -336,7 +336,7 @@ namespace KeyHub.Data.Migrations
                     VendorSecretId = c.Guid(nullable: false, identity: true),
                     VendorId = c.Guid(nullable: false),
                     Name = c.String(nullable: false),
-                    SharedSecret = c.String(nullable: false)
+                    SharedSecret = c.Binary(nullable: false)
                 })
                 .PrimaryKey(t => t.VendorSecretId)
                 .ForeignKey("dbo.Vendors", t => t.VendorId, cascadeDelete: true)

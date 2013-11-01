@@ -43,6 +43,6 @@ namespace KeyHub.Model
         /// The shared secret, encrypted by SymmetricEncryption & appSetting[DatabaseEncryptionKey]
         /// </summary>
         [Required]
-        public string SharedSecret { get; set; }
+        public byte[] SharedSecret { get; set; }
     }
 }

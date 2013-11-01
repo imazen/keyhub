@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Data.Entity;
 using System.Linq;
+using System.Text;
 using System.Web.Mvc;
+using KeyHub.Common.Utils;
 using KeyHub.Data;
 using KeyHub.Model;
 using MvcFlash.Core;
@@ -57,7 +59,7 @@ namespace KeyHub.Web.Controllers
                         VendorName = vendorSecret.Vendor.Name,
                         VendorSecretId = vendorSecret.VendorSecretId,
                         CredentialName = vendorSecret.Name,
-                        CredentialValue = vendorSecret.SharedSecret
+                        CredentialValue = Encoding.UTF8.GetString(SymmetricEncryption.DecryptForDatabase(vendorSecret.SharedSecret))
                     };
                 }
                 return vendorSecretEditModel;
@@ -89,7 +91,7 @@ namespace KeyHub.Web.Controllers
                 {
                     VendorId = inputModel.VendorId,
                     Name = inputModel.CredentialName,
-                    SharedSecret = inputModel.CredentialValue
+                    SharedSecret = SymmetricEncryption.EncryptForDatabase(Encoding.UTF8.GetBytes(inputModel.CredentialValue))
                 });
                 dataContext.SaveChanges();
             }
@@ -123,7 +125,8 @@ namespace KeyHub.Web.Controllers
                     dataContext.VendorSecrets.Where(x => x.VendorSecretId == inputModel.VendorSecretId.Value).Single();
 
                 vendorSecret.Name = inputModel.CredentialName;
-                vendorSecret.SharedSecret = inputModel.CredentialValue;
+                vendorSecret.SharedSecret =
+                    SymmetricEncryption.EncryptForDatabase(Encoding.UTF8.GetBytes(inputModel.CredentialValue));
 
                 dataContext.SaveChanges();
             }
