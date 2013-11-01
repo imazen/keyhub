@@ -40,7 +40,7 @@ namespace KeyHub.Model
         public string CredentialName { get; set; }
 
         /// <summary>
-        /// The shared secret, encrypted by SymmetricEncryption & appSetting[DatabaseEncryptionKey]
+        /// The shared secret, encrypted by SymmetricEncryption.EncryptForDatabase
         /// </summary>
         [Required]
         public byte[] CredentialValue { get; set; }
