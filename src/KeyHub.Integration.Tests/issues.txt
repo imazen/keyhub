@@ -40,6 +40,8 @@
   - try login with the master branch
   - its working on Nathanael's machine, using 5001
 
+CSS styling is all over, how do I compile scss files?  Should add styles for Flash (.error, .success, etc)
+
 Shelved concerns:
 	How to repro 50 character email problem?
 	  -> local accounts seem to work ok with long email.  
