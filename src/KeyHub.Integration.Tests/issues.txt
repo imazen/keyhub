@@ -1,4 +1,7 @@
-﻿  PrivateKeyController.Remove should be an HTTP post
+﻿TransactionByIpnController.PostTransactionByIpn should have tests
+
+
+  PrivateKeyController.Remove should be an HTTP post
   PrivateKeyController should use anti-forgery tokens
 
   https://github.com/imazen/keyhub/issues/assigned/fschwiet?milestone=&state=open
