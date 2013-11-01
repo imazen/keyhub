@@ -23,6 +23,17 @@ namespace KeyHub.Web
 
         protected void Application_Start()
         {
+            //
+            // Entity Framework sometimes becomes upset that the model doesn't match its
+            // record of the schema, even when there is no difference.  To fix this, 
+            // we're calling SetInitializer(null) per https://digitaltoolfactory.net/blog/2012/08/how-to-fix-the-model-backing-the-context-has-changed-since-the-database-was-created-error/
+            //
+            // I do not know why this is not needed for DataContext though it is needed
+            // for DataContextByUser.
+            //
+            Database.SetInitializer<KeyHub.Data.DataContextByUser>(null);
+            Database.SetInitializer<KeyHub.Data.DataContextByTransaction>(null);
+
             container = CompositionContainerFactory.Create();
             ControllerBuilder.Current.SetControllerFactory(new WindsorControllerFactory(container.Kernel));
             GlobalConfiguration.Configuration.Services.Replace(typeof(IHttpControllerActivator), new WindsorCompositionRoot(container));
