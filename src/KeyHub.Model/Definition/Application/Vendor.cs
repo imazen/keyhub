@@ -67,6 +67,6 @@ namespace KeyHub.Model
         /// </summary>
         public virtual ICollection<PrivateKey> PrivateKeys { get; set; }
 
-        public virtual ICollection<VendorSecret> VendorSecrets { get; set; } 
+        public virtual ICollection<VendorCredential> VendorCredentials { get; set; } 
     }
 }

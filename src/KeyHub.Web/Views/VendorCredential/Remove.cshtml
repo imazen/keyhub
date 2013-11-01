@@ -1,0 +1,27 @@
+﻿@using Microsoft.Ajax.Utilities
+@model KeyHub.Web.Controllers.VendorCredentialController.VendorCredentialModel
+
+@{
+    ViewBag.Title = "Remove VendorCredential";
+}
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken();
+
+    <p>Are you sure you want to delete VendorCredential '@Model.CredentialName' from vendor @Model.VendorName?  This action cannot be undone.</p>
+        
+    @Html.HiddenFor(model => model.VendorId)
+    @Html.HiddenFor(model => model.VendorCredentialId)
+        
+    <p>
+        <input type="submit" value="Delete VendorCredential" />
+    </p>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Details", "Vendor", new { key = Model.VendorId }, null)
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

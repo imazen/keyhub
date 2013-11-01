@@ -19,7 +19,7 @@ namespace KeyHub.Data
         IDbSet<TransactionItem> TransactionItems { get; set; }
         IDbSet<TransactionIgnoredItem> TransactionIgnoredItems { get; set; }
         IDbSet<Vendor> Vendors { get; set; }
-        IDbSet<VendorSecret> VendorSecrets { get; set; }
+        IDbSet<VendorCredential> VendorCredentials { get; set; }
         IDbSet<Customer> Customers { get; set; }
         IDbSet<License> Licenses { get; set; }
         IDbSet<Right> Rights { get; set; }

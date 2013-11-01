@@ -10,76 +10,76 @@ using MvcFlash.Core;
 
 namespace KeyHub.Web.Controllers
 {
-    public class VendorSecretController : Controller
+    public class VendorCredentialController : Controller
     {
         private IDataContextFactory dataContextFactory;
 
-        public VendorSecretController(IDataContextFactory dataContextFactory)
+        public VendorCredentialController(IDataContextFactory dataContextFactory)
         {
             this.dataContextFactory = dataContextFactory;
         }
 
-        public class VendorSecretModel
+        public class VendorCredentialModel
         {
             public Guid VendorId { get; set; }
             public string VendorName { get; set; }
-            public Guid? VendorSecretId { get; set; }
+            public Guid? VendorCredentialId { get; set; }
             public string CredentialName { get; set; }
             public string CredentialValue { get; set; }
 
-            public static VendorSecretModel ForVendor(Guid parentVendor, IDataContextFactory contextFactory)
+            public static VendorCredentialModel ForVendor(Guid parentVendor, IDataContextFactory contextFactory)
             {
-                VendorSecretModel vendorSecretEditModel;
+                VendorCredentialModel result;
 
                 using (var context = contextFactory.Create())
                 {
                     var vendor = (from x in context.Vendors where x.ObjectId == parentVendor select x).FirstOrDefault();
 
-                    vendorSecretEditModel = new VendorSecretModel()
+                    result = new VendorCredentialModel()
                     {
                         VendorId = vendor.ObjectId,
                         VendorName = vendor.Name,
                     };
                 }
-                return vendorSecretEditModel;
+                return result;
             }
 
-            public static VendorSecretModel ForVendorSecret(IDataContextFactory dataContextFactory, Guid key)
+            public static VendorCredentialModel ForVendorCredential(IDataContextFactory dataContextFactory, Guid key)
             {
-                VendorSecretModel vendorSecretEditModel;
+                VendorCredentialModel result;
 
                 using (var dataContext = dataContextFactory.Create())
                 {
-                    var vendorSecret =
-                        dataContext.VendorSecrets.Where(vs => vs.VendorSecretId == key).Include(x => x.Vendor).Single();
+                    var vendorCredential =
+                        dataContext.VendorCredentials.Where(vs => vs.VendorCredentialId == key).Include(x => x.Vendor).Single();
 
-                    vendorSecretEditModel = new VendorSecretModel()
+                    result = new VendorCredentialModel()
                     {
-                        VendorId = vendorSecret.Vendor.ObjectId,
-                        VendorName = vendorSecret.Vendor.Name,
-                        VendorSecretId = vendorSecret.VendorSecretId,
-                        CredentialName = vendorSecret.Name,
-                        CredentialValue = Encoding.UTF8.GetString(SymmetricEncryption.DecryptForDatabase(vendorSecret.SharedSecret))
+                        VendorId = vendorCredential.Vendor.ObjectId,
+                        VendorName = vendorCredential.Vendor.Name,
+                        VendorCredentialId = vendorCredential.VendorCredentialId,
+                        CredentialName = vendorCredential.CredentialName,
+                        CredentialValue = Encoding.UTF8.GetString(SymmetricEncryption.DecryptForDatabase(vendorCredential.CredentialValue))
                     };
                 }
-                return vendorSecretEditModel;
+                return result;
             }
         }
 
         public ActionResult Create(Guid parentVendor)
         {
-            var model = VendorSecretModel.ForVendor(parentVendor, dataContextFactory);
+            var model = VendorCredentialModel.ForVendor(parentVendor, dataContextFactory);
 
             return View("CreateEdit", model);
         }
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(VendorSecretModel inputModel)
+        public ActionResult Create(VendorCredentialModel inputModel)
         {
             if (!ModelState.IsValid)
             {
-                var resultModel = VendorSecretModel.ForVendor(inputModel.VendorId, dataContextFactory);
+                var resultModel = VendorCredentialModel.ForVendor(inputModel.VendorId, dataContextFactory);
                 resultModel.CredentialName = inputModel.CredentialName;
                 resultModel.CredentialValue = inputModel.CredentialValue;
                 return View("CreateEdit", resultModel);
@@ -87,33 +87,33 @@ namespace KeyHub.Web.Controllers
 
             using (var dataContext = dataContextFactory.Create())
             {
-                dataContext.VendorSecrets.Add(new VendorSecret()
+                dataContext.VendorCredentials.Add(new VendorCredential()
                 {
                     VendorId = inputModel.VendorId,
-                    Name = inputModel.CredentialName,
-                    SharedSecret = SymmetricEncryption.EncryptForDatabase(Encoding.UTF8.GetBytes(inputModel.CredentialValue))
+                    CredentialName = inputModel.CredentialName,
+                    CredentialValue = SymmetricEncryption.EncryptForDatabase(Encoding.UTF8.GetBytes(inputModel.CredentialValue))
                 });
                 dataContext.SaveChanges();
             }
 
-            Flash.Success("VendorSecret was successfully saved.");
+            Flash.Success("VendorCredential was successfully saved.");
             return RedirectToAction("Details", "Vendor", new { key = inputModel.VendorId });
         }
 
         public ActionResult Edit(Guid key)
         {
-            var vendorSecretEditModel = VendorSecretModel.ForVendorSecret(dataContextFactory, key);
+            var model = VendorCredentialModel.ForVendorCredential(dataContextFactory, key);
 
-            return View("CreateEdit", vendorSecretEditModel);
+            return View("CreateEdit", model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(VendorSecretModel inputModel)
+        public ActionResult Edit(VendorCredentialModel inputModel)
         {
             if (!ModelState.IsValid)
             {
-                var resultModel = VendorSecretModel.ForVendorSecret(dataContextFactory, inputModel.VendorSecretId.Value);
+                var resultModel = VendorCredentialModel.ForVendorCredential(dataContextFactory, inputModel.VendorCredentialId.Value);
                 resultModel.CredentialName = inputModel.CredentialName;
                 resultModel.CredentialValue = inputModel.CredentialValue;
                 return View("CreateEdit", resultModel);
@@ -121,45 +121,45 @@ namespace KeyHub.Web.Controllers
 
             using (var dataContext = dataContextFactory.Create())
             {
-                var vendorSecret =
-                    dataContext.VendorSecrets.Where(x => x.VendorSecretId == inputModel.VendorSecretId.Value).Single();
+                var vendorCredential =
+                    dataContext.VendorCredentials.Where(x => x.VendorCredentialId == inputModel.VendorCredentialId.Value).Single();
 
-                vendorSecret.Name = inputModel.CredentialName;
-                vendorSecret.SharedSecret =
+                vendorCredential.CredentialName = inputModel.CredentialName;
+                vendorCredential.CredentialValue =
                     SymmetricEncryption.EncryptForDatabase(Encoding.UTF8.GetBytes(inputModel.CredentialValue));
 
                 dataContext.SaveChanges();
             }
 
-            Flash.Success("VendorSecret was successfully modified.");
+            Flash.Success("VendorCredential was successfully modified.");
             return RedirectToAction("Details", "Vendor", new { key = inputModel.VendorId });
         }
 
         [HttpGet]
         public ActionResult Remove(Guid key)
         {
-            var model = VendorSecretModel.ForVendorSecret(dataContextFactory, key);
+            var model = VendorCredentialModel.ForVendorCredential(dataContextFactory, key);
 
             return View("Remove", model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Remove(Guid VendorId, Guid VendorSecretId)
+        public ActionResult Remove(Guid VendorId, Guid VendorCredentialId)
         {
             if (!ModelState.IsValid)
             {
-                var resultModel = VendorSecretModel.ForVendorSecret(dataContextFactory, VendorSecretId);
+                var resultModel = VendorCredentialModel.ForVendorCredential(dataContextFactory, VendorCredentialId);
                 return View("Remove", resultModel);
             }
 
             using (var dataContext = dataContextFactory.Create())
             {
-                dataContext.VendorSecrets.Remove(s => s.VendorSecretId == VendorSecretId);
+                dataContext.VendorCredentials.Remove(s => s.VendorCredentialId == VendorCredentialId);
                 dataContext.SaveChanges();
             }
 
-            Flash.Success("VendorSecret was successfully deleted.");
+            Flash.Success("VendorCredential was successfully deleted.");
             return RedirectToAction("Details", "Vendor", new { key = VendorId });
         }
     }

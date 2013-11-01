@@ -330,15 +330,15 @@ namespace KeyHub.Data.Migrations
                 .Index(t => t.OwningCustomerId);
 
             CreateTable(
-                "dbo.VendorSecrets",
+                "dbo.VendorCredentials",
                 c => new
                 {
-                    VendorSecretId = c.Guid(nullable: false, identity: true),
+                    VendorCredentialId = c.Guid(nullable: false, identity: true),
                     VendorId = c.Guid(nullable: false),
-                    Name = c.String(nullable: false),
-                    SharedSecret = c.Binary(nullable: false)
+                    CredentialName = c.String(nullable: false),
+                    CredentialValue = c.Binary(nullable: false)
                 })
-                .PrimaryKey(t => t.VendorSecretId)
+                .PrimaryKey(t => t.VendorCredentialId)
                 .ForeignKey("dbo.Vendors", t => t.VendorId, cascadeDelete: true)
                 .Index(t => t.VendorId);
         }

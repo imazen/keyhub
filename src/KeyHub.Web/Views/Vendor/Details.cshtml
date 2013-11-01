@@ -77,28 +77,28 @@
 
 <p>
 
-    <h2>VendorSecret</h2>
+    <h2>VendorCredential</h2>
     <p>
-        @Html.ActionLink("Create New VendorSecret", "Create", "VendorSecret", new { parentVendor = Model.Vendor.ObjectId }, new { @class="Btn New"})
+        @Html.ActionLink("Create New VendorCredential", "Create", "VendorCredential", new { parentVendor = Model.Vendor.ObjectId }, new { @class="Btn New"})
     </p>
     <table border="0" border="0" cellspacing="0" cellpadding="0" class="GridTable" style="width:auto">
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.Vendor.VendorSecrets.FirstOrDefault().Name)
+                    @Html.DisplayNameFor(model => model.Vendor.VenderCredentials.FirstOrDefault().CredentialName)
                 </th>
                 <th></th>
             </tr>
         </thead>
-        @foreach (var item in Model.Vendor.VendorSecrets) {
+        @foreach (var item in Model.Vendor.VenderCredentials) {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Name)
+                    @Html.DisplayFor(modelItem => item.CredentialName)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", "VendorSecret", new { key=item.VendorSecretId }, new {})
+                    @Html.ActionLink("Edit", "Edit", "VendorCredential", new { key=item.VendorCredentialId }, new {})
                     |
-                    @Html.ActionLink("Remove", "Remove", "VendorSecret", new { key=item.VendorSecretId }, new {})
+                    @Html.ActionLink("Remove", "Remove", "VendorCredential", new { key=item.VendorCredentialId }, new {})
                 </td>
             </tr>
         }

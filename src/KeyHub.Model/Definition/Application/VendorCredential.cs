@@ -11,14 +11,14 @@ namespace KeyHub.Model
     /// <summary>
     /// Shared secret used by vendors when POST'ing transactions
     /// </summary>
-    public class VendorSecret
+    public class VendorCredential
     {
         /// <summary>
         /// Indentifier for the PrivateKey entity.
         /// </summary>
         [Key]
         [DatabaseGenerated(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity)]
-        public Guid VendorSecretId { get; set; }
+        public Guid VendorCredentialId { get; set; }
 
         /// <summary>
         /// The vendor this key is owned by.
@@ -37,12 +37,12 @@ namespace KeyHub.Model
         /// The name of the shared secret (managed by the vendor)
         /// </summary>
         [Required]
-        public string Name { get; set; }
+        public string CredentialName { get; set; }
 
         /// <summary>
         /// The shared secret, encrypted by SymmetricEncryption & appSetting[DatabaseEncryptionKey]
         /// </summary>
         [Required]
-        public byte[] SharedSecret { get; set; }
+        public byte[] CredentialValue { get; set; }
     }
 }

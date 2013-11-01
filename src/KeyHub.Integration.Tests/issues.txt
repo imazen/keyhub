@@ -2,8 +2,6 @@
 
   remember to encrypt the VenderSecret in the database
 
-  VendorSecret -> VendorCredential
-
   PrivateKeyController.Remove should be an HTTP post
   PrivateKeyController should use anti-forgery tokens
 
