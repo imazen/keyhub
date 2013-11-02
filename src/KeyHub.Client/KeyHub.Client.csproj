@@ -39,7 +39,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DomainLicense.cs" />
-    <Compile Include="DomainUtility.cs" />
     <Compile Include="LicenseDownloader.cs" />
     <Compile Include="LicenseDeserializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

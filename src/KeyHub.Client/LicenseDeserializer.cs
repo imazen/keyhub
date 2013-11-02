@@ -7,6 +7,13 @@ namespace KeyHub.Client
 {
     public class LicenseDeserializer
     {
+        /// <summary>
+        /// Returns a dictionary that associates domains with licenses.
+        /// To retrieve licenses for domain aaa.bbb.ccc, use the results for all domaincs "aaa.bbb.ccc", "bbb.ccc" and "ccc".
+        /// </summary>
+        /// <param name="publicKeyXml"></param>
+        /// <param name="licensesAndSignatures"></param>
+        /// <returns></returns>
         public Dictionary<string, List<DomainLicense>> DeserializeAll(string publicKeyXml, ICollection<KeyValuePair<string,string>> licensesAndSignatures)
         {
             var licenses = new Dictionary<string, List<DomainLicense>>(StringComparer.OrdinalIgnoreCase);
@@ -27,7 +34,7 @@ namespace KeyHub.Client
                         throw new Exception("Signature failed for license of domain " + domainLicense.Domain);
                     }
 
-                    string domain = DomainUtility.NormalizeDomain(domainLicense.Domain);
+                    string domain = domainLicense.Domain;
                     List<DomainLicense> forDomain;
                     if (!licenses.TryGetValue(domain, out forDomain))
                     {
