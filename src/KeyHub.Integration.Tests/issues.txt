@@ -5,8 +5,6 @@
 
   - upgrade to entity framework 6.0?
 
-  - lucrasoft.nl is in the codebase in a few places
-
   - what to do about usernames that are in the sourcecode?
     - have a default admin and warn people to change it
     - require an appSetting with the admin email, require OpenID login

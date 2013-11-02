@@ -34,7 +34,7 @@ namespace KeyHub.Web.Api.Controllers
         ///     Host: localhost:63436
         ///     Content-Length: 185
         ///     Content-Type: application/xml
-        ///     <TransactionRequest PurchaserName="Steven Somer" PurchaserEmail="steven@lucrasoft.nl">
+        ///     <TransactionRequest PurchaserName="Steven Somer" PurchaserEmail="steven@example.org">
         ///         <PurchasedSku>{guid}</PurchasedSku>
         ///     </TransactionRequest>
         /// </example> 

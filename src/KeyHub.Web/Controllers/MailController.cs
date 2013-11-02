@@ -48,14 +48,8 @@ namespace KeyHub.Web.Controllers
         /// <returns>Emailmessage ready to be set to purchaser</returns>
         public EmailResult TransactionEmail(TransactionMailViewModel model)
         {
-            bool redirectMails = (WebConfigurationManager.AppSettings["redirectMails"] !=null) && bool.Parse(WebConfigurationManager.AppSettings["redirectMails"]);
-            string redirectTo = WebConfigurationManager.AppSettings["redirectTo"];
-
-            if (redirectMails && string.IsNullOrEmpty(redirectTo))
-                throw new ConfigurationErrorsException("Mail redirecting enabled without a RedirectTo set");
-
-            To.Add(redirectMails ? redirectTo : model.PurchaserEmail);
-            From = "no-reply@lucrasoft.nl";
+            To.Add(model.PurchaserEmail);
+            From = ConfigurationManager.AppSettings["siteNoReplyEmailAddress"];
             Subject = "Please claim your transaction.";
             return Email("NewTransactionEmail", model);
         }
@@ -67,14 +61,8 @@ namespace KeyHub.Web.Controllers
         /// <returns>Emailmessage ready to be set to purchaser</returns>
         public EmailResult IssueEmail(IssueMailViewModel model)
         {
-            bool redirectMails = (WebConfigurationManager.AppSettings["redirectMails"] != null) && bool.Parse(WebConfigurationManager.AppSettings["redirectMails"]);
-            string redirectTo = WebConfigurationManager.AppSettings["redirectTo"];
-
-            if (redirectMails && string.IsNullOrEmpty(redirectTo))
-                throw new ConfigurationErrorsException("Mail redirecting enabled without a RedirectTo set");
-
-            To.Add(redirectMails ? redirectTo : model.Email);
-            From = "no-reply@lucrasoft.nl";
+            To.Add(model.Email);
+            From = ConfigurationManager.AppSettings["siteNoReplyEmailAddress"];
             Subject = "An issue occured on you application.";
             return Email("IssueEmail", model);
         }
