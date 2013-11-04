@@ -1,4 +1,6 @@
-﻿using KeyHub.BusinessLogic.LicenseValidation;
+﻿using System.Configuration;
+using KeyHub.BusinessLogic.LicenseValidation;
+using KeyHub.Common.Utils;
 using KeyHub.Core.Logging;
 using KeyHub.Common;
 using KeyHub.Core.UnitOfWork;
@@ -137,15 +139,17 @@ namespace KeyHub.Web.Api.Controllers
         /// Get Base64 string RSA signature 
         /// </summary>
         /// <param name="text"></param>
-        /// <param name="keyBytes">Blob of RSA private key</param>
+        /// <param name="keyBytes">Blob of RSA private key, encrypted with SymmetricEncryption.Decrypt</param>
         /// <returns>Encrypted text</returns>
         public static byte[] SignData(string text, byte[] keyBytes)
         {
+            byte[] decryptedKey = SymmetricEncryption.Decrypt(keyBytes, ConfigurationManager.AppSettings["DatabaseEncryptionKey"]);
+            
             using (var r = new RSACryptoServiceProvider(2048, new CspParameters() { Flags = CspProviderFlags.NoPrompt | CspProviderFlags.CreateEphemeralKey }))
             {
                 try
                 {
-                    r.ImportCspBlob(keyBytes);
+                    r.ImportCspBlob(decryptedKey);
                     return r.SignData(Encoding.UTF8.GetBytes(text), new SHA256Managed());
                 }
                 finally

@@ -113,9 +113,13 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
+    <Reference Include="xunit">
+      <HintPath>..\packages\xunit.1.9.2\lib\net20\xunit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BusinessLogic\LicenseValidation\MaxDomainsCountTest.cs" />
+    <Compile Include="Common\Utils\SymmetricEncryptionTests.cs" />
     <Compile Include="Controllers\ExampleTest.cs" />
     <Compile Include="Controllers\TransactionByIpnTest.cs" />
     <Compile Include="Controllers\TransactionControllerTest.cs" />
@@ -145,6 +149,10 @@
     <ProjectReference Include="..\KeyHub.BusinessLogic\KeyHub.BusinessLogic.csproj">
       <Project>{7fa54424-5866-4a33-ab6b-01a59d0843c7}</Project>
       <Name>KeyHub.BusinessLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\KeyHub.Common\KeyHub.Common.csproj">
+      <Project>{CABF1962-0677-497F-B4A8-41EDF551D6D3}</Project>
+      <Name>KeyHub.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\KeyHub.Core\KeyHub.Core.csproj">
       <Project>{982DDF31-5D75-4194-99B4-FCC95CD4BE7F}</Project>

@@ -25,11 +25,10 @@
         </div>
         
         <div class="editor-label">
-            @Html.LabelFor(model => model.PrivateKey.PrivateKeyXmlString)
+            @Html.LabelFor(model => model.PrivateKey.PublicKeyXmlString)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.PrivateKey.PrivateKeyXmlString)
-            @Html.ValidationMessageFor(model => model.PrivateKey.PrivateKeyXmlString)
+            @Html.TextBoxFor(model => model.PrivateKey.PublicKeyXmlString, new { @readonly = "readonly"})
         </div>
 
         <p>

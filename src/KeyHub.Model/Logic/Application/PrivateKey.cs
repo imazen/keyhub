@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using KeyHub.Common.Utils;
 
 namespace KeyHub.Model
 {
@@ -17,9 +19,12 @@ namespace KeyHub.Model
         {
             //Generate a new private key
             using(var r = new RSACryptoServiceProvider(2048, new CspParameters() { Flags = CspProviderFlags.CreateEphemeralKey | CspProviderFlags.NoPrompt})){
-                try{
-                    this.KeyBytes = r.ExportCspBlob(true);
-                }finally{
+                try
+                {
+                    var privateKeyBytes = r.ExportCspBlob(true);
+                    this.KeyBytes = SymmetricEncryption.Encrypt(privateKeyBytes, ConfigurationManager.AppSettings["DatabaseEncryptionKey"]);
+                }
+                finally{
                     r.PersistKeyInCsp = false;
                 }
             }
@@ -27,38 +32,17 @@ namespace KeyHub.Model
 
         public string GetPublicKeyXmlString()
         {
-            return GetXmlString(false);
-        }
-
-        public string GetPrivateKeyXmlString()
-        {
-            return GetXmlString(true);
-        }
-
-        public string GetXmlString(bool includePrivate)
-        {
-            using (var r = new RSACryptoServiceProvider(2048, new CspParameters() { Flags = CspProviderFlags.CreateEphemeralKey | CspProviderFlags.NoPrompt }))
+            using (var r = new RSACryptoServiceProvider(2048, new CspParameters()
+            {
+                Flags = CspProviderFlags.CreateEphemeralKey | CspProviderFlags.NoPrompt
+            }))
             {
                 try
                 {
-                    r.ImportCspBlob(KeyBytes);
-                    return r.ToXmlString(includePrivate);
-                }
-                finally
-                {
-                    r.PersistKeyInCsp = false; //Default behavior is to store on filesystem; this is a security issue
-                }
-            }
+                    var privateKey = SymmetricEncryption.Decrypt(KeyBytes, ConfigurationManager.AppSettings["DatabaseEncryptionKey"]);
 
-        }
-
-        public void SetPrivateKeyXmlString(string privateKeyXmlString)
-        {
-            using (var r = new RSACryptoServiceProvider(2048, new CspParameters() { Flags = CspProviderFlags.CreateEphemeralKey | CspProviderFlags.NoPrompt }))
-            {
-                try{
-                    r.FromXmlString(privateKeyXmlString);
-                    KeyBytes = r.ExportCspBlob(true);
+                    r.ImportCspBlob(privateKey);
+                    return r.ToXmlString(false);
                 }
                 finally
                 {
