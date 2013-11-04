@@ -29,7 +29,7 @@ namespace KeyHub.Integration.Tests
         [CleanDatabase]
         public void CanValidateLicense()
         {
-            var domain = "foobar.com";
+            var domain = "lol1.lo2.foobar.com";
 
             var scenario = new LicenseValidationScenario();
 
