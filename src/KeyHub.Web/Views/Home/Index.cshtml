@@ -1,0 +1,17 @@
+﻿@model KeyHub.Web.ViewModels.Home.HomeViewModel
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+@section featured {
+    <h2>Welcome to Keyhub!</h2>
+}
+
+
+@if (Model.CurrentUser.IsVendorAdmin)
+{
+    <div>@Html.ActionLink("Start a new transaction.", "Create", "Transaction", null, new { @class = "Btn" })</div>
+}
+
+

@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="KeyHub.Web.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="microsoftClientId" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">00000000400E4C59</Value>
+    </Setting>
+    <Setting Name="microsoftClientSecret" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Fa7o3AO2g9r6Cg3WyskzhBCA9oPJwSVV</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

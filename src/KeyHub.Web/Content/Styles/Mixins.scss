@@ -1,0 +1,63 @@
+﻿$blue: #0080cc;
+$orangeDark: #cc4c00;
+$orange: ff6103;
+$purple: #5b0081;
+
+$colorMenubar: #014051;
+
+$colorActive: #007acc;
+$colorActive2: #ff0000;
+
+$colorActive_Hover: darken($colorActive,20);
+$colorActive2_Hover: darken($colorActive,20);
+
+$colorBorderInputTextNotSelected: #cccccc;
+$colorBorderInputTextSelected: $colorActive;
+$colorBorderInputTextError: #ff0000;
+$colorBorderInputTextDisabled: #ededed;
+
+
+
+@mixin dropshadow($x:0,$y:0,$s:5px,$o:0px,$c:#000000,$d:0) {
+	@if($d==0){
+		-moz-box-shadow:    $x $y $s $o $c;
+		-webkit-box-shadow: $x $y $s $o $c;
+		box-shadow:         $x $y $s $o $c;
+	}@else{
+		-moz-box-shadow:    $d $x $y $s $o $c;
+		-webkit-box-shadow:  $d $x $y $s $o $c;
+		box-shadow:          $d $x $y $s $o $c;
+	}
+}
+
+@mixin bg_gradient($c1:#ffffff,$c2:#ededed) {
+	background: $c1; /* Old browsers */
+    background: -moz-linear-gradient(top, $c1 0%, $c2 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,$c1), color-stop(100%,$c2)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,$c1 0%,$c2 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,$c1 0%,$c2 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,$c1 0%,$c2 100%); /* IE10+ */
+    background: linear-gradient(to bottom, $c1 0%,$c2 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=#{$c1}, endColorstr=#{$c2},GradientType=0 ); /* IE6-9 */
+
+	background-image: -moz-linear-gradient(center top, $c1, $c2);
+	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from($c1), to($c2));
+}
+@mixin arrow($s:10px,$d:0,$c:#000000){
+	
+	width: 0px; height:0px;
+	border: $s solid transparent;
+	position: absolute;
+	left: -10px;
+		//@if($d == 0){
+		border-right: $s solid $c; border-bottom: 0px solid $c; bottom: 0px;
+	//}
+	
+}
+@mixin opacity($a:0.5){
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=#{$a*100})";
+	filter: alpha(opacity=#{$a*100});
+	-moz-opacity:$a;
+	-khtml-opacity: $a;
+	opacity: $a;
+}

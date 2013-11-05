@@ -1,0 +1,56 @@
+﻿@model KeyHub.Web.ViewModels.Transaction.TransactionDetailsViewModel
+
+<fieldset>
+    <legend>TransactionDetailsViewItem</legend>
+    <div class="editor-container-sideBySide">
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Transaction.CreatedDateTime)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Transaction.CreatedDateTime)
+    </div>
+        
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Transaction.PurchaserEmail)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Transaction.PurchaserEmail)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Transaction.PurchaserName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Transaction.PurchaserName)
+    </div>
+        
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Transaction.OwnerName)
+    </div>
+    <div class="display-field">
+         @Html.DisplayFor(model => model.Transaction.OwnerName)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Transaction.SKUSummary)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Transaction.SKUSummary)
+    </div>
+        
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Transaction.IgnoredSummary)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Transaction.IgnoredSummary)
+    </div>
+        
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Transaction.StatusName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Transaction.StatusName)
+    </div>
+        </div>
+</fieldset>
+

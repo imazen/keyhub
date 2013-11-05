@@ -1,0 +1,99 @@
+﻿@model KeyHub.Web.ViewModels.Transaction.TransactionCheckoutViewModel
+
+@{
+    ViewBag.ItemName = "Transaction";
+    ViewBag.Title = "Checkout";
+    
+    var hasCustomers = Model.PurchasingCustomers.Any();
+    var defaultNewPurchasingCustomerPanel = (hasCustomers) ? "display:none;" : "";
+    //var defaultNewOwningCustomerPanel = (Model.OwningCustomerIsPurchasingCustomerId) ? "display:none;" : "";
+}
+
+<script type="text/javascript" src="/Scripts/Checkout.js"></script>
+<h2>@ViewBag.ItemName <span>@ViewBag.Title</span></h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>TransactionCheckoutViewModel</legend>
+
+        @Html.HiddenFor(model => model.Transaction.TransactionId)
+        
+        <table cellpadding="10px" >
+            <tr>
+                <td valign="top" >
+                    <h2>Purchasing customer details</h2>
+                    @if (hasCustomers)
+                    {
+                        <div class="editor-label">
+                            @Html.RadioButtonFor(model => model.ExistingPurchasingCustomer, true, new { @onchange = "DisableNewPurchasingCustomer();" })
+                            Select an existing purchasing customer
+                        </div>
+                        <div class="editor-field" id="SelectPurchasingCustomer">
+                            @Html.DropDownListFor(model => model.PurchasingCustomerId, Model.PurchasingCustomers)
+                        </div>
+        
+                        <div class="editor-label">
+                            @Html.RadioButtonFor(model => model.ExistingPurchasingCustomer, false, new { @onchange = "EnableNewPurchasingCustomer();" })
+                            Create a new purchasing customer
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="editor-label">
+                            Fill in the details for the purchasing customer
+                        </div>
+                    }
+                    <div class="editor-field" id="NewPurchasingCustomer">
+                        @Html.Partial("_CreateCustomer", Model.NewPurchasingCustomer, new ViewDataDictionary(Html.ViewDataContainer.ViewData)
+                                                                                          {
+                                                                                              TemplateInfo = new TemplateInfo { HtmlFieldPrefix = "NewPurchasingCustomer" }
+                                                                                          }) 
+                    </div>
+                    <div class="editor-label">
+                        This customer is also the license owner
+                    </div>
+                    <div class="editor-field">
+                        @Html.CheckBoxFor(model => model.OwningCustomerIsPurchasingCustomerId, new { @onclick = "ToggleNewOwningCustomer();" })
+                    </div>
+                </td>
+                <td valign="top" >
+                    <div class="editor-field" id="OwningCustomer" style="display:none;">
+                        <h2>Owning customer details</h2>
+                        @if (hasCustomers)
+                        {
+                            <div class="editor-label">
+                                @Html.RadioButtonFor(model => model.ExistingOwningCustomer, true, new { @onchange = "DisableNewOwningCustomer();" })
+                                Select an existing owning customer
+                            </div>
+                            <div class="editor-field" id="SelectOwningCustomer">
+                                @Html.DropDownListFor(model => model.OwningCustomerId, Model.OwningCustomers)
+                            </div>
+
+                            <div class="editor-label">
+                                @Html.RadioButtonFor(model => model.ExistingOwningCustomer, false, new { @onchange = "EnableNewOwningCustomer();" })
+                                Create a new owning customer
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="editor-label">
+                                Fill in the details for the owning customer
+                            </div>
+                        }
+                        <div class="editor-field" id="NewOwningCustomer">
+                            @Html.Partial("_CreateCustomer", Model.NewOwningCustomer, new ViewDataDictionary(Html.ViewDataContainer.ViewData)
+                                                                                          {
+                                                                                              TemplateInfo = new TemplateInfo { HtmlFieldPrefix = "NewOwningCustomer" }
+                                                                                          }) 
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <p>
+            <input type="submit" value="Continue" onclick="RemoveHiddenControls();" />
+        </p>
+    </fieldset>
+}

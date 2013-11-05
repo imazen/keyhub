@@ -1,0 +1,50 @@
+﻿@model KeyHub.Web.ViewModels.User.UserIndexViewModel
+
+@{
+    ViewBag.ItemName = "Account";
+    ViewBag.Title = "Overview";
+}
+
+@Html.Action("DetailsPartial", "Account", new {id = Model.CurrentUser.UserId }) 
+
+<br/>
+<br/>
+
+@if (Model.CurrentUser.IsSystemAdmin || Model.CurrentUser.IsVendorAdmin)
+{
+    <h2>@ViewBag.ItemName <span>@ViewBag.Title</span></h2>
+
+    <p>
+        @Html.ActionLink("Create new account", "Create", null, new {@class = "Btn New"})
+    </p>
+    <table border="0" border="0" cellspacing="0" cellpadding="0" class="GridTable">
+        <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Users.FirstOrDefault().Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Users.FirstOrDefault().RightsSummary)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.Users)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RightsSummary)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new {id = item.UserId})
+                    @*@Html.ActionLink("Delete", "Delete", new {name = item.UserName})*@
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+

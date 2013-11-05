@@ -1,0 +1,66 @@
+﻿@model KeyHub.Web.ViewModels.License.LicenseDetailsViewModel
+
+@{
+    ViewBag.ItemName = "License";
+    ViewBag.Title = "Details";
+}
+
+<h2>@ViewBag.ItemName <span>@ViewBag.Title</span></h2>
+
+<fieldset>
+    <legend>LicenseDetailsViewItem</legend>
+    <div class="editor-container-sideBySide">
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.License.SKUName)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.License.SKUName)
+        </div>
+       
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.License.PurchasingCustomerName)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.License.PurchasingCustomerName)
+        </div>
+
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.License.OwnerName)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.License.OwnerName)
+        </div>
+
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.License.OwningCustomerName)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.License.OwningCustomerName)
+        </div>
+    
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.License.LicenseIssued)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.License.LicenseIssued)
+        </div>
+
+        <div class="display-label">
+             @Html.DisplayNameFor(model => model.License.LicenseExpires)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.License.LicenseExpires)
+        </div>
+    </div>
+</fieldset>
+
+<p>
+    @Html.Action("IndexPartial", "DomainLicense", new { parentLicense = Model.License.ObjectId })
+</p>
+
+<p>
+    @if (Model.RedirectUrl.IsEmpty())
+    {
+        <a href="@Model.RedirectUrl">Back</a>
+    }
+</p>

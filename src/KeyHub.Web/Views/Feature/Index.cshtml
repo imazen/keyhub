@@ -1,0 +1,48 @@
+﻿@model KeyHub.Web.ViewModels.Feature.FeatureIndexViewModel
+
+@{
+    ViewBag.ItemName = "Feature";
+    ViewBag.Title = "Overview";
+}
+
+<h2>@ViewBag.ItemName <span>@ViewBag.Title</span></h2>
+
+
+<p>
+    @Html.ActionLink("Create New Feature", "Create", null,  new { @class = "Btn New"})
+</p>
+<table border="0" border="0" cellspacing="0" cellpadding="0" class="GridTable">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Features.FirstOrDefault().FeatureName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Features.FirstOrDefault().FeatureCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Features.FirstOrDefault().VendorName)
+        </th>
+        <th></th>
+    </tr>
+        </thead>
+
+@foreach (var item in Model.Features) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.FeatureName)
+            @*@Html.ActionLink("Edit", "Edit", new { key = item.FeatureId })*@
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FeatureCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.VendorName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { key = item.FeatureId })
+        </td>
+    </tr>
+}
+
+</table>

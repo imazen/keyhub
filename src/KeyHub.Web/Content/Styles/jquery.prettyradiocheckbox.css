@@ -1,0 +1,81 @@
+SPAN.checkbox,
+SPAN.radio {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin: -1px 4px;
+  background: url("../Images/bgFrmCheckboxRadioSprite.png") no-repeat;
+  position: relative; }
+
+SPAN.checkbox {
+  background-position: 0px 0px; }
+  SPAN.checkbox:hover, SPAN.checkbox.hover {
+    background-position: 0px -20px; }
+  SPAN.checkbox.focus, SPAN.checkbox:focus {
+    background-position: 0px -40px; }
+  SPAN.checkbox:active {
+    background-position: 0px -60px; }
+  SPAN.checkbox.disabled {
+    background-position: 0px -80px; }
+  SPAN.checkbox.checked {
+    background-position: 0px -100px; }
+  SPAN.checkbox.checked:hover, SPAN.checkbox.checked.hover {
+    background-position: 0px -120px; }
+  SPAN.checkbox.checked.focus, SPAN.checkbox.checked:focus {
+    background-position: 0px -140px; }
+  SPAN.checkbox.checked:active {
+    background-position: 0px -160px; }
+  SPAN.checkbox.checked.disabled {
+    background-position: 0px -180px; }
+
+SPAN.radio {
+  background-position: -20px 0px; }
+  SPAN.radio:hover, SPAN.radio.hover {
+    background-position: -20px -20px; }
+  SPAN.radio.focus, SPAN.radio:focus {
+    background-position: -20px -40px; }
+  SPAN.radio:active {
+    background-position: -20px -60px; }
+  SPAN.radio.disabled {
+    background-position: -20px -80px; }
+  SPAN.radio.checked {
+    background-position: -20px -100px; }
+  SPAN.radio.checked:hover, SPAN.radio.checked.hover {
+    background-position: -20px -120px; }
+  SPAN.radio.checked.focus, SPAN.radio.checked:focus {
+    background-position: -20px -140px; }
+  SPAN.radio.checked:active {
+    background-position: -20px -160px; }
+  SPAN.radio.checked.disabled {
+    background-position: -20px -180px; }
+
+/*
+
+SPAN.radio {
+  background-position: -20px 0px; }
+
+SPAN.radio:hover,
+SPAN.radio.hover {
+  background-position: -20px -20px; }
+
+SPAN.radio:active {
+  background-position: -20px -40px; }
+
+SPAN.radio.disabled {
+  background-position: -20px -60px; }
+
+SPAN.radio.checked {
+  background-position: -20px -80px; }
+
+SPAN.radio.checked:hover,
+SPAN.radio.checked.hover {
+  background-position: -20px -100px; }
+
+SPAN.radio.checked:active {
+  background-position: -20px -120px; }
+
+SPAN.radio.checked.disabled {
+  background-position: -20px -140px; }
+
+  */
+

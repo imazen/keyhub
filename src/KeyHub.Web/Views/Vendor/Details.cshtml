@@ -1,0 +1,71 @@
+﻿@model KeyHub.Web.ViewModels.Vendor.VendorDetailsViewModel
+
+@{
+    ViewBag.ItemName = "Vendor";
+    ViewBag.Title = "Details";
+}
+
+<h2>@ViewBag.ItemName <span>@ViewBag.Title</span></h2>
+
+<fieldset>
+    <legend>VendorDetailsViewItem</legend>
+
+    @Html.HiddenFor(model => model.Vendor.ObjectId)
+    <div class="editor-container-sideBySide">
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Vendor.ObjectId)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Vendor.ObjectId)
+    </div>    
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Vendor.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Vendor.Name)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Vendor.Street)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Vendor.Street)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Vendor.PostalCode)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Vendor.PostalCode)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Vendor.City)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Vendor.City)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Vendor.Region)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Vendor.Region)
+    </div>
+  
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Vendor.CountryName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Vendor.CountryName)
+    </div>
+        </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { key = Model.Vendor.ObjectId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+<p>
+    @Html.Action("IndexPartial", "PrivateKey", new { parentVendor = Model.Vendor.ObjectId })
+</p>

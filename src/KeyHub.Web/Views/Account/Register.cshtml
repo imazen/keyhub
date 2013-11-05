@@ -1,0 +1,52 @@
+﻿@model KeyHub.Web.ViewModels.User.RegisterViewModel
+
+@{
+    ViewBag.Title = "Register";
+}
+
+<hgroup class="title">
+    <h1>@ViewBag.Title.</h1>
+</hgroup>
+
+<table cellpadding="30px">
+    <tr>
+        <td valign="top" width="150px">
+            <h2>Create a new account.</h2>
+            
+            <p class="message-info">
+                Passwords must be at least @Membership.MinRequiredPasswordLength characters long.
+            </p>
+
+            @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl }))
+            {
+                @Html.ValidationSummary()
+
+                <fieldset>
+                    <legend>Registration Form</legend>
+           
+                    <div class="editor-label">@Html.LabelFor(m => m.Email)</div>
+                    <div class="editor-field">@Html.TextBoxFor(m => m.Email)</div>
+            
+                    <div class="editor-label">@Html.LabelFor(m => m.Password)</div>
+                    <div class="editor-field">@Html.PasswordFor(m => m.Password)</div>
+           
+                    <div class="editor-label">@Html.LabelFor(m => m.ConfirmPassword)</div>
+                    <div class="editor-field">@Html.PasswordFor(m => m.ConfirmPassword)</div>
+        
+                    <br/>
+      
+                    <input type="submit" value="Register" />
+                </fieldset>
+            }
+            </td>
+        <td valign="top">
+            <h2>Or register using your OpenID.</h2>
+
+            @Html.Action("ExternalLoginsList", new { ReturnUrl = ViewBag.ReturnUrl })        
+        </td>
+    </tr>
+</table>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

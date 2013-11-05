@@ -1,0 +1,23 @@
+﻿@model KeyHub.Web.ViewModels.Transaction.TransactionDetailsViewModel
+
+@{
+    ViewBag.ItemName = "Transaction";
+    ViewBag.Title = "Details";
+}
+
+<h2>@ViewBag.ItemName <span>@ViewBag.Title</span></h2>
+
+@Html.Partial("DetailsPartial", Model) 
+
+<br/>
+
+<h2>Available applications</h2>
+
+@Html.Action("IndexPartial", "CustomerApp", new {transactionId = Model.Transaction.TransactionId }) 
+
+<p>
+    @Html.ActionLink("Back to transaction overview", "Index")
+</p>
+
+
+

@@ -1,0 +1,65 @@
+﻿@model KeyHub.Web.ViewModels.SKU.SKUIndexViewModel
+
+@{
+    ViewBag.ItemName = "SKU";
+    ViewBag.Title = "Overview";
+}
+
+<h2>@ViewBag.ItemName <span>@ViewBag.Title</span></h2>
+
+
+<p>
+    @Html.ActionLink("Create New SKU", "Create", null,  new { @class = "Btn New"})
+</p>
+<table border="0" border="0" cellspacing="0" cellpadding="0" class="GridTable">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.SKUs.FirstOrDefault().VendorName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SKUs.FirstOrDefault().SkuCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SKUs.FirstOrDefault().SkuId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SKUs.FirstOrDefault().FeatureSummary)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SKUs.FirstOrDefault().ReleaseDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SKUs.FirstOrDefault().ExpirationDate)
+        </th>
+        <th></th>
+    </tr>
+</thead>
+@foreach (var item in Model.SKUs) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.VendorName)
+            @*@Html.ActionLink("Edit", "Edit", new { key=item.SkuId })*@
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SkuCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SkuId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FeatureSummary)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReleaseDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ExpirationDate)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { key=item.SkuId })
+        </td>
+    </tr>
+}
+
+</table>

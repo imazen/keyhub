@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DirectedGraph GraphDirection="LeftToRight" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="Application\KeyHub.BusinessLogic" Label="KeyHub.BusinessLogic" Category="Project" />
+    <Node Id="EntityFramework 5.0.0-rc" Label="EntityFramework 5.0.0-rc" Category="Package" />
+    <Node Id="Microsoft.AspNet.Providers.Core 1.0" Label="Microsoft.AspNet.Providers.Core 1.0" Category="Package" />
+    <Node Id="Core\KeyHub.Core" Label="KeyHub.Core" Category="Project" />
+    <Node Id="EntityFramework 5.0.0-rc" Label="EntityFramework 5.0.0-rc" Category="Package" />
+    <Node Id="SystemWrapper 0.4" Label="SystemWrapper 0.4" Category="Package" />
+    <Node Id="Data\KeyHub.Data" Label="KeyHub.Data" Category="Project" />
+    <Node Id="EntityFramework 5.0.0-rc" Label="EntityFramework 5.0.0-rc" Category="Package" />
+    <Node Id="Microsoft.AspNet.Mvc 4.0.20505.0" Label="Microsoft.AspNet.Mvc 4.0.20505.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.Providers.Core 1.0" Label="Microsoft.AspNet.Providers.Core 1.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.Razor 2.0.20505.0" Label="Microsoft.AspNet.Razor 2.0.20505.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebPages 2.0.20505.0" Label="Microsoft.AspNet.WebPages 2.0.20505.0" Category="Package" />
+    <Node Id="Microsoft.Web.Infrastructure 1.0.0.0" Label="Microsoft.Web.Infrastructure 1.0.0.0" Category="Package" />
+    <Node Id="Data\KeyHub.Model" Label="KeyHub.Model" Category="Project" />
+    <Node Id="EntityFramework 5.0.0-rc" Label="EntityFramework 5.0.0-rc" Category="Package" />
+    <Node Id="Tests\KeyHub.Tests" Label="KeyHub.Tests" Category="Project" />
+    <Node Id="Microsoft.AspNet.Mvc 4.0.20505.0" Label="Microsoft.AspNet.Mvc 4.0.20505.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.Razor 2.0.20505.0" Label="Microsoft.AspNet.Razor 2.0.20505.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebApi.Client 4.0.20505.0" Label="Microsoft.AspNet.WebApi.Client 4.0.20505.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebApi.Core 4.0.20505.0" Label="Microsoft.AspNet.WebApi.Core 4.0.20505.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebApi.WebHost 4.0.20505.0" Label="Microsoft.AspNet.WebApi.WebHost 4.0.20505.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebPages 2.0.20505.0" Label="Microsoft.AspNet.WebPages 2.0.20505.0" Category="Package" />
+    <Node Id="Microsoft.Net.Http 2.0.20505.0" Label="Microsoft.Net.Http 2.0.20505.0" Category="Package" />
+    <Node Id="Microsoft.Web.Infrastructure 1.0.0.0" Label="Microsoft.Web.Infrastructure 1.0.0.0" Category="Package" />
+    <Node Id="Newtonsoft.Json 4.5.1" Label="Newtonsoft.Json 4.5.1" Category="Package" />
+    <Node Id="Web\KeyHub.Runtime" Label="KeyHub.Runtime" Category="Project" />
+    <Node Id="EntityFramework 5.0.0-rc" Label="EntityFramework 5.0.0-rc" Category="Package" />
+    <Node Id="MefContrib 1.2.2.1" Label="MefContrib 1.2.2.1" Category="Package" />
+    <Node Id="Web\KeyHub.Web" Label="KeyHub.Web" Category="Project" />
+    <Node Id="ActionMailer 0.7.4" Label="ActionMailer 0.7.4" Category="Package" />
+    <Node Id="DotNetOpenAuth.AspNet 4.1.3.12303" Label="DotNetOpenAuth.AspNet 4.1.3.12303" Category="Package" />
+    <Node Id="DotNetOpenAuth.Core 4.1.3.12303" Label="DotNetOpenAuth.Core 4.1.3.12303" Category="Package" />
+    <Node Id="DotNetOpenAuth.OAuth.Consumer 4.1.3.12303" Label="DotNetOpenAuth.OAuth.Consumer 4.1.3.12303" Category="Package" />
+    <Node Id="DotNetOpenAuth.OAuth.Core 4.1.3.12303" Label="DotNetOpenAuth.OAuth.Core 4.1.3.12303" Category="Package" />
+    <Node Id="DotNetOpenAuth.OpenId.Core 4.1.3.12303" Label="DotNetOpenAuth.OpenId.Core 4.1.3.12303" Category="Package" />
+    <Node Id="DotNetOpenAuth.OpenId.RelyingParty 4.1.3.12303" Label="DotNetOpenAuth.OpenId.RelyingParty 4.1.3.12303" Category="Package" />
+    <Node Id="EntityFramework 5.0.0-rc" Label="EntityFramework 5.0.0-rc" Category="Package" />
+    <Node Id="jQuery 1.6.2" Label="jQuery 1.6.2" Category="Package" />
+    <Node Id="jQuery.UI.Combined 1.8.11" Label="jQuery.UI.Combined 1.8.11" Category="Package" />
+    <Node Id="jQuery.Validation 1.8.1" Label="jQuery.Validation 1.8.1" Category="Package" />
+    <Node Id="knockoutjs 2.1.0" Label="knockoutjs 2.1.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.Mvc 4.0.20505.0" Label="Microsoft.AspNet.Mvc 4.0.20505.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.Providers.Core 1.0" Label="Microsoft.AspNet.Providers.Core 1.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.Providers.LocalDB 1.0" Label="Microsoft.AspNet.Providers.LocalDB 1.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.Razor 2.0.20505.0" Label="Microsoft.AspNet.Razor 2.0.20505.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.Web.Optimization 1.0.0-beta2" Label="Microsoft.AspNet.Web.Optimization 1.0.0-beta2" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebApi 4.0.20505.0" Label="Microsoft.AspNet.WebApi 4.0.20505.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebApi.Client 4.0.20505.0" Label="Microsoft.AspNet.WebApi.Client 4.0.20505.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebApi.Core 4.0.20505.0" Label="Microsoft.AspNet.WebApi.Core 4.0.20505.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebApi.WebHost 4.0.20505.0" Label="Microsoft.AspNet.WebApi.WebHost 4.0.20505.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebPages 2.0.20505.0" Label="Microsoft.AspNet.WebPages 2.0.20505.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebPages.Data 2.0.20710.0" Label="Microsoft.AspNet.WebPages.Data 2.0.20710.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebPages.OAuth 2.0.20710.0" Label="Microsoft.AspNet.WebPages.OAuth 2.0.20710.0" Category="Package" />
+    <Node Id="Microsoft.AspNet.WebPages.WebData 2.0.20710.0" Label="Microsoft.AspNet.WebPages.WebData 2.0.20710.0" Category="Package" />
+    <Node Id="Microsoft.jQuery.Unobtrusive.Ajax 2.0.20505.0" Label="Microsoft.jQuery.Unobtrusive.Ajax 2.0.20505.0" Category="Package" />
+    <Node Id="Microsoft.jQuery.Unobtrusive.Validation 2.0.20505.0" Label="Microsoft.jQuery.Unobtrusive.Validation 2.0.20505.0" Category="Package" />
+    <Node Id="Microsoft.Web.Infrastructure 1.0.0.0" Label="Microsoft.Web.Infrastructure 1.0.0.0" Category="Package" />
+    <Node Id="Newtonsoft.Json 4.5.1" Label="Newtonsoft.Json 4.5.1" Category="Package" />
+    <Node Id="NLog 2.0.0.2000" Label="NLog 2.0.0.2000" Category="Package" />
+    <Node Id="WebGrease 1.0.0" Label="WebGrease 1.0.0" Category="Package" />
+  </Nodes>
+  <Links>
+    <Link Source="Application\KeyHub.BusinessLogic" Target="EntityFramework 5.0.0-rc" Category="Installed Package" />
+    <Link Source="Application\KeyHub.BusinessLogic" Target="Microsoft.AspNet.Providers.Core 1.0" Category="Installed Package" />
+    <Link Source="Core\KeyHub.Core" Target="EntityFramework 5.0.0-rc" Category="Installed Package" />
+    <Link Source="Core\KeyHub.Core" Target="SystemWrapper 0.4" Category="Installed Package" />
+    <Link Source="Microsoft.AspNet.Mvc 4.0.20505.0" Target="Microsoft.AspNet.WebPages 2.0.20505.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.Mvc 4.0.20505.0" Target="Microsoft.AspNet.Razor 2.0.20505.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebPages 2.0.20505.0" Target="Microsoft.Web.Infrastructure 1.0.0.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebPages 2.0.20505.0" Target="Microsoft.AspNet.Razor 2.0.20505.0" Category="Package Dependency" />
+    <Link Source="Data\KeyHub.Data" Target="EntityFramework 5.0.0-rc" Category="Installed Package" />
+    <Link Source="Data\KeyHub.Data" Target="Microsoft.AspNet.Mvc 4.0.20505.0" Category="Installed Package" />
+    <Link Source="Data\KeyHub.Data" Target="Microsoft.AspNet.Providers.Core 1.0" Category="Installed Package" />
+    <Link Source="Data\KeyHub.Model" Target="EntityFramework 5.0.0-rc" Category="Installed Package" />
+    <Link Source="Microsoft.AspNet.Mvc 4.0.20505.0" Target="Microsoft.AspNet.WebPages 2.0.20505.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.Mvc 4.0.20505.0" Target="Microsoft.AspNet.Razor 2.0.20505.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.Client 4.0.20505.0" Target="Microsoft.Net.Http 2.0.20505.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.Client 4.0.20505.0" Target="Newtonsoft.Json 4.5.1" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.Core 4.0.20505.0" Target="Microsoft.AspNet.WebApi.Client 4.0.20505.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.WebHost 4.0.20505.0" Target="Microsoft.Web.Infrastructure 1.0.0.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.WebHost 4.0.20505.0" Target="Microsoft.AspNet.WebApi.Core 4.0.20505.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebPages 2.0.20505.0" Target="Microsoft.Web.Infrastructure 1.0.0.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebPages 2.0.20505.0" Target="Microsoft.AspNet.Razor 2.0.20505.0" Category="Package Dependency" />
+    <Link Source="Tests\KeyHub.Tests" Target="Microsoft.AspNet.Mvc 4.0.20505.0" Category="Installed Package" />
+    <Link Source="Tests\KeyHub.Tests" Target="Microsoft.AspNet.WebApi.WebHost 4.0.20505.0" Category="Installed Package" />
+    <Link Source="Web\KeyHub.Runtime" Target="EntityFramework 5.0.0-rc" Category="Installed Package" />
+    <Link Source="Web\KeyHub.Runtime" Target="MefContrib 1.2.2.1" Category="Installed Package" />
+    <Link Source="DotNetOpenAuth.AspNet 4.1.3.12303" Target="DotNetOpenAuth.OpenId.RelyingParty 4.1.3.12303" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.AspNet 4.1.3.12303" Target="DotNetOpenAuth.OAuth.Consumer 4.1.3.12303" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OAuth.Consumer 4.1.3.12303" Target="DotNetOpenAuth.OAuth.Core 4.1.3.12303" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OAuth.Core 4.1.3.12303" Target="DotNetOpenAuth.Core 4.1.3.12303" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenId.Core 4.1.3.12303" Target="DotNetOpenAuth.Core 4.1.3.12303" Category="Package Dependency" />
+    <Link Source="DotNetOpenAuth.OpenId.RelyingParty 4.1.3.12303" Target="DotNetOpenAuth.OpenId.Core 4.1.3.12303" Category="Package Dependency" />
+    <Link Source="jQuery.UI.Combined 1.8.11" Target="jQuery 1.6.2" Category="Package Dependency" />
+    <Link Source="jQuery.Validation 1.8.1" Target="jQuery 1.6.2" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.Mvc 4.0.20505.0" Target="Microsoft.AspNet.WebPages 2.0.20505.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.Mvc 4.0.20505.0" Target="Microsoft.AspNet.Razor 2.0.20505.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.Providers.LocalDB 1.0" Target="Microsoft.AspNet.Providers.Core 1.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.Web.Optimization 1.0.0-beta2" Target="Microsoft.Web.Infrastructure 1.0.0.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.Web.Optimization 1.0.0-beta2" Target="WebGrease 1.0.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi 4.0.20505.0" Target="Microsoft.AspNet.WebApi.WebHost 4.0.20505.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.Client 4.0.20505.0" Target="Newtonsoft.Json 4.5.1" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.Core 4.0.20505.0" Target="Microsoft.AspNet.WebApi.Client 4.0.20505.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.WebHost 4.0.20505.0" Target="Microsoft.Web.Infrastructure 1.0.0.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebApi.WebHost 4.0.20505.0" Target="Microsoft.AspNet.WebApi.Core 4.0.20505.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebPages 2.0.20505.0" Target="Microsoft.Web.Infrastructure 1.0.0.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebPages 2.0.20505.0" Target="Microsoft.AspNet.Razor 2.0.20505.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebPages.OAuth 2.0.20710.0" Target="Microsoft.AspNet.WebPages.WebData 2.0.20710.0" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebPages.OAuth 2.0.20710.0" Target="DotNetOpenAuth.AspNet 4.1.3.12303" Category="Package Dependency" />
+    <Link Source="Microsoft.AspNet.WebPages.WebData 2.0.20710.0" Target="Microsoft.AspNet.WebPages.Data 2.0.20710.0" Category="Package Dependency" />
+    <Link Source="Microsoft.jQuery.Unobtrusive.Ajax 2.0.20505.0" Target="jQuery 1.6.2" Category="Package Dependency" />
+    <Link Source="Microsoft.jQuery.Unobtrusive.Validation 2.0.20505.0" Target="jQuery.Validation 1.8.1" Category="Package Dependency" />
+    <Link Source="Web\KeyHub.Web" Target="ActionMailer 0.7.4" Category="Installed Package" />
+    <Link Source="Web\KeyHub.Web" Target="EntityFramework 5.0.0-rc" Category="Installed Package" />
+    <Link Source="Web\KeyHub.Web" Target="jQuery.UI.Combined 1.8.11" Category="Installed Package" />
+    <Link Source="Web\KeyHub.Web" Target="knockoutjs 2.1.0" Category="Installed Package" />
+    <Link Source="Web\KeyHub.Web" Target="Microsoft.AspNet.Mvc 4.0.20505.0" Category="Installed Package" />
+    <Link Source="Web\KeyHub.Web" Target="Microsoft.AspNet.Providers.LocalDB 1.0" Category="Installed Package" />
+    <Link Source="Web\KeyHub.Web" Target="Microsoft.AspNet.Web.Optimization 1.0.0-beta2" Category="Installed Package" />
+    <Link Source="Web\KeyHub.Web" Target="Microsoft.AspNet.WebApi 4.0.20505.0" Category="Installed Package" />
+    <Link Source="Web\KeyHub.Web" Target="Microsoft.AspNet.WebPages.OAuth 2.0.20710.0" Category="Installed Package" />
+    <Link Source="Web\KeyHub.Web" Target="Microsoft.jQuery.Unobtrusive.Ajax 2.0.20505.0" Category="Installed Package" />
+    <Link Source="Web\KeyHub.Web" Target="Microsoft.jQuery.Unobtrusive.Validation 2.0.20505.0" Category="Installed Package" />
+    <Link Source="Web\KeyHub.Web" Target="NLog 2.0.0.2000" Category="Installed Package" />
+  </Links>
+  <Categories>
+    <Category Id="Project" />
+    <Category Id="Package" />
+  </Categories>
+  <Styles>
+    <Style TargetType="Node" GroupLabel="Project" ValueLabel="True">
+      <Condition Expression="HasCategory('Project')" />
+      <Setter Property="Background" Value="Blue" />
+    </Style>
+    <Style TargetType="Link" GroupLabel="Package Dependency" ValueLabel="True">
+      <Condition Expression="HasCategory('Package Dependency')" />
+      <Setter Property="Background" Value="Yellow" />
+    </Style>
+  </Styles>
+</DirectedGraph>

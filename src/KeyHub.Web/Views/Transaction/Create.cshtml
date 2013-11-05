@@ -1,0 +1,34 @@
+﻿@model KeyHub.Web.ViewModels.Transaction.TransactionCreateViewModel
+
+@{
+    ViewBag.ItemName = "Transaction";
+    ViewBag.Title = "Create";
+}
+
+<h2>@ViewBag.Title <span>@ViewBag.ItemName</span></h2>
+
+<h2>Select one or several SKU's for this transaction</h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>TransactionCreateViewItem</legend>
+
+        @Html.HiddenFor(model => model.Transaction.TransactionId)
+        
+        <div class="editor-field">
+            @Html.ListBoxFor(model => model.Transaction.SelectedSKUGuids, Model.SKUList)
+            @Html.ValidationMessageFor(model => model.Transaction.SelectedSKUGuids)
+        </div>
+
+        <p>
+            <input type="submit" value="Proceed to checkout" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to home", "Index", "Home", null)
+</div>
+

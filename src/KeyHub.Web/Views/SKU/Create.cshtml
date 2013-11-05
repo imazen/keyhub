@@ -1,0 +1,167 @@
+﻿@model KeyHub.Web.ViewModels.SKU.SKUCreateViewModel
+
+@{
+    ViewBag.ItemName = "SKU";
+    ViewBag.Title = "Create";
+}
+
+<h2>@ViewBag.Title <span>@ViewBag.ItemName</span></h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>SKUCreateViewItem</legend>
+
+        @Html.HiddenFor(model => model.SKU.SkuId)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.SKU.VendorId)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.SKU.VendorId, Model.VendorList)
+            @Html.ValidationMessageFor(model => model.SKU.VendorId)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.SKU.PrivateKeyId)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.SKU.PrivateKeyId, Model.PrivateKeyList)
+            @Html.ValidationMessageFor(model => model.SKU.PrivateKeyId)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.SKU.SkuCode)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.SKU.SkuCode)
+            @Html.ValidationMessageFor(model => model.SKU.SkuCode)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.SKU.SkuAternativeCode)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.SKU.SkuAternativeCode)
+            @Html.ValidationMessageFor(model => model.SKU.SkuAternativeCode)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.SKU.SelectedFeatureGUIDs)
+        </div>
+        <div class="editor-field">
+            @Html.ListBoxFor(model => model.SKU.SelectedFeatureGUIDs, Model.FeatureList)
+            @Html.ValidationMessageFor(model => model.SKU.SelectedFeatureGUIDs)
+        </div>
+
+        <div class="editor-spacer"></div>
+        <div class="editor-container-sideBySide one-one">
+            <div class="editor-label">
+                @Html.LabelFor(model => model.SKU.MaxDomains)
+            </div>
+
+            <div class="editor-field">
+                @Html.EditorFor(model => model.SKU.MaxDomains)
+                @Html.ValidationMessageFor(model => model.SKU.MaxDomains)
+            </div>
+        
+            <div class="editor-label">
+                @Html.LabelFor(model => model.SKU.EditOwnershipDuration)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.SKU.EditOwnershipDuration)
+                @Html.ValidationMessageFor(model => model.SKU.EditOwnershipDuration)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.SKU.MaxSupportContacts)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.SKU.MaxSupportContacts)
+                @Html.ValidationMessageFor(model => model.SKU.MaxSupportContacts)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.SKU.EditSupportContactsDuration)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.SKU.EditSupportContactsDuration)
+                @Html.ValidationMessageFor(model => model.SKU.EditSupportContactsDuration)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.SKU.LicenseDuration)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.SKU.LicenseDuration)
+                @Html.ValidationMessageFor(model => model.SKU.LicenseDuration)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.SKU.AutoDomainDuration)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.SKU.AutoDomainDuration)
+                @Html.ValidationMessageFor(model => model.SKU.AutoDomainDuration)
+            </div>
+        
+            <div class="editor-label">
+                @Html.LabelFor(model => model.SKU.ManualDomainDuration)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.SKU.ManualDomainDuration)
+                @Html.ValidationMessageFor(model => model.SKU.ManualDomainDuration)
+            </div>
+       </div>
+        
+
+      
+        <div class="editor-subtitle">Some options</div>
+        <div class="editor-field-checkbox">
+            <div class="editor-field">
+                @Html.EditorFor(model => model.SKU.CanDeleteAutoDomains)
+                @Html.LabelFor(model => model.SKU.CanDeleteAutoDomains)
+                @Html.ValidationMessageFor(model => model.SKU.CanDeleteAutoDomains)
+            </div>
+        </div>
+        <div class="editor-field-checkbox">
+            <div class="editor-field">
+                @Html.EditorFor(model => model.SKU.CanDeleteManualDomains)
+                @Html.LabelFor(model => model.SKU.CanDeleteManualDomains)
+                @Html.ValidationMessageFor(model => model.SKU.CanDeleteManualDomains)
+            </div>
+
+        </div>
+
+        <div class="editor-container-sideBySide one-one">
+            <div class="editor-label">
+                @Html.LabelFor(model => model.SKU.ReleaseDate)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.SKU.ReleaseDate)
+                @Html.ValidationMessageFor(model => model.SKU.ReleaseDate)
+            </div>
+
+            <div class="editor-label">
+                @Html.LabelFor(model => model.SKU.ExpirationDate)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.SKU.ExpirationDate)
+                @Html.ValidationMessageFor(model => model.SKU.ExpirationDate)
+            </div>
+        </div>
+
+        <p>
+            <input type="submit" value="Create @ViewBag.ItemName" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

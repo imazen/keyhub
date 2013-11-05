@@ -1,0 +1,103 @@
+﻿
+
+
+SPAN.checkbox,
+SPAN.radio {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin: -1px 4px;
+  background: url("../Images/bgFrmCheckboxRadioSprite.png") no-repeat;
+  
+  position: relative;
+  
+ 
+}
+$types: checkbox radio;
+$bgx: 0px;
+@each $type in $types {
+
+	SPAN.#{$type} {
+		background-position: $bgx 0px; 
+	
+		&:hover,&.hover {
+			background-position: $bgx -20px; 
+		}
+		&.focus,&:focus {
+			background-position: $bgx -40px; 
+		}
+		&:active {
+			background-position: $bgx -60px; 
+		}
+	
+		&.disabled {
+			background-position: $bgx -80px; 
+		}
+	
+		&.checked {
+			background-position: $bgx -100px; 
+		}
+
+		&.checked:hover,&.checked.hover {
+			background-position: $bgx -120px;
+		}
+		&.checked.focus,&.checked:focus{
+			background-position: $bgx -140px; 
+		}
+
+		&.checked:active {
+			background-position: $bgx -160px; 
+		}
+
+		&.checked.disabled {	
+			background-position: $bgx -180px; 
+		}
+
+		
+		
+
+	}
+	$bgx: $bgx - 20px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+SPAN.radio {
+  background-position: -20px 0px; }
+
+SPAN.radio:hover,
+SPAN.radio.hover {
+  background-position: -20px -20px; }
+
+SPAN.radio:active {
+  background-position: -20px -40px; }
+
+SPAN.radio.disabled {
+  background-position: -20px -60px; }
+
+SPAN.radio.checked {
+  background-position: -20px -80px; }
+
+SPAN.radio.checked:hover,
+SPAN.radio.checked.hover {
+  background-position: -20px -100px; }
+
+SPAN.radio.checked:active {
+  background-position: -20px -120px; }
+
+SPAN.radio.checked.disabled {
+  background-position: -20px -140px; }
+
+  */

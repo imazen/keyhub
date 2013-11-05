@@ -1,0 +1,44 @@
+﻿@model KeyHub.Web.ViewModels.Home.MainMenuViewModel
+
+@{
+    var currentController = ViewContext.RouteData.Values["controller"].GetType();
+}
+
+<div class="HeaderMenu">
+    <ul class="HeaderMenu">
+        
+
+        @if (Model.CurrentUser.IsVendorAdmin || Model.CurrentUser.IsSystemAdmin)
+        {
+            <li class="@((Model.Controller == "Vendor") ? "Active" :"")">
+                @Html.ActionLink("Vendors", "Index", "Vendor")
+            </li>
+            <li class="@((Model.Controller == "Feature") ? "Active" :"")">
+                @Html.ActionLink("Features", "Index", "Feature")
+            </li>
+            <li class="@((Model.Controller == "SKU") ? "Active" :"")">
+                @Html.ActionLink("SKUs", "Index", "SKU")
+            </li>
+        }
+
+        @if (Model.CurrentUser.CanEditCustomerInfo)
+        {
+            <li class="@((Model.Controller == "Transaction") ? "Active" :"")">
+                @Html.ActionLink("Transactions", "Index", "Transaction")
+            </li>
+            <li class="@((Model.Controller == "Customer") ? "Active" :"")">
+                @Html.ActionLink("Customer details", "Index", "Customer")
+            </li>
+        }
+
+        @if (Model.CurrentUser.CanEditLicenseInfo)
+        {
+            <li class="@((Model.Controller == "License") ? "Active" :"")">
+                @Html.ActionLink("Licenses", "Index", "License")
+            </li>
+            <li class="@((Model.Controller == "CustomerApp") ? "Active" :"")">
+                @Html.ActionLink("Licensed applications", "Index", "CustomerApp")
+            </li>
+        }
+    </ul>
+</div>

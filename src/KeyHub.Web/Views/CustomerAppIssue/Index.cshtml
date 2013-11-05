@@ -1,0 +1,47 @@
+﻿@using KeyHub
+@model KeyHub.Web.ViewModels.CustomerAppIssue.CustomerAppIssueIndexViewModel
+
+@{
+    ViewBag.ItemName = "Application issues";
+    ViewBag.Title = "Overview";
+}
+
+<h2>@ViewBag.ItemName <span>@ViewBag.Title</span></h2>
+
+<table border="0" border="0" cellspacing="0" cellpadding="0" class="GridTable">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CustomerAppIssues.FirstOrDefault().DateTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CustomerAppIssues.FirstOrDefault().Severity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CustomerAppIssues.FirstOrDefault().Message)
+        </th>
+        <th></th>
+    </tr>
+        </thead>
+
+@foreach (var item in Model.CustomerAppIssues)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Severity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Message)
+        </td>
+        <td>
+            @Html.ActionLink("Details", "Details", new { key = item.CustomerAppIssueId.ToString().EncryptUrl() })
+            |
+            @Html.ActionLink("Remove", "Remove", new { key = item.CustomerAppIssueId.ToString().EncryptUrl() })
+        </td>
+    </tr>
+}
+
+</table>

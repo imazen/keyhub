@@ -1,0 +1,71 @@
+﻿@model KeyHub.Web.ViewModels.DomainLicense.DomainLicenseCreateViewModel
+
+@{
+    ViewBag.ItemName = "Domain license";
+    ViewBag.Title = "Create";
+}
+
+<h2><span>@ViewBag.Title</span> @ViewBag.ItemName </h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>DomainLicenseViewModel</legend>
+        
+        @Html.HiddenFor(model => model.DomainLicense.DomainLicenseId)
+        @Html.HiddenFor(model => model.DomainLicense.AutomaticlyCreated)
+        @Html.HiddenFor(model => model.DomainLicense.LicenseId)
+        @Html.HiddenFor(model => model.RedirectUrl)
+        
+        <div class="editor-label">
+            @Html.LabelFor(model => model.DomainLicense.LicenseName)
+        </div>
+        <div class="editor-field">
+            @Html.DisplayFor(model => model.DomainLicense.LicenseName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.DomainLicense.DomainName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.DomainLicense.DomainName)
+            @Html.ValidationMessageFor(model => model.DomainLicense.DomainName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.DomainLicense.DomainLicenseIssued)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.DomainLicense.DomainLicenseIssued, new {disabled = "disabled", @Value = Model.DomainLicense.DomainLicenseIssued.ToString("dd MMMM yyyy")})
+            @Html.ValidationMessageFor(model => model.DomainLicense.DomainLicenseIssued)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.DomainLicense.DomainLicenseExpires)
+        </div>
+        <div class="editor-field">
+            @if (Model.DomainLicense.CanCalculateDomainExpiration)
+            {
+                @Html.TextBoxFor(model => model.DomainLicense.DomainLicenseExpires, new {disabled = "disabled", @Value = Model.DomainLicense.DomainLicenseExpires.Value.ToString("dd MMMM yyyy")})
+            }
+            else
+            {
+                @Html.EditorFor(model => model.DomainLicense.DomainLicenseExpires)
+                @Html.ValidationMessageFor(model => model.DomainLicense.DomainLicenseExpires)
+            }
+        </div>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to license details", "Details","License", new {key = Model.DomainLicense.LicenseId}, null)
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

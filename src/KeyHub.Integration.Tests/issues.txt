@@ -1,0 +1,56 @@
+﻿
+  https://github.com/imazen/keyhub/issues/assigned/fschwiet?milestone=&state=open
+  - use shared keys for accepting transactions, but those shared keys are in the code
+    - vendor should have a UI for managing named shared keys, and they might have multiples
+
+  - upgrade to entity framework 6.0?
+
+  - what to do about usernames that are in the sourcecode?
+    - have a default admin and warn people to change it
+    - require an appSetting with the admin email, require OpenID login
+
+
+
+- Do we have a bug in the DataContext usage?  The code is calling .Dispose() on the contexts, but Windsor expects factory.Release(context) to be used.
+	Windsor may be tracking all these instances.  (if we are releasing the factories, then windsor is fine)
+
+- is the licensing plugin going to be able to detect the domain?  What if the server is behind a load balancer?
+	
+- Google OpenID isn't working for me anymore.  Ugh.  Is it my machine only (new machine)?
+  - try the google test account
+  - try login with the master branch
+  - its working on Nathanael's machine, using 5001
+
+Shelved concerns:
+	How to repro 50 character email problem?
+	  -> local accounts seem to work ok with long email.  
+	  Maybe OpenID has issues?  Hard to test:
+		  Google max name size is 30.
+		  I have a long MSN account, but microsoft OpenID isn't working  (need appsettings to configure that OpenID provider)
+	Microsoft has a new membership system, so maybe we should be using that.
+
+Do the integration tests work on other people's machines ok?
+  (warning: They will delete your localhost keyhub database)
+  (They do require stopping IISExpress if its already debugging)
+  ->  PhantomJS was't installed.  After being installed, it was't on the path.
+  ->  It may assume that IISEXpress has had a chance to create a config entry for KeyHub in the user's applicationhost.config
+
+
+
+Do we strongly couple the users email with username?
+   -> default user (admin) does not have an email, so its hard to make username/email match.
+
+Poor messaging when registering an existing user account
+   -> we should have a link to /Account/LinkAccount somewhere
+
+If the user has invalid cookies, they might get forced to error screen 
+  (to repro, login locally then delete local database.  This creates a cookie for a non-existant account)
+
+  
+have test username/password in source control (a test gmail account)
+
+  
+merge columns User.Email and User.Username into User.Email
+
+
+resharper test runner stalls if I try to run MSTest tests (it used to work, hmm.  Tests do pass when using VS test runner)

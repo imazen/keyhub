@@ -1,0 +1,176 @@
+INPUT.Text, INPUT[type=text], INPUT[type=password], INPUT[type=number], INPUT[type=datetime] {
+  border: 1px solid #cccccc;
+  background: #ffffff;
+  color: #666666;
+  width: 478px;
+  height: 22px;
+  line-height: 16px;
+  padding: 3px 10px 4px 10px; }
+  INPUT.Text.Active, INPUT.Text:focus, INPUT[type=text].Active, INPUT[type=text]:focus, INPUT[type=password].Active, INPUT[type=password]:focus, INPUT[type=number].Active, INPUT[type=number]:focus, INPUT[type=datetime].Active, INPUT[type=datetime]:focus {
+    border-color: #007acc;
+    color: #333333; }
+  INPUT.Text.CopyPaste, INPUT[type=text].CopyPaste, INPUT[type=password].CopyPaste, INPUT[type=number].CopyPaste, INPUT[type=datetime].CopyPaste {
+    font-family: Courier New;
+    border: 1px dashed #999999;
+    color: #333333; }
+  INPUT.Text.input-validation-error, INPUT[type=text].input-validation-error, INPUT[type=password].input-validation-error, INPUT[type=number].input-validation-error, INPUT[type=datetime].input-validation-error {
+    border-color: #cc0000;
+    background: url("../Images/bgSprite.png") right 0px no-repeat; }
+  INPUT.Text.valid, INPUT[type=text].valid, INPUT[type=password].valid, INPUT[type=number].valid, INPUT[type=datetime].valid {
+    background: url("../Images/bgSprite.png") right -30px no-repeat; }
+  INPUT.Text:focus, INPUT[type=text]:focus, INPUT[type=password]:focus, INPUT[type=number]:focus, INPUT[type=datetime]:focus {
+    outline: none; }
+
+INPUT[disabled=disabled] {
+  background: #ededed; }
+
+INPUT[type=number] {
+  padding-bottom: 3px; }
+  INPUT[type=number].valid {
+    background: url("../Images/bgSprite.png") right -30px no-repeat; }
+
+INPUT[type=number]::-webkit-inner-spin-button,
+INPUT[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0; }
+
+DIV.validation-summary-errors {
+  color: #cc0000; }
+
+DIV.prettynumeric {
+  position: relative; }
+  DIV.prettynumeric DIV.prettynumeric_btn {
+    position: absolute;
+    top: 3px;
+    bottom: 3px;
+    width: 25px;
+    background: #ededed;
+    text-indent: 10px;
+    cursor: pointer; }
+    DIV.prettynumeric DIV.prettynumeric_btn.inc {
+      right: 3px; }
+    DIV.prettynumeric DIV.prettynumeric_btn.dec {
+      right: 30px; }
+    DIV.prettynumeric DIV.prettynumeric_btn:hover {
+      background: #cccccc; }
+  DIV.prettynumeric INPUT[type=number].input-validation-error {
+    background-position: right -60px; }
+
+SELECT {
+  width: 500px; }
+
+SPAN.field-validation-error {
+  color: #ff0000; }
+
+DIV.editor-spacer {
+  height: 30px; }
+
+DIV.editor-label,
+DIV.display-label,
+DIV.editor-subtitle {
+  height: 30px;
+  line-height: 40px;
+  text-transform: uppercase;
+  width: 500px; }
+
+DIV.display-field {
+  color: #666666; }
+
+DIV.editor-field {
+  width: 500px;
+  position: relative; }
+  DIV.editor-field SPAN.field-validation-error {
+    position: absolute;
+    bottom: 15px;
+    left: 100%;
+    margin-left: 10px;
+    width: 250px;
+    background: #cc0000;
+    line-height: 14px;
+    color: #ffffff;
+    padding: 5px 10px; }
+    DIV.editor-field SPAN.field-validation-error:after {
+      content: "";
+      width: 0px;
+      height: 0px;
+      border: 5px solid transparent;
+      position: absolute;
+      left: -10px;
+      border-right: 5px solid #cc0000;
+      border-bottom: 0px solid #cc0000;
+      bottom: 0px; }
+
+DIV.editor-field-checkbox SPAN.prettyradiocheckbox,
+DIV.editor-field-radio SPAN.prettyradiocheckbox {
+  margin-top: 5px;
+  margin-left: 0px; }
+DIV.editor-field-checkbox LABEL,
+DIV.editor-field-radio LABEL {
+  line-height: 16px; }
+
+FIELDSET {
+  border: none;
+  margin: 0;
+  padding: 0; }
+  FIELDSET LEGEND {
+    display: none; }
+
+INPUT[type=submit] {
+  border: none;
+  background: none;
+  cursor: pointer; }
+
+DIV.editor-container-sideBySide {
+  width: 500px;
+  margin: 0px 0 10px 0;
+  display: inline-block; }
+  DIV.editor-container-sideBySide > DIV {
+    display: inline;
+    float: left; }
+  DIV.editor-container-sideBySide DIV.editor-label, DIV.editor-container-sideBySide DIV.display-label {
+    width: 180px;
+    text-align: right;
+    margin-bottom: 10px;
+    clear: both;
+    padding: 0px 10px 0 0;
+    line-height: 32px; }
+  DIV.editor-container-sideBySide DIV.editor-field, DIV.editor-container-sideBySide DIV.display-field {
+    width: 310px; }
+    DIV.editor-container-sideBySide DIV.editor-field INPUT, DIV.editor-container-sideBySide DIV.display-field INPUT {
+      width: 288px; }
+    DIV.editor-container-sideBySide DIV.editor-field SPAN.field-validation-error, DIV.editor-container-sideBySide DIV.display-field SPAN.field-validation-error {
+      width: 250px; }
+  DIV.editor-container-sideBySide DIV.display-label, DIV.editor-container-sideBySide DIV.display-field {
+    line-height: 20px;
+    padding: 0px;
+    height: 20px; }
+  DIV.editor-container-sideBySide DIV.display-label {
+    text-align: left;
+    margin-bottom: 0px; }
+  DIV.editor-container-sideBySide.two-one DIV.editor-label {
+    width: 323.33333px; }
+  DIV.editor-container-sideBySide.two-one DIV.editor-field {
+    width: 166.66667px; }
+    DIV.editor-container-sideBySide.two-one DIV.editor-field INPUT {
+      width: 144.66667px; }
+  DIV.editor-container-sideBySide.one-two DIV.editor-label {
+    width: 156.66667px; }
+  DIV.editor-container-sideBySide.one-two DIV.editor-field {
+    width: 333.33333px; }
+    DIV.editor-container-sideBySide.one-two DIV.editor-field INPUT {
+      width: 311.33333px; }
+
+DIV.editor-container-toggle {
+  display: none; }
+  DIV.editor-container-toggle.show {
+    display: block; }
+  DIV.editor-container-toggle.hide {
+    display: none; }
+
+DIV.editor-stepContainer DIV.col {
+  width: 400px;
+  display: inline-block;
+  float: left; }
+  DIV.editor-stepContainer DIV.col.col-left {
+    clear: left; }
+

@@ -1,0 +1,35 @@
+﻿@model KeyHub.Web.ViewModels.CustomerAppIssue.CustomerAppIssueViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>CustomerAppIssueViewModel</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.DateTime)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.DateTime)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Message)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Message)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Details)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Details)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Back to List", "Details", "CustomerApp", new {key = Model.CustomerAppId}, new {})
+</p>

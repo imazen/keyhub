@@ -1,0 +1,53 @@
+﻿@model KeyHub.Web.ViewModels.Transaction.TransactionIndexViewModel
+@using KeyHub;
+
+@{
+    ViewBag.ItemName = "Transaction";
+    ViewBag.Title = "Overview";
+}
+
+<h2>@ViewBag.ItemName <span>@ViewBag.Title</span></h2>
+
+<table border="0" border="0" cellspacing="0" cellpadding="0" class="GridTable">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Transactions.FirstOrDefault().CreatedDateTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Transactions.FirstOrDefault().PurchaserName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Transactions.FirstOrDefault().SKUSummary)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Transactions.FirstOrDefault().StatusName)
+        </th>
+        <th>
+        </th>
+    </tr>
+</thead>
+@foreach (var item in Model.Transactions) {
+    <tr>
+        <td>
+            @Html.ActionLink(item.CreatedDateTime.ToString("dd MMMM yyyy HH:mm:ss"), "Details", new { key = item.TransactionId.ToString().EncryptUrl() }, null)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PurchaserName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SKUSummary)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StatusName)
+        </td>
+        <td>
+            @if (item.IsWaitingForClaim)
+            {
+                @Html.ActionLink("Resend email", "Remind", new {key = item.TransactionId.ToString().EncryptUrl()})
+            }
+        </td>
+    </tr>
+}
+
+</table>

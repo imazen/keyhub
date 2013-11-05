@@ -1,0 +1,75 @@
+﻿@model KeyHub.Web.ViewModels.Vendor.VendorIndexViewModel
+
+@{
+    ViewBag.ItemName = "Vendor";
+    ViewBag.Title = "Overview";
+}
+
+<h2>@ViewBag.ItemName <span>@ViewBag.Title</span></h2>
+
+ <p>
+        @Html.ActionLink("Create New Vendor", "Create", null, new {@class = "Btn New"})
+    </p>
+
+<table border="0" border="0" cellspacing="0" cellpadding="0" class="GridTable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Vendors.FirstOrDefault().Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Vendors.FirstOrDefault().ObjectId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Vendors.FirstOrDefault().Street)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Vendors.FirstOrDefault().PostalCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Vendors.FirstOrDefault().City)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Vendors.FirstOrDefault().Region)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Vendors.FirstOrDefault().CountryName)
+            </th>
+            <th></th>
+        
+        </tr>
+    </thead>
+
+
+@foreach (var item in Model.Vendors) {
+    <tr>
+        <td>
+
+            @Html.ActionLink(item.Name, "Details", new { key = item.ObjectId })
+
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ObjectId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Street)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PostalCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.City)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Region)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CountryName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { key = item.ObjectId })
+        </td>
+    </tr>
+}
+
+</table>

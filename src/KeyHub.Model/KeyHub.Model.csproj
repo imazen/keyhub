@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{6D9BA48A-476E-4288-B3AD-0CAE9008317C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>KeyHub.Model</RootNamespace>
+    <AssemblyName>KeyHub.Model</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Definition\Application\ApplicationIssueSeverity.cs" />
+    <Compile Include="Definition\Application\TransactionIgnoredItem.cs" />
+    <Compile Include="Definition\Application\CustomerAppIssue.cs" />
+    <Compile Include="Definition\Application\TransactionStatus.cs" />
+    <Compile Include="Definition\Membership\OAuthMembership.cs" />
+    <Compile Include="Definition\Membership\Rights\BelongToEntity.cs" />
+    <Compile Include="Definition\Membership\Rights\EditLicenseInfo.cs" />
+    <Compile Include="Definition\Membership\Rights\ViewLicenseInfo.cs" />
+    <Compile Include="Definition\Membership\Rights\EditEntityMembers.cs" />
+    <Compile Include="Definition\Membership\Rights\GrantMemberRights.cs" />
+    <Compile Include="Definition\Membership\Rights\EditEntityInfo.cs" />
+    <Compile Include="Definition\Membership\Rights\IRight.cs" />
+    <Compile Include="Definition\Membership\Rights\VendorAdmin.cs" />
+    <Compile Include="Definition\Membership\Rights\VendorReporting.cs" />
+    <Compile Include="IModelItem.cs" />
+    <Compile Include="Logic\Application\CustomerApp.cs" />
+    <Compile Include="Logic\Application\DomainLicense.cs" />
+    <Compile Include="Logic\Application\License.cs" />
+    <Compile Include="Logic\Application\PrivateKey.cs" />
+    <Compile Include="Logic\Application\Role.cs" />
+    <Compile Include="Logic\Application\SKU.cs" />
+    <Compile Include="Definition\Application\CustomerApp.cs" />
+    <Compile Include="Definition\Application\CustomerAppKey.cs" />
+    <Compile Include="Definition\Application\LicenseCustomerApp.cs" />
+    <Compile Include="Definition\Application\Transaction.cs" />
+    <Compile Include="Definition\Application\TransactionItem.cs" />
+    <Compile Include="Definition\Application\Country.cs" />
+    <Compile Include="Definition\Application\DomainLicense.cs" />
+    <Compile Include="Definition\Membership\UserLicenseRight.cs" />
+    <Compile Include="Definition\Membership\UserCustomerRight.cs" />
+    <Compile Include="Definition\Application\Customer.cs" />
+    <Compile Include="Definition\Application\Feature.cs" />
+    <Compile Include="Definition\Membership\RightObject.cs" />
+    <Compile Include="Definition\Application\License.cs" />
+    <Compile Include="Definition\Application\ObjectTypes.cs" />
+    <Compile Include="Definition\Application\PrivateKey.cs" />
+    <Compile Include="Definition\Membership\Right.cs" />
+    <Compile Include="Definition\Application\SkuFeature.cs" />
+    <Compile Include="Definition\Membership\UserObjectRight.cs" />
+    <Compile Include="Definition\Membership\UserVendorRight.cs" />
+    <Compile Include="Definition\Application\Vendor.cs" />
+    <Compile Include="Definition\Membership\Membership.cs" />
+    <Compile Include="Definition\Membership\Role.cs" />
+    <Compile Include="Definition\Membership\User.cs" />
+    <Compile Include="Definition\Membership\UserInRole.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Logic\Application\Transaction.cs" />
+    <Compile Include="Logic\Application\User.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Definition\Application\SKU.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\KeyHub.Common\KeyHub.Common.csproj">
+      <Project>{CABF1962-0677-497F-B4A8-41EDF551D6D3}</Project>
+      <Name>KeyHub.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

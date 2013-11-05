@@ -1,0 +1,112 @@
+﻿@import "Mixins.scss";
+@import "Fonts.scss";
+@import "Layout.scss";
+@import "Forms.scss";
+@import "GridTables.scss";
+@import "Icons.scss";
+@import "Menu.scss";
+
+// jquery plugin styling 
+@import "jquery.prettyradiocheckbox.scss";
+@import "jquery.chosen.scss";
+@import "jquery.tipsy.scss";
+
+// default jquery ui
+@import "jquery.ui.datepicker.scss";
+
+
+$debug: false;
+
+
+HTML,BODY{
+	height: 100%;
+}
+
+BODY{
+	margin:0px;
+
+	&.Debug{
+		background: url("../Images/bg_body_lines.png");
+	}
+}
+
+
+*:focus{	outline: none;}
+.txtHighlight{ background: #000000; color: #ffffff;}
+
+
+UL,UL LI {
+    margin: 0px; 
+    padding: 0px; 
+    list-style: none; 
+	background: none;  
+}
+
+H1,H2{margin-bottom: 30px; 
+margin-top: 0px;}
+H1{
+
+	SPAN{
+
+	}
+}
+H2{
+	//margin-bottom: 30px;
+	SPAN{
+		color: #cccccc;
+	}
+}
+
+
+A{	
+	color: $colorActive;
+	text-decoration: none;
+	&:hover,&:focus{
+		color: $colorActive2_Hover;
+		//text-decoration: underline;
+	}
+}
+
+A.Logo{
+	line-height: 30px;
+	color: #ffffff;
+	padding: 0px 30px;
+	font-size: 18px;	
+	font-weight: 700;
+	text-indent: -10000px;
+	background: url("../Images/bgLogo.png") 0px 0px no-repeat;
+	display: inline-block;
+	height: 30px;
+	width: 110px;
+	&:hover,&:focus{
+	background-position: 0px -30px;
+	}
+}
+
+A.Btn, INPUT[type=submit],  INPUT[type=button]{
+	line-height: 30px;
+	height: 30px;
+	background: #ededed;
+	color: #666666;
+	border-radius: 30px;
+	display: inline-block;
+	padding: 0px 15px;
+	&:hover,&:focus{
+		background: $colorActive;
+		color: #ffffff;
+		text-decoration: none;
+	}
+}
+INPUT[type=submit],INPUT[type=button]{
+	background: $colorActive;
+	color: #ffffff;
+	&:hover,&:focus{
+	background: $colorActive_Hover;
+	}
+}
+
+.CodeExample{
+	width: 500px;
+	height: 100px;
+
+}

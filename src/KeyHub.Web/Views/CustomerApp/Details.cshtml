@@ -1,0 +1,25 @@
+﻿@model KeyHub.Web.ViewModels.CustomerApp.CustomerAppViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>CustomerAppViewModel</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ApplicationName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ApplicationName)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id=Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+    @Html.Action("IndexPartial", "CustomerAppIssue", new { customerAppId = Model.CustomerAppId })
+

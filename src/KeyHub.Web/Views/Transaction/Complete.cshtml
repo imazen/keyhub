@@ -1,0 +1,21 @@
+﻿@model KeyHub.Web.ViewModels.Transaction.TransactionDetailsViewModel
+
+@{
+    ViewBag.ItemName = "Congratulations!";
+    ViewBag.Title = "Your Transaction Is Complete!";
+}
+
+<h2>@ViewBag.ItemName <span>@ViewBag.Title</span></h2>
+
+@Html.Partial("DetailsPartial", Model) 
+
+<br/>
+
+<h2>Register your application in web.config</h2>
+
+@Html.Action("IndexPartial", "CustomerApp", new {transactionId = Model.Transaction.TransactionId }) 
+
+
+
+
+

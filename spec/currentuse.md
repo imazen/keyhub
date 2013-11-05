@@ -1,0 +1,1 @@
+Moved to https://github.com/imazen/lucrasoft/blob/master/currentuse.md

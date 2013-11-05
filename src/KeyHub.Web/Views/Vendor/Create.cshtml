@@ -1,0 +1,78 @@
+﻿@model KeyHub.Web.ViewModels.Vendor.VendorCreateViewModel
+
+@{
+    ViewBag.ItemName = "Vendor";
+    ViewBag.Title = "Create";
+}
+
+<h2>@ViewBag.ItemName <span>@ViewBag.Title</span></h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>VendorViewModel</legend>
+
+        @Html.HiddenFor(model => model.Vendor.ObjectId)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Vendor.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Vendor.Name)
+            @Html.ValidationMessageFor(model => model.Vendor.Name)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Vendor.Street)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Vendor.Street)
+            @Html.ValidationMessageFor(model => model.Vendor.Street)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Vendor.PostalCode)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Vendor.PostalCode)
+            @Html.ValidationMessageFor(model => model.Vendor.PostalCode)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Vendor.City)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Vendor.City)
+            @Html.ValidationMessageFor(model => model.Vendor.City)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Vendor.Region)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Vendor.Region)
+            @Html.ValidationMessageFor(model => model.Vendor.Region)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Vendor.CountryCode)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.Vendor.CountryCode, Model.CountryList)
+            @Html.ValidationMessageFor(model => model.Vendor.CountryCode)
+        </div>
+
+        <p>
+            <input type="submit" value="Create @ViewBag.ItemName" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

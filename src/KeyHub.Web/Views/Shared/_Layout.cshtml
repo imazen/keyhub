@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>KeyHub - @ViewBag.Title</title>
+        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        <meta name="viewport" content="width=device-width" />
+        @*@Styles.Render("~/Content/themes/base/css", "~/Content/css")*@
+        <link href="/Content/Styles/Default.css" rel="stylesheet" type="text/css" />
+        @Scripts.Render("~/bundles/modernizr", "~/bundles/jquery", "~/bundles/jqueryval")
+    </head>
+    <body>
+        <div class="LayoutContainer">
+            <div class="LayoutHeaderContainer">
+                <div class="LayoutWrapper">
+                    @Html.ActionLink("KeyHub", "Index", "Home", null, new { @class= "Logo"})
+
+                    @Html.Action("MainMenu", "Home", new{currentControllerName = ViewContext.RouteData.Values["controller"].ToString()}) 
+
+                    <div class="LoginPartial">
+                        @Html.Partial("_LoginPartial")
+                    </div>
+                </div>
+            </div>
+            <div class="LayoutWrapper">
+            <div class="LayoutContentContainer">
+                
+                @*<ul id="menu" class="Menu">
+                    <li>@Html.ActionLink("Vendors", "Index", "Vendor")</li>
+                    <li>@Html.ActionLink("Features", "Index", "Feature")</li>
+                    <li>@Html.ActionLink("SKUs", "Index", "SKU")</li>
+                </ul>
+
+                <ul class="Menu">
+                    
+                    <li>@Html.ActionLink("Customers", "Index", "Customer")</li>
+                    <li>@Html.ActionLink("Licenses", "Index", "License")</li>
+                    <li>@Html.ActionLink("Licensed applications", "Index", "CustomerApp")</li>
+                </ul>*@
+                   
+              
+        
+                @RenderSection("featured", required: false)
+            
+                @RenderBody()
+            
+       
+                </div>
+            </div>
+            <div class="LayoutFooterContainer">
+                footer
+            </div>
+       </div>
+
+        @Scripts.Render("~/bundles/jquery")
+        @RenderSection("scripts", required: false)
+
+        <script type="text/javascript" src="/Scripts/jquery-ui-1.8.11.js"></script>
+        <script type="text/javascript" src="/Scripts/jquery.prettyradiocheckbox.js"></script>
+        <script type="text/javascript" src="/Scripts/jquery.chosen.min.js"></script>
+        <script type="text/javascript" src="/Scripts/JavaScripts.js"></script>
+    </body>
+</html>

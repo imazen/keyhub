@@ -1,0 +1,246 @@
+﻿@import "Mixins.scss";
+
+$debug: true;
+$formWidth: 500px;
+
+INPUT.Text, INPUT[type=text],INPUT[type=password], INPUT[type=number], INPUT[type=datetime]{
+	border: 1px solid $colorBorderInputTextNotSelected;
+	background: #ffffff;
+	color: #666666;
+	width: $formWidth - 22px;
+	height: 22px;
+	line-height: 16px;
+	padding: 3px 10px 4px 10px;
+
+	&.Active,
+	&:focus{
+		border-color: $colorBorderInputTextSelected;
+		color: #333333;
+	}
+	&.CopyPaste{
+		font-family: Courier New;
+		border: 1px dashed #999999;
+		color: #333333;
+	}
+
+	
+	&.input-validation-error{
+		border-color: #cc0000;
+		background: url("../Images/bgSprite.png") right 0px no-repeat;
+	}
+
+	&.valid{
+		background: url("../Images/bgSprite.png") right -30px no-repeat;
+	}
+
+	&:focus{ outline: none;}
+}
+
+INPUT[disabled=disabled]{
+	background: #ededed;
+}
+
+INPUT[type=number]{
+	padding-bottom: 3px;
+	&.valid{
+		background: url("../Images/bgSprite.png") right -30px no-repeat;
+	}
+}
+INPUT[type=number]::-webkit-inner-spin-button,
+INPUT[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+DIV.validation-summary-errors{
+	color: #cc0000;
+}
+
+DIV.prettynumeric{
+	position: relative;
+	DIV.prettynumeric_btn{
+		position: absolute; top: 3px; bottom: 3px;
+		width: 25px;
+		background: #ededed;
+		text-indent: 10px;
+		cursor: pointer;
+		&.inc{right: 3px;}
+		&.dec{right: 30px;}
+		&:hover{ background: #cccccc;}
+	}
+	INPUT[type=number]{
+		//padding-right: 50px;
+		&.input-validation-error{
+			background-position: right -60px;
+		}
+	}
+	
+}
+SELECT{
+	width: $formWidth;
+}
+
+SPAN.field-validation-error{ color: #ff0000;}
+
+DIV.editor-spacer{
+	height: 30px;
+}
+DIV.editor-label,
+DIV.display-label,
+DIV.editor-subtitle{
+	height: 30px;
+	line-height: 40px;
+	text-transform: uppercase;
+	width: $formWidth
+}
+DIV.display-field{ color: #666666;}
+DIV.editor-field{
+	width: $formWidth;
+	position: relative;
+	SPAN.field-validation-error{ 
+		position: absolute;
+		bottom: 15px; left: 100%;
+		margin-left: 10px;
+		width: $formWidth / 2;
+		background: #cc0000;
+		line-height: 14px;
+		color: #ffffff;
+		padding: 5px 10px;
+		&:after{
+			content: "";
+			@include arrow(5px,0,#cc0000);
+		}
+	}
+}
+
+DIV.editor-field-checkbox,
+DIV.editor-field-radio{
+
+	SPAN.prettyradiocheckbox {
+		margin-top: 5px;
+		margin-left: 0px;
+		
+	}
+	LABEL{
+		line-height: 16px;
+	}
+}
+
+
+
+FIELDSET {
+    border: none;
+    margin: 0;
+    padding: 0;
+	LEGEND {
+		display: none;
+	}
+}
+
+INPUT[type=submit]{
+	border: none;
+	background: none;
+	cursor: pointer;
+
+}
+
+DIV.editor-container-sideBySide{
+	
+	$leftColWidth: 190px;
+	$rightColWidth: $formWidth - $leftColWidth;
+	
+	//@if($debug){background: rgba(0,0,0,.2);}
+	width: $formWidth;
+	margin: 0px 0 10px 0;
+	display: inline-block;
+	> DIV{
+	display: inline;
+	float: left;
+	}
+	DIV.editor-label,DIV.display-label{
+		width: $leftColWidth - 10px;
+		//background: #cccccc;
+		text-align: right;
+		
+		margin-bottom: 10px;
+		clear: both;
+		padding: 0px 10px 0 0;
+		line-height: 32px;
+	}
+	DIV.editor-field,DIV.display-field{
+		width: $rightColWidth;
+		INPUT{
+			width: $rightColWidth - 22px;
+		}
+		SPAN.field-validation-error{ 
+
+			width: $formWidth / 2;
+		}
+	}
+
+	DIV.display-label,DIV.display-field{line-height: 20px; padding: 0px; height: 20px;}
+	DIV.display-label{text-align: left; margin-bottom: 0px;}
+	DIV.display-field{}
+		
+
+
+	&.two-one{
+		$rightColWidth: $formWidth / 3;
+		$leftColWidth: $formWidth - $rightColWidth;
+
+		DIV.editor-label{
+			width: $leftColWidth - 10px;
+		}
+		DIV.editor-field{
+			width: $rightColWidth;
+			INPUT{
+				width: $rightColWidth - 22px;
+			}
+		}
+	}
+	
+	&.one-two{
+		$rightColWidth: $formWidth / 3 * 2;
+		$leftColWidth: $formWidth - $rightColWidth;
+
+		DIV.editor-label{
+			width: $leftColWidth - 10px;
+		}
+		DIV.editor-field{
+			width: $rightColWidth;
+			INPUT{
+				width: $rightColWidth - 22px;
+			}
+		}
+
+	}
+
+}
+
+$debug: false;
+DIV.editor-container-toggle{
+	
+	@if($debug){border: 1px dashed #000000;}
+	display: none;
+
+	@if($debug){
+		&.show{  background: #ededed;}
+		&.hide{ background: #cc0000;}
+	} @else{
+		&.show{  display: block;}
+		&.hide{ display: none;}
+	}
+}
+
+DIV.editor-stepContainer{
+	@if($debug){border: 1px solid #000000;}
+	//overflow: hidden;
+	DIV.col{
+		@if($debug){border: 1px solid #000000;}
+		width: 400px;
+		display: inline-block;
+		float: left;
+		&.col-left{clear: left;}
+	}
+}
+//DIV{border: 1px solid #000000;}	

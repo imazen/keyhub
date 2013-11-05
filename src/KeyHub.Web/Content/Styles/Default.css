@@ -1,0 +1,1523 @@
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,200,200italic,300,400italic,300italic,600,600italic,700,700italic,900,900italic);
+BODY, INPUT {
+  font-family: Source Sans Pro, Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  line-height: 18px; }
+
+H1, H2, H3 {
+  font-family: Source Sans Pro, Arial;
+  font-weight: 600; }
+
+H2 {
+  font-size: 24px;
+  font-weight: 300; }
+
+DIV.LayoutContainer DIV.LayoutHeaderContainer,
+DIV.LayoutContainer DIV.LayoutFooterContainer {
+  position: fixed;
+  left: 0px;
+  right: 0px;
+  z-index: 999; }
+DIV.LayoutContainer DIV.LayoutHeaderContainer {
+  background: #014051;
+  top: 0px;
+  height: 30px; }
+  DIV.LayoutContainer DIV.LayoutHeaderContainer DIV.LoginPartial {
+    position: absolute;
+    right: 0px;
+    top: 0px; }
+  DIV.LayoutContainer DIV.LayoutHeaderContainer DIV.HeaderMenu {
+    position: absolute;
+    left: 120px;
+    top: 0px; }
+DIV.LayoutContainer DIV.LayoutContentContainer {
+  padding: 60px 30px; }
+DIV.LayoutContainer DIV.LayoutFooterContainer {
+  background: #014051;
+  bottom: 0px;
+  height: 2px; }
+DIV.LayoutContainer DIV.LayoutWrapper {
+  width: 960px;
+  margin: 0px auto;
+  position: relative; }
+
+INPUT.Text, INPUT[type=text], INPUT[type=password], INPUT[type=number], INPUT[type=datetime] {
+  border: 1px solid #cccccc;
+  background: #ffffff;
+  color: #666666;
+  width: 478px;
+  height: 22px;
+  line-height: 16px;
+  padding: 3px 10px 4px 10px; }
+  INPUT.Text.Active, INPUT.Text:focus, INPUT[type=text].Active, INPUT[type=text]:focus, INPUT[type=password].Active, INPUT[type=password]:focus, INPUT[type=number].Active, INPUT[type=number]:focus, INPUT[type=datetime].Active, INPUT[type=datetime]:focus {
+    border-color: #007acc;
+    color: #333333; }
+  INPUT.Text.CopyPaste, INPUT[type=text].CopyPaste, INPUT[type=password].CopyPaste, INPUT[type=number].CopyPaste, INPUT[type=datetime].CopyPaste {
+    font-family: Courier New;
+    border: 1px dashed #999999;
+    color: #333333; }
+  INPUT.Text.input-validation-error, INPUT[type=text].input-validation-error, INPUT[type=password].input-validation-error, INPUT[type=number].input-validation-error, INPUT[type=datetime].input-validation-error {
+    border-color: #cc0000;
+    background: url("../Images/bgSprite.png") right 0px no-repeat; }
+  INPUT.Text.valid, INPUT[type=text].valid, INPUT[type=password].valid, INPUT[type=number].valid, INPUT[type=datetime].valid {
+    background: url("../Images/bgSprite.png") right -30px no-repeat; }
+  INPUT.Text:focus, INPUT[type=text]:focus, INPUT[type=password]:focus, INPUT[type=number]:focus, INPUT[type=datetime]:focus {
+    outline: none; }
+
+INPUT[disabled=disabled] {
+  background: #ededed; }
+
+INPUT[type=number] {
+  padding-bottom: 3px; }
+  INPUT[type=number].valid {
+    background: url("../Images/bgSprite.png") right -30px no-repeat; }
+
+INPUT[type=number]::-webkit-inner-spin-button,
+INPUT[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0; }
+
+DIV.validation-summary-errors {
+  color: #cc0000; }
+
+DIV.prettynumeric {
+  position: relative; }
+  DIV.prettynumeric DIV.prettynumeric_btn {
+    position: absolute;
+    top: 3px;
+    bottom: 3px;
+    width: 25px;
+    background: #ededed;
+    text-indent: 10px;
+    cursor: pointer; }
+    DIV.prettynumeric DIV.prettynumeric_btn.inc {
+      right: 3px; }
+    DIV.prettynumeric DIV.prettynumeric_btn.dec {
+      right: 30px; }
+    DIV.prettynumeric DIV.prettynumeric_btn:hover {
+      background: #cccccc; }
+  DIV.prettynumeric INPUT[type=number].input-validation-error {
+    background-position: right -60px; }
+
+SELECT {
+  width: 500px; }
+
+SPAN.field-validation-error {
+  color: #ff0000; }
+
+DIV.editor-spacer {
+  height: 30px; }
+
+DIV.editor-label,
+DIV.display-label,
+DIV.editor-subtitle {
+  height: 30px;
+  line-height: 40px;
+  text-transform: uppercase;
+  width: 500px; }
+
+DIV.display-field {
+  color: #666666; }
+
+DIV.editor-field {
+  width: 500px;
+  position: relative; }
+  DIV.editor-field SPAN.field-validation-error {
+    position: absolute;
+    bottom: 15px;
+    left: 100%;
+    margin-left: 10px;
+    width: 250px;
+    background: #cc0000;
+    line-height: 14px;
+    color: #ffffff;
+    padding: 5px 10px; }
+    DIV.editor-field SPAN.field-validation-error:after {
+      content: "";
+      width: 0px;
+      height: 0px;
+      border: 5px solid transparent;
+      position: absolute;
+      left: -10px;
+      border-right: 5px solid #cc0000;
+      border-bottom: 0px solid #cc0000;
+      bottom: 0px; }
+
+DIV.editor-field-checkbox SPAN.prettyradiocheckbox,
+DIV.editor-field-radio SPAN.prettyradiocheckbox {
+  margin-top: 5px;
+  margin-left: 0px; }
+DIV.editor-field-checkbox LABEL,
+DIV.editor-field-radio LABEL {
+  line-height: 16px; }
+
+FIELDSET {
+  border: none;
+  margin: 0;
+  padding: 0; }
+  FIELDSET LEGEND {
+    display: none; }
+
+INPUT[type=submit] {
+  border: none;
+  background: none;
+  cursor: pointer; }
+
+DIV.editor-container-sideBySide {
+  width: 500px;
+  margin: 0px 0 10px 0;
+  display: inline-block; }
+  DIV.editor-container-sideBySide > DIV {
+    display: inline;
+    float: left; }
+  DIV.editor-container-sideBySide DIV.editor-label, DIV.editor-container-sideBySide DIV.display-label {
+    width: 180px;
+    text-align: right;
+    margin-bottom: 10px;
+    clear: both;
+    padding: 0px 10px 0 0;
+    line-height: 32px; }
+  DIV.editor-container-sideBySide DIV.editor-field, DIV.editor-container-sideBySide DIV.display-field {
+    width: 310px; }
+    DIV.editor-container-sideBySide DIV.editor-field INPUT, DIV.editor-container-sideBySide DIV.display-field INPUT {
+      width: 288px; }
+    DIV.editor-container-sideBySide DIV.editor-field SPAN.field-validation-error, DIV.editor-container-sideBySide DIV.display-field SPAN.field-validation-error {
+      width: 250px; }
+  DIV.editor-container-sideBySide DIV.display-label, DIV.editor-container-sideBySide DIV.display-field {
+    line-height: 20px;
+    padding: 0px;
+    height: 20px; }
+  DIV.editor-container-sideBySide DIV.display-label {
+    text-align: left;
+    margin-bottom: 0px; }
+  DIV.editor-container-sideBySide.two-one DIV.editor-label {
+    width: 323.33333px; }
+  DIV.editor-container-sideBySide.two-one DIV.editor-field {
+    width: 166.66667px; }
+    DIV.editor-container-sideBySide.two-one DIV.editor-field INPUT {
+      width: 144.66667px; }
+  DIV.editor-container-sideBySide.one-two DIV.editor-label {
+    width: 156.66667px; }
+  DIV.editor-container-sideBySide.one-two DIV.editor-field {
+    width: 333.33333px; }
+    DIV.editor-container-sideBySide.one-two DIV.editor-field INPUT {
+      width: 311.33333px; }
+
+DIV.editor-container-toggle {
+  display: none; }
+  DIV.editor-container-toggle.show {
+    display: block; }
+  DIV.editor-container-toggle.hide {
+    display: none; }
+
+DIV.editor-stepContainer DIV.col {
+  width: 400px;
+  display: inline-block;
+  float: left; }
+  DIV.editor-stepContainer DIV.col.col-left {
+    clear: left; }
+
+TABLE.GridTable {
+  width: 100%;
+  background: #ffffff; }
+  TABLE.GridTable THEAD TH {
+    text-align: left;
+    border-bottom: 3px solid #cccccc;
+    font-size: 12px;
+    font-weight: normal;
+    text-transform: uppercase;
+    border-left: 1px solid #cccccc; }
+    TABLE.GridTable THEAD TH:first-child {
+      border-left: none; }
+  TABLE.GridTable TD, TABLE.GridTable TH {
+    padding: 0px 10px;
+    line-height: 30px; }
+  TABLE.GridTable TBODY TR TD {
+    border-bottom: 1px solid #FFFFFF;
+    color: #666666; }
+    TABLE.GridTable TBODY TR TD:first-child {
+      background: #ededed;
+      /*padding: 0;
+      A{
+      	color: #000000;
+      	display: block;
+      	padding: 0px 10px;
+      	position: relative;
+      	&:hover{
+      		background: $colorActive;
+      		color: #ffffff;
+      	}
+      	&:after{
+      		content: "";
+      		position: absolute;
+      		right: 10px; top: 7px;
+      		height: 14px; width: 14px;
+      		border-radius: 14px;
+      		background: #cccccc;
+      	}
+      }*/ }
+  TABLE.GridTable TBODY TR:hover TD {
+    background: #ededed; }
+    TABLE.GridTable TBODY TR:hover TD:first-child {
+      background: #cccccc; }
+  TABLE.GridTable TBODY TR:first-child TD {
+    border-top: 5px solid #FFFFFF; }
+
+A.IconLink {
+  display: inline-block;
+  position: relative;
+  text-decoration: none; }
+  A.IconLink > I {
+    position: absolute;
+    display: block;
+    background: #cccccc;
+    background: url("../Images/bgIcons.png") 0px 0px no-repeat; }
+  A.IconLink:after {
+    content: "";
+    position: absolute;
+    display: block;
+    background: #cccccc url("../Images/bgIcons.png") 0px 0px no-repeat;
+    height: 14px;
+    width: 14px;
+    border-radius: 14px;
+    top: 1px;
+    left: 0px; }
+  A.IconLink.IconLink48 {
+    line-height: 52px;
+    width: 48px;
+    height: 48px; }
+    A.IconLink.IconLink48 > I {
+      width: 48px;
+      height: 48px;
+      border-radius: 24px;
+      top: 50%;
+      left: 50%;
+      margin-left: -24px;
+      margin-top: -24px;
+      background-position: 0 -0px; }
+    A.IconLink.IconLink48.Text {
+      width: auto;
+      height: auto; }
+      A.IconLink.IconLink48.Text I {
+        top: 2px;
+        left: auto;
+        margin: 0px; }
+    A.IconLink.IconLink48.Text.Left {
+      padding: 0px 58px 0px 0px; }
+      A.IconLink.IconLink48.Text.Left I {
+        right: 0; }
+    A.IconLink.IconLink48.Text.Right {
+      padding: 0px 0px 0px 58px; }
+      A.IconLink.IconLink48.Text.Right I {
+        left: 0; }
+  A.IconLink.IconLink40 {
+    line-height: 44px;
+    width: 40px;
+    height: 40px; }
+    A.IconLink.IconLink40 > I {
+      width: 40px;
+      height: 40px;
+      border-radius: 20px;
+      top: 50%;
+      left: 50%;
+      margin-left: -20px;
+      margin-top: -20px;
+      background-position: 0 -48px; }
+    A.IconLink.IconLink40.Text {
+      width: auto;
+      height: auto; }
+      A.IconLink.IconLink40.Text I {
+        top: 2px;
+        left: auto;
+        margin: 0px; }
+    A.IconLink.IconLink40.Text.Left {
+      padding: 0px 50px 0px 0px; }
+      A.IconLink.IconLink40.Text.Left I {
+        right: 0; }
+    A.IconLink.IconLink40.Text.Right {
+      padding: 0px 0px 0px 50px; }
+      A.IconLink.IconLink40.Text.Right I {
+        left: 0; }
+  A.IconLink.IconLink30 {
+    line-height: 34px;
+    width: 30px;
+    height: 30px; }
+    A.IconLink.IconLink30 > I {
+      width: 30px;
+      height: 30px;
+      border-radius: 15px;
+      top: 50%;
+      left: 50%;
+      margin-left: -15px;
+      margin-top: -15px;
+      background-position: 0 -88px; }
+    A.IconLink.IconLink30.Text {
+      width: auto;
+      height: auto; }
+      A.IconLink.IconLink30.Text I {
+        top: 2px;
+        left: auto;
+        margin: 0px; }
+    A.IconLink.IconLink30.Text.Left {
+      padding: 0px 40px 0px 0px; }
+      A.IconLink.IconLink30.Text.Left I {
+        right: 0; }
+    A.IconLink.IconLink30.Text.Right {
+      padding: 0px 0px 0px 40px; }
+      A.IconLink.IconLink30.Text.Right I {
+        left: 0; }
+  A.IconLink.IconLink24 {
+    line-height: 28px;
+    width: 24px;
+    height: 24px; }
+    A.IconLink.IconLink24 > I {
+      width: 24px;
+      height: 24px;
+      border-radius: 12px;
+      top: 50%;
+      left: 50%;
+      margin-left: -12px;
+      margin-top: -12px;
+      background-position: 0 -118px; }
+    A.IconLink.IconLink24.Text {
+      width: auto;
+      height: auto; }
+      A.IconLink.IconLink24.Text I {
+        top: 2px;
+        left: auto;
+        margin: 0px; }
+    A.IconLink.IconLink24.Text.Left {
+      padding: 0px 34px 0px 0px; }
+      A.IconLink.IconLink24.Text.Left I {
+        right: 0; }
+    A.IconLink.IconLink24.Text.Right {
+      padding: 0px 0px 0px 34px; }
+      A.IconLink.IconLink24.Text.Right I {
+        left: 0; }
+  A.IconLink.IconLink20 {
+    line-height: 22px;
+    width: 20px;
+    height: 20px; }
+    A.IconLink.IconLink20 > I {
+      width: 20px;
+      height: 20px;
+      border-radius: 10px;
+      top: 50%;
+      left: 50%;
+      margin-left: -10px;
+      margin-top: -10px;
+      background-position: 0 -142px; }
+    A.IconLink.IconLink20.Text {
+      width: auto;
+      height: auto; }
+      A.IconLink.IconLink20.Text I {
+        top: 2px;
+        left: auto;
+        margin: 0px; }
+    A.IconLink.IconLink20.Text.Left {
+      padding: 0px 25px 0px 0px; }
+      A.IconLink.IconLink20.Text.Left I {
+        right: 0; }
+    A.IconLink.IconLink20.Text.Right {
+      padding: 0px 0px 0px 25px; }
+      A.IconLink.IconLink20.Text.Right I {
+        left: 0; }
+  A.IconLink.IconLink16 {
+    line-height: 18px;
+    width: 16px;
+    height: 16px; }
+    A.IconLink.IconLink16 > I {
+      width: 16px;
+      height: 16px;
+      border-radius: 8px;
+      top: 50%;
+      left: 50%;
+      margin-left: -8px;
+      margin-top: -8px;
+      background-position: 0 -162px; }
+    A.IconLink.IconLink16.Text {
+      width: auto;
+      height: auto; }
+      A.IconLink.IconLink16.Text I {
+        top: 2px;
+        left: auto;
+        margin: 0px; }
+    A.IconLink.IconLink16.Text.Left {
+      padding: 0px 21px 0px 0px; }
+      A.IconLink.IconLink16.Text.Left I {
+        right: 0; }
+    A.IconLink.IconLink16.Text.Right {
+      padding: 0px 0px 0px 21px; }
+      A.IconLink.IconLink16.Text.Right I {
+        left: 0; }
+  A.IconLink.IconLink14 {
+    line-height: 16px;
+    width: 14px;
+    height: 14px; }
+    A.IconLink.IconLink14 > I {
+      width: 14px;
+      height: 14px;
+      border-radius: 7px;
+      top: 50%;
+      left: 50%;
+      margin-left: -7px;
+      margin-top: -7px;
+      background-position: 0 -178px; }
+    A.IconLink.IconLink14.Text {
+      width: auto;
+      height: auto; }
+      A.IconLink.IconLink14.Text I {
+        top: 2px;
+        left: auto;
+        margin: 0px; }
+    A.IconLink.IconLink14.Text.Left {
+      padding: 0px 19px 0px 0px; }
+      A.IconLink.IconLink14.Text.Left I {
+        right: 0; }
+    A.IconLink.IconLink14.Text.Right {
+      padding: 0px 0px 0px 19px; }
+      A.IconLink.IconLink14.Text.Right I {
+        left: 0; }
+  A.IconLink.IconLink48.ArrowLeft > I {
+    background-position: -50px -0px; }
+  A.IconLink.IconLink40.ArrowLeft > I {
+    background-position: -50px -48px; }
+  A.IconLink.IconLink30.ArrowLeft > I {
+    background-position: -50px -88px; }
+  A.IconLink.IconLink24.ArrowLeft > I {
+    background-position: -50px -118px; }
+  A.IconLink.IconLink20.ArrowLeft > I {
+    background-position: -50px -142px; }
+  A.IconLink.IconLink16.ArrowLeft > I {
+    background-position: -50px -162px; }
+  A.IconLink.IconLink14.ArrowLeft > I {
+    background-position: -50px -178px; }
+  A.IconLink.IconLink48.ArrowRight > I {
+    background-position: -100px -0px; }
+  A.IconLink.IconLink40.ArrowRight > I {
+    background-position: -100px -48px; }
+  A.IconLink.IconLink30.ArrowRight > I {
+    background-position: -100px -88px; }
+  A.IconLink.IconLink24.ArrowRight > I {
+    background-position: -100px -118px; }
+  A.IconLink.IconLink20.ArrowRight > I {
+    background-position: -100px -142px; }
+  A.IconLink.IconLink16.ArrowRight > I {
+    background-position: -100px -162px; }
+  A.IconLink.IconLink14.ArrowRight > I {
+    background-position: -100px -178px; }
+  A.IconLink.IconLink48.Tick > I {
+    background-position: -150px -0px; }
+  A.IconLink.IconLink40.Tick > I {
+    background-position: -150px -48px; }
+  A.IconLink.IconLink30.Tick > I {
+    background-position: -150px -88px; }
+  A.IconLink.IconLink24.Tick > I {
+    background-position: -150px -118px; }
+  A.IconLink.IconLink20.Tick > I {
+    background-position: -150px -142px; }
+  A.IconLink.IconLink16.Tick > I {
+    background-position: -150px -162px; }
+  A.IconLink.IconLink14.Tick > I {
+    background-position: -150px -178px; }
+  A.IconLink.IconLink48.Questionmark > I {
+    background-position: -200px -0px; }
+  A.IconLink.IconLink40.Questionmark > I {
+    background-position: -200px -48px; }
+  A.IconLink.IconLink30.Questionmark > I {
+    background-position: -200px -88px; }
+  A.IconLink.IconLink24.Questionmark > I {
+    background-position: -200px -118px; }
+  A.IconLink.IconLink20.Questionmark > I {
+    background-position: -200px -142px; }
+  A.IconLink.IconLink16.Questionmark > I {
+    background-position: -200px -162px; }
+  A.IconLink.IconLink14.Questionmark > I {
+    background-position: -200px -178px; }
+  A.IconLink.IconLink48.Magnifier > I {
+    background-position: -250px -0px; }
+  A.IconLink.IconLink40.Magnifier > I {
+    background-position: -250px -48px; }
+  A.IconLink.IconLink30.Magnifier > I {
+    background-position: -250px -88px; }
+  A.IconLink.IconLink24.Magnifier > I {
+    background-position: -250px -118px; }
+  A.IconLink.IconLink20.Magnifier > I {
+    background-position: -250px -142px; }
+  A.IconLink.IconLink16.Magnifier > I {
+    background-position: -250px -162px; }
+  A.IconLink.IconLink14.Magnifier > I {
+    background-position: -250px -178px; }
+  A.IconLink.IconLink48.Questionmark-Grey > I {
+    background-position: -300px -0px; }
+  A.IconLink.IconLink40.Questionmark-Grey > I {
+    background-position: -300px -48px; }
+  A.IconLink.IconLink30.Questionmark-Grey > I {
+    background-position: -300px -88px; }
+  A.IconLink.IconLink24.Questionmark-Grey > I {
+    background-position: -300px -118px; }
+  A.IconLink.IconLink20.Questionmark-Grey > I {
+    background-position: -300px -142px; }
+  A.IconLink.IconLink16.Questionmark-Grey > I {
+    background-position: -300px -162px; }
+  A.IconLink.IconLink14.Questionmark-Grey > I {
+    background-position: -300px -178px; }
+  A.IconLink.IconLink48.ArrowLeft-White > I {
+    background-position: -350px -0px; }
+  A.IconLink.IconLink40.ArrowLeft-White > I {
+    background-position: -350px -48px; }
+  A.IconLink.IconLink30.ArrowLeft-White > I {
+    background-position: -350px -88px; }
+  A.IconLink.IconLink24.ArrowLeft-White > I {
+    background-position: -350px -118px; }
+  A.IconLink.IconLink20.ArrowLeft-White > I {
+    background-position: -350px -142px; }
+  A.IconLink.IconLink16.ArrowLeft-White > I {
+    background-position: -350px -162px; }
+  A.IconLink.IconLink14.ArrowLeft-White > I {
+    background-position: -350px -178px; }
+  A.IconLink.IconLink48.Magnifier-NoCircleGrey > I {
+    background-position: -400px -0px; }
+  A.IconLink.IconLink40.Magnifier-NoCircleGrey > I {
+    background-position: -400px -48px; }
+  A.IconLink.IconLink30.Magnifier-NoCircleGrey > I {
+    background-position: -400px -88px; }
+  A.IconLink.IconLink24.Magnifier-NoCircleGrey > I {
+    background-position: -400px -118px; }
+  A.IconLink.IconLink20.Magnifier-NoCircleGrey > I {
+    background-position: -400px -142px; }
+  A.IconLink.IconLink16.Magnifier-NoCircleGrey > I {
+    background-position: -400px -162px; }
+  A.IconLink.IconLink14.Magnifier-NoCircleGrey > I {
+    background-position: -400px -178px; }
+  A.IconLink.IconLink48.Cross > I {
+    background-position: -450px -0px; }
+  A.IconLink.IconLink40.Cross > I {
+    background-position: -450px -48px; }
+  A.IconLink.IconLink30.Cross > I {
+    background-position: -450px -88px; }
+  A.IconLink.IconLink24.Cross > I {
+    background-position: -450px -118px; }
+  A.IconLink.IconLink20.Cross > I {
+    background-position: -450px -142px; }
+  A.IconLink.IconLink16.Cross > I {
+    background-position: -450px -162px; }
+  A.IconLink.IconLink14.Cross > I {
+    background-position: -450px -178px; }
+  A.IconLink.IconLink48.Cross-NoCircleGrey > I {
+    background-position: -500px -0px; }
+  A.IconLink.IconLink40.Cross-NoCircleGrey > I {
+    background-position: -500px -48px; }
+  A.IconLink.IconLink30.Cross-NoCircleGrey > I {
+    background-position: -500px -88px; }
+  A.IconLink.IconLink24.Cross-NoCircleGrey > I {
+    background-position: -500px -118px; }
+  A.IconLink.IconLink20.Cross-NoCircleGrey > I {
+    background-position: -500px -142px; }
+  A.IconLink.IconLink16.Cross-NoCircleGrey > I {
+    background-position: -500px -162px; }
+  A.IconLink.IconLink14.Cross-NoCircleGrey > I {
+    background-position: -500px -178px; }
+  A.IconLink.IconLink48.Cross-Grey > I {
+    background-position: -550px -0px; }
+  A.IconLink.IconLink40.Cross-Grey > I {
+    background-position: -550px -48px; }
+  A.IconLink.IconLink30.Cross-Grey > I {
+    background-position: -550px -88px; }
+  A.IconLink.IconLink24.Cross-Grey > I {
+    background-position: -550px -118px; }
+  A.IconLink.IconLink20.Cross-Grey > I {
+    background-position: -550px -142px; }
+  A.IconLink.IconLink16.Cross-Grey > I {
+    background-position: -550px -162px; }
+  A.IconLink.IconLink14.Cross-Grey > I {
+    background-position: -550px -178px; }
+  A.IconLink.IconLink48.Cross-White > I {
+    background-position: -600px -0px; }
+  A.IconLink.IconLink40.Cross-White > I {
+    background-position: -600px -48px; }
+  A.IconLink.IconLink30.Cross-White > I {
+    background-position: -600px -88px; }
+  A.IconLink.IconLink24.Cross-White > I {
+    background-position: -600px -118px; }
+  A.IconLink.IconLink20.Cross-White > I {
+    background-position: -600px -142px; }
+  A.IconLink.IconLink16.Cross-White > I {
+    background-position: -600px -162px; }
+  A.IconLink.IconLink14.Cross-White > I {
+    background-position: -600px -178px; }
+  A.IconLink.IconLink48.ArrowRight-White > I {
+    background-position: -650px -0px; }
+  A.IconLink.IconLink40.ArrowRight-White > I {
+    background-position: -650px -48px; }
+  A.IconLink.IconLink30.ArrowRight-White > I {
+    background-position: -650px -88px; }
+  A.IconLink.IconLink24.ArrowRight-White > I {
+    background-position: -650px -118px; }
+  A.IconLink.IconLink20.ArrowRight-White > I {
+    background-position: -650px -142px; }
+  A.IconLink.IconLink16.ArrowRight-White > I {
+    background-position: -650px -162px; }
+  A.IconLink.IconLink14.ArrowRight-White > I {
+    background-position: -650px -178px; }
+  A.IconLink.IconLink48.Plus > I {
+    background-position: -700px -0px; }
+  A.IconLink.IconLink40.Plus > I {
+    background-position: -700px -48px; }
+  A.IconLink.IconLink30.Plus > I {
+    background-position: -700px -88px; }
+  A.IconLink.IconLink24.Plus > I {
+    background-position: -700px -118px; }
+  A.IconLink.IconLink20.Plus > I {
+    background-position: -700px -142px; }
+  A.IconLink.IconLink16.Plus > I {
+    background-position: -700px -162px; }
+  A.IconLink.IconLink14.Plus > I {
+    background-position: -700px -178px; }
+  A.IconLink.IconLink48.ArrowDown > I {
+    background-position: -750px -0px; }
+  A.IconLink.IconLink40.ArrowDown > I {
+    background-position: -750px -48px; }
+  A.IconLink.IconLink30.ArrowDown > I {
+    background-position: -750px -88px; }
+  A.IconLink.IconLink24.ArrowDown > I {
+    background-position: -750px -118px; }
+  A.IconLink.IconLink20.ArrowDown > I {
+    background-position: -750px -142px; }
+  A.IconLink.IconLink16.ArrowDown > I {
+    background-position: -750px -162px; }
+  A.IconLink.IconLink14.ArrowDown > I {
+    background-position: -750px -178px; }
+  A.IconLink.IconLink48.ArrowUp > I {
+    background-position: -800px -0px; }
+  A.IconLink.IconLink40.ArrowUp > I {
+    background-position: -800px -48px; }
+  A.IconLink.IconLink30.ArrowUp > I {
+    background-position: -800px -88px; }
+  A.IconLink.IconLink24.ArrowUp > I {
+    background-position: -800px -118px; }
+  A.IconLink.IconLink20.ArrowUp > I {
+    background-position: -800px -142px; }
+  A.IconLink.IconLink16.ArrowUp > I {
+    background-position: -800px -162px; }
+  A.IconLink.IconLink14.ArrowUp > I {
+    background-position: -800px -178px; }
+  A.IconLink.IconLink48.Plus-NoCircleGrey > I {
+    background-position: -850px -0px; }
+  A.IconLink.IconLink40.Plus-NoCircleGrey > I {
+    background-position: -850px -48px; }
+  A.IconLink.IconLink30.Plus-NoCircleGrey > I {
+    background-position: -850px -88px; }
+  A.IconLink.IconLink24.Plus-NoCircleGrey > I {
+    background-position: -850px -118px; }
+  A.IconLink.IconLink20.Plus-NoCircleGrey > I {
+    background-position: -850px -142px; }
+  A.IconLink.IconLink16.Plus-NoCircleGrey > I {
+    background-position: -850px -162px; }
+  A.IconLink.IconLink14.Plus-NoCircleGrey > I {
+    background-position: -850px -178px; }
+  A.IconLink.IconLink48.ArrowRight-Blue > I {
+    background-position: -900px -0px; }
+  A.IconLink.IconLink40.ArrowRight-Blue > I {
+    background-position: -900px -48px; }
+  A.IconLink.IconLink30.ArrowRight-Blue > I {
+    background-position: -900px -88px; }
+  A.IconLink.IconLink24.ArrowRight-Blue > I {
+    background-position: -900px -118px; }
+  A.IconLink.IconLink20.ArrowRight-Blue > I {
+    background-position: -900px -142px; }
+  A.IconLink.IconLink16.ArrowRight-Blue > I {
+    background-position: -900px -162px; }
+  A.IconLink.IconLink14.ArrowRight-Blue > I {
+    background-position: -900px -178px; }
+  A.IconLink:focus, A.IconLink:hover {
+    /*color: $colorActive;
+    > I{ background-color:  $colorActive;}*/
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
+    filter: alpha(opacity=70);
+    -moz-opacity: 0.7;
+    -khtml-opacity: 0.7;
+    opacity: 0.7;
+    outline: none; }
+
+UL.Menu {
+  display: block;
+  clear: both;
+  overflow: hidden;
+  margin-left: -20px; }
+  UL.Menu LI {
+    float: left; }
+    UL.Menu LI A {
+      text-decoration: none;
+      text-transform: uppercase;
+      font-size: 12px;
+      color: #7f7f7f;
+      padding: 0px 20px; }
+      UL.Menu LI A:hover, UL.Menu LI A:focus {
+        color: #007acc; }
+    UL.Menu LI.Active A {
+      color: #333333; }
+
+UL.MenuLoginPartial,
+UL.HeaderMenu {
+  display: block;
+  clear: both;
+  overflow: hidden;
+  margin-right: 20px; }
+  UL.MenuLoginPartial LI,
+  UL.HeaderMenu LI {
+    float: left; }
+    UL.MenuLoginPartial LI A,
+    UL.HeaderMenu LI A {
+      text-decoration: none;
+      text-transform: uppercase;
+      font-size: 12px;
+      color: #999999;
+      padding: 0px 10px;
+      line-height: 20px;
+      display: inline-block;
+      border-radius: 20px;
+      margin-top: 5px; }
+      UL.MenuLoginPartial LI A:hover,
+      UL.HeaderMenu LI A:hover {
+        color: #ffffff; }
+    UL.MenuLoginPartial LI.Active A,
+    UL.HeaderMenu LI.Active A {
+      color: #ffffff; }
+    UL.MenuLoginPartial LI.Logoff A:hover,
+    UL.HeaderMenu LI.Logoff A:hover {
+      background: #cc0000; }
+
+SPAN.checkbox,
+SPAN.radio {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin: -1px 4px;
+  background: url("../Images/bgFrmCheckboxRadioSprite.png") no-repeat;
+  position: relative; }
+
+SPAN.checkbox {
+  background-position: 0px 0px; }
+  SPAN.checkbox:hover, SPAN.checkbox.hover {
+    background-position: 0px -20px; }
+  SPAN.checkbox.focus, SPAN.checkbox:focus {
+    background-position: 0px -40px; }
+  SPAN.checkbox:active {
+    background-position: 0px -60px; }
+  SPAN.checkbox.disabled {
+    background-position: 0px -80px; }
+  SPAN.checkbox.checked {
+    background-position: 0px -100px; }
+  SPAN.checkbox.checked:hover, SPAN.checkbox.checked.hover {
+    background-position: 0px -120px; }
+  SPAN.checkbox.checked.focus, SPAN.checkbox.checked:focus {
+    background-position: 0px -140px; }
+  SPAN.checkbox.checked:active {
+    background-position: 0px -160px; }
+  SPAN.checkbox.checked.disabled {
+    background-position: 0px -180px; }
+
+SPAN.radio {
+  background-position: -20px 0px; }
+  SPAN.radio:hover, SPAN.radio.hover {
+    background-position: -20px -20px; }
+  SPAN.radio.focus, SPAN.radio:focus {
+    background-position: -20px -40px; }
+  SPAN.radio:active {
+    background-position: -20px -60px; }
+  SPAN.radio.disabled {
+    background-position: -20px -80px; }
+  SPAN.radio.checked {
+    background-position: -20px -100px; }
+  SPAN.radio.checked:hover, SPAN.radio.checked.hover {
+    background-position: -20px -120px; }
+  SPAN.radio.checked.focus, SPAN.radio.checked:focus {
+    background-position: -20px -140px; }
+  SPAN.radio.checked:active {
+    background-position: -20px -160px; }
+  SPAN.radio.checked.disabled {
+    background-position: -20px -180px; }
+
+/*
+
+SPAN.radio {
+  background-position: -20px 0px; }
+
+SPAN.radio:hover,
+SPAN.radio.hover {
+  background-position: -20px -20px; }
+
+SPAN.radio:active {
+  background-position: -20px -40px; }
+
+SPAN.radio.disabled {
+  background-position: -20px -60px; }
+
+SPAN.radio.checked {
+  background-position: -20px -80px; }
+
+SPAN.radio.checked:hover,
+SPAN.radio.checked.hover {
+  background-position: -20px -100px; }
+
+SPAN.radio.checked:active {
+  background-position: -20px -120px; }
+
+SPAN.radio.checked.disabled {
+  background-position: -20px -140px; }
+
+  */
+/* @group Base */
+DIV.chzn-container {
+  font-size: 13px;
+  position: relative;
+  display: inline-block;
+  zoom: 1;
+  *display: inline; }
+
+DIV.chzn-container DIV.chzn-drop {
+  background: #fff;
+  border: 1px solid #cccccc;
+  border-top: 0;
+  position: absolute;
+  top: 29px;
+  left: 0;
+  z-index: 1010; }
+
+/* @end */
+/* @group Single Chosen */
+.chzn-container-single A.chzn-single {
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+  height: 28px;
+  line-height: 28px;
+  padding: 0 0 0 8px;
+  color: #444444;
+  text-decoration: none; }
+
+.chzn-container-single .chzn-default {
+  color: #999; }
+
+.chzn-container-single A.chzn-single span {
+  margin-right: 26px;
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  /*-o-text-overflow: ellipsis;
+  -ms-text-overflow: ellipsis;
+  text-overflow: ellipsis;*/ }
+.chzn-container-single A.chzn-single abbr {
+  display: block;
+  position: absolute;
+  right: 26px;
+  top: 6px;
+  width: 12px;
+  height: 13px;
+  font-size: 1px;
+  background: url("../Images/bgChosenSprite.png") right top no-repeat; }
+  .chzn-container-single A.chzn-single abbr:hover {
+    background-position: right -11px; }
+
+.chzn-container-single.chzn-disabled A.chzn-single abbr:hover {
+  background-position: right top; }
+
+.chzn-container-single A.chzn-single DIV {
+  position: absolute;
+  right: 0;
+  top: 0;
+  display: block;
+  height: 100%;
+  width: 24px;
+  padding: 2px;
+  height: 24px; }
+  .chzn-container-single A.chzn-single DIV B {
+    background: url("../Images/bgChosenSprite.png") no-repeat 4px 0;
+    display: block;
+    width: 100%;
+    height: 100%; }
+
+.chzn-container-active A.chzn-single-with-drop DIV B {
+  background-position: -16px 0px; }
+
+.chzn-container-single DIV.chzn-search {
+  padding: 3px 4px;
+  position: relative;
+  margin: 0;
+  white-space: nowrap;
+  z-index: 1010; }
+
+.chzn-container-single DIV.chzn-search INPUT {
+  background: white url("../Images/bgChosenSprite.png") no-repeat 100% -44px;
+  margin: 1px 0;
+  padding: 4px 20px 4px 5px;
+  outline: 0;
+  border: 1px solid #aaa;
+  font-size: 1em; }
+
+/* @end */
+.chzn-container-single-nosearch DIV.chzn-search INPUT {
+  position: absolute;
+  left: -9000px; }
+
+/* @group Multi Chosen */
+.chzn-container-multi UL.chzn-choices {
+  background-color: #fff;
+  border: 1px solid #cccccc;
+  margin: 0;
+  padding: 0;
+  cursor: text;
+  overflow: hidden;
+  height: auto !important;
+  height: 1%;
+  position: relative; }
+  .chzn-container-multi UL.chzn-choices LI {
+    float: left;
+    list-style: none; }
+  .chzn-container-multi UL.chzn-choices LI.search-field {
+    white-space: nowrap;
+    margin: 0;
+    padding: 0; }
+    .chzn-container-multi UL.chzn-choices LI.search-field INPUT {
+      color: #666;
+      background: transparent !important;
+      border: 0 !important;
+      font-size: 100%;
+      height: 15px;
+      padding: 5px;
+      margin: 1px 0;
+      outline: 0; }
+    .chzn-container-multi UL.chzn-choices LI.search-field .default {
+      color: #999; }
+  .chzn-container-multi UL.chzn-choices LI.search-choice {
+    font-size: 12px;
+    background-color: #e4e4e4;
+    color: #333;
+    line-height: 15px;
+    padding: 3px 20px 3px 5px;
+    margin: 3px 0 0px 3px;
+    position: relative;
+    cursor: default; }
+    .chzn-container-multi UL.chzn-choices LI.search-choice A.search-choice-close {
+      display: block;
+      position: absolute;
+      right: 4px;
+      top: 4px;
+      width: 12px;
+      height: 12px;
+      font-size: 1px;
+      background: url("../Images/bgChosenSprite.png") right 0px no-repeat;
+      border-radius: 10px; }
+      .chzn-container-multi UL.chzn-choices LI.search-choice A.search-choice-close:hover {
+        background-position: right -24px; }
+    .chzn-container-multi UL.chzn-choices LI.search-choice.search-choice-focus {
+      background: #d4d4d4; }
+      .chzn-container-multi UL.chzn-choices LI.search-choice.search-choice-focus A.search-choice-close {
+        background-position: right -24px; }
+    .chzn-container-multi UL.chzn-choices LI.search-choice:hover A.search-choice-close {
+      background-position: right -12px; }
+      .chzn-container-multi UL.chzn-choices LI.search-choice:hover A.search-choice-close:hover {
+        background-position: right -24px; }
+
+/* @end */
+/* @group Results */
+DIV.chzn-container .chzn-results {
+  max-height: 240px;
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch; }
+
+.chzn-container-multi .chzn-results {
+  margin: -1px 0 0;
+  padding: 0; }
+
+DIV.chzn-container .chzn-results li {
+  display: none;
+  line-height: 15px;
+  padding: 5px 6px;
+  margin: 0;
+  list-style: none; }
+
+DIV.chzn-container .chzn-results .active-result {
+  cursor: pointer;
+  display: list-item; }
+
+DIV.chzn-container .chzn-results .highlighted {
+  background-color: #007acc;
+  color: #fff; }
+
+DIV.chzn-container .chzn-results li em {
+  background: transparent;
+  font-style: normal;
+  font-weight: bold; }
+
+DIV.chzn-container .chzn-results .highlighted em {
+  background: transparent; }
+
+DIV.chzn-container .chzn-results .no-results {
+  background: #f4f4f4;
+  display: list-item; }
+
+DIV.chzn-container .chzn-results .group-result {
+  cursor: default;
+  color: #999;
+  font-weight: bold; }
+
+DIV.chzn-container .chzn-results .group-option {
+  padding-left: 15px; }
+
+.chzn-container-multi .chzn-drop .result-selected {
+  display: none; }
+
+DIV.chzn-container .chzn-results-scroll {
+  background: white;
+  margin: 0 4px;
+  position: absolute;
+  text-align: center;
+  width: 321px;
+  /* This should by dynamic with js */
+  z-index: 1; }
+
+DIV.chzn-container .chzn-results-scroll span {
+  display: inline-block;
+  height: 17px;
+  text-indent: -5000px;
+  width: 9px; }
+
+DIV.chzn-container .chzn-results-scroll-down {
+  bottom: 0; }
+
+DIV.chzn-container .chzn-results-scroll-down span {
+  background: url("../Images/bgChosenSprite.png") no-repeat -4px -3px; }
+
+DIV.chzn-container .chzn-results-scroll-up span {
+  background: url("../Images/bgChosenSprite.png") no-repeat -22px -3px; }
+
+/* @end */
+/* @group Active */
+.chzn-container-active A.chzn-single {
+  border: 1px solid #007acc; }
+
+.chzn-container-active A.chzn-single-with-drop {
+  border: 1px solid #007acc;
+  background-color: #eee; }
+
+.chzn-container-active A.chzn-single-with-drop div {
+  background: transparent;
+  border-left: none; }
+
+.chzn-container-active .chzn-choices {
+  border: 1px solid #007acc; }
+
+.chzn-container-active .chzn-choices .search-field input {
+  color: #111 !important; }
+
+/* @end */
+/* @group Disabled Support */
+.chzn-disabled {
+  cursor: default;
+  opacity: 0.5 !important; }
+
+.chzn-disabled A.chzn-single {
+  cursor: default; }
+
+.chzn-disabled .chzn-choices .search-choice .search-choice-close {
+  cursor: default; }
+
+/* @group Right to Left */
+.chzn-rtl {
+  text-align: right; }
+
+.chzn-rtl A.chzn-single {
+  padding: 0 8px 0 0;
+  overflow: visible; }
+
+.chzn-rtl A.chzn-single span {
+  margin-left: 26px;
+  margin-right: 0;
+  direction: rtl; }
+
+.chzn-rtl A.chzn-single div {
+  left: 3px;
+  right: auto; }
+
+.chzn-rtl A.chzn-single abbr {
+  left: 26px;
+  right: auto; }
+
+.chzn-rtl .chzn-choices .search-field input {
+  direction: rtl; }
+
+.chzn-rtl .chzn-choices li {
+  float: right; }
+
+.chzn-rtl .chzn-choices .search-choice {
+  padding: 3px 5px 3px 19px;
+  margin: 3px 5px 3px 0; }
+
+.chzn-rtl .chzn-choices .search-choice .search-choice-close {
+  left: 4px;
+  right: auto;
+  background-position: right top; }
+
+.chzn-rtl.chzn-container-single .chzn-results {
+  margin: 0 0 4px 4px;
+  padding: 0 4px 0 0; }
+
+.chzn-rtl .chzn-results .group-option {
+  padding-left: 0;
+  padding-right: 15px; }
+
+.chzn-rtl.chzn-container-active A.chzn-single-with-drop div {
+  border-right: none; }
+
+.chzn-rtl DIV.chzn-search input {
+  background: white url("../Images/bgChosenSprite.png") no-repeat -38px -22px;
+  background: url("../Images/bgChosenSprite.png") no-repeat -38px -22px, -webkit-gradient(linear, 0% 0%, 0% 100%, color-stop(1%, #eeeeee), color-stop(15%, white));
+  background: url("../Images/bgChosenSprite.png") no-repeat -38px -22px, -webkit-linear-gradient(top, #eeeeee 1%, white 15%);
+  background: url("../Images/bgChosenSprite.png") no-repeat -38px -22px, -moz-linear-gradient(top, #eeeeee 1%, white 15%);
+  background: url("../Images/bgChosenSprite.png") no-repeat -38px -22px, -o-linear-gradient(top, #eeeeee 1%, white 15%);
+  background: url("../Images/bgChosenSprite.png") no-repeat -38px -22px, -ms-linear-gradient(top, #eeeeee 1%, white 15%);
+  background: url("../Images/bgChosenSprite.png") no-repeat -38px -22px, linear-gradient(top, #eeeeee 1%, white 15%);
+  padding: 4px 5px 4px 20px;
+  direction: rtl; }
+
+/* @end */
+/*
+<div class="tipsy tipsy-n">
+	<div class="tipsy-arrow"></div>
+	<div class="tipsy-inner">Well hello there</div>
+</div>
+*/
+.tipsy {
+  color: #ffffff;
+  font-size: 11px;
+  line-height: 25px;
+  position: absolute;
+  z-index: 100000;
+  padding: 10px;
+  	/*.tipsy-arrow { 
+  		position: absolute;
+  		background: #00cc00; 
+  		background: url("../Images/bg_tooltip_arrow.png") 0px 0px;
+  		width: 10px; 
+  		height: 10px; 
+  	}
+  
+  	&.tipsy-n .tipsy-arrow	{	left:20px;	top: 0px; background-position: -10px 0px;}
+  	&.tipsy-nw .tipsy-arrow	{	left:10px;	top: 0px; background-position: -10px 0px;}
+  	&.tipsy-ne .tipsy-arrow	{	right:10px;	top: 0px; background-position: 0px 0px;}
+  	&.tipsy-s .tipsy-arrow	{	left:20px;	bottom: 0px; background-position: -10px -10px;}
+  	&.tipsy-sw .tipsy-arrow	{	left:10px;	bottom: 0px; background-position: -10px -10px;}
+  	&.tipsy-se .tipsy-arrow	{	right:10px;	bottom: 0px; background-position: 0px -10px;}
+  	&.tipsy-w .tipsy-arrow	{	left:0px;	top: 20px; background-position: 0px -10px;}
+  	&.tipsy-e .tipsy-arrow	{	right:0px;	top: 20px; background-position: -10px -10px;}
+  	*/ }
+  .tipsy .tipsy-inner {
+    background: rgba(0, 0, 0, 0.65);
+    padding: 0px 10px 2px 10px;
+    max-width: 200px;
+    text-align: center; }
+  .tipsy .tipsy-arrow {
+    position: absolute;
+    width: 0px;
+    height: 0px;
+    border: 10px solid transparent; }
+  .tipsy.tipsy-s .tipsy-arrow {
+    border-left: 10px solid rgba(0, 0, 0, 0.65);
+    border-top: 0px solid rgba(0, 0, 0, 0.65);
+    bottom: 0px; }
+  .tipsy.tipsy-n .tipsy-arrow {
+    border-left: 10px solid rgba(0, 0, 0, 0.65);
+    border-bottom: 0px solid rgba(0, 0, 0, 0.65);
+    top: 0px; }
+
+.ui-datepicker {
+  width: 215px;
+  padding: 0px 0px 2px 0px;
+  padding: 10px 20px 20px 20px;
+  display: none;
+  background: #007acc;
+  color: #ffffff; }
+
+.ui-datepicker .ui-datepicker-header {
+  position: relative;
+  padding: 2px;
+  color: #ffffff;
+  height: 40px; }
+  .ui-datepicker .ui-datepicker-header DIV.ui-datepicker-title {
+    margin: 0;
+    line-height: 24px;
+    position: relative;
+    height: 1px; }
+    .ui-datepicker .ui-datepicker-header DIV.ui-datepicker-title SPAN {
+      position: absolute;
+      left: 30px;
+      right: 30px;
+      text-align: center;
+      display: block; }
+    .ui-datepicker .ui-datepicker-header DIV.ui-datepicker-title SPAN.ui-datepicker-month {
+      font-size: 32px;
+      font-weight: 300;
+      top: 16px; }
+    .ui-datepicker .ui-datepicker-header DIV.ui-datepicker-title SPAN.ui-datepicker-year {
+      top: 0px; }
+  .ui-datepicker .ui-datepicker-header DIV.ui-datepicker-title select {
+    margin: 0; }
+
+.ui-datepicker A.ui-datepicker-prev,
+.ui-datepicker A.ui-datepicker-next {
+  position: absolute;
+  top: 15px;
+  display: block;
+  width: 20px;
+  height: 20px;
+  border: 1px solid #ffffff;
+  border-radius: 20px;
+  cursor: pointer; }
+  .ui-datepicker A.ui-datepicker-prev span,
+  .ui-datepicker A.ui-datepicker-next span {
+    display: block;
+    position: absolute;
+    text-indent: -1000px; }
+  .ui-datepicker A.ui-datepicker-prev:hover,
+  .ui-datepicker A.ui-datepicker-next:hover {
+    background: #ffffff; }
+
+.ui-datepicker .ui-datepicker-prev {
+  left: 0px; }
+
+.ui-datepicker .ui-datepicker-next {
+  right: 0px; }
+
+.ui-datepicker SELECT.ui-datepicker-month-year {
+  width: 100%; }
+
+.ui-datepicker SELECT.ui-datepicker-month,
+.ui-datepicker SELECT.ui-datepicker-year {
+  width: 49%; }
+
+.ui-datepicker TABLE {
+  font-size: 12px;
+  border-collapse: collapse;
+  margin: 2px; }
+  .ui-datepicker TABLE SPAN, .ui-datepicker TABLE A {
+    display: block;
+    padding: 2px;
+    text-align: center;
+    line-height: 20px;
+    text-decoration: none;
+    border: 1px solid transparent;
+    width: 20px;
+    height: 20px;
+    border-radius: 20px; }
+  .ui-datepicker TABLE TH {
+    padding: 0;
+    font-weight: bold;
+    border: 0;
+    padding: 2px; }
+    .ui-datepicker TABLE TH SPAN {
+      border-color: transparent;
+      text-align: center; }
+  .ui-datepicker TABLE TD {
+    padding: 2px; }
+  .ui-datepicker TABLE A {
+    color: rgba(255, 255, 255, 0.6);
+    border: 1px solid transparent; }
+    .ui-datepicker TABLE A:hover {
+      background: #3f9bd8;
+      border: 1px solid #3f9bd8;
+      color: #ffffff; }
+    .ui-datepicker TABLE A.ui-state-highlight {
+      border: 1px solid #ffffff;
+      color: #ffffff; }
+    .ui-datepicker TABLE A.ui-state-active {
+      background: #ffffff;
+      border: 1px solid #ffffff;
+      color: #007acc; }
+
+.ui-datepicker .ui-datepicker-buttonpane {
+  background-image: none;
+  margin: .7em 0 0 0;
+  padding: 0 .2em;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 0; }
+
+.ui-datepicker .ui-datepicker-buttonpane button {
+  float: right;
+  margin: .5em .2em .4em;
+  cursor: pointer;
+  padding: .2em .6em .3em .6em;
+  width: auto;
+  overflow: visible; }
+
+.ui-datepicker .ui-datepicker-buttonpane button.ui-datepicker-current {
+  float: left; }
+
+/* IE6 IFRAME FIX (taken from datepicker 1.5.3 */
+.ui-datepicker-cover {
+  display: none;
+  /*sorry for IE5*/
+  display/**/: block;
+  /*sorry for IE5*/
+  position: absolute;
+  /*must have*/
+  z-index: -1;
+  /*must have*/
+  filter: mask();
+  /*must have*/
+  top: -4px;
+  /*must have*/
+  left: -4px;
+  /*must have*/
+  width: 200px;
+  /*must have*/
+  height: 200px;
+  /*must have*/ }
+
+/*
+
+<div class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" id="ui-datepicker-div" style="position: absolute; top: 608px; left: 156.667px; z-index: 1; display: block;">
+  <div class="ui-datepicker-header ui-widget-header ui-helper-clearfix ui-corner-all"><a title="Prev" onclick="DP_jQuery_1344940460332.datepicker._adjustDate('#SKU_ReleaseDate', -1, 'M');" class="ui-datepicker-prev ui-corner-all"><span class="ui-icon ui-icon-circle-triangle-w">Prev</span></a><a title="Next" onclick="DP_jQuery_1344940460332.datepicker._adjustDate('#SKU_ReleaseDate', +1, 'M');" class="ui-datepicker-next ui-corner-all"><span class="ui-icon ui-icon-circle-triangle-e">Next</span></a>
+    <div class="ui-datepicker-title"><span class="ui-datepicker-month">August</span>&nbsp;<span class="ui-datepicker-year">2012</span></div>
+  </div>
+  <table class="ui-datepicker-calendar">
+    <thead>
+      <tr>
+        <th class="ui-datepicker-week-end"><span title="Sunday">Su</span></th>
+        <th><span title="Monday">Mo</span></th>
+        <th><span title="Tuesday">Tu</span></th>
+        <th><span title="Wednesday">We</span></th>
+        <th><span title="Thursday">Th</span></th>
+        <th><span title="Friday">Fr</span></th>
+        <th class="ui-datepicker-week-end"><span title="Saturday">Sa</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class=" ui-datepicker-week-end ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td>
+        <td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td>
+        <td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">1</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">2</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">3</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" ui-datepicker-week-end "><a href="#" class="ui-state-default">4</a></td>
+      </tr>
+      <tr>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" ui-datepicker-week-end "><a href="#" class="ui-state-default">5</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">6</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">7</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">8</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">9</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">10</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" ui-datepicker-week-end "><a href="#" class="ui-state-default">11</a></td>
+      </tr>
+      <tr>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" ui-datepicker-week-end "><a href="#" class="ui-state-default">12</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">13</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" ui-datepicker-days-cell-over  ui-datepicker-today"><a href="#" class="ui-state-default ui-state-highlight">14</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">15</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">16</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">17</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" ui-datepicker-week-end "><a href="#" class="ui-state-default">18</a></td>
+      </tr>
+      <tr>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" ui-datepicker-week-end "><a href="#" class="ui-state-default">19</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">20</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">21</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">22</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">23</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">24</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" ui-datepicker-week-end "><a href="#" class="ui-state-default">25</a></td>
+      </tr>
+      <tr>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" ui-datepicker-week-end "><a href="#" class="ui-state-default">26</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">27</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">28</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">29</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">30</a></td>
+        <td onclick="DP_jQuery_1344940460332.datepicker._selectDay('#SKU_ReleaseDate',7,2012, this);return false;" class=" "><a href="#" class="ui-state-default">31</a></td>
+        <td class=" ui-datepicker-week-end ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+*/
+HTML, BODY {
+  height: 100%; }
+
+BODY {
+  margin: 0px; }
+  BODY.Debug {
+    background: url("../Images/bg_body_lines.png"); }
+
+*:focus {
+  outline: none; }
+
+.txtHighlight {
+  background: #000000;
+  color: #ffffff; }
+
+UL, UL LI {
+  margin: 0px;
+  padding: 0px;
+  list-style: none;
+  background: none; }
+
+H1, H2 {
+  margin-bottom: 30px;
+  margin-top: 0px; }
+
+H2 SPAN {
+  color: #cccccc; }
+
+A {
+  color: #007acc;
+  text-decoration: none; }
+  A:hover, A:focus {
+    color: #003d66; }
+
+A.Logo {
+  line-height: 30px;
+  color: #ffffff;
+  padding: 0px 30px;
+  font-size: 18px;
+  font-weight: 700;
+  text-indent: -10000px;
+  background: url("../Images/bgLogo.png") 0px 0px no-repeat;
+  display: inline-block;
+  height: 30px;
+  width: 110px; }
+  A.Logo:hover, A.Logo:focus {
+    background-position: 0px -30px; }
+
+A.Btn, INPUT[type=submit], INPUT[type=button] {
+  line-height: 30px;
+  height: 30px;
+  background: #ededed;
+  color: #666666;
+  border-radius: 30px;
+  display: inline-block;
+  padding: 0px 15px; }
+  A.Btn:hover, A.Btn:focus, INPUT[type=submit]:hover, INPUT[type=submit]:focus, INPUT[type=button]:hover, INPUT[type=button]:focus {
+    background: #007acc;
+    color: #ffffff;
+    text-decoration: none; }
+
+INPUT[type=submit], INPUT[type=button] {
+  background: #007acc;
+  color: #ffffff; }
+  INPUT[type=submit]:hover, INPUT[type=submit]:focus, INPUT[type=button]:hover, INPUT[type=button]:focus {
+    background: #003d66; }
+
+.CodeExample {
+  width: 500px;
+  height: 100px; }
+

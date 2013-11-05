@@ -1,0 +1,29 @@
+﻿@model KeyHub.Web.ViewModels.User.UserViewModel
+
+@{
+    ViewBag.ItemName = "My account";
+    ViewBag.Title = "Details";
+}
+
+<h2>@ViewBag.ItemName <span>@ViewBag.Title</span></h2>
+
+<fieldset>
+    <legend>UserViewModel</legend>
+    <div class="editor-container-sideBySide">       
+        <div class="display-label">
+            @Html.DisplayNameFor(model => model.Email)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.Email)
+        </div>
+    </div>
+</fieldset>
+
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.UserId })
+    @if(Model.HasLocalAccount)
+    {
+        @Html.Raw(" | ")
+        @Html.ActionLink("Change password", "ChangePassword")
+    }
+</p>

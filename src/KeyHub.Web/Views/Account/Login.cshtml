@@ -1,0 +1,53 @@
+﻿@using MvcFlash.Core.Extensions
+@model KeyHub.Web.Models.LoginViewModel
+
+@{
+    ViewBag.Title = "Log in";
+}
+<hgroup class="title">
+    <h1>@ViewBag.Title.</h1>
+    
+</hgroup>
+
+@Html.Flash()
+
+<table cellpadding="30px">
+    <tr>
+        <td valign="top" width="150px">
+            <h2>Please enter your username and password.</h2>
+
+            @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl })) {
+                @Html.ValidationSummary(true, "Log in was unsuccessful. Please correct the errors and try again.")
+
+                <fieldset>
+                    <legend>Log in Form</legend>
+                    <div class="editor-label">@Html.LabelFor(m => m.UserName)</div>
+                    <div class="editor-field">@Html.TextBoxFor(m => m.UserName)</div>
+
+                    <div class="editor-label">@Html.LabelFor(m => m.Password)</div>
+                    <div class="editor-field">@Html.PasswordFor(m => m.Password)</div>
+            
+                    <div class="editor-field-checkbox">
+               
+                        <div class="editor-field">
+                            @Html.CheckBoxFor(m => m.RememberMe)
+                            @Html.LabelFor(m => m.RememberMe, new { @class = "checkbox" })
+                        </div>
+                    </div>
+                    <br/>
+                    <input type="submit" value="Log in" />
+                </fieldset>
+            }   
+        </td>
+        <td valign="top">
+            <h2>Or login using your OpenID.</h2>
+
+            @Html.Action("ExternalLoginsList", new { ReturnUrl = ViewBag.ReturnUrl })        
+        </td>
+    </tr>
+</table>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

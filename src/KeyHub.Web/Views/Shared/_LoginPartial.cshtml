@@ -1,0 +1,10 @@
+﻿@if (Request.IsAuthenticated) {
+    <ul class="MenuLoginPartial">
+        <li>@Html.ActionLink("Welcome " + User.Identity.Name, "Index", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "Edit account" })<li>
+        <li class="Logoff">@Html.ActionLink("Log off", "LogOff", "Account")<li>
+    </ul>
+} else {
+    <ul class="MenuLoginPartial">
+        <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+    </ul>
+}
