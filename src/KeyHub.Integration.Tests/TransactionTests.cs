@@ -67,8 +67,7 @@ namespace KeyHub.Integration.Tests
 
                     var emailLink = emailLinkMatch.Groups[1].Value;
 
-                    //using (var browser = BrowserUtil.GetBrowser())
-                    var browser = BrowserUtil.GetBrowser();
+                    using (var browser = BrowserUtil.GetBrowser())
                     {
                         browser.Navigate().GoToUrl(emailLink);
                         browser.FindElementByCssSelector("a[href^='/Account/Register']").Click();
