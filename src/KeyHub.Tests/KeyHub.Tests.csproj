@@ -121,11 +121,7 @@
     <Compile Include="BusinessLogic\LicenseValidation\MaxDomainsCountTest.cs" />
     <Compile Include="Common\Utils\SymmetricEncryptionTests.cs" />
     <Compile Include="Controllers\ExampleTest.cs" />
-    <Compile Include="Controllers\TransactionByIpnTest.cs" />
-    <Compile Include="Controllers\TransactionControllerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Controllers\HomeControllerTest.cs" />
-    <Compile Include="TestCore\FakeDataContextFactory.cs" />
     <Compile Include="TestCore\FakeDbSet.cs" />
     <Compile Include="TestCore\FakeMailService.cs" />
     <Compile Include="TestCore\MvcMockHelpers.cs" />

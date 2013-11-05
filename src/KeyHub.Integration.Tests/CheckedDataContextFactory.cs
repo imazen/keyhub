@@ -21,7 +21,7 @@ namespace KeyHub.Integration.Tests
             this.identity = identity;
         }
 
-        public IDataContext Create()
+        public DataContext Create()
         {
             instanceCount++;
             return new DataContext();
