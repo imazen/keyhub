@@ -5,7 +5,7 @@ namespace KeyHub.Data
 {
     public interface IDataContextFactory
     {
-        IDataContext Create();
+        DataContext Create();
         IDataContextByUser CreateByUser();
         IDataContextByTransaction CreateByTransaction(Guid transactionId);
         void Release(IDataContext dataContext);

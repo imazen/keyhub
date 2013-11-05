@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -17,6 +16,7 @@ using KeyHub.Data.BusinessRules;
 using KeyHub.Web.Api.Controllers.Transaction;
 using KeyHub.Web.Controllers;
 using KeyHub.Web.ViewModels.Mail;
+using Microsoft.Ajax.Utilities;
 
 namespace KeyHub.Web.Api.Controllers.LicenseValidation
 {
@@ -25,7 +25,7 @@ namespace KeyHub.Web.Api.Controllers.LicenseValidation
     /// </summary>
     public abstract class BaseTransactionController : ApiController
     {
-        private readonly IDataContextFactory dataContextFactory;
+        protected readonly IDataContextFactory dataContextFactory;
         private readonly IMailService mailService;
         public BaseTransactionController(IDataContextFactory dataContextFactory, IMailService mailService)
         {
@@ -33,7 +33,7 @@ namespace KeyHub.Web.Api.Controllers.LicenseValidation
             this.mailService = mailService;
         }
 
-        protected TransactionResult ProcessTransaction(TransactionRequest transaction, IIdentity userIdentity)
+        protected TransactionResult ProcessTransaction(TransactionRequest transaction, IEnumerable<Guid> allowedVendors)
         {
             if (transaction == null)
                 return new TransactionResult { CreatedSuccessfull = false, ErrorMessage = "Invalid transaction format provided" };
@@ -46,21 +46,24 @@ namespace KeyHub.Web.Api.Controllers.LicenseValidation
 
             try
             {
-                var basket = BasketWrapper.CreateNewByIdentity(dataContextFactory);
+                using (var dataContext = dataContextFactory.Create())
+                {
+                    var basket = BasketWrapperBase.CreateNew();
 
-                basket.AddItems(transaction.PurchasedSkus);
+                    basket.AddItems(dataContext, transaction.PurchasedSkus, allowedVendors);
 
-                basket.Transaction.OriginalRequest = GetOriginalRequestValues();
-                basket.Transaction.PurchaserName = transaction.PurchaserName;
-                basket.Transaction.PurchaserEmail = transaction.PurchaserEmail;
+                    basket.Transaction.OriginalRequest = GetOriginalRequestValues();
+                    basket.Transaction.PurchaserName = transaction.PurchaserName;
+                    basket.Transaction.PurchaserEmail = transaction.PurchaserEmail;
 
-                basket.ExecuteStep(BasketSteps.Create);
+                    basket.ExecuteCreate(dataContext);
 
-                mailService.SendTransactionMail(transaction.PurchaserName,
-                                                transaction.PurchaserEmail,
-                                                basket.Transaction.TransactionId);
+                    mailService.SendTransactionMail(transaction.PurchaserName,
+                                                    transaction.PurchaserEmail,
+                                                    basket.Transaction.TransactionId);
 
-                return new TransactionResult { CreatedSuccessfull = true };
+                    return new TransactionResult { CreatedSuccessfull = true };
+                }
             }
             catch (BusinessRuleValidationException e)
             {

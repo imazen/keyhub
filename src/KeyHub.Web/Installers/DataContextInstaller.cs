@@ -19,7 +19,7 @@ namespace KeyHub.Web.Installers
                          .UsingFactoryMethod(() => HttpContext.Current.User.Identity));
 
             container.Register(
-                Component.For<IDataContext>()
+                Component.For<IDataContext, DataContext>()
                          .ImplementedBy<DataContext>()
                          .LifestyleTransient());
 

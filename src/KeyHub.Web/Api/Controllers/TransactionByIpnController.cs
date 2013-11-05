@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Data.Entity;
+using System.Text;
 using KeyHub.Common.Collections;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Xml;
 using KeyHub.Common.Extensions;
+using KeyHub.Common.Utils;
 using KeyHub.Core.Mail;
 using KeyHub.Data;
 using KeyHub.Web.Api.Controllers.LicenseValidation;
@@ -39,12 +41,31 @@ namespace KeyHub.Web.Api.Controllers
         /// <param name="postedData"></param>
         public HttpResponseMessage PostTransactionByIpn([FromUri]string id, [FromBody]FormDataCollection postedData)
         {
-            string vendor = id;
+            var vendorId = Guid.Parse(id);
             var txn = new Transaction();
             var d = postedData.ReadAsNameValueCollection();
 
             //To calculate 'handshake', run 'md5 -s [password]', then 'md5 -s email@domain.com[Last MD5 result]'
-            if (!"ff35a320762dcec799d9c0bb9831577c".Equals(d.Pluck("handshake",null), StringComparison.OrdinalIgnoreCase)) throw new Exception("Invalid handshake provided");
+            string handshakeParameter = d.Pluck("handshake",null);
+            if (handshakeParameter == null)
+                throw new Exception("Missing parameter 'handshake'.");
+
+            using (var dataContext = dataContextFactory.Create())
+            {
+                var vendor =
+                    dataContext.Vendors.Where(v => v.ObjectId == vendorId)
+                        .Include(v => v.VendorCredentials)
+                        .FirstOrDefault();
+
+                if (vendor == null)
+                    throw new Exception("Could not find vendor with id: " + vendorId);
+
+                string[] vendorCredentials = vendor.VendorCredentials.Select(
+                    c => Encoding.UTF8.GetString(SymmetricEncryption.DecryptForDatabase(c.CredentialValue)).ToLower()).ToArray();
+
+                if (!vendorCredentials.Contains(handshakeParameter.ToLower()))
+                    throw new Exception("Invalid handshake provided");
+            }
 
             string txn_id = d.Pluck("txn_id");
             //TODO: We must ignore duplicate POSTs with the same txn_id - all POSTs will contain the same information
@@ -52,7 +73,7 @@ namespace KeyHub.Web.Api.Controllers
             if (!"Completed".Equals(d.Pluck("payment_status"), StringComparison.OrdinalIgnoreCase)) throw new Exception("Only completed transactions should be sent to this URL");
 
             //var txn = new Transaction();
-            txn.VendorId = Guid.Parse(vendor);
+            txn.VendorId = vendorId;
             txn.ExternalTransactionId = txn_id;
             txn.PaymentDate = ConvertPayPalDateTime(d.Pluck("payment_date"));
             txn.PayerEmail = d.Pluck("payer_email");
@@ -101,7 +122,7 @@ namespace KeyHub.Web.Api.Controllers
             txn.Other = d;
 
             //All transactions go through TransactionController
-            base.ProcessTransaction(txn.ToTransactionRequest(dataContextFactory), User.Identity);
+            base.ProcessTransaction(txn.ToTransactionRequest(dataContextFactory), new [] { vendorId});
 
             return new HttpResponseMessage(HttpStatusCode.OK);
         }

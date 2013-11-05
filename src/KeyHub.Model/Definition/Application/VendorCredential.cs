@@ -3,23 +3,22 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace KeyHub.Model
 {
     /// <summary>
-    /// Private key entity for encryption/decryption purposes of license keys.
+    /// Shared secret used by vendors when POST'ing transactions
     /// </summary>
-    public partial class PrivateKey
+    public class VendorCredential
     {
         /// <summary>
         /// Indentifier for the PrivateKey entity.
         /// </summary>
         [Key]
         [DatabaseGenerated(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity)]
-        public Guid PrivateKeyId { get; set; }
+        public Guid VendorCredentialId { get; set; }
 
         /// <summary>
         /// The vendor this key is owned by.
@@ -31,26 +30,19 @@ namespace KeyHub.Model
         /// The vendor this key is owned by.
         /// </summary>
         [ForeignKey("VendorId")]
-        public virtual Vendor Vendor { get; set; }
+        public Vendor Vendor { get; set; }
+
 
         /// <summary>
-        /// Display name for this private key
+        /// The name of the shared secret (managed by the vendor)
         /// </summary>
         [Required]
-        [StringLength(256)]
-        [Column(TypeName = "varchar")]
-        public string DisplayName { get; set; }
+        public string CredentialName { get; set; }
 
         /// <summary>
-        /// The private key in bytes, encrypted with KeyHub.Common.SymmetricEncryption.EncryptForDatabase
+        /// The shared secret, encrypted by SymmetricEncryption.EncryptForDatabase
         /// </summary>
         [Required]
-        [MaxLength(4096)]
-        public byte[] KeyBytes { get; set; }
-
-        /// <summary>
-        /// Gets the SKU's that use this private key
-        /// </summary>
-        public virtual ICollection<SKU> SKUs { get; set; }
+        public byte[] CredentialValue { get; set; }
     }
 }

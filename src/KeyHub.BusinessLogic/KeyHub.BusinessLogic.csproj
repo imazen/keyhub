@@ -56,7 +56,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Basket\BasketSteps.cs" />
     <Compile Include="Basket\BasketWrapper.cs" />
     <Compile Include="Basket\InvalidPropertyException.cs" />
     <Compile Include="BusinessRules\CustomerAppAtLeastOneLicenseRule.cs" />

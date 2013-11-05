@@ -69,8 +69,13 @@ namespace KeyHub.Data
         /// </summary>
         protected IEnumerable<Guid> ResolveAuthorizedVendorsByUser(User currentUser)
         {
+            return ResolveAuthorizedVendorsByUser(this, currentUser);
+        }
+
+        public static IEnumerable<Guid> ResolveAuthorizedVendorsByUser(DataContext dataContext, User currentUser)
+        {
             if (currentUser.IsSystemAdmin)
-                return (from x in this.Set<Vendor>() select x.ObjectId).ToList();
+                return (from x in dataContext.Set<Vendor>() select x.ObjectId).ToList();
             else
                 return (from r in currentUser.Rights where r is UserVendorRight && r.RightId == VendorAdmin.Id select r.ObjectId).ToList();
         }
