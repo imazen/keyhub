@@ -16,7 +16,7 @@ namespace KeyHub.Integration.Tests.TestSetup
     //  When the test hits the server-side code that calls Debugger.Launch(), you should be propmpted to
     //  choose a debugger for the process.
 
-    class KeyHubWebDriver : IISExpressDriver
+    public class KeyHubWebDriver : IISExpressDriver
     {
         public KeyHubWebDriver()
         {

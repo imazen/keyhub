@@ -50,8 +50,10 @@ namespace KeyHub.Client
             }
             using (var response = request.GetResponse())
             {
+                var responseText = new StreamReader(response.GetResponseStream()).ReadToEnd();
+
                 XmlDocument rdoc = new XmlDocument();
-                rdoc.Load(response.GetResponseStream());
+                rdoc.LoadXml(responseText);
                 foreach (var l in rdoc.DocumentElement.ChildNodes)
                 {
                     var lic = l as XmlElement;

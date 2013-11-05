@@ -13,7 +13,9 @@ namespace KeyHub.Integration.Tests.TestSetup
         public static RemoteWebDriver GetBrowser()
         {
             //return new PhantomJSDriver(); // faster
-            return new FirefoxDriver(); // easier debugging
+            var result = new FirefoxDriver(); // easier debugging
+            result.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(5));
+            return result;
         }
     }
 }

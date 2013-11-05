@@ -86,13 +86,18 @@ namespace KeyHub.Integration.Tests
             {
                 browser.Navigate().GoToUrl(site.UrlFor("Account/Register"));
 
-                browser.FindElementByCssSelector("input[name=Email]").SendKeys(email);
-                browser.FindElementByCssSelector("input[name=Password]").SendKeys(password);
-                browser.FindElementByCssSelector("input[name=ConfirmPassword]").SendKeys(password);
-                browser.FindElementByCssSelector("input[value=Register]").Click();
+                SubmitRegisterForm(browser, email, password);
 
                 onFinish(browser);
             }
+        }
+
+        public static void SubmitRegisterForm(RemoteWebDriver browser, string email, string password)
+        {
+            browser.FindElementByCssSelector("input[name=Email]").SendKeys(email);
+            browser.FindElementByCssSelector("input[name=Password]").SendKeys(password);
+            browser.FindElementByCssSelector("input[name=ConfirmPassword]").SendKeys(password);
+            browser.FindElementByCssSelector("input[value=Register]").Click();
         }
 
         private static void FillGoogleLoginForm(RemoteWebDriver browser, string email, string password)

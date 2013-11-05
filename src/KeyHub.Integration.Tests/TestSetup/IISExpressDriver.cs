@@ -3,7 +3,7 @@ using System.IO;
 
 namespace KeyHub.Integration.Tests.TestSetup
 {
-    class IISExpressDriver : ProcessDriver
+    public class IISExpressDriver : ProcessDriver
     {
         public string Url { get; private set;  }
 
