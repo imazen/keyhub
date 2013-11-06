@@ -40,9 +40,7 @@ namespace KeyHub.Integration.Tests
                     Assert.Contains("The email address used to login is already in use", errorText);
 
                     browser.Navigate().GoToUrl(site.UrlFor("/Account/LinkAccount"));
-                    browser.FindElementByCssSelector("input#UserName").SendKeys(email);
-                    browser.FindElementByCssSelector("input#Password").SendKeys(password);
-                    browser.FindElementByCssSelector("input[value='Log in']").Click();
+                    SubmitLoginForm(browser, email, password);
 
                     // TODO: verify returnUrl was honored  (need to start auth flow on an authenticated page,
                     // check that we're there now)
@@ -75,7 +73,7 @@ namespace KeyHub.Integration.Tests
             }
         }
 
-        private static void CreateLocalAccount(KeyHubWebDriver site, string email, string password, Action<RemoteWebDriver> onFinish = null)
+        public static void CreateLocalAccount(KeyHubWebDriver site, string email, string password, Action<RemoteWebDriver> onFinish = null)
         {
             onFinish = onFinish ?? delegate(RemoteWebDriver browser)
             {
@@ -86,13 +84,21 @@ namespace KeyHub.Integration.Tests
             {
                 browser.Navigate().GoToUrl(site.UrlFor("Account/Register"));
 
-                SubmitRegisterForm(browser, email, password);
+                SubmitRegistrationForm(browser, email, password);
 
                 onFinish(browser);
             }
         }
 
-        public static void SubmitRegisterForm(RemoteWebDriver browser, string email, string password)
+        public static void SubmitLoginForm(RemoteWebDriver browser, string email, string password)
+        {
+            var formSelector = "form[action^='/Account/Login'] ";
+            browser.FindElementByCssSelector(formSelector + "input#UserName").SendKeys(email);
+            browser.FindElementByCssSelector(formSelector + "input#Password").SendKeys(password);
+            browser.FindElementByCssSelector(formSelector + "input[value='Log in']").Click();
+        }
+
+        public static void SubmitRegistrationForm(RemoteWebDriver browser, string email, string password)
         {
             browser.FindElementByCssSelector("input[name=Email]").SendKeys(email);
             browser.FindElementByCssSelector("input[name=Password]").SendKeys(password);

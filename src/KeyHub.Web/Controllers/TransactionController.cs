@@ -129,6 +129,8 @@ namespace KeyHub.Web.Controllers
                     BasketWrapper basket = BasketWrapper.CreateNewByIdentity(dataContextFactory);
 
                     viewModel.ToEntity(basket.Transaction);
+                    basket.Transaction.PurchaserName = "";
+                    basket.Transaction.PurchaserEmail = "";
                     
                     basket.AddItems(viewModel.GetSelectedSkuGuids());
                     basket.ExecuteCreate();

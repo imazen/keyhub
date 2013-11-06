@@ -24,9 +24,7 @@ namespace KeyHub.Integration.Tests
                     //  Log in as pre-created admin user
                     browser.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(3));
                     browser.Navigate().GoToUrl(site.UrlFor("/Vendor/Create"));
-                    browser.FindElementByCssSelector("input#UserName").SendKeys("admin");
-                    browser.FindElementByCssSelector("input#Password").SendKeys("password");
-                    browser.FindElementByCssSelector("input[type=submit]").Click();
+                    AccountTests.SubmitLoginForm(browser, "admin", "password");
 
                     //  Create a vendor
                     FillAndSubmitCreateVendorForm(browser);

@@ -1,4 +1,11 @@
-﻿LicenseValidator:                {                    //  TODO / BUGBUG                    //  Licenses are being created without an expiration date.                    //  Defaulting to allowing such licenses.                    //  You may want to ensure licenses always get an expiration date when they should                    //  and then stop allowing licenses without an expiration                    yield return license.ObjectId;  
+﻿need to calculate authorizedVendorIds for AddItems
+ 	KeyHub.BusinessLogic.dll!KeyHub.BusinessLogic.Basket.BasketWrapperBase.AddItems(KeyHub.Data.IDataContext dataContext, System.Collections.Generic.IEnumerable<string> skus, System.Collections.Generic.IEnumerable<System.Guid> authorizedVendorIds) Line 104	C#
+ 	KeyHub.BusinessLogic.dll!KeyHub.BusinessLogic.Basket.BasketWrapper.AddItems(System.Collections.Generic.IEnumerable<string> skus) Line 311 + 0x1a bytes	C#
+>	KeyHub.Web.dll!KeyHub.Web.Controllers.TransactionController.Create(KeyHub.Web.ViewModels.Transaction.TransactionCreateViewModel viewModel) Line 137 + 0x22 bytes	C#
+LicenseValidator:                {                    //  TODO / BUGBUG                    //  Licenses are being created without an expiration date.                    //  Defaulting to allowing such licenses.                    //  You may want to ensure licenses always get an expiration date when they should                    //  and then stop allowing licenses without an expiration                    yield return license.ObjectId;  
+TransactionController.Create
+	is setting empty values for License.PurchaserName and PurchaserEmail
+
 
 
 What is TransactionController.Post used for, are there scenarios behind it?  Not sure about its logic to determine allowed vendors.

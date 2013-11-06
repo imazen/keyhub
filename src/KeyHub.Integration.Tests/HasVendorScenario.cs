@@ -10,6 +10,7 @@ namespace KeyHub.Integration.Tests
     public class HasVendorScenario
     {
         public Guid VendorId;
+        public string VendorName = "vendor.name";
         public string VendorCredential;
         public string PublicKeyXml;
         public Guid FeatureCode;
@@ -29,7 +30,7 @@ namespace KeyHub.Integration.Tests
 
                 var vendor = DatabaseUtil.InsertItem(dataContext, dataContext.Vendors, new Vendor()
                 {
-                    Name = "vendor.name",
+                    Name = VendorName,
                     Street = "vendor.street",
                     PostalCode = "vendor.postalcode",
                     City = "vendor.city",

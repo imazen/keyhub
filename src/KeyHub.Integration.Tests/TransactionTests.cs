@@ -5,11 +5,13 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using KeyHub.Integration.Tests.TestSetup;
 using netDumbster.smtp;
 using Newtonsoft.Json;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using Xunit;
 
 namespace KeyHub.Integration.Tests
@@ -72,7 +74,7 @@ namespace KeyHub.Integration.Tests
                         browser.Navigate().GoToUrl(emailLink);
                         browser.FindElementByCssSelector("a[href^='/Account/Register']").Click();
 
-                        AccountTests.SubmitRegisterForm(browser, customerEmail, customerPassword);
+                        AccountTests.SubmitRegistrationForm(browser, customerEmail, customerPassword);
 
                         var formSelector = "form[action^='/Transaction/Checkout'] ";
                         browser.FindElementByCssSelector(formSelector + "input#NewPurchasingCustomer_Customer_Name").SendKeys(customerName);
@@ -96,6 +98,63 @@ namespace KeyHub.Integration.Tests
             finally 
             {
                 smtpServer.Stop();
+            }
+        }
+
+        [Fact]
+        [CleanDatabase]
+        public void VendorCanManuallyCreateOrder()
+        {
+            var vendorScenario = new HasVendorScenario();
+            var vendorEmail = "vendorEmail@example.com";
+            var vendorPassword = "vendorPassword";
+
+            using (var site = new KeyHubWebDriver())
+            {
+                string editVendorUserUrl = null;
+
+                AccountTests.CreateLocalAccount(site, vendorEmail, vendorPassword, firstBrowser =>
+                {
+                    firstBrowser.FindElementByCssSelector("a[href='/Account/LogOff']");
+                    firstBrowser.Navigate().GoToUrl(site.UrlFor("/Account"));
+
+                    editVendorUserUrl =
+                        firstBrowser.FindElementByCssSelector("a[href^='/Account/Edit']").GetAttribute("href");
+                });
+
+                //using (var browser = BrowserUtil.GetBrowser())
+                {
+                    var browser = BrowserUtil.GetBrowser();
+                    browser.Navigate().GoToUrl(site.UrlFor(editVendorUserUrl));
+
+                    AccountTests.SubmitLoginForm(browser, "admin", "password");
+
+                    browser.FindElementByCssSelector("a[href^='/AccountRights/Create']").Click();
+
+                    //  NOTE: Test is assuming there is only one vendor available, so clicking 
+                    //  Create here will get the intended vendor
+                    browser.FindElementByCssSelector("#ObjectId_chzn").Click();
+                    browser.Keyboard.SendKeys(vendorScenario.VendorName + Keys.Enter);
+
+                    browser.FindElementByCssSelector("input[type='submit'][value='Create']").Click();
+
+                    //  To ensure the vendor right was created, we check that the delete button renders.
+                    browser.FindElementByCssSelector("a[href^='/AccountRights/Delete']");
+                }
+
+                {
+                    var browser = BrowserUtil.GetBrowser();
+                    browser.Navigate().GoToUrl(site.UrlFor("/"));
+                    AccountTests.SubmitLoginForm(browser, vendorEmail, vendorPassword);
+                    browser.FindElementByCssSelector("a[href='/Transaction/Create']").Click();
+
+                    browser.FindElementByCssSelector("div#Transaction_SelectedSKUGuids_chzn").Click();
+                    browser.Keyboard.SendKeys(vendorScenario.SkuCode + Keys.Enter);
+
+                    browser.FindElementByCssSelector("form[action^='/Transaction/Create'] input[type='submit']").Click();
+                    Thread.Sleep(5000 * 1000);
+                    browser.FindElementByCssSelector("foo");
+                }
             }
         }
 
