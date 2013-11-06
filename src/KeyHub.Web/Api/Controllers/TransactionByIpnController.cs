@@ -122,7 +122,7 @@ namespace KeyHub.Web.Api.Controllers
             txn.Other = d;
 
             //All transactions go through TransactionController
-            base.ProcessTransaction(txn.ToTransactionRequest(dataContextFactory), new [] { vendorId});
+            base.ProcessTransaction(txn.ToTransactionRequest(dataContextFactory));
 
             return new HttpResponseMessage(HttpStatusCode.OK);
         }

@@ -41,7 +41,7 @@ namespace KeyHub.Web.Api.Controllers
         /// </example> 
         public TransactionResult Post(TransactionRequest transaction)
         {
-            return base.ProcessTransaction(transaction, User.Identity);
+            return base.ProcessTransaction(transaction);
         }
     }
 }

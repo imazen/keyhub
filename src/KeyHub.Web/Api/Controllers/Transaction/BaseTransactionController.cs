@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -33,7 +32,7 @@ namespace KeyHub.Web.Api.Controllers.LicenseValidation
             this.mailService = mailService;
         }
 
-        protected TransactionResult ProcessTransaction(TransactionRequest transaction, IIdentity userIdentity)
+        protected TransactionResult ProcessTransaction(TransactionRequest transaction)
         {
             if (transaction == null)
                 return new TransactionResult { CreatedSuccessfull = false, ErrorMessage = "Invalid transaction format provided" };
