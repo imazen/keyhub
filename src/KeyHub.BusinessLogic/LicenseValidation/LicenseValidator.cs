@@ -135,9 +135,15 @@ namespace KeyHub.BusinessLogic.LicenseValidation
             foreach (var license in licenses)
             {
                 if (!license.LicenseExpires.HasValue)
-                    continue;
-
-                if (license.LicenseExpires.Value < DateTime.Now)
+                {
+                    //  TODO / BUGBUG
+                    //  Licenses are being created without an expiration date.
+                    //  Defaulting to allowing such licenses.
+                    //  You may want to ensure licenses always get an expiration date when they should
+                    //  and then stop allowing licenses without an expiration
+                    yield return license.ObjectId;  
+                }
+                else if (license.LicenseExpires.Value < DateTime.Now)
                 {
                     applicationIssueUnitOfWork.CustomerAppId = customerApp.CustomerAppId;
                     applicationIssueUnitOfWork.DateTime = DateTime.Now;

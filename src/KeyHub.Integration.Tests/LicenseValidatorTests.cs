@@ -79,7 +79,7 @@ namespace KeyHub.Integration.Tests
 
             var newLicenses = new LicenseDeserializer().DeserializeAll(vendorPublicKey, licensesAndSignature);
 
-            DomainLicense license = newLicenses["foobar.com"].Single();
+            DomainLicense license = newLicenses[domain].Single();
 
             Assert.Equal(license.Domain, domain);
             Assert.Contains(featureCode, license.Features);
