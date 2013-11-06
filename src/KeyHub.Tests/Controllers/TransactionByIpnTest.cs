@@ -25,8 +25,8 @@ namespace KeyHub.Tests.Controllers
         "custom=&mc_currency=USD&business=billing%40imazen.io&mc_gross=2.49&mc_shipping=0&tax=0&txn_type=ppdirect&payment_type=" + 
         "Instant&invoice=553351351a33a5325325a325a2324&buyer_ip=10.10.10.10&card_last_four=1234&card_type=MasterCard&" + 
         "mailing_list_status=true&charset=utf-8&item_name1=Resizer+3.X&item_number1=1197635%7C%7CR3Performance&mc_gross_1=2.49" + 
-        "&quantity1=1&num_cart_items=1&txn_id=00T198685A3853305&payment_status=Completed&pending_reason=&item_name=Resizer+3.X& + 
-        ""item_number=1197635%7C%7CR3Performance&quantity=1&option_name1=&option_selection1=&option_name2=&option_selection2=" +  
+        "&quantity1=1&num_cart_items=1&txn_id=00T198685A3853305&payment_status=Completed&pending_reason=&item_name=Resizer+3.X&" + 
+        "item_number=1197635%7C%7CR3Performance&quantity=1&option_name1=&option_selection1=&option_name2=&option_selection2=" +  
         "&option_name3=&option_selection3=&contact_phone=502551234&handshake=nononono&discount_codes=For+Cart+Item+Total%3A+T315125125" + 
         "&from_name=Imazen&from_email=billing%40imazen.io&mailing_list_status=true&client_shipping_method_id=0&item_cart_position=1" + 
         "&sku=R3Performance&expiry_hours=0&max_downloads=9&ej_txn_id=1111111";

@@ -59,20 +59,30 @@ namespace KeyHub.Integration.Tests
 
             using (var site = new KeyHubWebDriver())
             {
-                var licensingUrl = site.UrlFor("/api/LicenseValidation");
+                AssertRemoteValidationCheckPasses(site, domain, scenario.AppKey, scenario.FeatureCode, scenario.PublicKeyXml);
+            }
+        }
 
-                var licensesAndSignature = new LicenseDownloader().RequestLicenses(licensingUrl, scenario.AppKey, new Dictionary<string, List<Guid>>()
+        public static void AssertRemoteValidationCheckPasses(KeyHubWebDriver site,
+            string domain, 
+            Guid appKey, 
+            Guid featureCode, 
+            string vendorPublicKey)
+        {
+            var licensingUrl = site.UrlFor("/api/LicenseValidation");
+
+            var licensesAndSignature = new LicenseDownloader().RequestLicenses(licensingUrl, appKey,
+                new Dictionary<string, List<Guid>>()
                 {
-                    {domain, new List<Guid>() {scenario.FeatureCode}}
+                    {domain, new List<Guid>() {featureCode}}
                 });
 
-                var newLicenses = new LicenseDeserializer().DeserializeAll(scenario.PublicKeyXml, licensesAndSignature);
+            var newLicenses = new LicenseDeserializer().DeserializeAll(vendorPublicKey, licensesAndSignature);
 
-                DomainLicense license = newLicenses["foobar.com"].Single();
+            DomainLicense license = newLicenses[domain].Single();
 
-                Assert.Equal(license.Domain, domain);
-                Assert.Contains(scenario.FeatureCode, license.Features);
-            }
+            Assert.Equal(license.Domain, domain);
+            Assert.Contains(featureCode, license.Features);
         }
     }
 }

@@ -38,6 +38,9 @@
     <Reference Include="Moq">
       <HintPath>..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
     </Reference>
+    <Reference Include="netDumbster">
+      <HintPath>..\packages\netDumbster.1.3.0.7\lib\net40\netDumbster.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -73,15 +76,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountTests.cs" />
+    <Compile Include="AdminTests.cs" />
     <Compile Include="CheckedDataContextFactory.cs" />
+    <Compile Include="HasVendorScenario.cs" />
     <Compile Include="LicenseValidationScenario.cs" />
     <Compile Include="LicenseValidatorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestSetup\BrowserUtil.cs" />
     <Compile Include="TestSetup\CleanDatabaseAttribute.cs" />
+    <Compile Include="TestSetup\DatabaseUtil.cs" />
     <Compile Include="TestSetup\IISExpressDriver.cs" />
     <Compile Include="TestSetup\KeyHubWebDriver.cs" />
     <Compile Include="TestSetup\PlainProcessDriver.cs" />
     <Compile Include="TestSetup\ProcessDriver.cs" />
+    <Compile Include="TransactionTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -100,6 +108,10 @@
     <ProjectReference Include="..\KeyHub.Client\KeyHub.Client.csproj">
       <Project>{46F597BD-70D9-4A1C-8D91-B4CA2D604C36}</Project>
       <Name>KeyHub.Client</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\KeyHub.Common\KeyHub.Common.csproj">
+      <Project>{CABF1962-0677-497F-B4A8-41EDF551D6D3}</Project>
+      <Name>KeyHub.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\KeyHub.Core\KeyHub.Core.csproj">
       <Project>{982DDF31-5D75-4194-99B4-FCC95CD4BE7F}</Project>
