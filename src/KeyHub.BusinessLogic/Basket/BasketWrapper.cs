@@ -289,14 +289,9 @@ namespace KeyHub.BusinessLogic.Basket
                 };
                 context.CustomerApps.Add(newCustomerApp);
                 newCustomerApp.AddLicenses((from x in Transaction.TransactionItems select x.License.ObjectId));
+                var customerAppKey = new CustomerAppKey();
+                newCustomerApp.CustomerAppKeys.Add(customerAppKey);
                 context.SaveChanges();
-
-                //Create customer application key
-                var customerAppKey = new CustomerAppKey()
-                {
-                    CustomerAppId = newCustomerApp.CustomerAppId
-                };
-                context.CustomerAppKeys.Add(customerAppKey);
             }
             Transaction.Status = TransactionStatus.Complete;
         }
