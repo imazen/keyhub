@@ -1,0 +1,49 @@
+﻿@using Microsoft.Ajax.Utilities
+@model KeyHub.Web.Controllers.VendorCredentialController.VendorCredentialModel
+
+@{
+    ViewBag.Title = "Create VendorCredential";
+}
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken();
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>VendorCredential for @Model.VendorName</legend>
+        
+        @Html.HiddenFor(model => model.VendorId)
+        @Html.HiddenFor(model => model.VendorCredentialId)
+        
+        <div class="editor-label">
+            @Html.LabelFor(model => model.CredentialName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.CredentialName)
+            @Html.ValidationMessageFor(model => model.CredentialName)
+        </div>
+        
+        <div class="editor-label">
+            @Html.LabelFor(model => model.CredentialValue)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.CredentialValue)
+            @Html.ValidationMessageFor(model => model.CredentialValue)
+        </div>
+
+        <p>
+            @{
+                var action = Model.VendorCredentialId.HasValue ? "Edit" : "Create";
+            }
+            <input type="submit" value="@action VendorCredential" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Details", "Vendor", new { key = Model.VendorId }, null)
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

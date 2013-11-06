@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Web;
+using KeyHub.Model;
 
 namespace KeyHub.Web.ViewModels.Vendor
 {
@@ -55,5 +56,7 @@ namespace KeyHub.Web.ViewModels.Vendor
         /// </summary>
         [DisplayName("Country")]
         public string CountryName { get; set; }
+
+        public IEnumerable<VendorCredential> VenderCredentials;
     }
 }

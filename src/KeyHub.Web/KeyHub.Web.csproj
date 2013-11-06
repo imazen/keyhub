@@ -100,6 +100,9 @@
     <Reference Include="MvcFlash.Core">
       <HintPath>..\packages\MvcFlash.1.0.0\lib\MvcFlash.Core.dll</HintPath>
     </Reference>
+    <Reference Include="netDumbster">
+      <HintPath>..\packages\netDumbster.1.3.0.7\lib\net40\netDumbster.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
@@ -240,6 +243,7 @@
     <Compile Include="Controllers\TransactionController.cs" />
     <Compile Include="Api\Controllers\TransactionController.cs" />
     <Compile Include="Controllers\VendorController.cs" />
+    <Compile Include="Controllers\VendorCredentialController.cs" />
     <Compile Include="Extensions\SelectListExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -595,6 +599,8 @@
     <Content Include="Views\Account\LinkAccount.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Shared\Flash.cshtml" />
+    <Content Include="Views\VendorCredential\CreateEdit.cshtml" />
+    <Content Include="Views\VendorCredential\Remove.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

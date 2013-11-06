@@ -328,7 +328,19 @@ namespace KeyHub.Data.Migrations
                 .Index(t => t.SkuId)
                 .Index(t => t.PurchasingCustomerId)
                 .Index(t => t.OwningCustomerId);
-            
+
+            CreateTable(
+                "dbo.VendorCredentials",
+                c => new
+                {
+                    VendorCredentialId = c.Guid(nullable: false, identity: true),
+                    VendorId = c.Guid(nullable: false),
+                    CredentialName = c.String(nullable: false),
+                    CredentialValue = c.Binary(nullable: false)
+                })
+                .PrimaryKey(t => t.VendorCredentialId)
+                .ForeignKey("dbo.Vendors", t => t.VendorId, cascadeDelete: true)
+                .Index(t => t.VendorId);
         }
         
         public override void Down()

@@ -22,6 +22,8 @@ namespace KeyHub.Data.DataConfiguration
                 m.MapInheritedProperties();
                 m.ToTable("Vendors");
             });
+
+            HasMany(x => x.VendorCredentials).WithRequired(x => x.Vendor);
         }
 
         public void AddConfiguration(System.Data.Entity.ModelConfiguration.Configuration.ConfigurationRegistrar registrar)

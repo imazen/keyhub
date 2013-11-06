@@ -66,7 +66,7 @@ namespace KeyHub.Model
         public bool AutomaticlyCreated { get; set; }
 
         /// <summary>
-        /// The private key in bytes, encrypted with KeyHub.Common.SymmetricEncryption
+        /// The private key in bytes, encrypted with KeyHub.Common.SymmetricEncryption.EncryptForDatabase
         /// </summary>
         [Required]
         [MaxLength(4096)]

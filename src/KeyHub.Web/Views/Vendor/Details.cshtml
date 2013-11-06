@@ -1,4 +1,5 @@
-﻿@model KeyHub.Web.ViewModels.Vendor.VendorDetailsViewModel
+﻿@using MvcFlash.Core.Extensions
+@model KeyHub.Web.ViewModels.Vendor.VendorDetailsViewModel
 
 @{
     ViewBag.ItemName = "Vendor";
@@ -6,6 +7,10 @@
 }
 
 <h2>@ViewBag.ItemName <span>@ViewBag.Title</span></h2>
+
+<h3>
+    @Html.Flash()
+</h3>
 
 <fieldset>
     <legend>VendorDetailsViewItem</legend>
@@ -69,3 +74,33 @@
 <p>
     @Html.Action("IndexPartial", "PrivateKey", new { parentVendor = Model.Vendor.ObjectId })
 </p>
+
+<p>
+
+    <h2>VendorCredential</h2>
+    <p>
+        @Html.ActionLink("Create New VendorCredential", "Create", "VendorCredential", new { parentVendor = Model.Vendor.ObjectId }, new { @class="Btn New"})
+    </p>
+    <table border="0" border="0" cellspacing="0" cellpadding="0" class="GridTable" style="width:auto">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Vendor.VenderCredentials.FirstOrDefault().CredentialName)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        @foreach (var item in Model.Vendor.VenderCredentials) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CredentialName)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", "VendorCredential", new { key=item.VendorCredentialId }, new {})
+                    |
+                    @Html.ActionLink("Remove", "Remove", "VendorCredential", new { key=item.VendorCredentialId }, new {})
+                </td>
+            </tr>
+        }
+
+</table></p>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -18,6 +19,16 @@ namespace KeyHub.Common.Utils
     /// </summary>
     public class SymmetricEncryption
     {
+        public static byte[] EncryptForDatabase(byte[] data)
+        {
+            return Encrypt(data, ConfigurationManager.AppSettings["DatabaseEncryptionKey"]);
+        }
+
+        public static byte[] DecryptForDatabase(byte[] data)
+        {
+            return Decrypt(data, ConfigurationManager.AppSettings["DatabaseEncryptionKey"]);
+        }
+
         public static byte[] Encrypt(byte[] data, string privateKey)
         {
             //  We hash the private key string to ensure we have a key with the correct
