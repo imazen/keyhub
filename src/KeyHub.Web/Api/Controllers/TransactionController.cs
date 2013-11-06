@@ -19,9 +19,12 @@ namespace KeyHub.Web.Api.Controllers
     [Authorize]
     public class TransactionController : BaseTransactionController
     {
+        private IDataContextFactory dataContextFactory;
+
         public TransactionController(IDataContextFactory dataContextFactory, IMailService mailService)
-            : base(dataContextFactory, mailService)
+            : base(mailService)
         {
+            this.dataContextFactory = dataContextFactory;
         }
 
         /// <summary>
@@ -41,7 +44,7 @@ namespace KeyHub.Web.Api.Controllers
         /// </example> 
         public TransactionResult Post(TransactionRequest transaction)
         {
-            return base.ProcessTransaction(transaction);
+            return base.ProcessTransaction(transaction, BasketWrapper.CreateNewByIdentity(dataContextFactory));
         }
     }
 }

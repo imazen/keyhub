@@ -11,7 +11,6 @@ using System.Xml;
 using KeyHub.BusinessLogic.Basket;
 using KeyHub.Common.Utils;
 using KeyHub.Core.Mail;
-using KeyHub.Data;
 using KeyHub.Data.BusinessRules;
 using KeyHub.Web.Api.Controllers.Transaction;
 using KeyHub.Web.Controllers;
@@ -24,15 +23,13 @@ namespace KeyHub.Web.Api.Controllers.LicenseValidation
     /// </summary>
     public abstract class BaseTransactionController : ApiController
     {
-        private readonly IDataContextFactory dataContextFactory;
         private readonly IMailService mailService;
-        public BaseTransactionController(IDataContextFactory dataContextFactory, IMailService mailService)
+        public BaseTransactionController(IMailService mailService)
         {
-            this.dataContextFactory = dataContextFactory;
             this.mailService = mailService;
         }
 
-        protected TransactionResult ProcessTransaction(TransactionRequest transaction)
+        protected TransactionResult ProcessTransaction(TransactionRequest transaction, BasketWrapper basket)
         {
             if (transaction == null)
                 return new TransactionResult { CreatedSuccessfull = false, ErrorMessage = "Invalid transaction format provided" };
@@ -45,8 +42,6 @@ namespace KeyHub.Web.Api.Controllers.LicenseValidation
 
             try
             {
-                var basket = BasketWrapper.CreateNewByIdentity(dataContextFactory);
-
                 basket.AddItems(transaction.PurchasedSkus);
 
                 basket.Transaction.OriginalRequest = GetOriginalRequestValues();

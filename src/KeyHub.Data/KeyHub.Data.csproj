@@ -93,6 +93,8 @@
     <Compile Include="Configuration\Membership\UserConfiguration.cs" />
     <Compile Include="Configuration\Membership\UserInRoleConfiguration.cs" />
     <Compile Include="DataContext.cs" />
+    <Compile Include="DataContextByAuthorizedVendor.cs" />
+    <Compile Include="DataContextByThing.cs" />
     <Compile Include="DataContextByTransaction.cs" />
     <Compile Include="DbSetNotReadyException.cs" />
     <Compile Include="Extensions\DomainLicenseExtensions.cs" />

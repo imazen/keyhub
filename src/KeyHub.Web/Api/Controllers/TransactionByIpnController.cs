@@ -1,5 +1,6 @@
 ﻿using System.Data.Entity;
 using System.Text;
+using KeyHub.BusinessLogic.Basket;
 using KeyHub.Common.Collections;
 using System;
 using System.Collections.Generic;
@@ -29,7 +30,7 @@ namespace KeyHub.Web.Api.Controllers
         private IDataContextFactory dataContextFactory;
 
         public TransactionByIpnController(IDataContextFactory dataContextFactory, IMailService mailService)
-            : base(dataContextFactory, mailService)
+            : base(mailService)
         {
             this.dataContextFactory = dataContextFactory;
         }
@@ -122,7 +123,7 @@ namespace KeyHub.Web.Api.Controllers
             txn.Other = d;
 
             //All transactions go through TransactionController
-            base.ProcessTransaction(txn.ToTransactionRequest(dataContextFactory));
+            base.ProcessTransaction(txn.ToTransactionRequest(dataContextFactory), BasketWrapper.CreateNewByVendor(dataContextFactory, vendorId));
 
             return new HttpResponseMessage(HttpStatusCode.OK);
         }

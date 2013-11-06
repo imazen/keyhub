@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using KeyHub.Model;
@@ -16,20 +17,11 @@ namespace KeyHub.BusinessLogic.Basket
     /// </summary>
     public class BasketWrapper
     {
-        private readonly IDataContextFactory dataContextFactory;
-
-        private BasketWrapper(IDataContextFactory dataContextFactory)
+        private BasketWrapper(IDataContext dataContext)
         {
-            this.dataContextFactory = dataContextFactory;
-            context = dataContextFactory.CreateByUser();
+            context = dataContext;
         }
-
-        private BasketWrapper(IDataContextFactory dataContextFactory, Guid transactionId)
-        {
-            this.dataContextFactory = dataContextFactory;
-            context =  dataContextFactory.CreateByTransaction(transactionId);
-        }
-
+        
         /// <summary>
         /// DataContext the basket is working with
         /// </summary>
@@ -42,8 +34,21 @@ namespace KeyHub.BusinessLogic.Basket
         /// <returns>An instance of a basketwrapper serving a new transaction</returns>
         public static BasketWrapper CreateNewByIdentity(IDataContextFactory dataContextFactory)
         {
-            var basket = new BasketWrapper(dataContextFactory)
-                             {Transaction = new Transaction {CreatedDateTime = DateTime.Now}};
+            var basket = new BasketWrapper(dataContextFactory.CreateByUser());
+            basket.Transaction = new Transaction {CreatedDateTime = DateTime.Now};
+
+            return basket;
+        }
+
+        /// <summary>
+        /// Start a new basket
+        /// </summary>
+        /// <param name="dataContextFactory">Data context factory</param>
+        /// <returns>An instance of a basketwrapper serving a new transaction</returns>
+        public static BasketWrapper CreateNewByVendor(IDataContextFactory dataContextFactory, Guid vendorId)
+        {
+            var basket = new BasketWrapper(new DataContextByAuthorizedVendor(vendorId));
+            basket.Transaction = new Transaction { CreatedDateTime = DateTime.Now };
 
             return basket;
         }
@@ -62,7 +67,7 @@ namespace KeyHub.BusinessLogic.Basket
         /// </remarks>
         public static BasketWrapper GetByTransactionId(IDataContextFactory dataContextFactory, Guid transactionId)
         {
-            var basket = new BasketWrapper(dataContextFactory, transactionId);
+            var basket = new BasketWrapper(dataContextFactory.CreateByTransaction(transactionId));
             var transactionLoaded = basket.LoadTransaction(transactionId);
 
             if (!transactionLoaded)

@@ -15,15 +15,13 @@ namespace KeyHub.Data
         public DataContextByTransaction(IIdentity userIdentity, Guid transactionId)
             : base(userIdentity)
         {
-            var currentUser = GetUser(userIdentity);
-
             //Vendor dependant entities.
-            var authorizedVendorIds = ResolveAuthorizedVendorsByUser(currentUser);
+            var authorizedVendorIds = ResolveAuthorizedVendors();
             Vendors = new FilteredDbSet<Vendor>(this, v => authorizedVendorIds.Contains(v.ObjectId));
             Features = new FilteredDbSet<Feature>(this, f => authorizedVendorIds.Contains(f.VendorId));
 
             //License dependant entities.
-            var authorizedLicenseIds = ResolveAuthorizedLicensesByUser(currentUser)
+            var authorizedLicenseIds = ResolveAuthorizedLicensesByUser()
                                        .Concat(ResolveAuthorizedLicensesByTransactionId(transactionId)).ToList();
             Licenses = new FilteredDbSet<License>(this, l => authorizedLicenseIds.Contains(l.ObjectId));
             LicenseCustomerApps = new FilteredDbSet<LicenseCustomerApp>(this, lc => authorizedLicenseIds.Contains(lc.LicenseId));
@@ -34,7 +32,7 @@ namespace KeyHub.Data
             SKUs = new FilteredDbSet<SKU>(this, s => authorizedSkuIds.Contains(s.SkuId));
 
             //Transaction items depends on current user role
-            if (currentUser.IsVendorAdmin)
+            if (ContextIsForVendorAdmin())
             {
                 TransactionItems = new FilteredDbSet<TransactionItem>(this, ti => authorizedSkuIds.Contains(ti.SkuId));
             }
@@ -59,7 +57,7 @@ namespace KeyHub.Data
 
             //Customer dependant entities
             var authorizedCustomerIds = ResolveAuthorizedCustomersByAuthorizedLicenses()
-                                    .Concat(ResolveAuthorizedCustomersByUser(currentUser)).ToList();
+                                    .Concat(ResolveAuthorizedCustomersByUser()).ToList();
             Customers = new FilteredDbSet<Customer>(this, c => authorizedCustomerIds.Contains(c.ObjectId));
         }
 
