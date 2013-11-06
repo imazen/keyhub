@@ -4,7 +4,7 @@
 >	KeyHub.Web.dll!KeyHub.Web.Controllers.TransactionController.Create(KeyHub.Web.ViewModels.Transaction.TransactionCreateViewModel viewModel) Line 137 + 0x22 bytes	C#
 LicenseValidator:                {                    //  TODO / BUGBUG                    //  Licenses are being created without an expiration date.                    //  Defaulting to allowing such licenses.                    //  You may want to ensure licenses always get an expiration date when they should                    //  and then stop allowing licenses without an expiration                    yield return license.ObjectId;  
 TransactionController.Create
-	is setting empty values for License.PurchaserName and PurchaserEmail
+	is setting "n/a" values for License.PurchaserName and PurchaserEmail
 
 
 

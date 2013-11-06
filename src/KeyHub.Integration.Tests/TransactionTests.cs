@@ -11,6 +11,7 @@ using KeyHub.Integration.Tests.TestSetup;
 using netDumbster.smtp;
 using Newtonsoft.Json;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.UI;
 using Xunit;
 
@@ -25,13 +26,8 @@ namespace KeyHub.Integration.Tests
             var vendorScenario = new HasVendorScenario();
             var payerEmail = "payerEmail@example.com";
 
-            var customerName = "customerName";
             var customerEmail = "customerEmail@example.com";
             var customerPassword = "customerPassword";
-            var customerStreet = "123 Fake St.";
-            var customerPostalCode = "98105";
-            var customerCity = "Seattle";
-            var customerRegion = "WA";
 
             var smtpServer = SimpleSmtpServer.Start(25);
             try
@@ -76,16 +72,9 @@ namespace KeyHub.Integration.Tests
 
                         AccountTests.SubmitRegistrationForm(browser, customerEmail, customerPassword);
 
-                        var formSelector = "form[action^='/Transaction/Checkout'] ";
-                        browser.FindElementByCssSelector(formSelector + "input#NewPurchasingCustomer_Customer_Name").SendKeys(customerName);
-                        browser.FindElementByCssSelector(formSelector + "input#NewPurchasingCustomer_Customer_Street").SendKeys(customerStreet);
-                        browser.FindElementByCssSelector(formSelector + "input#NewPurchasingCustomer_Customer_Street").SendKeys(customerStreet);
-                        browser.FindElementByCssSelector(formSelector + "input#NewPurchasingCustomer_Customer_PostalCode").SendKeys(customerPostalCode);
-                        browser.FindElementByCssSelector(formSelector + "input#NewPurchasingCustomer_Customer_City").SendKeys(customerCity);
-                        browser.FindElementByCssSelector(formSelector + "input#NewPurchasingCustomer_Customer_Region").SendKeys(customerRegion);
-                        browser.FindElementByCssSelector(formSelector + "input[type=submit]").Click();
+                        SubmitTransactionCheckoutFormWithNewCustomer(browser);
 
-                        var appKeyValue = Guid.Parse(browser.FindElementByCssSelector("#customerAppKeyValue").Text.Trim());
+                        var appKeyValue = GetAppKeyFromTransactionCompletePage(browser);
 
                         LicenseValidatorTests.AssertRemoteValidationCheckPasses(
                             site, "example.com", 
@@ -99,6 +88,12 @@ namespace KeyHub.Integration.Tests
             {
                 smtpServer.Stop();
             }
+        }
+
+        private static Guid GetAppKeyFromTransactionCompletePage(RemoteWebDriver browser)
+        {
+            var appKeyValue = Guid.Parse(browser.FindElementByCssSelector("#customerAppKeyValue").Text.Trim());
+            return appKeyValue;
         }
 
         [Fact]
@@ -122,17 +117,14 @@ namespace KeyHub.Integration.Tests
                         firstBrowser.FindElementByCssSelector("a[href^='/Account/Edit']").GetAttribute("href");
                 });
 
-                //using (var browser = BrowserUtil.GetBrowser())
+                using (var browser = BrowserUtil.GetBrowser())
                 {
-                    var browser = BrowserUtil.GetBrowser();
                     browser.Navigate().GoToUrl(site.UrlFor(editVendorUserUrl));
 
                     AccountTests.SubmitLoginForm(browser, "admin", "password");
 
                     browser.FindElementByCssSelector("a[href^='/AccountRights/Create']").Click();
 
-                    //  NOTE: Test is assuming there is only one vendor available, so clicking 
-                    //  Create here will get the intended vendor
                     browser.FindElementByCssSelector("#ObjectId_chzn").Click();
                     browser.Keyboard.SendKeys(vendorScenario.VendorName + Keys.Enter);
 
@@ -142,8 +134,8 @@ namespace KeyHub.Integration.Tests
                     browser.FindElementByCssSelector("a[href^='/AccountRights/Delete']");
                 }
 
+                using (var browser = BrowserUtil.GetBrowser())
                 {
-                    var browser = BrowserUtil.GetBrowser();
                     browser.Navigate().GoToUrl(site.UrlFor("/"));
                     AccountTests.SubmitLoginForm(browser, vendorEmail, vendorPassword);
                     browser.FindElementByCssSelector("a[href='/Transaction/Create']").Click();
@@ -152,10 +144,31 @@ namespace KeyHub.Integration.Tests
                     browser.Keyboard.SendKeys(vendorScenario.SkuCode + Keys.Enter);
 
                     browser.FindElementByCssSelector("form[action^='/Transaction/Create'] input[type='submit']").Click();
-                    Thread.Sleep(5000 * 1000);
-                    browser.FindElementByCssSelector("foo");
+
+                    SubmitTransactionCheckoutFormWithNewCustomer(browser);
+
+                    var appKeyValue = GetAppKeyFromTransactionCompletePage(browser);
+
+                    LicenseValidatorTests.AssertRemoteValidationCheckPasses(
+                        site, "example.com",
+                        appKeyValue,
+                        vendorScenario.FeatureCode,
+                        vendorScenario.PublicKeyXml);
                 }
             }
+        }
+
+        private static void SubmitTransactionCheckoutFormWithNewCustomer(RemoteWebDriver browser)
+        {
+            var formSelector = "form[action^='/Transaction/Checkout'] ";
+            browser.FindElementByCssSelector(formSelector + "input#NewPurchasingCustomer_Customer_Name")
+                .SendKeys("customerName");
+            browser.FindElementByCssSelector(formSelector + "input#NewPurchasingCustomer_Customer_Street")
+                .SendKeys("123 Fake St.");
+            browser.FindElementByCssSelector(formSelector + "input#NewPurchasingCustomer_Customer_PostalCode").SendKeys("98105");
+            browser.FindElementByCssSelector(formSelector + "input#NewPurchasingCustomer_Customer_City").SendKeys("Seattle");
+            browser.FindElementByCssSelector(formSelector + "input#NewPurchasingCustomer_Customer_Region").SendKeys("WA");
+            browser.FindElementByCssSelector(formSelector + "input[type=submit]").Click();
         }
 
         private static string GetRandomString()
