@@ -16,6 +16,7 @@ namespace KeyHub.Web.Api.Controllers
     /// <summary>
     /// REST controller for creating new transactions.
     /// </summary>
+    [Authorize]
     public class TransactionController : BaseTransactionController
     {
         public TransactionController(IDataContextFactory dataContextFactory, IMailService mailService)
