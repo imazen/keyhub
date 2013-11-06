@@ -18,7 +18,7 @@ namespace KeyHub.Integration.Tests
     {
         [Fact]
         [CleanDatabase]
-        public void CanRecordATransaction()
+        public void CanUseALicensePurchasedViaEJunkie()
         {
             var vendorScenario = new HasVendorScenario();
             var payerEmail = "payerEmail@example.com";
