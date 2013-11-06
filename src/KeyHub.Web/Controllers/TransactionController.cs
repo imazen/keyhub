@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
 using KeyHub.BusinessLogic.Basket;
@@ -122,29 +123,28 @@ namespace KeyHub.Web.Controllers
         [HttpPost]
         public ActionResult Create(TransactionCreateViewModel viewModel)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
-                {
-                    BasketWrapper basket = BasketWrapper.CreateNewByIdentity(dataContextFactory);
+                var basket = BasketWrapperBase.CreateNew();
 
-                    viewModel.ToEntity(basket.Transaction);
-                    basket.Transaction.PurchaserName = "n/a";
-                    basket.Transaction.PurchaserEmail = "n/a";
+                viewModel.ToEntity(basket.Transaction);
+                basket.Transaction.PurchaserName = "n/a";
+                basket.Transaction.PurchaserEmail = "n/a";
+
+                using (var dataContext = dataContextFactory.Create())
+                {
+                    var user = dataContext.GetAuthenticatedUser(User.Identity);
+                    var allowedVendorIds = DataContextByUser.ResolveAuthorizedVendorsByUser(dataContext, user);
+
+                    basket.AddItems(dataContext, viewModel.GetSelectedSkuGuids(), allowedVendorIds);
+                    basket.ExecuteCreate(dataContext);
+                }
                     
-                    basket.AddItems(viewModel.GetSelectedSkuGuids());
-                    basket.ExecuteCreate();
-
-                    return RedirectToAction("Checkout", new { key = basket.Transaction.TransactionId.ToString().EncryptUrl() });
-                }
-                else
-                {
-                    return View(viewModel);
-                }
+                return RedirectToAction("Checkout", new { key = basket.Transaction.TransactionId.ToString().EncryptUrl() });
             }
-            catch
+            else
             {
-                throw;
+                return View(viewModel);
             }
         }
 

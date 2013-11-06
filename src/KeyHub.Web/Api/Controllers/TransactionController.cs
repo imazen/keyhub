@@ -51,10 +51,9 @@ namespace KeyHub.Web.Api.Controllers
 
             using (var dataContext = dataContextFactory.Create())
             {
-                var identity = User.Identity;
-                User currentUser = (from x in dataContext.Users where x.UserName == identity.Name select x).Include(x => x.Rights).FirstOrDefault();
+                var user = dataContext.GetAuthenticatedUser(User.Identity);
 
-                authorizedVendors = DataContextByUser.ResolveAuthorizedVendorsByUser(dataContext, currentUser);
+                authorizedVendors = DataContextByUser.ResolveAuthorizedVendorsByUser(dataContext, user);
             }
 
             return base.ProcessTransaction(transaction, authorizedVendors);

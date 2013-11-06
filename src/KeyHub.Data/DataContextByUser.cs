@@ -67,9 +67,9 @@ namespace KeyHub.Data
         /// <summary>
         /// Resolve vendor rights based on current user
         /// </summary>
-        protected IEnumerable<Guid> ResolveAuthorizedVendorsByUser(User currentUser)
+        protected IEnumerable<Guid> ResolveAuthorizedVendorsByUser(User user)
         {
-            return ResolveAuthorizedVendorsByUser(this, currentUser);
+            return ResolveAuthorizedVendorsByUser(this, user);
         }
 
         public static IEnumerable<Guid> ResolveAuthorizedVendorsByUser(DataContext dataContext, User currentUser)

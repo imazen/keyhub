@@ -57,13 +57,20 @@ namespace KeyHub.Data
         /// <returns>Currently logged in use</returns>
         public User GetUser(IIdentity identity)
         {
+            var currentUser = GetAuthenticatedUser(identity);
+
+            return currentUser ?? new User();
+        }
+
+        public User GetAuthenticatedUser(IIdentity identity)
+        {
             User currentUser = null;
             if (identity.IsAuthenticated)
             {
-                currentUser = (from x in this.Users where x.UserName == identity.Name select x).Include(x => x.Rights).FirstOrDefault();
+                currentUser =
+                    (from x in this.Users where x.UserName == identity.Name select x).Include(x => x.Rights).FirstOrDefault();
             }
-
-            return currentUser ?? new User();
+            return currentUser;
         }
 
         public IDbSet<Membership> Memberships { get; set; }
