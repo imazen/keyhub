@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
@@ -30,11 +31,6 @@ namespace KeyHub.Data
             return User.IsVendorAdmin;
         }
 
-        protected override ICollection<UserObjectRight> GetNonvendorUserObjectRights()
-        {
-            return User.Rights;
-        }
-
 
         /// <summary>
         /// Gets a datacontext based on a provided userIdentity
@@ -51,8 +47,14 @@ namespace KeyHub.Data
             ApplyFilters();
         }
 
-        #region "Resolving user rights"
+        protected override IEnumerable<Guid> GetUserCustomerRights()
+        {
+            return (from r in User.Rights where r is UserCustomerRight && r.RightId == EditEntityMembers.Id select r.ObjectId).ToList();
+        }
 
-        #endregion
+        protected override IEnumerable<Guid> GetUserLicenseRights()
+        {
+            return from r in User.Rights where r is UserLicenseRight && r.RightId == EditLicenseInfo.Id select r.ObjectId;
+        }
     }
 }

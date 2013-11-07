@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using KeyHub.Model;
+using System.Linq;
 
 namespace KeyHub.Data
 {
@@ -29,9 +30,14 @@ namespace KeyHub.Data
             return false;
         }
 
-        protected override ICollection<UserObjectRight> GetNonvendorUserObjectRights()
+        protected override IEnumerable<Guid> GetUserCustomerRights()
         {
-            return new UserObjectRight[0];
+            return new Guid[0];
+        }
+
+        protected override IEnumerable<Guid> GetUserLicenseRights()
+        {
+            return new Guid[0];
         }
     }
 }

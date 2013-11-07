@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using KeyHub.Model;
@@ -10,7 +11,8 @@ namespace KeyHub.Data
         protected abstract IEnumerable<Guid> ResolveAuthorizedVendors();
         protected abstract bool ContextIsForSystemAdmin();
         protected abstract bool ContextIsForVendorAdmin();
-        protected abstract ICollection<UserObjectRight> GetNonvendorUserObjectRights();
+        protected abstract IEnumerable<Guid> GetUserCustomerRights();
+        protected abstract IEnumerable<Guid> GetUserLicenseRights();
 
         protected void ApplyFilters()
         {
@@ -64,7 +66,7 @@ namespace KeyHub.Data
             if (ContextIsForSystemAdmin())
                 return (from x in this.Set<Customer>() select x.ObjectId).ToList();
             else
-                return (from r in GetNonvendorUserObjectRights() where r is UserCustomerRight && r.RightId == EditEntityMembers.Id select r.ObjectId).ToList();
+                return GetUserCustomerRights();
         }
 
         /// <summary>
@@ -83,7 +85,7 @@ namespace KeyHub.Data
                 .Union
                 (from l in this.Set<License>() where authorizedCustomerIds.Contains(l.OwningCustomerId) select l.ObjectId).ToList()
                 .Union
-                (from r in GetNonvendorUserObjectRights() where r is UserLicenseRight && r.RightId == EditLicenseInfo.Id select r.ObjectId).ToList();
+                (GetUserLicenseRights()).ToList();
         }
 
         /// <summary>
