@@ -45,9 +45,6 @@ Low priority:  Vendors should be able to edit their vendor page, but not others.
 Poor messaging when registering an existing user account
    -> we should have a link to /Account/LinkAccount somewhere
 
-If the user has invalid cookies, they might get forced to error screen 
-  (to repro, login locally then delete local database.  This creates a cookie for a non-existant account)
-
   
 have test username/password in source control (a test gmail account)
 

@@ -18,7 +18,10 @@ namespace KeyHub.Model
         {
             get
             {
-                var userRoles = System.Web.Security.Roles.GetRolesForUser();
+                if (UserName == null)
+                    return false;
+
+                var userRoles = System.Web.Security.Roles.GetRolesForUser(UserName);
                 return userRoles.Contains(Role.SystemAdmin);
             }
         }
