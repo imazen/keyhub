@@ -134,7 +134,7 @@ namespace KeyHub.Web.Controllers
                         basket.Transaction.PurchaserEmail = "n/a";
                         basket.Transaction.PurchaserName = "n/a";
 
-                        basket.ExecuteStep(BasketSteps.Create);
+                        basket.ExecuteCreate();
 
                         return RedirectToAction("Checkout", new { key = basket.Transaction.TransactionId.ToString().EncryptUrl() });
                     }
@@ -285,7 +285,7 @@ namespace KeyHub.Web.Controllers
                             
                     }
 
-                    basket.ExecuteStep(BasketSteps.Checkout);
+                    basket.ExecuteCheckout();
 
                     return RedirectToAction("Complete", new { key = basket.Transaction.TransactionId.ToString().EncryptUrl() });
                 }
@@ -311,7 +311,7 @@ namespace KeyHub.Web.Controllers
 
             using (var basket = BasketWrapper.CreateByTransaction(dataContextFactory, transactionId))
             {
-                basket.ExecuteStep(BasketSteps.Complete);
+                basket.ExecuteComplete();
 
                 var viewModel = new TransactionDetailsViewModel(basket.Transaction);
 
@@ -333,7 +333,7 @@ namespace KeyHub.Web.Controllers
                 if (basket.Transaction == null)
                     throw new EntityNotFoundException("Transaction could not be resolved!");
 
-                basket.ExecuteStep(BasketSteps.Remind);
+                basket.ExecuteRemind();
 
                 mailService.SendTransactionMail(basket.Transaction.PurchaserName,
                                                 basket.Transaction.PurchaserEmail,

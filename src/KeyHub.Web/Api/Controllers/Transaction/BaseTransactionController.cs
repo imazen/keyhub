@@ -48,7 +48,7 @@ namespace KeyHub.Web.Api.Controllers.LicenseValidation
                 basket.Transaction.PurchaserName = transaction.PurchaserName;
                 basket.Transaction.PurchaserEmail = transaction.PurchaserEmail;
 
-                basket.ExecuteStep(BasketSteps.Create);
+                basket.ExecuteCreate();
 
                 mailService.SendTransactionMail(transaction.PurchaserName,
                                                 transaction.PurchaserEmail,

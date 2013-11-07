@@ -123,117 +123,114 @@ namespace KeyHub.BusinessLogic.Basket
             set;
         }
 
-        /// <summary>
-        /// Execute actions based on current step
-        /// </summary>
-        /// <param name="step">Step to execute</param>
-        public void ExecuteStep(BasketSteps step)
+        public void ExecuteCreate()
         {
-            switch (step)
-            {
-                case BasketSteps.Create:
-                    if (!Transaction.TransactionItems.Any())
-                        throw new InvalidPropertyException("No transaction items set");
+            if (!Transaction.TransactionItems.Any())
+                throw new InvalidPropertyException("No transaction items set");
 
-                    //Add transaction if none existing
-                    if (!(from x in context.Transactions where x.TransactionId == this.Transaction.TransactionId select x).Any())
-                        context.Transactions.Add(Transaction);
-                    Transaction.Status = TransactionStatus.Create;
-                    Transaction.CreatedDateTime = DateTime.Now;
-                    context.SaveChanges();
-
-                    break;
-                case BasketSteps.Checkout:
-                    var currentUser = context.GetUser(HttpContext.Current.User.Identity);
-
-                    //Add PurchasingCustomer if none existing
-                    if (this.PurchasingCustomer.ObjectId == new Guid())
-                    {
-                        context.Customers.Add(PurchasingCustomer);
-                        context.SaveChanges();
-                        if (!currentUser.IsVendorAdmin)
-                        {
-                            context.UserCustomerRights.Add(new UserCustomerRight
-                            {
-                                RightObject = PurchasingCustomer,
-                                RightId = EditEntityMembers.Id,
-                                UserId = currentUser.UserId
-                            });
-                            context.SaveChanges();
-                        }
-                    }
-
-                    //Add OwningCustomer if none existing
-                    if (this.OwningCustomer != this.PurchasingCustomer)
-                    {
-                        if (this.OwningCustomer.ObjectId == new Guid())
-                        {
-                            context.Customers.Add(OwningCustomer);
-                            context.SaveChanges();
-                            if (!currentUser.IsVendorAdmin)
-                            {
-                                context.UserCustomerRights.Add(new UserCustomerRight
-                                {
-                                    RightObject = OwningCustomer,
-                                    RightId = EditEntityInfo.Id,
-                                    UserId = currentUser.UserId
-                                });
-                                context.SaveChanges();
-                            }
-                        }
-                    }
-
-                    //Create licenses for every transactionitem
-                    foreach (var item in Transaction.TransactionItems)
-                    {
-                        if (item.License == null)
-                        {
-                            var newLicense = new Model.License(item.Sku, this.OwningCustomer, this.PurchasingCustomer);
-                            context.Licenses.Add(newLicense);
-
-                            item.License = newLicense;
-                        }
-                    }
-                    context.SaveChanges();
-
-                    var existingCustomerApps = (from x in context.Licenses
-                                join y in context.LicenseCustomerApps on x.ObjectId equals y.LicenseId
-                                where x.OwningCustomerId == this.OwningCustomer.ObjectId
-                                select y.CustomerApp).ToList();
-
-                    //Add to any existing apps
-                    if (existingCustomerApps.Any())
-                    {
-                        foreach (var customerApp in existingCustomerApps)
-                        {
-                            customerApp.AddLicenses((from x in Transaction.TransactionItems select x.License.ObjectId));
-                        }
-                        context.SaveChanges();
-                    }
-                    else
-                    {
-                        //Create default application containing all licenses
-                        var newCustomerApp = new CustomerApp()
-                                                 {
-                                                     ApplicationName = this.OwningCustomer.Name + "_Application"
-                                                 };
-                        context.CustomerApps.Add(newCustomerApp);
-                        newCustomerApp.AddLicenses((from x in Transaction.TransactionItems select x.License.ObjectId));
-                        newCustomerApp.CustomerAppKeys.Add(new CustomerAppKey());
-                    }
-                    Transaction.Status = TransactionStatus.Complete;
-                    break;
-                case BasketSteps.Remind:
-                    Transaction.Status = TransactionStatus.Remind;
-                    break;
-                case BasketSteps.Complete:
-                    Transaction.Status = TransactionStatus.Complete;
-                    break;
-            }
-            
+            //Add transaction if none existing
+            if (!(from x in context.Transactions where x.TransactionId == this.Transaction.TransactionId select x).Any())
+                context.Transactions.Add(Transaction);
+            Transaction.Status = TransactionStatus.Create;
+            Transaction.CreatedDateTime = DateTime.Now;
             context.SaveChanges();
         }
-        
+
+        public void ExecuteCheckout()
+        {
+            var currentUser = context.GetUser(HttpContext.Current.User.Identity);
+
+            //Add PurchasingCustomer if none existing
+            if (this.PurchasingCustomer.ObjectId == new Guid())
+            {
+                context.Customers.Add(PurchasingCustomer);
+                context.SaveChanges();
+                if (!currentUser.IsVendorAdmin)
+                {
+                    context.UserCustomerRights.Add(new UserCustomerRight
+                    {
+                        RightObject = PurchasingCustomer,
+                        RightId = EditEntityMembers.Id,
+                        UserId = currentUser.UserId
+                    });
+                    context.SaveChanges();
+                }
+            }
+
+            //Add OwningCustomer if none existing
+            if (this.OwningCustomer != this.PurchasingCustomer)
+            {
+                if (this.OwningCustomer.ObjectId == new Guid())
+                {
+                    context.Customers.Add(OwningCustomer);
+                    context.SaveChanges();
+                    if (!currentUser.IsVendorAdmin)
+                    {
+                        context.UserCustomerRights.Add(new UserCustomerRight
+                        {
+                            RightObject = OwningCustomer,
+                            RightId = EditEntityInfo.Id,
+                            UserId = currentUser.UserId
+                        });
+                        context.SaveChanges();
+                    }
+                }
+            }
+
+            //Create licenses for every transactionitem
+            foreach (var item in Transaction.TransactionItems)
+            {
+                if (item.License == null)
+                {
+                    var newLicense = new Model.License(item.Sku, this.OwningCustomer, this.PurchasingCustomer);
+                    context.Licenses.Add(newLicense);
+
+                    item.License = newLicense;
+                }
+            }
+            context.SaveChanges();
+
+            var existingCustomerApps = (from x in context.Licenses
+                join y in context.LicenseCustomerApps on x.ObjectId equals y.LicenseId
+                where x.OwningCustomerId == this.OwningCustomer.ObjectId
+                select y.CustomerApp).ToList();
+
+            //Add to any existing apps
+            if (existingCustomerApps.Any())
+            {
+                foreach (var customerApp in existingCustomerApps)
+                {
+                    customerApp.AddLicenses((from x in Transaction.TransactionItems select x.License.ObjectId));
+                }
+                context.SaveChanges();
+            }
+            else
+            {
+                //Create default application containing all licenses
+                var newCustomerApp = new CustomerApp()
+                {
+                    ApplicationName = this.OwningCustomer.Name + "_Application"
+                };
+                context.CustomerApps.Add(newCustomerApp);
+                newCustomerApp.AddLicenses((from x in Transaction.TransactionItems select x.License.ObjectId));
+                newCustomerApp.CustomerAppKeys.Add(new CustomerAppKey());
+            }
+            Transaction.Status = TransactionStatus.Complete;
+            context.SaveChanges();
+        }
+
+        public void ExecuteRemind()
+        {
+            Transaction.Status = TransactionStatus.Remind;
+            context.SaveChanges();
+        }
+
+        public void ExecuteComplete()
+        {
+            Transaction.Status = TransactionStatus.Complete;
+            context.SaveChanges();
+        }
+
         /// <summary>
         /// Add SKUs to Transaction based on selected SKU strings.
         /// If the value could not be parsed the string will be added the the ignored items collection
