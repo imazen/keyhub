@@ -86,24 +86,6 @@ namespace KeyHub.BusinessLogic.Basket
             get;
             private set;
         }
-
-        /// <summary>
-        /// Get purchasing customer
-        /// </summary>
-        public Customer PurchasingCustomer
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// Get owning customer
-        /// </summary>
-        public Customer OwningCustomer
-        {
-            get;
-            set;
-        }
         
         public void ExecuteCreate()
         {
@@ -118,20 +100,20 @@ namespace KeyHub.BusinessLogic.Basket
             context.SaveChanges();
         }
 
-        public void ExecuteCheckout()
+        public void ExecuteCheckout(Customer purchasingCustomer, Customer owningCustomer)
         {
             var currentUser = context.GetUser(HttpContext.Current.User.Identity);
 
             //Add PurchasingCustomer if none existing
-            if (this.PurchasingCustomer.ObjectId == new Guid())
+            if (purchasingCustomer.ObjectId == new Guid())
             {
-                context.Customers.Add(PurchasingCustomer);
+                context.Customers.Add(purchasingCustomer);
                 context.SaveChanges();
                 if (!currentUser.IsVendorAdmin)
                 {
                     context.UserCustomerRights.Add(new UserCustomerRight
                     {
-                        RightObject = PurchasingCustomer,
+                        RightObject = purchasingCustomer,
                         RightId = EditEntityMembers.Id,
                         UserId = currentUser.UserId
                     });
@@ -140,17 +122,17 @@ namespace KeyHub.BusinessLogic.Basket
             }
 
             //Add OwningCustomer if none existing
-            if (this.OwningCustomer != this.PurchasingCustomer)
+            if (owningCustomer != purchasingCustomer)
             {
-                if (this.OwningCustomer.ObjectId == new Guid())
+                if (owningCustomer.ObjectId == new Guid())
                 {
-                    context.Customers.Add(OwningCustomer);
+                    context.Customers.Add(owningCustomer);
                     context.SaveChanges();
                     if (!currentUser.IsVendorAdmin)
                     {
                         context.UserCustomerRights.Add(new UserCustomerRight
                         {
-                            RightObject = OwningCustomer,
+                            RightObject = owningCustomer,
                             RightId = EditEntityInfo.Id,
                             UserId = currentUser.UserId
                         });
@@ -164,7 +146,7 @@ namespace KeyHub.BusinessLogic.Basket
             {
                 if (item.License == null)
                 {
-                    var newLicense = new Model.License(item.Sku, this.OwningCustomer, this.PurchasingCustomer);
+                    var newLicense = new Model.License(item.Sku, owningCustomer, purchasingCustomer);
                     context.Licenses.Add(newLicense);
 
                     item.License = newLicense;
@@ -174,7 +156,7 @@ namespace KeyHub.BusinessLogic.Basket
 
             var existingCustomerApps = (from x in context.Licenses
                 join y in context.LicenseCustomerApps on x.ObjectId equals y.LicenseId
-                where x.OwningCustomerId == this.OwningCustomer.ObjectId
+                where x.OwningCustomerId == owningCustomer.ObjectId
                 select y.CustomerApp).ToList();
 
             //Add to any existing apps
@@ -191,7 +173,7 @@ namespace KeyHub.BusinessLogic.Basket
                 //Create default application containing all licenses
                 var newCustomerApp = new CustomerApp()
                 {
-                    ApplicationName = this.OwningCustomer.Name + "_Application"
+                    ApplicationName = owningCustomer.Name + "_Application"
                 };
                 context.CustomerApps.Add(newCustomerApp);
                 newCustomerApp.AddLicenses((from x in Transaction.TransactionItems select x.License.ObjectId));

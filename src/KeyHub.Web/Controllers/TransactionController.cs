@@ -267,25 +267,28 @@ namespace KeyHub.Web.Controllers
 
                     viewModel.ToEntity(basket.Transaction);
 
+                    Customer purchasingCustomer;
+                    Customer owningCustomer;
+
                     if (viewModel.ExistingPurchasingCustomer)
-                        basket.PurchasingCustomer = (from x in context.Customers where x.ObjectId == viewModel.PurchasingCustomerId select x).FirstOrDefault();
+                        purchasingCustomer = (from x in context.Customers where x.ObjectId == viewModel.PurchasingCustomerId select x).FirstOrDefault();
                     else
-                        basket.PurchasingCustomer = viewModel.NewPurchasingCustomer.ToEntity(null);
+                        purchasingCustomer = viewModel.NewPurchasingCustomer.ToEntity(null);
 
                     if (viewModel.OwningCustomerIsPurchasingCustomerId)
                     {
-                        basket.OwningCustomer = basket.PurchasingCustomer;
+                        owningCustomer = purchasingCustomer;
                     }
                     else
                     {
                         if (viewModel.ExistingOwningCustomer)
-                            basket.OwningCustomer = (from x in context.Customers where x.ObjectId == viewModel.OwningCustomerId select x).FirstOrDefault();    
+                            owningCustomer = (from x in context.Customers where x.ObjectId == viewModel.OwningCustomerId select x).FirstOrDefault();    
                         else
-                            basket.OwningCustomer = viewModel.NewOwningCustomer.ToEntity(null);    
+                            owningCustomer = viewModel.NewOwningCustomer.ToEntity(null);    
                             
                     }
 
-                    basket.ExecuteCheckout();
+                    basket.ExecuteCheckout(purchasingCustomer, owningCustomer);
 
                     return RedirectToAction("Complete", new { key = basket.Transaction.TransactionId.ToString().EncryptUrl() });
                 }
