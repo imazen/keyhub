@@ -5,6 +5,7 @@ using System.Data.Common;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -179,20 +180,26 @@ namespace KeyHub.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
+                using (var dataContext = dataContextFactory.Create())
                 {
-                    //FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
-                    if (Url.IsLocalUrl(returnUrl))
+                    var user = dataContext.Users.Where(u => u.Email == model.UserName).SingleOrDefault();
+
+                    if (user != null)
                     {
-                        return Redirect(returnUrl);
+                        if (WebSecurity.Login(user.UserName, model.Password, persistCookie: model.RememberMe))
+                        {
+                            //FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
+                            if (Url.IsLocalUrl(returnUrl))
+                            {
+                                return Redirect(returnUrl);
+                            }
+                            else
+                            {
+                                return RedirectToAction("Index", "Home");
+                            }
+                        }
                     }
-                    else
-                    {
-                        return RedirectToAction("Index", "Home");
-                    }
-                }
-                else
-                {
+
                     ModelState.AddModelError("", "The user name or password provided is incorrect.");
                 }
             }

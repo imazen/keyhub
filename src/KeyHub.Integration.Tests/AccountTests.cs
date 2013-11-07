@@ -60,8 +60,8 @@ namespace KeyHub.Integration.Tests
         [CleanDatabase]
         public void CanLoginLocallyAfterChangingEmail()
         {
-            var firstEmail = "flippant@example.com";
-            var secondEmail = "flippant2@example.com";
+            var firstEmail = "indecisive@example.com";
+            var secondEmail = "undecisive@example.com";
             var password = "myPassword";
 
             using (var site = new KeyHubWebDriver())
@@ -88,7 +88,7 @@ namespace KeyHub.Integration.Tests
                 using (var browser = BrowserUtil.GetBrowser())
                 {
                     browser.Navigate().GoToUrl(site.UrlFor("/"));
-                    SubmitLoginForm(browser, secondEmail, password);
+                    SubmitLoginForm(browser, secondEmail.ToUpper(), password);
                     WaitUntilUserIsLoggedIn(browser);
                 }
             }
