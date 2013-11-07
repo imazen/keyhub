@@ -98,7 +98,7 @@ namespace KeyHub.Integration.Tests
 
         [Fact]
         [CleanDatabase]
-        public void VendorCanManuallyCreateOrder()
+        public void VendorCanManuallyCreateTransaction()
         {
             var vendorScenario = new HasVendorScenario();
             var vendorEmail = "vendorEmail@example.com";
@@ -117,6 +117,7 @@ namespace KeyHub.Integration.Tests
                         firstBrowser.FindElementByCssSelector("a[href^='/Account/Edit']").GetAttribute("href");
                 });
 
+                //  Log in as admin to give the new vendor account vendor permissions
                 using (var browser = BrowserUtil.GetBrowser())
                 {
                     browser.Navigate().GoToUrl(site.UrlFor(editVendorUserUrl));
@@ -125,8 +126,7 @@ namespace KeyHub.Integration.Tests
 
                     browser.FindElementByCssSelector("a[href^='/AccountRights/Create']").Click();
 
-                    browser.FindElementByCssSelector("#ObjectId_chzn").Click();
-                    browser.Keyboard.SendKeys(vendorScenario.VendorName + Keys.Enter);
+                    BrowserUtil.SetValueForChosenJQueryControl(browser, "#ObjectId_chzn", vendorScenario.VendorName);
 
                     browser.FindElementByCssSelector("input[type='submit'][value='Create']").Click();
 
@@ -140,8 +140,7 @@ namespace KeyHub.Integration.Tests
                     AccountTests.SubmitLoginForm(browser, vendorEmail, vendorPassword);
                     browser.FindElementByCssSelector("a[href='/Transaction/Create']").Click();
 
-                    browser.FindElementByCssSelector("div#Transaction_SelectedSKUGuids_chzn").Click();
-                    browser.Keyboard.SendKeys(vendorScenario.SkuCode + Keys.Enter);
+                    BrowserUtil.SetValueForChosenJQueryControl(browser, "div#Transaction_SelectedSKUGuids_chzn", vendorScenario.SkuCode);
 
                     browser.FindElementByCssSelector("form[action^='/Transaction/Create'] input[type='submit']").Click();
 

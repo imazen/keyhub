@@ -1,4 +1,5 @@
-﻿
+﻿need to rename methods in DataContextByThing
+
 BasketWrapper usage is leaking DataContexts
 
 LicenseValidator:                {                    //  TODO / BUGBUG                    //  Licenses are being created without an expiration date.                    //  Defaulting to allowing such licenses.                    //  You may want to ensure licenses always get an expiration date when they should                    //  and then stop allowing licenses without an expiration                    yield return license.ObjectId;  
