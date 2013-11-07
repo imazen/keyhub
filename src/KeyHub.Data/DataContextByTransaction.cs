@@ -21,7 +21,7 @@ namespace KeyHub.Data
             Features = new FilteredDbSet<Feature>(this, f => authorizedVendorIds.Contains(f.VendorId));
 
             //License dependant entities.
-            var authorizedLicenseIds = ResolveAuthorizedLicensesByUser()
+            var authorizedLicenseIds = ResolveAuthorizedLicenses()
                                        .Concat(ResolveAuthorizedLicensesByTransactionId(transactionId)).ToList();
             Licenses = new FilteredDbSet<License>(this, l => authorizedLicenseIds.Contains(l.ObjectId));
             LicenseCustomerApps = new FilteredDbSet<LicenseCustomerApp>(this, lc => authorizedLicenseIds.Contains(lc.LicenseId));
@@ -57,7 +57,7 @@ namespace KeyHub.Data
 
             //Customer dependant entities
             var authorizedCustomerIds = ResolveAuthorizedCustomersByAuthorizedLicenses()
-                                    .Concat(ResolveAuthorizedCustomersByUser()).ToList();
+                                    .Concat(ResolveAuthorizedCustomers()).ToList();
             Customers = new FilteredDbSet<Customer>(this, c => authorizedCustomerIds.Contains(c.ObjectId));
         }
 

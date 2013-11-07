@@ -19,7 +19,7 @@ namespace KeyHub.Data
             this.Features = new FilteredDbSet<Feature>(this, f => authorizedVendorIds.Contains(f.VendorId));
 
             //License dependant entities.
-            var authorizedLicenseIds = ResolveAuthorizedLicensesByUser();
+            var authorizedLicenseIds = ResolveAuthorizedLicenses();
             this.Licenses = new FilteredDbSet<License>(this, l => Enumerable.Contains(authorizedLicenseIds, l.ObjectId));
             this.LicenseCustomerApps = new FilteredDbSet<LicenseCustomerApp>(this,
                 lc => Enumerable.Contains(authorizedLicenseIds, lc.LicenseId));
@@ -52,14 +52,14 @@ namespace KeyHub.Data
                 c => authorizedCustomerApps.Contains(c.CustomerAppId));
 
             //Customer dependant entities
-            var authorizedCustomerIds = Enumerable.Concat<Guid>(ResolveAuthorizedCustomersByAuthorizedLicenses(), ResolveAuthorizedCustomersByUser()).ToList();
+            var authorizedCustomerIds = Enumerable.Concat<Guid>(ResolveAuthorizedCustomersByAuthorizedLicenses(), ResolveAuthorizedCustomers()).ToList();
             this.Customers = new FilteredDbSet<Customer>(this, c => authorizedCustomerIds.Contains(c.ObjectId));
         }
 
         /// <summary>
         /// Resolve customer rights based on current user
         /// </summary>
-        protected IEnumerable<Guid> ResolveAuthorizedCustomersByUser()
+        protected IEnumerable<Guid> ResolveAuthorizedCustomers()
         {
             if (ContextIsForSystemAdmin())
                 return (from x in this.Set<Customer>() select x.ObjectId).ToList();
@@ -72,10 +72,10 @@ namespace KeyHub.Data
         /// Licenses with authroized skus (from Vendor), licenses from authorized customers (from User)
         /// or authorized licenses (from user)
         /// </summary>
-        protected IEnumerable<Guid> ResolveAuthorizedLicensesByUser()
+        protected IEnumerable<Guid> ResolveAuthorizedLicenses()
         {
             var authorizedSKUIds = ResolveAuthorizedSKUsByAuthorizedVendors();
-            var authorizedCustomerIds = ResolveAuthorizedCustomersByUser();
+            var authorizedCustomerIds = ResolveAuthorizedCustomers();
 
             return (from l in this.Set<License>() where Enumerable.Contains(authorizedSKUIds, l.SkuId) select l.ObjectId).ToList()
                 .Union
