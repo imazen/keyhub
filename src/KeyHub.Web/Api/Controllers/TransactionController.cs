@@ -44,7 +44,10 @@ namespace KeyHub.Web.Api.Controllers
         /// </example> 
         public TransactionResult Post(TransactionRequest transaction)
         {
-            return base.ProcessTransaction(transaction, BasketWrapper.CreateNewByIdentity(dataContextFactory));
+            using (var basket = BasketWrapper.CreateNewByIdentity(dataContextFactory))
+            {
+                return base.ProcessTransaction(transaction, basket);
+            }
         }
     }
 }

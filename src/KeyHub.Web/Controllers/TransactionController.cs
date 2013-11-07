@@ -103,9 +103,8 @@ namespace KeyHub.Web.Controllers
         public ActionResult Create()
         {
             using (var context = dataContextFactory.CreateByUser())
+            using (var basket = BasketWrapper.CreateNewByIdentity(dataContextFactory))
             {
-                var basket = BasketWrapper.CreateNewByIdentity(dataContextFactory);
-                
                 var skuQuery = from x in context.SKUs orderby x.SkuCode select x;
 
                 var viewModel = new TransactionCreateViewModel(basket.Transaction, skuQuery.ToList());
@@ -126,18 +125,19 @@ namespace KeyHub.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    BasketWrapper basket = BasketWrapper.CreateNewByIdentity(dataContextFactory);
+                    using (var basket = BasketWrapper.CreateNewByIdentity(dataContextFactory))
+                    {
+                        viewModel.ToEntity(basket.Transaction);
 
-                    viewModel.ToEntity(basket.Transaction);
-                    
-                    basket.AddItems(viewModel.GetSelectedSkuGuids());
+                        basket.AddItems(viewModel.GetSelectedSkuGuids());
 
-                    basket.Transaction.PurchaserEmail = "n/a";
-                    basket.Transaction.PurchaserName = "n/a";
+                        basket.Transaction.PurchaserEmail = "n/a";
+                        basket.Transaction.PurchaserName = "n/a";
 
-                    basket.ExecuteStep(BasketSteps.Create);
+                        basket.ExecuteStep(BasketSteps.Create);
 
-                    return RedirectToAction("Checkout", new { key = basket.Transaction.TransactionId.ToString().EncryptUrl() });
+                        return RedirectToAction("Checkout", new { key = basket.Transaction.TransactionId.ToString().EncryptUrl() });
+                    }
                 }
                 else
                 {
@@ -193,17 +193,18 @@ namespace KeyHub.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    BasketWrapper basket = BasketWrapper.GetByTransactionId(dataContextFactory, viewModel.Transaction.TransactionId);
+                    using (var basket = BasketWrapper.CreateByTransaction(dataContextFactory, viewModel.Transaction.TransactionId))
+                    {
+                        if (basket.Transaction == null)
+                            throw new EntityNotFoundException("Transaction could not be resolved!");
 
-                    if (basket.Transaction == null)
-                        throw new EntityNotFoundException("Transaction could not be resolved!");
+                        if (basket.Transaction.Status == TransactionStatus.Complete)
+                            throw new EntityOperationNotSupportedException("Transaction is already claimed!");
 
-                    if (basket.Transaction.Status == TransactionStatus.Complete)
-                        throw new EntityOperationNotSupportedException("Transaction is already claimed!");
+                        viewModel.ToEntity(basket.Transaction);
 
-                    viewModel.ToEntity(basket.Transaction);
-
-                    return RedirectToAction("Checkout", new { key = basket.Transaction.TransactionId.ToString().EncryptUrl() });
+                        return RedirectToAction("Checkout", new { key = basket.Transaction.TransactionId.ToString().EncryptUrl() });
+                    }
                 }
                 else
                 {
@@ -226,9 +227,8 @@ namespace KeyHub.Web.Controllers
             var transactionId = Common.Utils.SafeConvert.ToGuid(key.DecryptUrl());
 
             using (var context = dataContextFactory.CreateByUser())
+            using (var basket = BasketWrapper.CreateByTransaction(dataContextFactory, transactionId))
             {
-                var basket = BasketWrapper.GetByTransactionId(dataContextFactory, transactionId);
-
                 if (basket.Transaction == null)
                     throw new EntityNotFoundException("Transaction SKUs are not accessible to current user!");
 
@@ -257,9 +257,8 @@ namespace KeyHub.Web.Controllers
             if (ModelState.IsValid)
             {
                 using (var context = dataContextFactory.CreateByUser())
+                using (var basket = BasketWrapper.CreateByTransaction(dataContextFactory, viewModel.Transaction.TransactionId))
                 {
-                    BasketWrapper basket = BasketWrapper.GetByTransactionId(dataContextFactory, viewModel.Transaction.TransactionId);
-
                     if (basket.Transaction == null)
                         throw new EntityNotFoundException("Transaction SKUs are not accessible to current user!");
 
@@ -310,13 +309,14 @@ namespace KeyHub.Web.Controllers
         {
             var transactionId = Common.Utils.SafeConvert.ToGuid(key.DecryptUrl());
 
-            var basket = BasketWrapper.GetByTransactionId(dataContextFactory, transactionId);
+            using (var basket = BasketWrapper.CreateByTransaction(dataContextFactory, transactionId))
+            {
+                basket.ExecuteStep(BasketSteps.Complete);
 
-            basket.ExecuteStep(BasketSteps.Complete);
+                var viewModel = new TransactionDetailsViewModel(basket.Transaction);
 
-            var viewModel = new TransactionDetailsViewModel(basket.Transaction);
-
-            return View(viewModel);
+                return View(viewModel);
+            }
         }
 
         /// <summary>
@@ -328,19 +328,19 @@ namespace KeyHub.Web.Controllers
         {
             var transactionId = Common.Utils.SafeConvert.ToGuid(key.DecryptUrl());
 
-            BasketWrapper basket = BasketWrapper.GetByTransactionId(dataContextFactory, transactionId);
+            using(var basket = BasketWrapper.CreateByTransaction(dataContextFactory, transactionId))
+            {
+                if (basket.Transaction == null)
+                    throw new EntityNotFoundException("Transaction could not be resolved!");
 
-            if (basket.Transaction == null)
-                throw new EntityNotFoundException("Transaction could not be resolved!");
+                basket.ExecuteStep(BasketSteps.Remind);
 
-            basket.ExecuteStep(BasketSteps.Remind);
+                mailService.SendTransactionMail(basket.Transaction.PurchaserName,
+                                                basket.Transaction.PurchaserEmail,
+                                                basket.Transaction.TransactionId);
 
-            mailService.SendTransactionMail(basket.Transaction.PurchaserName,
-                                            basket.Transaction.PurchaserEmail,
-                                            basket.Transaction.TransactionId);
-
-            return RedirectToAction("Index");
+                return RedirectToAction("Index");
+            }
         }
-
     }
 }

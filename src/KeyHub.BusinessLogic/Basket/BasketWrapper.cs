@@ -15,7 +15,7 @@ namespace KeyHub.BusinessLogic.Basket
     /// Takes care of the order and actual steps a basket goes through during purchase.
     /// Every step ends with a commit into the DB.
     /// </summary>
-    public class BasketWrapper
+    public class BasketWrapper : IDisposable
     {
         private BasketWrapper(IDataContext dataContext)
         {
@@ -65,7 +65,7 @@ namespace KeyHub.BusinessLogic.Basket
         /// have access to transaction (new user or new vendor). Use datacontext based on 
         /// transactionId instead.
         /// </remarks>
-        public static BasketWrapper GetByTransactionId(IDataContextFactory dataContextFactory, Guid transactionId)
+        public static BasketWrapper CreateByTransaction(IDataContextFactory dataContextFactory, Guid transactionId)
         {
             var basket = new BasketWrapper(dataContextFactory.CreateByTransaction(transactionId));
             var transactionLoaded = basket.LoadTransaction(transactionId);
@@ -305,6 +305,14 @@ namespace KeyHub.BusinessLogic.Basket
                             .FirstOrDefault();
 
             return (Transaction != null);
+        }
+
+        public void Dispose()
+        {
+            if (context != null)
+            {
+                context.Dispose();
+            }
         }
     }
 }
