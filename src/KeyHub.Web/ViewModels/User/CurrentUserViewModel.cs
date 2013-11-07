@@ -24,7 +24,6 @@ namespace KeyHub.Web.ViewModels.User
         public CurrentUserViewModel(Model.User user)
         {
             this.UserId = user.UserId;
-            this.UserName = user.UserName;
             this.Email = user.Email;
             this.IsSystemAdmin = user.IsSystemAdmin;
             this.IsVendorAdmin = user.IsVendorAdmin;
@@ -37,13 +36,6 @@ namespace KeyHub.Web.ViewModels.User
         /// </summary>
         [HiddenInput(DisplayValue = false)]
         public int UserId { get; private set; }
-
-        /// <summary>
-        /// Username (loginname) for this user
-        /// </summary>
-        [Required]
-        [StringLength(50)]
-        public string UserName { get; private set; }
 
         /// <summary>
         /// Email of this user

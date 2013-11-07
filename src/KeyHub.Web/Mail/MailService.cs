@@ -28,7 +28,6 @@ namespace KeyHub.Web.Mail
             {
                 var issueEmail = new IssueMailViewModel
                 {
-                    User = user.UserName,
                     Email = user.Email,
                     Severity = severity,
                     Message = message,

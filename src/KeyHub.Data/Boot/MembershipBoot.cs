@@ -33,7 +33,7 @@ namespace KeyHub.Data.Boot
             if (!WebSecurity.UserExists("admin"))
             {
                 // Create administrator user
-                WebSecurity.CreateUserAndAccount("admin", "password", new { Email = "admin@example.com" });
+                WebSecurity.CreateUserAndAccount("admin", "password", new { Email = "admin" });
                 Roles.AddUserToRole("admin", Role.SystemAdmin);
             }
 

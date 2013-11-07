@@ -18,21 +18,5 @@ namespace KeyHub.Web.Controllers
         {
             this.dataContextFactory = dataContextFactory;
         }
-
-        protected Model.User UserEntity
-        {
-            get
-            {
-                if (User.Identity.IsAuthenticated)
-                {
-                    using (var context = dataContextFactory.Create())
-                    {
-                        return (from x in context.Users where x.UserName == User.Identity.Name select x)
-                                .Include(x => x.Rights).FirstOrDefault();
-                    }
-                }
-                return null;
-            }
-        }
     }
 }

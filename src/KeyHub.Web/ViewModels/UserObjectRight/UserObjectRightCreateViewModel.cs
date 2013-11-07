@@ -23,7 +23,7 @@ namespace KeyHub.Web.ViewModels.UserObjectRight
                 throw new ArgumentException("User in UserObjectRight cannot be null");
 
             this.ObjectType = objectType;
-            this.UserName = userObjectRight.User.UserName;
+            this.Email = userObjectRight.User.Email;
             this.EntityList = entityList;
             this.RightName = userObjectRight.Right.DisplayName;
         }
@@ -32,7 +32,7 @@ namespace KeyHub.Web.ViewModels.UserObjectRight
         /// Name of the right
         /// </summary>
         [DisplayName("User")]
-        public string UserName { get; set; }
+        public string Email { get; set; }
 
         /// <summary>
         /// Name of the right

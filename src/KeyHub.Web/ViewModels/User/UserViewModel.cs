@@ -38,7 +38,6 @@ namespace KeyHub.Web.ViewModels.User
             Model.User current = original ?? new Model.User();
 
             current.UserId = this.UserId;
-            current.UserName = this.UserName;
             current.Email = this.Email;
 
             return current;
