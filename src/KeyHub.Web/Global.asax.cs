@@ -38,6 +38,7 @@ namespace KeyHub.Web
             //
             Database.SetInitializer<KeyHub.Data.DataContextByUser>(null);
             Database.SetInitializer<KeyHub.Data.DataContextByTransaction>(null);
+            Database.SetInitializer<KeyHub.Data.DataContextByAuthorizedVendor>(null);
 
             container = CompositionContainerFactory.Create();
             ControllerBuilder.Current.SetControllerFactory(new WindsorControllerFactory(container.Kernel));

@@ -131,6 +131,10 @@ namespace KeyHub.Web.Controllers
                     viewModel.ToEntity(basket.Transaction);
                     
                     basket.AddItems(viewModel.GetSelectedSkuGuids());
+
+                    basket.Transaction.PurchaserEmail = "n/a";
+                    basket.Transaction.PurchaserName = "n/a";
+
                     basket.ExecuteStep(BasketSteps.Create);
 
                     return RedirectToAction("Checkout", new { key = basket.Transaction.TransactionId.ToString().EncryptUrl() });
