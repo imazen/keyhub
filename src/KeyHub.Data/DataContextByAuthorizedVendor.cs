@@ -4,7 +4,7 @@ using KeyHub.Model;
 
 namespace KeyHub.Data
 {
-    public class DataContextByAuthorizedVendor : DataContextByThing
+    public class DataContextByAuthorizedVendor : AbstractFilteredDataContext
     {
         private readonly Guid vendorId;
 

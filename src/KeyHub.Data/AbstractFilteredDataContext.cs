@@ -5,7 +5,7 @@ using KeyHub.Model;
 
 namespace KeyHub.Data
 {
-    public abstract class DataContextByThing : DataContext
+    public abstract class AbstractFilteredDataContext : DataContext
     {
         protected abstract IEnumerable<Guid> ResolveAuthorizedVendors();
         protected abstract bool ContextIsForSystemAdmin();

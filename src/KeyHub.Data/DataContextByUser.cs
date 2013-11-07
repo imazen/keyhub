@@ -8,7 +8,7 @@ using KeyHub.Model;
 
 namespace KeyHub.Data
 {
-    public class DataContextByUser : DataContextByThing, IDataContextByUser
+    public class DataContextByUser : AbstractFilteredDataContext, IDataContextByUser
     {
         private User User;
 
