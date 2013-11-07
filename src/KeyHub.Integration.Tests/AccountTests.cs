@@ -10,6 +10,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.PhantomJS;
 using OpenQA.Selenium.Remote;
+using OpenQA.Selenium.Support.UI;
 using Xunit;
 
 namespace KeyHub.Integration.Tests
@@ -57,6 +58,44 @@ namespace KeyHub.Integration.Tests
 
         [Fact]
         [CleanDatabase]
+        public void CanLoginLocallyAfterChangingEmail()
+        {
+            var firstEmail = "flippant@example.com";
+            var secondEmail = "flippant2@example.com";
+            var password = "myPassword";
+
+            using (var site = new KeyHubWebDriver())
+            {
+                CreateLocalAccount(site, firstEmail, password);
+
+                using (var browser = BrowserUtil.GetBrowser())
+                {
+                    browser.Navigate().GoToUrl(site.UrlFor("/"));
+                    SubmitLoginForm(browser, firstEmail, password);
+                    browser.Navigate().GoToUrl(site.UrlFor("/"));
+                    browser.FindElementByCssSelector("a[href^='/Account']").Click();
+                    browser.FindElementByCssSelector("a[href^='/Account/Edit']").Click();
+
+                    var emailForm = browser.FindElementByCssSelector("#User_Email");
+                    emailForm.Clear();
+                    emailForm.SendKeys(secondEmail);
+                    browser.FindElementByCssSelector("input[value='Save']").Click();
+
+                    // Ensure the change saves by waiting for the browser to return to the account edit page
+                    browser.FindElementByCssSelector("a[href^='/Account/Edit']");
+                }
+
+                using (var browser = BrowserUtil.GetBrowser())
+                {
+                    browser.Navigate().GoToUrl(site.UrlFor("/"));
+                    SubmitLoginForm(browser, secondEmail, password);
+                    WaitUntilUserIsLoggedIn(browser);
+                }
+            }
+        }
+
+        [Fact]
+        [CleanDatabase]
         public void ShouldGiveWarningMessageWhenUserRegistersEmailAlreadyInUse()
         {
             var email = ConfigurationManager.AppSettings.Get("googleTestEmail");
@@ -77,7 +116,7 @@ namespace KeyHub.Integration.Tests
         {
             onFinish = onFinish ?? delegate(RemoteWebDriver browser)
             {
-                browser.FindElementByCssSelector("a[href='/Account/LogOff']");
+                WaitUntilUserIsLoggedIn(browser);
             };
 
             using (var browser = BrowserUtil.GetBrowser())
@@ -88,6 +127,11 @@ namespace KeyHub.Integration.Tests
 
                 onFinish(browser);
             }
+        }
+
+        private static IWebElement WaitUntilUserIsLoggedIn(RemoteWebDriver browser)
+        {
+            return browser.FindElementByCssSelector("a[href='/Account/LogOff']");
         }
 
         public static void SubmitLoginForm(RemoteWebDriver browser, string email, string password)
