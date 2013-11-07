@@ -1,14 +1,6 @@
-﻿LicenseValidator:                {                    //  TODO / BUGBUG                    //  Licenses are being created without an expiration date.                    //  Defaulting to allowing such licenses.                    //  You may want to ensure licenses always get an expiration date when they should                    //  and then stop allowing licenses without an expiration                    yield return license.ObjectId;  
+﻿
 TransactionController.Create
 	is setting "n/a" values for License.PurchaserName and PurchaserEmail
-
-
-
-What is TransactionController.Post used for, are there scenarios behind it?  Not sure about its logic to determine allowed vendors.
-What are TransactionIgnoredItem used for?  
-	If we receive an order for items that are for a different version, TransactionIgnoredItem is created.
-Should SKU have both a privateKeyId and a VendorId?  It seems the set of allowed PrivateKey values should be all the current keys of the vendor.
-
 
 
 TransactionByIpnController.PostTransactionByIpn should have tests
@@ -17,7 +9,7 @@ TransactionByIpnController.PostTransactionByIpn should have tests
   PrivateKeyController should use anti-forgery tokens
 
   
-  - authorization of admin pages is only checked if the use is logged in.
+  - authorization of admin pages is only checked if the user is logged in.
     It should check that the user is an admin, or the user is editing something that belongs to them.
 
   - upgrade to entity framework 6.0?
@@ -33,20 +25,9 @@ TransactionByIpnController.PostTransactionByIpn should have tests
 
 - is the licensing plugin going to be able to detect the domain?  What if the server is behind a load balancer?
 	
-- Google OpenID isn't working for me anymore.  Ugh.  Is it my machine only (new machine)?
-  - try the google test account
-  - try login with the master branch
-  - its working on Nathanael's machine, using 5001
-
 CSS styling is all over, how do I compile scss files?  Should add styles for Flash (.error, .success, etc)
 
-Shelved concerns:
-	How to repro 50 character email problem?
-	  -> local accounts seem to work ok with long email.  
-	  Maybe OpenID has issues?  Hard to test:
-		  Google max name size is 30.
-		  I have a long MSN account, but microsoft OpenID isn't working  (need appsettings to configure that OpenID provider)
-	Microsoft has a new membership system, so maybe we should be using that.
+
 
 Do the integration tests work on other people's machines ok?
   (warning: They will delete your localhost keyhub database)
@@ -55,9 +36,9 @@ Do the integration tests work on other people's machines ok?
   ->  It may assume that IISEXpress has had a chance to create a config entry for KeyHub in the user's applicationhost.config
 
 
-
 Do we strongly couple the users email with username?
    -> default user (admin) does not have an email, so its hard to make username/email match.
+
 
 Low priority:  Vendors should be able to edit their vendor page, but not others.
 
