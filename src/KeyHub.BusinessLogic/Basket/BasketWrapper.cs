@@ -104,25 +104,7 @@ namespace KeyHub.BusinessLogic.Basket
             get;
             set;
         }
-
-        /// <summary>
-        /// Purchaser name
-        /// </summary>
-        public string PurchaserName
-        {
-            get; 
-            set;
-        }
-
-        /// <summary>
-        /// Purchaser email
-        /// </summary>
-        public string PurchaserEmail
-        {
-            get; 
-            set;
-        }
-
+        
         public void ExecuteCreate()
         {
             if (!Transaction.TransactionItems.Any())
