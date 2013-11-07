@@ -69,6 +69,7 @@ namespace KeyHub.Integration.Tests
                     SkuCode = SkuCode,
                     PrivateKeyId = privateKey.PrivateKeyId,
                     VendorId = vendor.ObjectId,
+                    LicenseDuration = 12,
                     AutoDomainDuration = 12
                 });
 
@@ -85,7 +86,7 @@ namespace KeyHub.Integration.Tests
                 DatabaseUtil.InsertItem(dataContext, dataContext.SkuFeatures, new SkuFeature()
                 {
                     SkuId = sku.SkuId,
-                    FeatureId = feature.FeatureId
+                    FeatureId = feature.FeatureId,
                 });
             }
         }

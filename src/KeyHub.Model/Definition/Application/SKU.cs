@@ -92,13 +92,13 @@ namespace KeyHub.Model
         public int? EditSupportContactsDuration { get; set; }
 
         /// <summary>
-        /// How long the license is valid for
+        /// Number of months the license is valid for
         /// Leave empty to expiration on SKU.
         /// </summary>
         public int? LicenseDuration { get; set; }
 
         /// <summary>
-        /// How long auto-generated domain licenses are valid before they must be auto-renewed in months
+        /// Number of months the auto-generated domain licenses are valid before they must be auto-renewed
         /// Leave empty to disable auto domains.
         /// </summary>
         public int? AutoDomainDuration { get; set; }
