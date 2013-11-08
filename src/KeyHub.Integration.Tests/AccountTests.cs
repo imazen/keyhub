@@ -96,6 +96,44 @@ namespace KeyHub.Integration.Tests
 
         [Fact]
         [CleanDatabase]
+        public void CanLoginLocallyAfterChangingPassword()
+        {
+            var email = "indecisive@example.com";
+            var firstPassword = "myPassword";
+            var secondPassword = "secondPassword";
+
+            using (var site = new KeyHubWebDriver())
+            {
+                CreateLocalAccount(site, email, firstPassword);
+
+                using (var browser = BrowserUtil.GetBrowser())
+                {
+                    browser.Navigate().GoToUrl(site.UrlFor("/"));
+                    SubmitLoginForm(browser, email, firstPassword);
+                    browser.Navigate().GoToUrl(site.UrlFor("/"));
+                    browser.FindElementByCssSelector("a[href^='/Account']").Click();
+                    browser.FindElementByCssSelector("a[href^='/Account/ChangePassword']").Click();
+
+                    browser.FindElementByCssSelector("#OldPassword").SendKeys(firstPassword);
+                    browser.FindElementByCssSelector("#NewPassword").SendKeys(secondPassword);
+                    browser.FindElementByCssSelector("#ConfirmPassword").SendKeys(secondPassword);
+                    browser.FindElementByCssSelector("input[type='submit']").Click();
+                    
+                    // Ensure the change saves by waiting for the browser to return to the account edit page
+                    browser.FindElementByCssSelector("a[href^='/Account/Edit']");
+                }
+
+                using (var browser = BrowserUtil.GetBrowser())
+                {
+                    browser.Navigate().GoToUrl(site.UrlFor("/"));
+                    SubmitLoginForm(browser, email, secondPassword);
+                    WaitUntilUserIsLoggedIn(browser);
+                }
+            }
+        }
+
+        [Fact]
+        [CleanDatabase]
         public void ShouldGiveWarningMessageWhenUserRegistersEmailAlreadyInUse()
         {
             var email = ConfigurationManager.AppSettings.Get("googleTestEmail");

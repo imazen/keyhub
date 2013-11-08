@@ -1,9 +1,12 @@
-﻿@model KeyHub.Web.ViewModels.User.UserIndexViewModel
+﻿@using MvcFlash.Core.Extensions
+@model KeyHub.Web.ViewModels.User.UserIndexViewModel
 
 @{
     ViewBag.ItemName = "Account";
     ViewBag.Title = "Overview";
 }
+
+@Html.Flash()
 
 @Html.Action("DetailsPartial", "Account", new {id = Model.CurrentUser.UserId }) 
 

@@ -251,9 +251,9 @@ namespace KeyHub.Web.Controllers
                 {
                     WebSecurity.CreateUserAndAccount(newMembershipUserIdentifier, model.Password, new { Email = model.Email });
                 }
-                catch (MembershipCreateUserException membershipException)
+                catch (Exception exception)
                 {
-                    if (membershipException.Message.Contains("username is already in use"))
+                    if (exception.Message.Contains("IX_Email") && exception.Message.Contains("duplicate"))
                     {
                         ModelState.AddModelError("", 
                             "The email address registered is already in use on this site using a different login method.  "
@@ -289,8 +289,11 @@ namespace KeyHub.Web.Controllers
         /// <returns>Change password view</returns>
         public ActionResult ChangePassword()
         {
-            var viewModel = new ChangePasswordViewModel(User.Identity.Name);
-            return View(viewModel);
+            using (var dataContext = dataContextFactory.Create())
+            {
+                var viewModel = new ChangePasswordViewModel(dataContext.GetUser(User.Identity).Email);
+                return View(viewModel);
+            }
         }
 
         /// <summary>
@@ -303,9 +306,10 @@ namespace KeyHub.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                if(WebSecurity.ChangePassword(model.Email, model.OldPassword, model.NewPassword))
+                if(WebSecurity.ChangePassword(User.Identity.Name, model.OldPassword, model.NewPassword))
                 {
-                    return RedirectToAction("ChangePasswordSuccess");
+                    Flash.Success("Your password has been changed.");
+                    return RedirectToAction("Index");
                 }
                 else
                 {
@@ -315,15 +319,6 @@ namespace KeyHub.Web.Controllers
 
             // If we got this far, something failed, redisplay form
             return View(model);
-        }
-
-        /// <summary>
-        /// Successfull password change
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult ChangePasswordSuccess()
-        {
-            return View();
         }
 
         #region OpenAuth
