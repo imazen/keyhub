@@ -32,10 +32,11 @@ namespace KeyHub.Data.Migrations
                 c => new
                     {
                         UserId = c.Int(nullable: false, identity: true),
-                        UserName = c.String(nullable: false, maxLength: 256),
+                        MembershipUserIdentifier = c.String(nullable: false, maxLength: 40),
                         Email = c.String(nullable: false, maxLength: 256),
                     })
                 .PrimaryKey(t => t.UserId)
+                .Index(t => t.MembershipUserIdentifier, unique:true)
                 .Index(t => t.Email, unique:true);
             
             CreateTable(

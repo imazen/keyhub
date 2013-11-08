@@ -61,14 +61,5 @@ namespace KeyHub.Web.ViewModels.User
         /// Indicates if the user has a local acount. If <b>False</b> then OpenAuth account.
         /// </summary>
         public Boolean HasLocalAccount { get; set; }
-
-        /// <summary>
-        /// The username
-        /// </summary>
-        /// <remarks>Readonly and based on email</remarks>
-        public string UserName
-        {
-            get { return Email; }
-        }
     }
 }

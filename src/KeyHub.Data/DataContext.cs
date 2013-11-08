@@ -60,7 +60,7 @@ namespace KeyHub.Data
             User currentUser = null;
             if (identity.IsAuthenticated)
             {
-                currentUser = (from x in this.Users where x.UserName == identity.Name select x).Include(x => x.Rights).FirstOrDefault();
+                currentUser = (from x in this.Users where x.MembershipUserIdentifier == identity.Name select x).Include(x => x.Rights).FirstOrDefault();
             }
 
             return currentUser ?? new User();

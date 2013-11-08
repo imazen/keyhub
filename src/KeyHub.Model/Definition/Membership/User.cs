@@ -24,11 +24,11 @@ namespace KeyHub.Model
         public int UserId { get; set; }
 
         /// <summary>
-        /// USername (loginname) for this user
+        /// The field used by ASP.NET Membership system to identify users (a guid value).
         /// </summary>
         [Required]
-        [StringLength(256)]
-        public string UserName { get; set; }
+        [StringLength(40)]
+        public string MembershipUserIdentifier { get; set; }
 
         /// <summary>
         /// E-mail address for this user

@@ -43,9 +43,9 @@ namespace KeyHub.Web.Controllers
             using (var context = dataContextFactory.CreateByUser())
             {
                 // Eager loading users (except current user) and roles
-                var usersQuery = (from u in context.Users where u.UserName != User.Identity.Name select u)
+                var usersQuery = (from u in context.Users where u.MembershipUserIdentifier != User.Identity.Name select u)
                                  .Include(u => u.Rights.Select(r => r.RightObject))
-                                 .OrderBy(u => u.UserName);
+                                 .OrderBy(u => u.MembershipUserIdentifier);
 
                 var viewModel = new UserIndexViewModel(context.GetUser(HttpContext.User.Identity), usersQuery.ToList());
 
@@ -91,9 +91,11 @@ namespace KeyHub.Web.Controllers
             if (ModelState.IsValid)
             {
                 // Attempt to register the user
-                WebSecurity.CreateUserAndAccount(viewModel.User.UserName, viewModel.User.Password, new { Email = viewModel.User.Email });
+                var newMembershipUserIdentifier = Guid.NewGuid().ToString();
 
-                if (WebSecurity.Login(viewModel.User.UserName, viewModel.User.Password))
+                WebSecurity.CreateUserAndAccount(newMembershipUserIdentifier, viewModel.User.Password, new { Email = viewModel.User.Email });
+
+                if (WebSecurity.Login(newMembershipUserIdentifier, viewModel.User.Password))
                 {
                     if (Url.IsLocalUrl(viewModel.RedirectUrl))
                     {
@@ -186,9 +188,8 @@ namespace KeyHub.Web.Controllers
 
                     if (user != null)
                     {
-                        if (WebSecurity.Login(user.UserName, model.Password, persistCookie: model.RememberMe))
+                        if (WebSecurity.Login(user.MembershipUserIdentifier, model.Password, persistCookie: model.RememberMe))
                         {
-                            //FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
                             if (Url.IsLocalUrl(returnUrl))
                             {
                                 return Redirect(returnUrl);
@@ -387,7 +388,7 @@ namespace KeyHub.Web.Controllers
                 using (var db = dataContextFactory.Create())
                 {
                     // Insert name into the profile table
-                    db.Users.Add(new User { UserName = authenticationResult.UserName, Email = authenticationResult.UserName });
+                    db.Users.Add(new User { MembershipUserIdentifier = Guid.NewGuid().ToString(), Email = authenticationResult.UserName });
                     db.SaveChanges();
                 }
             }
