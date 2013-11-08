@@ -137,7 +137,7 @@ namespace KeyHub.Integration.Tests
         public static void SubmitLoginForm(RemoteWebDriver browser, string email, string password)
         {
             var formSelector = "form[action^='/Account/Login'] ";
-            browser.FindElementByCssSelector(formSelector + "input#UserName").SendKeys(email);
+            browser.FindElementByCssSelector(formSelector + "input#Email").SendKeys(email);
             browser.FindElementByCssSelector(formSelector + "input#Password").SendKeys(password);
             browser.FindElementByCssSelector(formSelector + "input[value='Log in']").Click();
         }

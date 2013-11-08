@@ -24,14 +24,5 @@ namespace KeyHub.Web.ViewModels.User
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
-
-        /// <summary>
-        /// The username
-        /// </summary>
-        /// <remarks>Readonly and based on email</remarks>
-        public string UserName
-        {
-            get { return Email; }
-        }
     }
 }

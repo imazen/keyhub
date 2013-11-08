@@ -14,15 +14,15 @@
 <table cellpadding="30px">
     <tr>
         <td valign="top" width="150px">
-            <h2>Please enter your username and password.</h2>
+            <h2>Please enter your email and password.</h2>
 
             @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl })) {
                 @Html.ValidationSummary(true, "Log in was unsuccessful. Please correct the errors and try again.")
 
                 <fieldset>
                     <legend>Log in Form</legend>
-                    <div class="editor-label">@Html.LabelFor(m => m.UserName)</div>
-                    <div class="editor-field">@Html.TextBoxFor(m => m.UserName)</div>
+                    <div class="editor-label">@Html.LabelFor(m => m.Email)</div>
+                    <div class="editor-field">@Html.TextBoxFor(m => m.Email)</div>
 
                     <div class="editor-label">@Html.LabelFor(m => m.Password)</div>
                     <div class="editor-field">@Html.PasswordFor(m => m.Password)</div>

@@ -36,10 +36,6 @@ Do the integration tests work on other people's machines ok?
   ->  It may assume that IISEXpress has had a chance to create a config entry for KeyHub in the user's applicationhost.config
 
 
-Do we strongly couple the users email with username?
-   -> default user (admin) does not have an email, so its hard to make username/email match.
-
-
 Low priority:  Vendors should be able to edit their vendor page, but not others.
 
 Poor messaging when registering an existing user account

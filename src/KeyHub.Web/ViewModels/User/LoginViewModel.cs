@@ -5,8 +5,8 @@ namespace KeyHub.Web.Models
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "Username")]
-        public string UserName { get; set; }
+        [Display(Name = "Email")]
+        public string Email { get; set; }
 
         [Required]
         [DataType(DataType.Password)]

@@ -10,15 +10,15 @@ namespace KeyHub.Web.Models
         /// <summary>
         /// Viewmodel for changing a users password
         /// </summary>
-        /// <param name="userName">Username of the user to change password for</param>
-        public ChangePasswordViewModel(string userName)
+        /// <param name="email">Username of the user to change password for</param>
+        public ChangePasswordViewModel(string email)
         {
-            UserName = userName;
+            Email = email;
         }
 
         [Required]
-        [Display(Name = "Username")]
-        public string UserName { get; set; }
+        [Display(Name = "Email")]
+        public string Email { get; set; }
 
         [Required]
         [DataType(DataType.Password)]

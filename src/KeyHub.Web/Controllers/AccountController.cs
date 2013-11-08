@@ -106,7 +106,7 @@ namespace KeyHub.Web.Controllers
                         return RedirectToAction("Index", "Home");
                     }
                 }
-                ModelState.AddModelError("", "Failed to create a user with the provided username and password.");
+                ModelState.AddModelError("", "Failed to create a user with the provided email and password.");
             }
 
             //Viewmodel invalid, recall create
@@ -184,7 +184,7 @@ namespace KeyHub.Web.Controllers
             {
                 using (var dataContext = dataContextFactory.Create())
                 {
-                    var user = dataContext.Users.Where(u => u.Email == model.UserName).SingleOrDefault();
+                    var user = dataContext.Users.Where(u => u.Email == model.Email).SingleOrDefault();
 
                     if (user != null)
                     {
@@ -244,10 +244,12 @@ namespace KeyHub.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                var newMembershipUserIdentifier = Guid.NewGuid().ToString();
+
                 // Attempt to register the user
                 try
                 {
-                    WebSecurity.CreateUserAndAccount(model.UserName, model.Password, new { Email = model.Email });
+                    WebSecurity.CreateUserAndAccount(newMembershipUserIdentifier, model.Password, new { Email = model.Email });
                 }
                 catch (MembershipCreateUserException membershipException)
                 {
@@ -263,7 +265,7 @@ namespace KeyHub.Web.Controllers
                     throw;
                 }
 
-                if (WebSecurity.Login(model.UserName, model.Password))
+                if (WebSecurity.Login(newMembershipUserIdentifier, model.Password))
                 {
                     if (Url.IsLocalUrl(returnUrl))
                     {
@@ -274,7 +276,7 @@ namespace KeyHub.Web.Controllers
                         return RedirectToAction("Index", "Home");
                     }
                 }
-                ModelState.AddModelError("", "Failed to create a user with the provided username and password.");
+                ModelState.AddModelError("", "Failed to create a user with the provided email and password.");
             }
 
             // If we got this far, something failed, redisplay form
@@ -301,7 +303,7 @@ namespace KeyHub.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                if(WebSecurity.ChangePassword(model.UserName, model.OldPassword, model.NewPassword))
+                if(WebSecurity.ChangePassword(model.Email, model.OldPassword, model.NewPassword))
                 {
                     return RedirectToAction("ChangePasswordSuccess");
                 }
@@ -382,13 +384,15 @@ namespace KeyHub.Web.Controllers
                 return RedirectTo(returnUrl);
             }
 
+            var membershipUserIdentifier = Guid.NewGuid().ToString();
+
             try
             {
                 // Insert a new user into the database
                 using (var db = dataContextFactory.Create())
                 {
                     // Insert name into the profile table
-                    db.Users.Add(new User { MembershipUserIdentifier = Guid.NewGuid().ToString(), Email = authenticationResult.UserName });
+                    db.Users.Add(new User { MembershipUserIdentifier = membershipUserIdentifier, Email = authenticationResult.UserName });
                     db.SaveChanges();
                 }
             }
@@ -418,7 +422,7 @@ namespace KeyHub.Web.Controllers
                 }
             }
 
-            OAuthWebSecurity.CreateOrUpdateAccount(authenticationResult.Provider, authenticationResult.ProviderUserId, authenticationResult.UserName);
+            OAuthWebSecurity.CreateOrUpdateAccount(authenticationResult.Provider, authenticationResult.ProviderUserId, membershipUserIdentifier);
             OAuthWebSecurity.Login(authenticationResult.Provider, authenticationResult.ProviderUserId, createPersistentCookie: true);
 
             return RedirectTo(returnUrl);     
