@@ -75,13 +75,13 @@ namespace KeyHub.Core.Kernel
                     var bootIssue = new GenericError
                                             {
                                                 ErrorException = kernelEventException,
-                                                ErrorMessage = "",
+                                                ErrorMessage = kernelEventException.ToString(),
                                                 Severity = ErrorSeverity.Critical
                                             };
 
                     loggingService.Fatal(bootIssue);
 
-                    throw new KernelEventIncompleteException();
+                    throw new KernelEventIncompleteException(kernelEventException);
                 }
 
                 // Check if the kernel event returned a value
