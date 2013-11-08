@@ -31,7 +31,7 @@ namespace KeyHub.Model
         public string MembershipUserIdentifier { get; set; }
 
         /// <summary>
-        /// E-mail address for this user
+        /// E-mail address for this user (is simply 'admin' for the default admin)
         /// </summary>
         [StringLength(256)]
         public string Email { get; set; }

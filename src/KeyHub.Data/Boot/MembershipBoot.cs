@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Web.Security;
@@ -30,11 +31,12 @@ namespace KeyHub.Data.Boot
                 Roles.CreateRole(Role.RegularUser);
 
             // Create an administator of not already present        
-            if (!WebSecurity.UserExists("admin"))
+            if (!Roles.GetUsersInRole(Role.SystemAdmin).Any())
             {
                 // Create administrator user
-                WebSecurity.CreateUserAndAccount("admin", "password", new { Email = "admin" });
-                Roles.AddUserToRole("admin", Role.SystemAdmin);
+                var adminMembershipIdentifier = Guid.NewGuid().ToString();
+                WebSecurity.CreateUserAndAccount(adminMembershipIdentifier, "password", new { Email = "admin" });
+                Roles.AddUserToRole(adminMembershipIdentifier, Role.SystemAdmin);
             }
 
             return new KernelEventCompletedArguments { AllowContinue = (!issueList.Any()), KernelEventSucceeded = (!issueList.Any()), Issues = issueList.ToArray() };
