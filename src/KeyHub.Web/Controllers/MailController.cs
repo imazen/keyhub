@@ -46,6 +46,7 @@ namespace KeyHub.Web.Controllers
         /// </summary>
         /// <param name="model">TransactionMailViewModel containing transaction details</param>
         /// <returns>Emailmessage ready to be set to purchaser</returns>
+        [ChildActionOnly]
         public EmailResult TransactionEmail(TransactionMailViewModel model)
         {
             bool redirectMails = (WebConfigurationManager.AppSettings["redirectMails"] !=null) && bool.Parse(WebConfigurationManager.AppSettings["redirectMails"]);
@@ -65,6 +66,7 @@ namespace KeyHub.Web.Controllers
         /// </summary>
         /// <param name="model">IssueMailViewModel containing issue details</param>
         /// <returns>Emailmessage ready to be set to purchaser</returns>
+        [ChildActionOnly]
         public EmailResult IssueEmail(IssueMailViewModel model)
         {
             bool redirectMails = (WebConfigurationManager.AppSettings["redirectMails"] != null) && bool.Parse(WebConfigurationManager.AppSettings["redirectMails"]);
