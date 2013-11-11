@@ -20,10 +20,10 @@
 </fieldset>
 
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.UserId })
+    @Html.ActionLink("Edit", "Edit", new { id=Model.UserId }, new { @class = "Btn"})
     @if(Model.HasLocalAccount)
     {
-        @Html.Raw(" | ")
-        @Html.ActionLink("Change password", "ChangePassword")
+        @Html.ActionLink("Change password", "ChangePassword", new {}, new { @class = "Btn"})
     }
+    @Html.ActionLink("Link logins from other sites", "LinkAccount", new {}, new { @class = "Btn"})
 </p>

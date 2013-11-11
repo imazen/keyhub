@@ -44,8 +44,5 @@ Poor messaging when registering an existing user account
   
 have test username/password in source control (a test gmail account)
 
-  
-merge columns User.Email and User.Username into User.Email
-
 
 resharper test runner stalls if I try to run MSTest tests (it used to work, hmm.  Tests do pass when using VS test runner)
