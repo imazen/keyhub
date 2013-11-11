@@ -570,7 +570,6 @@
     <Content Include="Views\Transaction\Details.cshtml" />
     <Content Include="Views\Transaction\DetailsPartial.cshtml" />
     <Content Include="Views\Transaction\ClaimLicenses.cshtml" />
-    <Content Include="Views\License\IndexPartial.cshtml" />
     <Content Include="Views\Home\MainMenu.cshtml" />
     <Content Include="Views\Mail\NewTransactionEmail.html.cshtml" />
     <Content Include="Views\Transaction\Create.cshtml" />

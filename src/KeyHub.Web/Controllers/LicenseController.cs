@@ -41,31 +41,7 @@ namespace KeyHub.Web.Controllers
                 return View(viewModel);
             }
         }
-
-        /// <summary>
-        /// Get list of Licenses
-        /// </summary>
-        /// <param name="transactionId">TransactionID to show licenses for</param>
-        /// <returns>License index list view</returns>
-        public ActionResult IndexPartial(Guid transactionId)
-        {
-            using (var context = dataContextFactory.CreateByUser())
-            {
-                //Eager loading License
-                var licenseQuery = (from l in context.Licenses
-                                    where l.TransactionItems.FirstOrDefault().TransactionId == transactionId
-                                    select l)
-                                    .Include(x => x.PurchasingCustomer)
-                                    .Include(x => x.OwningCustomer)
-                                    .Include(x => x.Sku)
-                                    .Include(x => x.Domains);
-
-                var viewModel = new LicenseIndexViewModel(context.GetUser(HttpContext.User.Identity), licenseQuery.ToList());
-
-                return PartialView(viewModel);
-            }
-        }
-
+        
         /// <summary>
         /// Get details of Licenses
         /// </summary>
