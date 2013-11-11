@@ -58,6 +58,7 @@ namespace KeyHub.Web.Controllers
         /// </summary>
         /// <param name="id">Id of the user to view</param>
         /// <returns>User index view</returns>
+        [ChildActionOnly]
         public ActionResult DetailsPartial(int id)
         {
             using (var context = dataContextFactory.Create())

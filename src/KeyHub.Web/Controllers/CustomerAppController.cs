@@ -48,6 +48,7 @@ namespace KeyHub.Web.Controllers
         /// </summary>
         /// <param name="transactionId">TransactionID to show customer apps for for</param>
         /// <returns>CustomerApp index list view</returns>
+        [ChildActionOnly]
         public ActionResult IndexPartial(Guid transactionId)
         {
             using (var context = dataContextFactory.CreateByUser())

@@ -23,6 +23,7 @@ namespace KeyHub.Web.Controllers
         /// </summary>
         /// <param name="userId">Id if the user to show rights for</param>
         /// <returns>Index view of specific users rights</returns>
+        [ChildActionOnly]
         public ActionResult IndexPartial(int userId)
         {
             using (var context = dataContextFactory.CreateByUser())

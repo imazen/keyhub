@@ -28,6 +28,7 @@ namespace KeyHub.Web.Controllers
         /// </summary>
         /// <returns>DomainLicense index partial list view</returns>
         /// <param name="parentLicense">Guid of the license to show domains for</param>
+        [ChildActionOnly]
         public ActionResult IndexPartial(Guid parentLicense)
         {
             using (var context = dataContextFactory.CreateByUser())
@@ -93,7 +94,7 @@ namespace KeyHub.Web.Controllers
         /// </summary>
         /// <param name="owningLicense">Owning license ID</param>
         /// <returns>Partial create DomainLicense view</returns>
-        public ActionResult CreatePartial(Guid owningLicense)
+        private ActionResult CreatePartial(Guid owningLicense)
         {
             using (var context = dataContextFactory.CreateByUser())
             {
