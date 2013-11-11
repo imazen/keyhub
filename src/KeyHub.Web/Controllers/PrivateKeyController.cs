@@ -26,6 +26,7 @@ namespace KeyHub.Web.Controllers
         /// </summary>
         /// <returns>PrivateKey index partial list view</returns>
         /// <param name="parentVendor">Guid of the vendor to show private keys for</param>
+        [ChildActionOnly]
         public ActionResult IndexPartial(Guid parentVendor)
         {
             using (var context = dataContextFactory.Create())
@@ -46,7 +47,7 @@ namespace KeyHub.Web.Controllers
         /// <returns>Create privateKey view</returns>
         public ActionResult Create(Guid parentVendor)
         {
-            using (var context = dataContextFactory.Create())
+            using (var context = dataContextFactory.CreateByUser())
             {
                 var vendorQuery = from x in context.Vendors where x.ObjectId == parentVendor select x;
 

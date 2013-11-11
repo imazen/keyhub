@@ -73,29 +73,7 @@ namespace KeyHub.Web.Controllers
                 return View(viewModel);
             }
         }
-
-        /// <summary>
-        /// Partial details view of a single transaction
-        /// </summary>
-        /// <param name="key">Id of the transaction to show</param>
-        /// <returns>Transaction details partial view</returns>
-        public ActionResult DetailsPartial(Guid key)
-        {
-            using (var context = dataContextFactory.CreateByUser())
-            {
-                //Eager loading Transaction
-                var transactionQuery = (from x in context.Transactions where x.TransactionId == key select x)
-                    .Include(x => x.IgnoredItems)
-                    .Include(x => x.TransactionItems.Select(s => s.Sku))
-                    .Include(x => x.TransactionItems.Select(s => s.License))
-                    .Include(x => x.TransactionItems.Select(s => s.License.Domains));
-
-                var viewModel = new TransactionDetailsViewModel(transactionQuery.FirstOrDefault());
-
-                return PartialView(viewModel);
-            }
-        }
-
+        
         /// <summary>
         /// Create a single Transaction
         /// </summary>

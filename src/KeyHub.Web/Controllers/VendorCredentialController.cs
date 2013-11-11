@@ -28,13 +28,13 @@ namespace KeyHub.Web.Controllers
             public string CredentialName { get; set; }
             public string CredentialValue { get; set; }
 
-            public static VendorCredentialModel ForVendor(Guid parentVendor, IDataContextFactory contextFactory)
+            public static VendorCredentialModel ForVendor(Guid vendorId, IDataContextFactory contextFactory)
             {
                 VendorCredentialModel result;
 
-                using (var context = contextFactory.Create())
+                using (var context = contextFactory.CreateByUser())
                 {
-                    var vendor = (from x in context.Vendors where x.ObjectId == parentVendor select x).FirstOrDefault();
+                    var vendor = (from x in context.Vendors where x.ObjectId == vendorId select x).FirstOrDefault();
 
                     result = new VendorCredentialModel()
                     {
@@ -49,7 +49,7 @@ namespace KeyHub.Web.Controllers
             {
                 VendorCredentialModel result;
 
-                using (var dataContext = dataContextFactory.Create())
+                using (var dataContext = dataContextFactory.CreateByUser())
                 {
                     var vendorCredential =
                         dataContext.VendorCredentials.Where(vs => vs.VendorCredentialId == key).Include(x => x.Vendor).Single();
