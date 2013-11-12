@@ -5,7 +5,6 @@ using System.Data.Common;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.SqlClient;
-using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -114,7 +113,11 @@ namespace KeyHub.Web.Controllers
                 if (!User.IsInRole(Role.SystemAdmin) && user.MembershipUserIdentifier != User.Identity.Name)
                     return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
                 
-                var viewModel = new UserEditViewModel(user);
+                var viewModel = new UserEditViewModel()
+                {
+                    UserId = user.UserId,
+                    Email = user.Email
+                };
 
                 return View(viewModel);
             }
@@ -132,7 +135,7 @@ namespace KeyHub.Web.Controllers
             {
                 using (var context = dataContextFactory.Create())
                 {
-                    var user = context.Users.FirstOrDefault(x => x.UserId == viewModel.User.UserId);
+                    var user = context.Users.FirstOrDefault(x => x.UserId == viewModel.UserId);
 
                     if (user == null)
                         return new HttpStatusCodeResult(HttpStatusCode.NotFound);
@@ -141,15 +144,14 @@ namespace KeyHub.Web.Controllers
                         return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
 
                     //Email can always be updated
-                    user.Email = viewModel.User.Email;
+                    user.Email = viewModel.Email;
                     context.SaveChanges();
 
                     return RedirectToAction("Index");
                 }
             }
 
-            //Viewmodel invalid, recall edit
-            return Edit(viewModel.User.UserId);
+            return Edit(viewModel.UserId);
         }
 
         /// <summary>

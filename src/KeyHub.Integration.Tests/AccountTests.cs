@@ -75,11 +75,12 @@ namespace KeyHub.Integration.Tests
                 {
                     browser.Navigate().GoToUrl(site.UrlFor("/"));
                     SiteUtil.SubmitLoginForm(browser, firstEmail, password);
+
                     browser.Navigate().GoToUrl(site.UrlFor("/"));
                     browser.FindElementByCssSelector("a[href^='/Account']").Click();
                     browser.FindElementByCssSelector("a[href^='/Account/Edit']").Click();
 
-                    var emailForm = browser.FindElementByCssSelector("#User_Email");
+                    var emailForm = browser.FindElementByCssSelector("#Email");
                     emailForm.Clear();
                     emailForm.SendKeys(secondEmail);
                     browser.FindElementByCssSelector("input[value='Save']").Click();
@@ -92,7 +93,6 @@ namespace KeyHub.Integration.Tests
                 {
                     browser.Navigate().GoToUrl(site.UrlFor("/"));
                     SiteUtil.SubmitLoginForm(browser, secondEmail.ToUpper(), password);
-                    SiteUtil.WaitUntilUserIsLoggedIn(browser);
                 }
             }
         }
@@ -130,7 +130,6 @@ namespace KeyHub.Integration.Tests
                 {
                     browser.Navigate().GoToUrl(site.UrlFor("/"));
                     SiteUtil.SubmitLoginForm(browser, email, secondPassword);
-                    SiteUtil.WaitUntilUserIsLoggedIn(browser);
                 }
             }
         }
@@ -179,7 +178,6 @@ namespace KeyHub.Integration.Tests
                 {
                     browser.Navigate().GoToUrl(site.UrlFor("/"));
                     SiteUtil.SubmitLoginForm(browser, "admin", "password");
-                    SiteUtil.WaitUntilUserIsLoggedIn(browser);
                 }
             }
         }

@@ -38,6 +38,7 @@ namespace KeyHub.Integration.Tests.TestSetup
             browser.FindElementByCssSelector(formSelector + "input#Email").SendKeys(email);
             browser.FindElementByCssSelector(formSelector + "input#Password").SendKeys(password);
             browser.FindElementByCssSelector(formSelector + "input[value='Log in']").Click();
+            WaitUntilUserIsLoggedIn(browser);
         }
 
         public static void SubmitRegistrationForm(RemoteWebDriver browser, string email, string password)

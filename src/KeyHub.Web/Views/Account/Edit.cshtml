@@ -13,14 +13,14 @@
     <fieldset>
         <legend>UserEditViewItem</legend>
 
-        @Html.HiddenFor(model => model.User.UserId)
+        @Html.HiddenFor(model => model.UserId)
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.User.Email)
+            @Html.LabelFor(model => model.Email)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.User.Email, new {autocomplete="off"})
-            @Html.ValidationMessageFor(model => model.User.Email)
+            @Html.EditorFor(model => model.Email, new {autocomplete="off"})
+            @Html.ValidationMessageFor(model => model.Email)
         </div>      
 
         <p>
@@ -32,7 +32,7 @@
 <br/>
 <br/>
 
-@Html.Action("IndexPartial", "AccountRights", new {userId = Model.User.UserId }) 
+@Html.Action("IndexPartial", "AccountRights", new {userId = Model.UserId }) 
 
 <br/>
 

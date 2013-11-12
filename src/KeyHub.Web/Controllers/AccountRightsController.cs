@@ -10,7 +10,7 @@ using KeyHub.Web.ViewModels.UserObjectRight;
 
 namespace KeyHub.Web.Controllers
 {
-    [Authorize(Roles = Role.SystemAdmin)]
+    [Authorize]
     public class AccountRightsController : Controller
     {
         private readonly IDataContextFactory dataContextFactory;
@@ -47,6 +47,7 @@ namespace KeyHub.Web.Controllers
         /// <param name="objectType">The type of entity to create a right for</param>
         /// <exception cref="NotImplementedException">NotImplementedException if ObjectType is unhandled</exception>
         /// <returns>UserObjectRightCreateViewModel</returns>
+        [Authorize(Roles = Role.SystemAdmin)]
         public ActionResult Create(int userId, ObjectTypes objectType)
         {
             using (var context = dataContextFactory.CreateByUser())
@@ -90,7 +91,7 @@ namespace KeyHub.Web.Controllers
         /// </summary>
         /// <param name="viewModel">Created UserObjectRightCreateViewModel</param>
         /// <returns>Redirectaction to account overview if successfull</returns>
-        [HttpPost]
+        [HttpPost, Authorize(Roles = Role.SystemAdmin)]
         public ActionResult Create(UserObjectRightCreateViewModel viewModel)
         {
             if (ModelState.IsValid)
@@ -121,6 +122,7 @@ namespace KeyHub.Web.Controllers
             return Create(viewModel.UserId, viewModel.ObjectType);
         }
 
+        [Authorize(Roles = Role.SystemAdmin)]
         public ActionResult Delete(int userId, Guid rightId, Guid objectId, ObjectTypes type)
         {
             using (var context = dataContextFactory.CreateByUser())
@@ -148,8 +150,7 @@ namespace KeyHub.Web.Controllers
                 return RedirectToAction("Edit", "Account", new {id = userId});
             }
         }
-
-
+        
         /// <summary>
         /// Create a new instance of an UserObjectRight based on the provided objectType
         /// </summary>
