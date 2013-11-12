@@ -6,9 +6,30 @@
     ViewBag.Title = "Overview";
 }
 
-@Html.Flash()
+@section featured {
+    <h2>@ViewBag.ItemName <span>@ViewBag.Title</span></h2>
+}
 
-@Html.Action("DetailsPartial", "Account", new {id = Model.CurrentUser.UserId }) 
+<fieldset>
+    <legend>UserViewModel</legend>
+    <div class="editor-container-sideBySide">       
+        <div class="display-label">
+            @Html.DisplayNameFor(model => model.CurrentUser.Email)
+        </div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.CurrentUser.Email)
+        </div>
+    </div>
+</fieldset>
+
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.CurrentUser.UserId }, new { @class = "Btn"})
+    @if (OAuthWebSecurity.HasLocalAccount(Model.CurrentUser.UserId))
+    {
+        @Html.ActionLink("Change password", "ChangePassword", new {}, new { @class = "Btn"})
+    }
+    @Html.ActionLink("Link logins from other sites", "LinkAccount", new {}, new { @class = "Btn"})
+</p>
 
 <br/>
 <br/>

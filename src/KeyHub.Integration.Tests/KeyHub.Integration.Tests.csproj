@@ -89,6 +89,7 @@
     <Compile Include="TestSetup\KeyHubWebDriver.cs" />
     <Compile Include="TestSetup\PlainProcessDriver.cs" />
     <Compile Include="TestSetup\ProcessDriver.cs" />
+    <Compile Include="TestSetup\SiteUtil.cs" />
     <Compile Include="TransactionTests.cs" />
   </ItemGroup>
   <ItemGroup>

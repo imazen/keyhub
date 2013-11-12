@@ -6,11 +6,9 @@
     ViewBag.Title = "Details";
 }
 
-<h2>@ViewBag.ItemName <span>@ViewBag.Title</span></h2>
-
-<h3>
-    @Html.Flash()
-</h3>
+@section featured {
+    <h2>@ViewBag.ItemName <span>@ViewBag.Title</span></h2>
+}
 
 <fieldset>
     <legend>VendorDetailsViewItem</legend>

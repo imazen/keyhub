@@ -70,7 +70,7 @@ namespace KeyHub.Integration.Tests
                         browser.Navigate().GoToUrl(emailLink);
                         browser.FindElementByCssSelector("a[href^='/Account/Register']").Click();
 
-                        AccountTests.SubmitRegistrationForm(browser, customerEmail, customerPassword);
+                        SiteUtil.SubmitRegistrationForm(browser, customerEmail, customerPassword);
 
                         SubmitTransactionCheckoutFormWithNewCustomer(browser);
 
@@ -108,7 +108,7 @@ namespace KeyHub.Integration.Tests
             {
                 string editVendorUserUrl = null;
 
-                AccountTests.CreateLocalAccount(site, vendorEmail, vendorPassword, firstBrowser =>
+                SiteUtil.CreateLocalAccount(site, vendorEmail, vendorPassword, firstBrowser =>
                 {
                     firstBrowser.FindElementByCssSelector("a[href='/Account/LogOff']");
                     firstBrowser.Navigate().GoToUrl(site.UrlFor("/Account"));
@@ -122,7 +122,7 @@ namespace KeyHub.Integration.Tests
                 {
                     browser.Navigate().GoToUrl(site.UrlFor(editVendorUserUrl));
 
-                    AccountTests.SubmitLoginForm(browser, "admin", "password");
+                    SiteUtil.SubmitLoginForm(browser, "admin", "password");
 
                     browser.FindElementByCssSelector("a[href^='/AccountRights/Create']").Click();
 
@@ -137,7 +137,7 @@ namespace KeyHub.Integration.Tests
                 using (var browser = BrowserUtil.GetBrowser())
                 {
                     browser.Navigate().GoToUrl(site.UrlFor("/"));
-                    AccountTests.SubmitLoginForm(browser, vendorEmail, vendorPassword);
+                    SiteUtil.SubmitLoginForm(browser, vendorEmail, vendorPassword);
                     browser.FindElementByCssSelector("a[href='/Transaction/Create']").Click();
 
                     BrowserUtil.SetValueForChosenJQueryControl(browser, "div#Transaction_SelectedSKUGuids_chzn", vendorScenario.SkuCode);

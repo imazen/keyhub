@@ -4,12 +4,10 @@
 @{
     ViewBag.Title = "Link OpenID Accounts";
 }
-<hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
-    
-</hgroup>
 
-@Html.Flash()
+@section featured {
+    <h2>@ViewBag.Title.</h2>
+}
 
 <table cellpadding="30px">
     <tr>

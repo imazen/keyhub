@@ -10,7 +10,7 @@ using KeyHub.Web.ViewModels.UserObjectRight;
 
 namespace KeyHub.Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = Role.SystemAdmin)]
     public class AccountRightsController : Controller
     {
         private readonly IDataContextFactory dataContextFactory;

@@ -7,11 +7,13 @@ using System.Data.Entity.Infrastructure;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using DotNetOpenAuth.AspNet;
 using KeyHub.Model;
+using Microsoft.Ajax.Utilities;
 using Microsoft.Web.WebPages.OAuth;
 using KeyHub.Data;
 using KeyHub.Web.Models;
@@ -54,27 +56,10 @@ namespace KeyHub.Web.Controllers
         }
 
         /// <summary>
-        /// Get user details
-        /// </summary>
-        /// <param name="id">Id of the user to view</param>
-        /// <returns>User index view</returns>
-        [ChildActionOnly]
-        public ActionResult DetailsPartial(int id)
-        {
-            using (var context = dataContextFactory.Create())
-            {
-                var userQuery = (from u in context.Users where u.UserId == id select u);
-                
-                var viewModel = new UserViewModel(userQuery.FirstOrDefault());
-
-                return PartialView(viewModel);
-            }
-        }
-
-        /// <summary>
         /// Create a single User
         /// </summary>
         /// <returns>Create User view</returns>
+        [Authorize(Roles = Role.SystemAdmin)]
         public ActionResult Create()
         {
             var viewModel = new UserCreateViewModel(thisOne:true);
@@ -86,7 +71,7 @@ namespace KeyHub.Web.Controllers
         /// </summary>
         /// <param name="viewModel">Created UserViewModel</param>
         /// <returns>Redirectaction to index if successful</returns>
-        [HttpPost]
+        [HttpPost, ValidateAntiForgeryToken, Authorize(Roles = Role.SystemAdmin)]
         public ActionResult Create(UserCreateViewModel viewModel)
         {
             if (ModelState.IsValid)
@@ -96,18 +81,16 @@ namespace KeyHub.Web.Controllers
 
                 WebSecurity.CreateUserAndAccount(newMembershipUserIdentifier, viewModel.User.Password, new { Email = viewModel.User.Email });
 
-                if (WebSecurity.Login(newMembershipUserIdentifier, viewModel.User.Password))
+                Flash.Success("New user succesfully created");
+
+                if (Url.IsLocalUrl(viewModel.RedirectUrl))
                 {
-                    if (Url.IsLocalUrl(viewModel.RedirectUrl))
-                    {
-                        return Redirect(viewModel.RedirectUrl);
-                    }
-                    else
-                    {
-                        return RedirectToAction("Index", "Home");
-                    }
+                    return Redirect(viewModel.RedirectUrl);
                 }
-                ModelState.AddModelError("", "Failed to create a user with the provided email and password.");
+                else
+                {
+                    return RedirectToAction("Index", "Home");
+                }
             }
 
             //Viewmodel invalid, recall create
@@ -123,9 +106,15 @@ namespace KeyHub.Web.Controllers
         {
             using (var context = dataContextFactory.Create())
             {
-                var userQuery = (from u in context.Users where u.UserId == id select u);
+                var user = context.Users.FirstOrDefault(x => x.UserId == id);
+
+                if (user == null)
+                    return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+
+                if (!User.IsInRole(Role.SystemAdmin) && user.MembershipUserIdentifier != User.Identity.Name)
+                    return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
                 
-                var viewModel = new UserEditViewModel(userQuery.FirstOrDefault());
+                var viewModel = new UserEditViewModel(user);
 
                 return View(viewModel);
             }
@@ -144,15 +133,18 @@ namespace KeyHub.Web.Controllers
                 using (var context = dataContextFactory.Create())
                 {
                     var user = context.Users.FirstOrDefault(x => x.UserId == viewModel.User.UserId);
-                    if (user != null)
-                    {
-                        //Email can always be updated
-                        user.Email = viewModel.User.Email;
-                        context.SaveChanges();
 
-                        return RedirectToAction("Index");
-                    }
-                    ModelState.AddModelError("", "User not found");
+                    if (user == null)
+                        return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+
+                    if (!User.IsInRole(Role.SystemAdmin) && user.MembershipUserIdentifier != User.Identity.Name)
+                        return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+
+                    //Email can always be updated
+                    user.Email = viewModel.User.Email;
+                    context.SaveChanges();
+
+                    return RedirectToAction("Index");
                 }
             }
 

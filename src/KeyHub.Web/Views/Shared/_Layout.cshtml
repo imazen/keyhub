@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using MvcFlash.Core.Extensions
+<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8" />
@@ -25,22 +26,9 @@
             <div class="LayoutWrapper">
             <div class="LayoutContentContainer">
                 
-                @*<ul id="menu" class="Menu">
-                    <li>@Html.ActionLink("Vendors", "Index", "Vendor")</li>
-                    <li>@Html.ActionLink("Features", "Index", "Feature")</li>
-                    <li>@Html.ActionLink("SKUs", "Index", "SKU")</li>
-                </ul>
-
-                <ul class="Menu">
-                    
-                    <li>@Html.ActionLink("Customers", "Index", "Customer")</li>
-                    <li>@Html.ActionLink("Licenses", "Index", "License")</li>
-                    <li>@Html.ActionLink("Licensed applications", "Index", "CustomerApp")</li>
-                </ul>*@
-                   
-              
-        
                 @RenderSection("featured", required: false)
+                
+                @Html.Flash()
             
                 @RenderBody()
             

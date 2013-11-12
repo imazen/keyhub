@@ -26,7 +26,7 @@ namespace KeyHub.Integration.Tests
 
             using (var site = new KeyHubWebDriver())
             {
-                CreateLocalAccount(site, email, password);
+                SiteUtil.CreateLocalAccount(site, email, password);
 
                 using (var browser = BrowserUtil.GetBrowser())
                 {
@@ -41,7 +41,7 @@ namespace KeyHub.Integration.Tests
                     Assert.Contains("The email address used to login is already in use", errorText);
 
                     browser.Navigate().GoToUrl(site.UrlFor("/"));
-                    SubmitLoginForm(browser, email, password);
+                    SiteUtil.SubmitLoginForm(browser, email, password);
 
                     browser.FindElementByCssSelector("a[href='/Account']").Click();
                     browser.FindElementByCssSelector("a[href='/Account/LinkAccount']").Click();
@@ -69,12 +69,12 @@ namespace KeyHub.Integration.Tests
 
             using (var site = new KeyHubWebDriver())
             {
-                CreateLocalAccount(site, firstEmail, password);
+                SiteUtil.CreateLocalAccount(site, firstEmail, password);
 
                 using (var browser = BrowserUtil.GetBrowser())
                 {
                     browser.Navigate().GoToUrl(site.UrlFor("/"));
-                    SubmitLoginForm(browser, firstEmail, password);
+                    SiteUtil.SubmitLoginForm(browser, firstEmail, password);
                     browser.Navigate().GoToUrl(site.UrlFor("/"));
                     browser.FindElementByCssSelector("a[href^='/Account']").Click();
                     browser.FindElementByCssSelector("a[href^='/Account/Edit']").Click();
@@ -91,8 +91,8 @@ namespace KeyHub.Integration.Tests
                 using (var browser = BrowserUtil.GetBrowser())
                 {
                     browser.Navigate().GoToUrl(site.UrlFor("/"));
-                    SubmitLoginForm(browser, secondEmail.ToUpper(), password);
-                    WaitUntilUserIsLoggedIn(browser);
+                    SiteUtil.SubmitLoginForm(browser, secondEmail.ToUpper(), password);
+                    SiteUtil.WaitUntilUserIsLoggedIn(browser);
                 }
             }
         }
@@ -107,12 +107,12 @@ namespace KeyHub.Integration.Tests
 
             using (var site = new KeyHubWebDriver())
             {
-                CreateLocalAccount(site, email, firstPassword);
+                SiteUtil.CreateLocalAccount(site, email, firstPassword);
 
                 using (var browser = BrowserUtil.GetBrowser())
                 {
                     browser.Navigate().GoToUrl(site.UrlFor("/"));
-                    SubmitLoginForm(browser, email, firstPassword);
+                    SiteUtil.SubmitLoginForm(browser, email, firstPassword);
                     browser.Navigate().GoToUrl(site.UrlFor("/"));
                     browser.FindElementByCssSelector("a[href^='/Account']").Click();
                     browser.FindElementByCssSelector("a[href^='/Account/ChangePassword']").Click();
@@ -129,8 +129,8 @@ namespace KeyHub.Integration.Tests
                 using (var browser = BrowserUtil.GetBrowser())
                 {
                     browser.Navigate().GoToUrl(site.UrlFor("/"));
-                    SubmitLoginForm(browser, email, secondPassword);
-                    WaitUntilUserIsLoggedIn(browser);
+                    SiteUtil.SubmitLoginForm(browser, email, secondPassword);
+                    SiteUtil.WaitUntilUserIsLoggedIn(browser);
                 }
             }
         }
@@ -144,8 +144,8 @@ namespace KeyHub.Integration.Tests
 
             using (var site = new KeyHubWebDriver())
             {
-                CreateLocalAccount(site, email, password);
-                CreateLocalAccount(site, email, password, browser =>
+                SiteUtil.CreateLocalAccount(site, email, password);
+                SiteUtil.CreateLocalAccount(site, email, password, browser =>
                 {
                     var errorText = browser.FindElementByCssSelector(".validation-summary-errors li").Text;
                     Assert.Contains("The email address registered is already in use", errorText);
@@ -153,42 +153,35 @@ namespace KeyHub.Integration.Tests
             }
         }
 
-        public static void CreateLocalAccount(KeyHubWebDriver site, string email, string password, Action<RemoteWebDriver> onFinish = null)
+        [Fact]
+        [CleanDatabase]
+        public void AdminShouldBeAbleToCreateUsers()
         {
-            onFinish = onFinish ?? delegate(RemoteWebDriver browser)
+            var username = "someUser@example.com";
+            var password = "somePassword";
+
+            using (var site = new KeyHubWebDriver())
             {
-                WaitUntilUserIsLoggedIn(browser);
-            };
+                using (var browser = BrowserUtil.GetBrowser())
+                {
+                    browser.Navigate().GoToUrl(site.UrlFor("/Account/Create"));
+                    SiteUtil.SubmitLoginForm(browser, "admin", "password");
 
-            using (var browser = BrowserUtil.GetBrowser())
-            {
-                browser.Navigate().GoToUrl(site.UrlFor("Account/Register"));
+                    browser.FindElementByCssSelector("#User_Email").SendKeys(username);
+                    browser.FindElementByCssSelector("#User_Password").SendKeys(password);
+                    browser.FindElementByCssSelector("#User_ConfirmPassword").SendKeys(password);
+                    browser.FindElementByCssSelector("input[value='Save']").Click();
+                    var successMessage = browser.FindElementByCssSelector(".success");
+                    Assert.Contains("New user succesfully created", successMessage.Text);
+                }
 
-                SubmitRegistrationForm(browser, email, password);
-
-                onFinish(browser);
+                using (var browser = BrowserUtil.GetBrowser())
+                {
+                    browser.Navigate().GoToUrl(site.UrlFor("/"));
+                    SiteUtil.SubmitLoginForm(browser, "admin", "password");
+                    SiteUtil.WaitUntilUserIsLoggedIn(browser);
+                }
             }
-        }
-
-        private static IWebElement WaitUntilUserIsLoggedIn(RemoteWebDriver browser)
-        {
-            return browser.FindElementByCssSelector("a[href='/Account/LogOff']");
-        }
-
-        public static void SubmitLoginForm(RemoteWebDriver browser, string email, string password)
-        {
-            var formSelector = "form[action^='/Account/Login'] ";
-            browser.FindElementByCssSelector(formSelector + "input#Email").SendKeys(email);
-            browser.FindElementByCssSelector(formSelector + "input#Password").SendKeys(password);
-            browser.FindElementByCssSelector(formSelector + "input[value='Log in']").Click();
-        }
-
-        public static void SubmitRegistrationForm(RemoteWebDriver browser, string email, string password)
-        {
-            browser.FindElementByCssSelector("input[name=Email]").SendKeys(email);
-            browser.FindElementByCssSelector("input[name=Password]").SendKeys(password);
-            browser.FindElementByCssSelector("input[name=ConfirmPassword]").SendKeys(password);
-            browser.FindElementByCssSelector("input[value=Register]").Click();
         }
 
         private static void FillGoogleLoginForm(RemoteWebDriver browser, string email, string password)
