@@ -20,6 +20,7 @@
             @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl }))
             {
                 @Html.ValidationSummary()
+                @Html.AntiForgeryToken()
 
                 <fieldset>
                     <legend>Registration Form</legend>

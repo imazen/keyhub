@@ -16,6 +16,7 @@
 
             @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl })) {
                 @Html.ValidationSummary(true, "Log in was unsuccessful. Please correct the errors and try again.")
+                @Html.AntiForgeryToken()
 
                 <fieldset>
                     <legend>Log in Form</legend>
