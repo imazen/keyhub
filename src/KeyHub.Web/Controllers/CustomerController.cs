@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web.Mvc;
 using KeyHub.Web.ViewModels.Customer;
 using KeyHub.Data;
+using MvcFlash.Core;
 
 namespace KeyHub.Web.Controllers
 {
@@ -71,6 +72,7 @@ namespace KeyHub.Web.Controllers
                     context.Customers.Add(customer);
 
                     context.SaveChanges();
+                    Flash.Success("The customer was successfully created.");
                 }
                 return RedirectToAction("Index");
             }

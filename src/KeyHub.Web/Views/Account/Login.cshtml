@@ -32,9 +32,15 @@
                             @Html.CheckBoxFor(m => m.RememberMe)
                             @Html.LabelFor(m => m.RememberMe, new { @class = "checkbox" })
                         </div>
+                        <br/>
+                        <div>
+                            <input type="submit" value="Log in" />
+                        </div>
                     </div>
-                    <br/>
-                    <input type="submit" value="Log in" />
+                    
+                    <h3>
+                        If you don't have an account yet, you can @Html.ActionLink("register here", "Register", "Account").
+                    </h3>
                 </fieldset>
             }   
         </td>

@@ -126,7 +126,7 @@ namespace KeyHub.Integration.Tests
 
                     browser.FindElementByCssSelector("a[href^='/AccountRights/Create']").Click();
 
-                    BrowserUtil.SetValueForChosenJQueryControl(browser, "#ObjectId_chzn", vendorScenario.VendorName);
+                    SiteUtil.SetValueForChosenJQueryControl(browser, "#ObjectId_chzn", vendorScenario.VendorName);
 
                     browser.FindElementByCssSelector("input[type='submit'][value='Create']").Click();
 
@@ -140,7 +140,7 @@ namespace KeyHub.Integration.Tests
                     SiteUtil.SubmitLoginForm(browser, vendorEmail, vendorPassword);
                     browser.FindElementByCssSelector("a[href='/Transaction/Create']").Click();
 
-                    BrowserUtil.SetValueForChosenJQueryControl(browser, "div#Transaction_SelectedSKUGuids_chzn", vendorScenario.SkuCode);
+                    SiteUtil.SetValueForChosenJQueryControl(browser, "div#Transaction_SelectedSKUGuids_chzn", vendorScenario.SkuCode);
 
                     browser.FindElementByCssSelector("form[action^='/Transaction/Create'] input[type='submit']").Click();
 

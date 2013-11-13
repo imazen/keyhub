@@ -19,20 +19,5 @@ namespace KeyHub.Integration.Tests.TestSetup
             result.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(5));
             return result;
         }
-
-        public static void SetValueForChosenJQueryControl(RemoteWebDriver browser, string cssSelector, string value)
-        {
-            // We're using the jQuery Chosen library for some front-end widgets.  These require special 
-            // handling to get the timing correct.
-
-            var selector = browser.FindElementByCssSelector(cssSelector);
-
-            selector.Click();
-            
-            var wait = new WebDriverWait(browser, TimeSpan.FromSeconds(2));
-            wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector(cssSelector + " input[type=text]")));
-
-            browser.FindElementByCssSelector(cssSelector + " input[type=text]").SendKeys(value + Keys.Enter);
-        }
     }
 }

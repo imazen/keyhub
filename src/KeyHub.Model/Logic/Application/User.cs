@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Web.Security;
 
 namespace KeyHub.Model
 {
@@ -21,8 +22,7 @@ namespace KeyHub.Model
                 if (MembershipUserIdentifier == null)
                     return false;
 
-                var userRoles = System.Web.Security.Roles.GetRolesForUser(MembershipUserIdentifier);
-                return userRoles.Contains(Role.SystemAdmin);
+                return Roles.IsUserInRole(MembershipUserIdentifier, Role.SystemAdmin);
             }
         }
 

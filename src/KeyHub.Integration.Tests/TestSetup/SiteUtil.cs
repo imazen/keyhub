@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Remote;
+using OpenQA.Selenium.Support.UI;
 
 namespace KeyHub.Integration.Tests.TestSetup
 {
@@ -47,6 +48,21 @@ namespace KeyHub.Integration.Tests.TestSetup
             browser.FindElementByCssSelector("input[name=Password]").SendKeys(password);
             browser.FindElementByCssSelector("input[name=ConfirmPassword]").SendKeys(password);
             browser.FindElementByCssSelector("input[value=Register]").Click();
+        }
+
+        public static void SetValueForChosenJQueryControl(RemoteWebDriver browser, string cssSelector, string value)
+        {
+            // We're using the jQuery Chosen library for some front-end widgets.  These require special 
+            // handling to get the timing correct.
+
+            var selector = browser.FindElementByCssSelector(cssSelector);
+
+            selector.Click();
+            
+            var wait = new WebDriverWait(browser, TimeSpan.FromSeconds(2));
+            wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector(cssSelector + " input[type=text]")));
+
+            browser.FindElementByCssSelector(cssSelector + " input[type=text]").SendKeys(value + Keys.Enter);
         }
     }
 }

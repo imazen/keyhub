@@ -75,6 +75,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountRightsTests.cs" />
     <Compile Include="AccountTests.cs" />
     <Compile Include="AdminTests.cs" />
     <Compile Include="CheckedDataContextFactory.cs" />
