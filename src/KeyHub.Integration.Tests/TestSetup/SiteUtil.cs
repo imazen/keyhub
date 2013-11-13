@@ -64,5 +64,32 @@ namespace KeyHub.Integration.Tests.TestSetup
 
             browser.FindElementByCssSelector(cssSelector + " input[type=text]").SendKeys(value + Keys.Enter);
         }
+
+        public static void SetDateValueForJQueryDatepicker(RemoteWebDriver browser, string elementSelector, DateTime value)
+        {
+            var formattedDate = value.ToString("d MMMM yyyy");
+            browser.FindElementByCssSelector(elementSelector);
+            browser.ExecuteScript("$(arguments[0]).datepicker('setDate', arguments[1]);", elementSelector, formattedDate);
+        }
+
+        public static string CreateCustomer(RemoteWebDriver browser)
+        {
+            var customerName = "customer.name";
+
+            browser.FindElementByCssSelector("a[href='/Customer']").Click();
+            browser.FindElementByCssSelector("a[href='/Customer/Create']").Click();
+
+            browser.FindElementByCssSelector("#Customer_Name").SendKeys(customerName);
+            browser.FindElementByCssSelector("#Customer_Department").SendKeys("customer.department");
+            browser.FindElementByCssSelector("#Customer_Street").SendKeys("customer.street");
+            browser.FindElementByCssSelector("#Customer_PostalCode").SendKeys("customer.postalcode");
+            browser.FindElementByCssSelector("#Customer_City").SendKeys("customer.city");
+            browser.FindElementByCssSelector("#Customer_Region").SendKeys("customer.region");
+            browser.FindElementByCssSelector("input[value='Create Customer']").Click();
+
+            browser.FindElementByCssSelector(".success");
+
+            return customerName;
+        }
     }
 }

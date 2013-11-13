@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using KeyHub.Integration.Tests.TestSetup;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.UI;
 using Xunit;
 
@@ -34,30 +35,19 @@ namespace KeyHub.Integration.Tests
                     browser.Navigate().GoToUrl(site.UrlFor("/"));
                     SiteUtil.SubmitLoginForm(browser, "admin", "password");
 
-                    browser.FindElementByCssSelector("a[href='/Customer']").Click();
-                    browser.FindElementByCssSelector("a[href='/Customer/Create']").Click();
-
-                    browser.FindElementByCssSelector("#Customer_Name").SendKeys("customer.name");
-                    browser.FindElementByCssSelector("#Customer_Department").SendKeys("customer.department");
-                    browser.FindElementByCssSelector("#Customer_Street").SendKeys("customer.street");
-                    browser.FindElementByCssSelector("#Customer_PostalCode").SendKeys("customer.postalcode");
-                    browser.FindElementByCssSelector("#Customer_City").SendKeys("customer.city");
-                    browser.FindElementByCssSelector("#Customer_Region").SendKeys("customer.region");
-                    browser.FindElementByCssSelector("input[value='Create Customer']").Click();
-
-                    browser.FindElementByCssSelector(".success");
+                    var customerName = SiteUtil.CreateCustomer(browser);
 
                     browser.Navigate().GoToUrl(userEditUrl);
                     browser.FindElementByCssSelector("a[href^='/AccountRights/Create'][href*='Customer']").Click();
 
-                    SiteUtil.SetValueForChosenJQueryControl(browser, "#ObjectId_chzn", "customer.name");
+                    SiteUtil.SetValueForChosenJQueryControl(browser, "#ObjectId_chzn", customerName);
                     browser.FindElementByCssSelector("input[value='Create']").Click();
 
                     browser.FindElementByCssSelector(".account-rights-table");
                     var accountRights = browser.FindElementsByCssSelector(".account-rights-table tbody tr");
                     
                     Assert.Equal(1, accountRights.Count());
-                    Assert.Contains("customer.name", accountRights.First().Text);
+                    Assert.Contains(customerName, accountRights.First().Text);
 
                     accountRights.First().FindElement(By.CssSelector("a[href^='/AccountRights/Delete']")).Click();
 

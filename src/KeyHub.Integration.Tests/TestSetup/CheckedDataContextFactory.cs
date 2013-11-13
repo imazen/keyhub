@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Principal;
-using System.Text;
-using System.Threading.Tasks;
 using KeyHub.Data;
 
-namespace KeyHub.Integration.Tests
+namespace KeyHub.Integration.Tests.TestSetup
 {
     public class CheckedDataContextFactory : IDataContextFactory, IDisposable
     {

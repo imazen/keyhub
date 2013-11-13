@@ -71,6 +71,7 @@ namespace KeyHub.Integration.Tests
                         browser.FindElementByCssSelector("a[href^='/Account/Register']").Click();
 
                         SiteUtil.SubmitRegistrationForm(browser, customerEmail, customerPassword);
+                        SiteUtil.WaitUntilUserIsLoggedIn(browser);
 
                         SubmitTransactionCheckoutFormWithNewCustomer(browser);
 
