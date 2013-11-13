@@ -579,8 +579,6 @@
     <Content Include="Views\CustomerApp\IndexPartial.cshtml" />
     <Content Include="Views\Account\Edit.cshtml" />
     <Content Include="Views\Account\Create.cshtml" />
-    <Content Include="Views\CustomerApp\CreatePartial.cshtml" />
-    <Content Include="Views\DomainLicense\CreatePartial.cshtml" />
     <Content Include="Views\AccountRights\IndexPartial.cshtml" />
     <Content Include="Views\AccountRights\Create.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml">
