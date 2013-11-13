@@ -1,6 +1,5 @@
-﻿
-TransactionController.Create
-	is setting "n/a" values for License.PurchaserName and PurchaserEmail
+﻿Firefox25 broke some tests, had to rollback to 24 and disable firefox automatic updates.
+
 
 
 TransactionByIpnController.PostTransactionByIpn should have tests
