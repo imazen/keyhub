@@ -75,7 +75,13 @@ namespace KeyHub.Web.Controllers
             {
                 using (var context = dataContextFactory.CreateByUser())
                 {
+                    var license = context.Licenses.Where(l => l.ObjectId == viewModel.DomainLicense.LicenseId)
+                        .Include(l => l.Sku)
+                        .Include(l => l.Sku.PrivateKey)
+                        .SingleOrDefault();
+
                     DomainLicense domainLicense = viewModel.ToEntity(null);
+                    domainLicense.KeyBytes = license.Sku.PrivateKey.KeyBytes;
 
                     context.DomainLicenses.Add(domainLicense);
 
