@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using KeyHub.Data;
@@ -121,33 +122,117 @@ namespace KeyHub.Web.Controllers
             return Create(viewModel.UserId, viewModel.ObjectType);
         }
 
+        public class UserObjectRightViewModel
+        {
+            public int UserId { get; set; }
+            public Guid RightId { get; set; }
+            public Guid ObjectId { get; set; }
+            public ObjectTypes Type { get; set; }
+
+            public string UserEmail { get; set; }
+            public string Name { get; set; }
+            public string Url { get; set; }
+        }
+
         [Authorize]
         public ActionResult Delete(int userId, Guid rightId, Guid objectId, ObjectTypes type)
         {
             using (var context = dataContextFactory.CreateByUser())
             {
+                var model = new UserObjectRightViewModel()
+                {
+                    UserId = userId,
+                    RightId = rightId,
+                    ObjectId = objectId,
+                    Type = type,
+                    UserEmail = context.Users.Single(u => u.UserId == userId).Email
+                };
+
                 switch (type)
                 {
                     case ObjectTypes.Vendor:
                         var vendorRight = (from x in context.UserVendorRights 
-                            where x.UserId == userId && x.RightId == rightId && x.ObjectId == objectId select x).FirstOrDefault();
-                        context.UserVendorRights.Remove(vendorRight);
+                            where x.UserId == userId && x.RightId == rightId && x.ObjectId == objectId select x)
+                            .Include(r => r.Vendor)
+                            .FirstOrDefault();
+
+                        model.Name = vendorRight.Vendor.Name;
+                        model.Url = "/Vendor/Details?key=" + objectId;
                         break;
                     case ObjectTypes.Customer:
                         var customerRight = (from x in context.UserCustomerRights 
-                            where x.UserId == userId && x.RightId == rightId && x.ObjectId == objectId select x).FirstOrDefault();
-                        context.UserCustomerRights.Remove(customerRight);
+                            where x.UserId == userId && x.RightId == rightId && x.ObjectId == objectId select x)
+                            .Include(r => r.Customer)
+                            .FirstOrDefault();
+
+                        model.Name = customerRight.Customer.Name;
+                        model.Url = "/Customer/Edit?key=" + objectId;
                         break;
                     case ObjectTypes.License:
                         var licenseRight = (from x in context.UserLicenseRights 
-                            where x.UserId == userId && x.RightId == rightId && x.ObjectId == objectId select x).FirstOrDefault();
+                            where x.UserId == userId && x.RightId == rightId && x.ObjectId == objectId select x)
+                            .Include(r => r.License)
+                            .Include(r => r.License.Sku)
+                            .FirstOrDefault();
+
+                        model.Name = licenseRight.License.Sku.SkuCode;
+                        model.Url = "/License/Details?key=" + objectId;
+                        break;
+                    default:
+                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+
+                return View(model);
+            }
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public ActionResult Delete(UserObjectRightViewModel model)
+        {
+            using (var context = dataContextFactory.CreateByUser())
+            {
+                var userId = model.UserId;
+                var rightId = model.RightId;
+                var objectId = model.ObjectId;
+                
+                switch (model.Type)
+                {
+                    case ObjectTypes.Vendor:
+                        var vendorRight = (from x in context.UserVendorRights
+                                           where x.UserId == userId && x.RightId == rightId && x.ObjectId == objectId
+                                           select x)
+                            .Include(r => r.Vendor)
+                            .FirstOrDefault();
+
+                        context.UserVendorRights.Remove(vendorRight);
+                        break;
+                    case ObjectTypes.Customer:
+                        var customerRight = (from x in context.UserCustomerRights
+                                             where x.UserId == userId && x.RightId == rightId && x.ObjectId == objectId
+                                             select x)
+                            .Include(r => r.Customer)
+                            .FirstOrDefault();
+
+                        context.UserCustomerRights.Remove(customerRight);
+                        break;
+                    case ObjectTypes.License:
+                        var licenseRight = (from x in context.UserLicenseRights
+                                            where x.UserId == userId && x.RightId == rightId && x.ObjectId == objectId
+                                            select x)
+                            .Include(r => r.License)
+                            .Include(r => r.License.Sku)
+                            .FirstOrDefault();
+
                         context.UserLicenseRights.Remove(licenseRight);
                         break;
+                    default:
+                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
+
                 context.SaveChanges();
 
                 return RedirectToAction("Edit", "Account", new {id = userId});
-            }
+            }            
         }
         
         /// <summary>

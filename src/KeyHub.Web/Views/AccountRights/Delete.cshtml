@@ -1,0 +1,20 @@
+﻿@model KeyHub.Web.Controllers.AccountRightsController.UserObjectRightViewModel
+
+@{
+    ViewBag.Title = "Delete Right";
+}
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken();
+
+    <p>Are you sure you want to delete @{@Model.UserEmail}'s right to <a href="@Model.Url">@Model.Name</a>?</p>
+        
+    @Html.HiddenFor(model => model.ObjectId)
+    @Html.HiddenFor(model => model.RightId)
+    @Html.HiddenFor(model => model.UserId)
+    @Html.HiddenFor(model => model.Type)
+        
+    <p>
+        <input type="submit" value="Confirm Delete" />
+    </p>
+}

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using KeyHub.Integration.Tests.TestSetup;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
@@ -62,6 +60,8 @@ namespace KeyHub.Integration.Tests
                     Assert.Contains("customer.name", accountRights.First().Text);
 
                     accountRights.First().FindElement(By.CssSelector("a[href^='/AccountRights/Delete']")).Click();
+
+                    browser.FindElementByCssSelector("input[value='Confirm Delete']").Click();
 
                     new WebDriverWait(browser, TimeSpan.FromSeconds(2)).Until(waitBrowser =>
                     {

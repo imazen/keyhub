@@ -597,6 +597,7 @@
     <Content Include="Views\Shared\Flash.cshtml" />
     <Content Include="Views\VendorCredential\CreateEdit.cshtml" />
     <Content Include="Views\VendorCredential\Remove.cshtml" />
+    <Content Include="Views\AccountRights\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
