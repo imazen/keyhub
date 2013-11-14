@@ -94,7 +94,7 @@ namespace KeyHub.Web.Controllers
         /// </summary>
         /// <param name="viewModel">Created CustomerAppCreateViewModel</param>
         /// <returns>Redirectaction to index if successfull</returns>
-        [HttpPost]
+        [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Create(CustomerAppCreateViewModel viewModel)
         {
             var result = TryToSaveCustomerApp(viewModel);
@@ -233,7 +233,7 @@ namespace KeyHub.Web.Controllers
         /// </summary>
         /// <param name="viewModel">Edited CustomerAppEditViewModel</param>
         /// <returns>Redirectaction to index if successfull</returns>
-        [HttpPost]
+        [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Edit(CustomerAppEditViewModel viewModel)
         {
             if (ModelState.IsValid)

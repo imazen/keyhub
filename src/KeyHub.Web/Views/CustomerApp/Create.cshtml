@@ -8,8 +8,9 @@
 <h2>@ViewBag.Title <span>@ViewBag.ItemName</span></h2>
 
 @using (Html.BeginForm()) {
-    @Html.HiddenFor(m => m.ApplicationId);
     @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.ApplicationId);
 
     <fieldset>
         <legend>CustomerAppViewModel</legend>
