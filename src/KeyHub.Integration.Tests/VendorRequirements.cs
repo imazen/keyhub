@@ -31,8 +31,21 @@ namespace KeyHub.Integration.Tests
 
             using (var site = new KeyHubWebDriver())
             {
-                //  Create a user account for the vendor, with vendor rights
+                //  The vendor creates their user account
                 SiteUtil.CreateLocalAccount(site, vendorEmail, vendorPassword);
+
+                //  The admin makes that user account a vendor.
+                using (var browser = BrowserUtil.GetBrowser())
+                {
+                    browser.Navigate().GoToUrl(site.UrlFor("/"));
+                    SiteUtil.SubmitLoginForm(browser, "admin", "password");
+
+                    var vendorName = SiteUtil.CreateVendor(browser);
+
+                    SiteUtil.CreateAccountRightsFor(browser, vendorEmail, ObjectTypes.Vendor, vendorName);
+                }
+
+                //  As admin, create a vendor and assign vendor rights to the new user.
 
                 using (var context = new DataContext())
                 {
@@ -45,6 +58,8 @@ namespace KeyHub.Integration.Tests
 
                     context.SaveChanges();
                 }
+
+                // as a vendor, create two features, two skus, and an (additional) license
 
                 using (var browser = BrowserUtil.GetBrowser())
                 {

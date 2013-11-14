@@ -170,13 +170,16 @@ namespace KeyHub.Web.Controllers
 
             using (var context = dataContextFactory.CreateByUser())
             {
-                var availableLicenses = (from x in context.Licenses select x).Include(x => x.Sku).ToList();
+                var availableLicenses = (from x in context.Licenses select x)
+                    .Include(x => x.Sku)
+                    .Include(x => x.OwningCustomer)
+                    .ToList();
 
                 viewModel = new CustomerAppCreateViewModel()
                 {
                     LicenseList = availableLicenses.Select(l => new SelectListItem()
                     {
-                        Text = l.Sku.SkuCode,
+                        Text = string.Format("{0} owned by {1}", l.Sku.SkuCode, l.OwningCustomer.Name),
                         Value = l.ObjectId.ToString()
                     }).ToList(),
                     SelectedLicenseGUIDs = new List<Guid>()
@@ -202,6 +205,8 @@ namespace KeyHub.Web.Controllers
                 model.ApplicationName = customerApp.ApplicationName;
                 model.SelectedLicenseGUIDs = customerApp.LicenseCustomerApps.Select(lca => lca.LicenseId).ToList();
             }
+
+            return model;
         }
 
         /// <summary>

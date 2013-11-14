@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using KeyHub.Model;
 using KeyHub.Web.ViewModels.Vendor;
 using KeyHub.Data;
+using MvcFlash.Core;
 
 namespace KeyHub.Web.Controllers
 {
@@ -94,6 +95,7 @@ namespace KeyHub.Web.Controllers
                         context.Vendors.Add(vendor);
 
                         context.SaveChanges();
+                        Flash.Success("The vendor was created.");
                         return RedirectToAction("Details", new { key = vendor.ObjectId });
                     }
                 }

@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using KeyHub.Data;
 using KeyHub.Model;
 using KeyHub.Web.ViewModels.UserObjectRight;
+using MvcFlash.Core;
 
 namespace KeyHub.Web.Controllers
 {
@@ -108,6 +109,7 @@ namespace KeyHub.Web.Controllers
                         context.UserLicenseRights.Add(userObjectRight as UserLicenseRight);
 
                     context.SaveChanges();
+                    Flash.Success(String.Format("Successfully granted {0} rights to {1}.", viewModel.ObjectType, viewModel.Email));
                 }
 
                 if (!string.IsNullOrEmpty(viewModel.RedirectUrl))

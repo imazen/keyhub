@@ -23,11 +23,11 @@ namespace KeyHub.Integration.Tests
                 {
                     //  Log in as pre-created admin user
                     browser.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(3));
-                    browser.Navigate().GoToUrl(site.UrlFor("/Vendor/Create"));
+                    browser.Navigate().GoToUrl(site.UrlFor("/"));
                     SiteUtil.SubmitLoginForm(browser, "admin", "password");
 
                     //  Create a vendor
-                    FillAndSubmitCreateVendorForm(browser);
+                    SiteUtil.CreateVendor(browser);
 
                     //  Create a VendorCredential for the vendor
                     browser.FindElementByCssSelector("a[href^='/VendorCredential/Create']").Click();
@@ -84,17 +84,6 @@ namespace KeyHub.Integration.Tests
         {
             Assert.Equal(name, browser.FindElementByCssSelector("input#CredentialName").GetAttribute("value"));
             Assert.Equal(value, browser.FindElementByCssSelector("input#CredentialValue").GetAttribute("value"));
-        }
-
-        private static void FillAndSubmitCreateVendorForm(RemoteWebDriver browser)
-        {
-            browser.FindElementByCssSelector("input#Vendor_Name").SendKeys("vendor name");
-            browser.FindElementByCssSelector("input#Vendor_Street").SendKeys("vendor street");
-            browser.FindElementByCssSelector("input#Vendor_PostalCode").SendKeys("vendor street");
-            browser.FindElementByCssSelector("input#Vendor_City").SendKeys("vendor city");
-            browser.FindElementByCssSelector("input#Vendor_Region").SendKeys("vendor region");
-
-            browser.FindElementByCssSelector("form[action='/Vendor/Create'] input[type=submit]").Click();
         }
     }
 }

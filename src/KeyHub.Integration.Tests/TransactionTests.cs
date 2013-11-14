@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using KeyHub.Integration.Tests.TestSetup;
+using KeyHub.Model;
 using netDumbster.smtp;
 using Newtonsoft.Json;
 using OpenQA.Selenium;
@@ -125,14 +126,7 @@ namespace KeyHub.Integration.Tests
 
                     SiteUtil.SubmitLoginForm(browser, "admin", "password");
 
-                    browser.FindElementByCssSelector("a[href^='/AccountRights/Create']").Click();
-
-                    SiteUtil.SetValueForChosenJQueryControl(browser, "#ObjectId_chzn", vendorScenario.VendorName);
-
-                    browser.FindElementByCssSelector("input[type='submit'][value='Create']").Click();
-
-                    //  To ensure the vendor right was created, we check that the delete button renders.
-                    browser.FindElementByCssSelector("a[href^='/AccountRights/Delete']");
+                    SiteUtil.CreateAccountRightsFor(browser, vendorEmail, ObjectTypes.Vendor, vendorScenario.VendorName);
                 }
 
                 using (var browser = BrowserUtil.GetBrowser())

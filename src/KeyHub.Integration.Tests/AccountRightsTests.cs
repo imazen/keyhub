@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using KeyHub.Integration.Tests.TestSetup;
+using KeyHub.Model;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.UI;
@@ -17,17 +18,17 @@ namespace KeyHub.Integration.Tests
         {
             using (var site = new KeyHubWebDriver())
             {
-                string userEditUrl;
+                string userEmail = "username@example.com";
 
                 using (var browser = BrowserUtil.GetBrowser())
                 {
                     browser.Navigate().GoToUrl(site.UrlFor("/"));
                     browser.FindElementByCssSelector("a[href^='/Account/Register']").Click();
-                    SiteUtil.SubmitRegistrationForm(browser, "username@example.com", "password");
+                    SiteUtil.SubmitRegistrationForm(browser, userEmail, "password");
                     SiteUtil.WaitUntilUserIsLoggedIn(browser);
 
                     browser.FindElementByCssSelector("a[href^='/Account']").Click();
-                    userEditUrl = browser.FindElementByCssSelector("a[href^='/Account/Edit']").GetAttribute("href");
+                    browser.FindElementByCssSelector("a[href^='/Account/Edit']").GetAttribute("href");
                 }
 
                 using (var browser = BrowserUtil.GetBrowser())
@@ -37,11 +38,7 @@ namespace KeyHub.Integration.Tests
 
                     var customerName = SiteUtil.CreateCustomer(browser);
 
-                    browser.Navigate().GoToUrl(userEditUrl);
-                    browser.FindElementByCssSelector("a[href^='/AccountRights/Create'][href*='Customer']").Click();
-
-                    SiteUtil.SetValueForChosenJQueryControl(browser, "#ObjectId_chzn", customerName);
-                    browser.FindElementByCssSelector("input[value='Create']").Click();
+                    SiteUtil.CreateAccountRightsFor(browser, userEmail, ObjectTypes.Customer, customerName);
 
                     browser.FindElementByCssSelector(".account-rights-table");
                     var accountRights = browser.FindElementsByCssSelector(".account-rights-table tbody tr");
