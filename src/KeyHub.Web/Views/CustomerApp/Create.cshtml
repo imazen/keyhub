@@ -13,23 +13,20 @@
     <fieldset>
         <legend>CustomerAppViewModel</legend>
 
-        @Html.HiddenFor(model => model.CustomerApp.CustomerAppId)
-        @Html.HiddenFor(model => model.RedirectUrl)
-
         <div class="editor-label">
-            @Html.LabelFor(model => model.CustomerApp.ApplicationName)
+            @Html.LabelFor(model => model.ApplicationName)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.CustomerApp.ApplicationName)
-            @Html.ValidationMessageFor(model => model.CustomerApp.ApplicationName)
+            @Html.EditorFor(model => model.ApplicationName)
+            @Html.ValidationMessageFor(model => model.ApplicationName)
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.CustomerApp.SelectedLicenseGUIDs)
+            @Html.LabelFor(model => model.SelectedLicenseGUIDs)
         </div>
         <div class="editor-field">
-            @Html.ListBoxFor(model => model.CustomerApp.SelectedLicenseGUIDs, Model.LicenseList)
-            @Html.ValidationMessageFor(model => model.CustomerApp.SelectedLicenseGUIDs)
+            @Html.ListBoxFor(model => model.SelectedLicenseGUIDs, Model.LicenseList)
+            @Html.ValidationMessageFor(model => model.SelectedLicenseGUIDs)
         </div>
 
         <p>

@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using DotNetOpenAuth.Messaging;
 using KeyHub.Data.BusinessRules;
 using KeyHub.Model;
 using KeyHub.Web.ViewModels.CustomerApp;
@@ -85,16 +86,7 @@ namespace KeyHub.Web.Controllers
         /// <returns>Create CustomerApp view</returns>
         public ActionResult Create()
         {
-            using (var context = dataContextFactory.CreateByUser())
-            {
-                //License will be recognized by SKU, so eager load SKU
-                var licenseQuery = (from x in context.Licenses select x).Include(x => x.Sku);
-
-                var viewModel = new CustomerAppCreateViewModel(licenseQuery.ToList())
-                                    {RedirectUrl = (Request.UrlReferrer != null) ? Request.UrlReferrer.ToString() : ""};
-
-                return View(viewModel);
-            }
+            return View(GetCreateModel());
         }
 
         /// <summary>
@@ -109,36 +101,67 @@ namespace KeyHub.Web.Controllers
             {
                 using (var context = dataContextFactory.CreateByUser())
                 {
-                    Model.CustomerApp customerApp = viewModel.ToEntity(null);
-                    context.CustomerApps.Add(customerApp);
-
-                    //Offload adding CustomerAppLicenses to Dynamic SKU Model
-                    customerApp.AddLicenses(viewModel.GetNewLicenseGUIDs());
-                    if (!context.SaveChanges(CreateValidationFailed))
+                    var customerApp = new Model.CustomerApp()
                     {
-                        return Create();
-                    }
-
-                    //Create customer application key
-                    var customerAppKey = new Model.CustomerAppKey()
-                    {
-                        CustomerAppId = customerApp.CustomerAppId
+                        ApplicationName = viewModel.ApplicationName
                     };
 
-                    context.CustomerAppKeys.Add(customerAppKey);
-                    context.SaveChanges();
-                    Flash.Success("The licensed application was created.");
+                    context.CustomerApps.Add(customerApp);
 
-                    if (!string.IsNullOrEmpty(viewModel.RedirectUrl))
+                    var allowedLicenses = context.Licenses.Where(l => viewModel.SelectedLicenseGUIDs.Contains(l.ObjectId)).ToArray();
+
+                    if (viewModel.SelectedLicenseGUIDs.Count() != allowedLicenses.Count())
                     {
-                        return Redirect(viewModel.RedirectUrl);
+                        ModelState.AddModelError("",
+                            "Attempted to license application with unrecognized or unpermitted license.");
                     }
+                    else
+                    {
+                        customerApp.LicenseCustomerApps.AddRange(
+                            allowedLicenses.Select(lid => new LicenseCustomerApp()
+                            {
+                                CustomerApp = customerApp,
+                                License = lid
+                            }));
 
-                    return RedirectToAction("Index");
+                        customerApp.CustomerAppKeys.Add(new CustomerAppKey(){});
+
+                        if (context.SaveChanges(CreateValidationFailed))
+                        {
+                            Flash.Success("The licensed application was created.");
+
+                            return RedirectToAction("Index");
+                        }
+                    }
                 }
             }
 
-            return View(viewModel);
+            var model = GetCreateModel();
+            model.ApplicationName = viewModel.ApplicationName;
+            model.SelectedLicenseGUIDs = viewModel.SelectedLicenseGUIDs;
+
+            return View(model);
+        }
+
+        private CustomerAppCreateViewModel GetCreateModel()
+        {
+            CustomerAppCreateViewModel viewModel;
+
+            using (var context = dataContextFactory.CreateByUser())
+            {
+                var availableLicenses = (from x in context.Licenses select x).Include(x => x.Sku).ToList();
+
+                viewModel = new CustomerAppCreateViewModel()
+                {
+                    LicenseList = availableLicenses.Select(l => new SelectListItem()
+                    {
+                        Text = l.Sku.SkuCode,
+                        Value = l.ObjectId.ToString()
+                    }).ToList(),
+                    SelectedLicenseGUIDs = new List<Guid>()
+                };
+            }
+            return viewModel;
         }
 
         /// <summary>

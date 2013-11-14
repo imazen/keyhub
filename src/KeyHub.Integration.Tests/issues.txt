@@ -1,4 +1,9 @@
-﻿Firefox25 broke some tests, had to rollback to 24 and disable firefox automatic updates.
+﻿// http://localhost:1335/CustomerApp/Edit doesn't really support changing the sku list, maybe make the field read only
+
+// do security things for CustomerAppController
+
+
+Firefox25 broke some tests, had to rollback to 24 and disable firefox automatic updates.
 
 
 

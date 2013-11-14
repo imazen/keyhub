@@ -72,8 +72,8 @@ namespace KeyHub.Integration.Tests
                     browser.Navigate().GoToUrl(site.UrlFor("/"));
                     browser.FindElementByCssSelector("a[href='/CustomerApp']").Click();
                     browser.FindElementByCssSelector("a[href='/CustomerApp/Create']").Click();
-                    browser.FindElementByCssSelector("input#CustomerApp_ApplicationName").SendKeys(firstCustomerAppName);
-                    SiteUtil.SetValueForChosenJQueryControl(browser, "#CustomerApp_SelectedLicenseGUIDs_chzn", vendorScenario.SkuCode);
+                    browser.FindElementByCssSelector("input#ApplicationName").SendKeys(firstCustomerAppName);
+                    SiteUtil.SetValueForChosenJQueryControl(browser, "#SelectedLicenseGUIDs_chzn", vendorScenario.SkuCode);
                     browser.FindElementByCssSelector("form[action='/CustomerApp/Create'] input[type=submit]").Click();
                     browser.FindElementByCssSelector(".success");
 
