@@ -1,4 +1,8 @@
-﻿CustomerAppController.Edit needs to respect referrer url
+﻿http://localhost:1335/SKU/Create field for LicenseDuration..
+  - mispelt
+  - says its (days) and (months)
+
+CustomerAppController.Edit needs to respect referrer url
 
 CustomerAppController.Edit / CustomerAppController.Edit should show more of license than sku code... include owningCustomer name?
 

@@ -126,5 +126,28 @@ namespace KeyHub.Integration.Tests.TestSetup
             browser.FindElementByCssSelector("form[action^='/AccountRights/Create'] input[type='submit']").Click();
             browser.FindElementByCssSelector(".success");
         }
+
+        public static void CreateSku(RemoteWebDriver browser, string skuCode, string vendorName, string featureName)
+        {
+            browser.FindElementByCssSelector("a[href='/SKU']").Click();
+            browser.FindElementByCssSelector("a[href='/SKU/Create']").Click();
+            SetValueForChosenJQueryControl(browser, "#SKU_VendorId_chzn", vendorName);
+            browser.FindElementByCssSelector("input#SKU_SkuCode").SendKeys(skuCode);
+            SetValueForChosenJQueryControl(browser, "#SKU_SelectedFeatureGUIDs_chzn", featureName);
+            browser.FindElementByCssSelector("input#SKU_LicenseDuration").SendKeys("100");
+            browser.FindElementByCssSelector("input#SKU_AutoDomainDuration").SendKeys("100");
+            browser.FindElementByCssSelector("form[action='/SKU/Create'] input[type='submit']").Click();
+            browser.FindElementByCssSelector(".success");
+        }
+
+        public static void CreateFeature(RemoteWebDriver browser, string featureName, string vendorName)
+        {
+            browser.FindElementByCssSelector("a[href='/Feature']").Click();
+            browser.FindElementByCssSelector("a[href='/Feature/Create']").Click();
+            browser.FindElementByCssSelector("input#Feature_FeatureName").SendKeys(featureName);
+            SetValueForChosenJQueryControl(browser, "#Feature_VendorId_chzn", vendorName);
+            browser.FindElementByCssSelector("form[action='/Feature/Create'] input[type='submit']").Click();
+            browser.FindElementByCssSelector(".success");
+        }
     }
 }

@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using KeyHub.Data.BusinessRules;
 using KeyHub.Web.ViewModels.Feature;
 using KeyHub.Data;
+using MvcFlash.Core;
 
 namespace KeyHub.Web.Controllers
 {
@@ -77,7 +78,10 @@ namespace KeyHub.Web.Controllers
                     context.Features.Add(feature);
 
                     if (context.SaveChanges(CreateValidationFailed))
+                    {
+                        Flash.Success(String.Format("Feature {0} was created.", feature.FeatureName));
                         return RedirectToAction("Index");
+                    }
                 }
             }
 

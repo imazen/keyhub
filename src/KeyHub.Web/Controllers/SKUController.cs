@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using KeyHub.Data.BusinessRules;
 using KeyHub.Web.ViewModels.SKU;
 using KeyHub.Data;
+using MvcFlash.Core;
 
 namespace KeyHub.Web.Controllers
 {
@@ -82,7 +83,10 @@ namespace KeyHub.Web.Controllers
                     sku.AddFeatures(viewModel.GetNewFeatureGUIDs());
 
                     if (context.SaveChanges(CreateValidationFailed))
+                    {
+                        Flash.Success(string.Format("Sku {0} was created.", sku.SkuCode));
                         return RedirectToAction("Index");
+                    }
                 }
                 
             }
