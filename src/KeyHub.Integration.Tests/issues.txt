@@ -1,6 +1,9 @@
-﻿// http://localhost:1335/CustomerApp/Edit doesn't really support changing the sku list, maybe make the field read only
+﻿CustomerAppController.Edit needs to respect referrer url
 
-// do security things for CustomerAppController
+CustomerAppController.Edit / CustomerAppController.Edit should show more of license than sku code... include owningCustomer name?
+
+CustomerApp/Edit  - http://localhost:1335/CustomerApp/Edit?key=962f9f9d-d167-4bff-8dc8-2a00d7ee59df
+  if all license is removed from an app, the app disappears from http://localhost:1335/CustomerApp
 
 
 Firefox25 broke some tests, had to rollback to 24 and disable firefox automatic updates.

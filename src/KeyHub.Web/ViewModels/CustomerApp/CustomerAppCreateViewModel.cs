@@ -13,6 +13,8 @@ namespace KeyHub.Web.ViewModels.CustomerApp
     /// </summary>
     public class CustomerAppCreateViewModel
     {
+        public Guid? ApplicationId { get; set; }
+
         [Required]
         [StringLength(256)]
         public string ApplicationName { get; set; }
