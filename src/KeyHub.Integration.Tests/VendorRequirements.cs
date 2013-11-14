@@ -26,6 +26,9 @@ namespace KeyHub.Integration.Tests
             var vendorEmail = "vendor@example.com";
             var vendorPassword = "vendorPassword";
 
+            var firstCustomerAppName = "customerApp.name1";
+            var secondCustomerAppName = "customerApp.name2";
+
             using (var site = new KeyHubWebDriver())
             {
                 //  Create a user account for the vendor, with vendor rights
@@ -43,9 +46,8 @@ namespace KeyHub.Integration.Tests
                     context.SaveChanges();
                 }
 
+                using (var browser = BrowserUtil.GetBrowser())
                 {
-                    var browser = BrowserUtil.GetBrowser();
-
                     //  Create a Customer
                     browser.Navigate().GoToUrl(site.UrlFor("/"));
                     SiteUtil.SubmitLoginForm(browser, vendorEmail, vendorPassword);
@@ -70,25 +72,35 @@ namespace KeyHub.Integration.Tests
                     browser.Navigate().GoToUrl(site.UrlFor("/"));
                     browser.FindElementByCssSelector("a[href='/CustomerApp']").Click();
                     browser.FindElementByCssSelector("a[href='/CustomerApp/Create']").Click();
-
-                    browser.FindElementByCssSelector("input#CustomerApp_ApplicationName").SendKeys("customerApp.name");
+                    browser.FindElementByCssSelector("input#CustomerApp_ApplicationName").SendKeys(firstCustomerAppName);
                     SiteUtil.SetValueForChosenJQueryControl(browser, "#CustomerApp_SelectedLicenseGUIDs_chzn", vendorScenario.SkuCode);
-
                     browser.FindElementByCssSelector("form[action='/CustomerApp/Create'] input[type=submit]").Click();
-
                     browser.FindElementByCssSelector(".success");
 
+                    AssertApplicationNameIs(browser, firstCustomerAppName);
+
+                    //  Rename the customer app
                     browser.FindElementByCssSelector("a[href^='/CustomerApp/Edit']").Click();
+                    var nameElement = browser.FindElementByCssSelector("input#CustomerApp_ApplicationName");
+                    nameElement.Clear();
+                    nameElement.SendKeys(secondCustomerAppName);
+                    browser.FindElementByCssSelector("form[action^='/CustomerApp/Edit'] input[type='submit']").Click();
+                    browser.FindElementByCssSelector(".success");
 
-                    //  Rename the CustomerCap
+                    AssertApplicationNameIs(browser, secondCustomerAppName);
 
-                    //  browser.FindElementByCssSelector("foo");
+                    // Remove the customer app
+                    browser.FindElementByCssSelector("a[href^='/CustomerApp/Remove']").Click();
 
-                    //  Remove the sku
+                    Assert.Equal(0, browser.FindElementsByCssSelector("a[href^='/CustomerApp/Remove']").Count());
                 }
             }
+        }
 
-
+        private void AssertApplicationNameIs(RemoteWebDriver browser, string expectedName)
+        {
+            var applicationLink = browser.FindElementByCssSelector("a[href^='/CustomerApp/Details']");
+            Assert.Equal(expectedName, applicationLink.Text.Trim());
         }
     }
 }

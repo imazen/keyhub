@@ -127,7 +127,7 @@ namespace KeyHub.Web.Controllers
 
                     context.CustomerAppKeys.Add(customerAppKey);
                     context.SaveChanges();
-                    Flash.Success("The licensed application was successfully created.");
+                    Flash.Success("The licensed application was created.");
 
                     if (!string.IsNullOrEmpty(viewModel.RedirectUrl))
                     {
@@ -181,6 +181,8 @@ namespace KeyHub.Web.Controllers
 
                     if (context.SaveChanges(CreateValidationFailed))
                     {
+                        Flash.Success("The licensed application was edited.");
+
                         if (!string.IsNullOrEmpty(viewModel.RedirectUrl))
                         {
                             return Redirect(viewModel.RedirectUrl);
