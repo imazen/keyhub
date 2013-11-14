@@ -75,6 +75,7 @@ namespace KeyHub.Integration.Tests
                     browser.FindElementByCssSelector(".success");
 
                     AssertApplicationNameIs(browser, firstCustomerAppName);
+                    AssertApplicationSkuIs(browser, "first sku");
 
                     //  Rename the customer app
                     browser.FindElementByCssSelector("a[href^='/CustomerApp/Edit']").Click();
@@ -85,6 +86,15 @@ namespace KeyHub.Integration.Tests
                     browser.FindElementByCssSelector(".success");
 
                     AssertApplicationNameIs(browser, secondCustomerAppName);
+
+                    // Switch licenses on the customer app
+                    browser.FindElementByCssSelector("a[href^='/CustomerApp/Edit']").Click();
+                    SiteUtil.SetValueForChosenJQueryControl(browser, "#CustomerApp_SelectedLicenseGUIDs_chzn",
+                        Keys.Backspace + Keys.Backspace + "second sku");
+                    browser.FindElementByCssSelector("form[action^='/CustomerApp/Edit'] input[type='submit']").Click();
+                    browser.FindElementByCssSelector(".success");
+
+                    AssertApplicationSkuIs(browser, "second sku");
 
                     // Remove the customer app
                     browser.FindElementByCssSelector("a[href^='/CustomerApp/Remove']").Click();
@@ -98,6 +108,13 @@ namespace KeyHub.Integration.Tests
         {
             var applicationLink = browser.FindElementByCssSelector("a[href^='/CustomerApp/Details']");
             Assert.Equal(expectedName, applicationLink.Text.Trim());
+        }
+
+        private void AssertApplicationSkuIs(RemoteWebDriver browser, string expectedName)
+        {
+            var applicationLink = browser.FindElementByCssSelector("a[href^='/CustomerApp/Details']");
+            var skuElement = applicationLink.FindElement(By.XPath("./ancestor::tr/td[3]"));
+            Assert.Equal(expectedName, skuElement.Text.Trim());
         }
     }
 }
