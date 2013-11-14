@@ -8,6 +8,7 @@ using KeyHub.Data.BusinessRules;
 using KeyHub.Model;
 using KeyHub.Web.ViewModels.CustomerApp;
 using KeyHub.Data;
+using MvcFlash.Core;
 
 namespace KeyHub.Web.Controllers
 {
@@ -126,6 +127,7 @@ namespace KeyHub.Web.Controllers
 
                     context.CustomerAppKeys.Add(customerAppKey);
                     context.SaveChanges();
+                    Flash.Success("The licensed application was successfully created.");
 
                     if (!string.IsNullOrEmpty(viewModel.RedirectUrl))
                     {

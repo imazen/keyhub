@@ -11,17 +11,14 @@ namespace KeyHub.Web.ViewModels.License
     /// <summary>
     /// Viewmodel for index list of Licenses
     /// </summary>
-    public class LicenseIndexViewModel : BaseViewModel<Model.License>
+    public class LicenseIndexViewModel
     {
-        public LicenseIndexViewModel() : base() { }
-
         /// <summary>
         /// Construct the viewmodel
         /// </summary>
         /// <param name="currentUser">Current user</param>
         /// <param name="licenseList">List of License entities</param>
         public LicenseIndexViewModel(Model.User currentUser, IEnumerable<Model.License> licenseList)
-            : this()
         {
             CurrentUser = new CurrentUserViewModel(currentUser);
 
@@ -39,16 +36,6 @@ namespace KeyHub.Web.ViewModels.License
         /// List of licenses
         /// </summary>
         public List<LicenseIndexViewItem> Licenses { get; set; }
-
-        /// <summary>
-        /// Convert back to License instance
-        /// </summary>
-        /// <param name="original">Original License. If Null a new instance is created.</param>
-        /// <returns>License containing viewmodel data </returns>
-        public override Model.License ToEntity(Model.License original)
-        {
-            throw new NotImplementedException();
-        }
     }
 
     /// <summary>

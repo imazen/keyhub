@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using KeyHub.Web.ViewModels.DomainLicense;
 using KeyHub.Web.ViewModels.License;
 using KeyHub.Data;
+using MvcFlash.Core;
 
 namespace KeyHub.Web.Controllers
 {
@@ -100,6 +101,7 @@ namespace KeyHub.Web.Controllers
                         context.Licenses.Add(license);
 
                         context.SaveChanges();
+                        Flash.Success("The license was succesfully created.");
                     }
 
                     if (!string.IsNullOrEmpty(viewModel.RedirectUrl))
