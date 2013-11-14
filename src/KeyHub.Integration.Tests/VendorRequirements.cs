@@ -40,9 +40,9 @@ namespace KeyHub.Integration.Tests
                     browser.Navigate().GoToUrl(site.UrlFor("/"));
                     SiteUtil.SubmitLoginForm(browser, "admin", "password");
 
-                    vendorName = SiteUtil.CreateVendor(browser);
+                    vendorName = AdminUtil.CreateVendor(browser);
 
-                    SiteUtil.CreateAccountRightsFor(browser, userEmail, ObjectTypes.Vendor, vendorName);
+                    AdminUtil.CreateAccountRightsFor(browser, userEmail, ObjectTypes.Vendor, vendorName);
                 }
 
                 using (var browser = BrowserUtil.GetBrowser())
@@ -50,24 +50,20 @@ namespace KeyHub.Integration.Tests
                     browser.Navigate().GoToUrl(site.UrlFor("/"));
                     SiteUtil.SubmitLoginForm(browser, userEmail, userPassword);
 
-                    browser.FindElementByCssSelector("a[href='/Vendor']").Click();
-                    browser.FindElement(By.LinkText(vendorName)).Click();
-                    browser.FindElementByCssSelector("a[href^='/PrivateKey/Create']").Click();
-                    browser.FindElementByCssSelector("input#DisplayName").SendKeys("privatekey.Name");
-                    browser.FindElementByCssSelector("form[action^='/PrivateKey/Create'] input[type='submit']").Click();
+                    VendorUtil.CreatePrivateKey(browser, vendorName);
 
-                    SiteUtil.CreateFeature(browser, "first feature", vendorName);
-                    SiteUtil.CreateFeature(browser, "second feature", vendorName);
+                    VendorUtil.CreateFeature(browser, "first feature", vendorName);
+                    VendorUtil.CreateFeature(browser, "second feature", vendorName);
 
-                    SiteUtil.CreateSku(browser, "first sku", vendorName, "first feature");
-                    SiteUtil.CreateSku(browser, "second sku", vendorName, "second feature");
+                    VendorUtil.CreateSku(browser, "first sku", vendorName, "first feature");
+                    VendorUtil.CreateSku(browser, "second sku", vendorName, "second feature");
 
                     //  Create a Customer
-                    var customerName = SiteUtil.CreateCustomer(browser);
+                    var customerName = VendorUtil.CreateCustomer(browser);
 
                     //  Create a License
-                    CreateLicense(browser, "first sku", customerName);
-                    CreateLicense(browser, "second sku", customerName);
+                    VendorUtil.CreateLicense(browser, "first sku", customerName);
+                    VendorUtil.CreateLicense(browser, "second sku", customerName);
 
                     //  Create a CustomerApp / Licensed Application
                     browser.Navigate().GoToUrl(site.UrlFor("/"));
@@ -96,22 +92,6 @@ namespace KeyHub.Integration.Tests
                     Assert.Equal(0, browser.FindElementsByCssSelector("a[href^='/CustomerApp/Remove']").Count());
                 }
             }
-        }
-
-        public static void CreateLicense(RemoteWebDriver browser, string skuCode, string customerName)
-        {
-            browser.FindElementByCssSelector("a[href='/License']").Click();
-            browser.FindElementByCssSelector("a[href='/License/Create']").Click();
-            SiteUtil.SetValueForChosenJQueryControl(browser, "#License_SkuId_chzn", skuCode);
-            SiteUtil.SetValueForChosenJQueryControl(browser, "#License_PurchasingCustomerId_chzn", customerName);
-            browser.FindElementByCssSelector("input#License_OwnerName").SendKeys(customerName);
-            SiteUtil.SetValueForChosenJQueryControl(browser, "#License_OwningCustomerId_chzn", customerName);
-
-            SiteUtil.SetDateValueForJQueryDatepicker(browser, "input#License_LicenseIssued", DateTime.Now);
-            SiteUtil.SetDateValueForJQueryDatepicker(browser, "input#License_LicenseExpires", DateTime.Now + TimeSpan.FromDays(100));
-
-            browser.FindElementByCssSelector("input[type='submit'][value='Create License']").Click();
-            browser.FindElementByCssSelector(".success");
         }
 
         private void AssertApplicationNameIs(RemoteWebDriver browser, string expectedName)

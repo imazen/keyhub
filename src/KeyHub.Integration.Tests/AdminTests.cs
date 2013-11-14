@@ -27,7 +27,7 @@ namespace KeyHub.Integration.Tests
                     SiteUtil.SubmitLoginForm(browser, "admin", "password");
 
                     //  Create a vendor
-                    SiteUtil.CreateVendor(browser);
+                    AdminUtil.CreateVendor(browser);
 
                     //  Create a VendorCredential for the vendor
                     browser.FindElementByCssSelector("a[href^='/VendorCredential/Create']").Click();

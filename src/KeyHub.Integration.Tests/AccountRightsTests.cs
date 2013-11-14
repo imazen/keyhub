@@ -36,9 +36,9 @@ namespace KeyHub.Integration.Tests
                     browser.Navigate().GoToUrl(site.UrlFor("/"));
                     SiteUtil.SubmitLoginForm(browser, "admin", "password");
 
-                    var customerName = SiteUtil.CreateCustomer(browser);
+                    var customerName = VendorUtil.CreateCustomer(browser);
 
-                    SiteUtil.CreateAccountRightsFor(browser, userEmail, ObjectTypes.Customer, customerName);
+                    AdminUtil.CreateAccountRightsFor(browser, userEmail, ObjectTypes.Customer, customerName);
 
                     browser.FindElementByCssSelector(".account-rights-table");
                     var accountRights = browser.FindElementsByCssSelector(".account-rights-table tbody tr");

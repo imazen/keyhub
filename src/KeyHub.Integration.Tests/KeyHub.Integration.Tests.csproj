@@ -78,6 +78,8 @@
     <Compile Include="AccountRightsTests.cs" />
     <Compile Include="AccountTests.cs" />
     <Compile Include="AdminTests.cs" />
+    <Compile Include="TestSetup\AdminUtil.cs" />
+    <Compile Include="TestSetup\VendorUtil.cs" />
     <Compile Include="VendorRequirements.cs" />
     <Compile Include="HasVendorScenario.cs" />
     <Compile Include="LicenseValidationScenario.cs" />

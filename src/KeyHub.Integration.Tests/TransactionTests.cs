@@ -126,7 +126,7 @@ namespace KeyHub.Integration.Tests
 
                     SiteUtil.SubmitLoginForm(browser, "admin", "password");
 
-                    SiteUtil.CreateAccountRightsFor(browser, vendorEmail, ObjectTypes.Vendor, vendorScenario.VendorName);
+                    AdminUtil.CreateAccountRightsFor(browser, vendorEmail, ObjectTypes.Vendor, vendorScenario.VendorName);
                 }
 
                 using (var browser = BrowserUtil.GetBrowser())
