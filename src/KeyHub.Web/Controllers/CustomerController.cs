@@ -2,6 +2,7 @@
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
+using KeyHub.Model;
 using KeyHub.Web.ViewModels.Customer;
 using KeyHub.Data;
 using MvcFlash.Core;
@@ -70,7 +71,13 @@ namespace KeyHub.Web.Controllers
                 {
                     var customer = viewModel.ToEntity(null);
                     context.Customers.Add(customer);
-
+                    context.UserCustomerRights.Add(new UserCustomerRight
+                    {
+                        RightObject = customer,
+                        RightId = EditEntityMembers.Id,
+                        User = context.GetUser(User.Identity)
+                    });
+                    
                     context.SaveChanges();
                     Flash.Success("The customer was successfully created.");
                 }
