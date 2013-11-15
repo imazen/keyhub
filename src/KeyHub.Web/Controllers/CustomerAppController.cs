@@ -89,7 +89,7 @@ namespace KeyHub.Web.Controllers
         {
             using (var context = dataContextFactory.CreateByUser())
             {
-                return View(GetCreateModel(context));
+                return View(CustomerAppCreateViewModel.ForCreate(context));
             }
         }
 
@@ -101,116 +101,23 @@ namespace KeyHub.Web.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Create(CustomerAppCreateViewModel viewModel)
         {
-            var result = TryToSaveCustomerApp(viewModel);
-            if (result != null)
-                return result;
-
             using (var context = this.dataContextFactory.CreateByUser())
             {
-                var model = GetCreateModel(context);
+                if (ModelState.IsValid)
+                {
+                    if (viewModel.TryToSaveCustomerApp(context, (key, message) => ModelState.AddModelError(key, message)))
+                    {
+                        Flash.Success("The licensed application was created.");
+                        return RedirectToAction("Index");
+                    }
+                }
+
+                var model = CustomerAppCreateViewModel.ForCreate(context);
                 model.ApplicationName = viewModel.ApplicationName;
                 model.SelectedLicenseGUIDs = viewModel.SelectedLicenseGUIDs;
 
                 return View(model);
             }
-        }
-
-        private ActionResult TryToSaveCustomerApp(CustomerAppCreateViewModel viewModel)
-        {
-            bool doingCreate = viewModel.ApplicationId.HasValue;
-
-            if (ModelState.IsValid)
-            {
-                using (var context = dataContextFactory.CreateByUser())
-                {
-                    CustomerApp customerApp;
-
-                    if (!doingCreate)
-                    {
-                        customerApp = new Model.CustomerApp();
-                        customerApp.CustomerAppKeys.Add(new CustomerAppKey() {});
-
-                        context.CustomerApps.Add(customerApp);
-                    }
-                    else
-                    {
-                        customerApp =
-                            context.CustomerApps.Where(a => a.CustomerAppId == viewModel.ApplicationId.Value).SingleOrDefault();
-                    }
-
-                    customerApp.ApplicationName = viewModel.ApplicationName;
-
-                    var allowedLicenses =
-                        context.Licenses.Where(l => viewModel.SelectedLicenseGUIDs.Contains(l.ObjectId)).ToArray();
-
-                    if (viewModel.SelectedLicenseGUIDs.Count() != allowedLicenses.Count())
-                    {
-                        ModelState.AddModelError("",
-                            "Attempted to license application with unrecognized or unpermitted license.");
-                    }
-                    else
-                    {
-                        customerApp.LicenseCustomerApps.Clear();
-                        customerApp.LicenseCustomerApps.AddRange(
-                            allowedLicenses.Select(lid => new LicenseCustomerApp()
-                            {
-                                CustomerApp = customerApp,
-                                License = lid
-                            }));
-
-                        if (context.SaveChanges(CreateValidationFailed))
-                        {
-                            Flash.Success(doingCreate ? "The licensed application was created." : "The licensed application was updated.");
-
-                            {
-                                return RedirectToAction("Index");
-                            }
-                        }
-                    }
-                }
-            }
-
-            return null;
-        }
-
-        public static CustomerAppCreateViewModel GetCreateModel(IDataContextByUser context)
-        {
-            CustomerAppCreateViewModel viewModel;
-
-            var availableLicenses = (from x in context.Licenses select x)
-                .Include(x => x.Sku)
-                .Include(x => x.OwningCustomer)
-                .ToList();
-
-            viewModel = new CustomerAppCreateViewModel()
-            {
-                LicenseList = availableLicenses.Select(l => new SelectListItem()
-                {
-                    Text = string.Format("{0} owned by {1}", l.Sku.SkuCode, l.OwningCustomer.Name),
-                    Value = l.ObjectId.ToString()
-                }).ToList(),
-                SelectedLicenseGUIDs = new List<Guid>()
-            };
-
-            return viewModel;
-        }
-
-        private static CustomerAppCreateViewModel GetEditModel(IDataContextByUser context, Guid key)
-        {
-            var model = GetCreateModel(context);
-
-            var customerApp = context.CustomerApps.Where(a => a.CustomerAppId == key)
-                .Include(a => a.LicenseCustomerApps)
-                .SingleOrDefault();
-
-            if (customerApp == null)
-                return null;
-
-            model.ApplicationId = customerApp.CustomerAppId;
-            model.ApplicationName = customerApp.ApplicationName;
-            model.SelectedLicenseGUIDs = customerApp.LicenseCustomerApps.Select(lca => lca.LicenseId).ToList();
-
-            return model;
         }
 
         /// <summary>
@@ -222,7 +129,7 @@ namespace KeyHub.Web.Controllers
         {
             using (var context = dataContextFactory.CreateByUser())
             {
-                var model = GetEditModel(context, key);
+                var model = CustomerAppCreateViewModel.ForEdit(context, key);
 
                 if (model == null)
                     return new HttpStatusCodeResult(HttpStatusCode.NotFound);
@@ -239,13 +146,18 @@ namespace KeyHub.Web.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Edit(CustomerAppCreateViewModel viewModel)
         {
-            var result = TryToSaveCustomerApp(viewModel);
-            if (result != null)
-                return result;
-
             using (var context = this.dataContextFactory.CreateByUser())
             {
-                var model = GetEditModel(context, viewModel.ApplicationId.Value);
+                if (ModelState.IsValid)
+                {
+                    if (viewModel.TryToSaveCustomerApp(context, (key, message) => ModelState.AddModelError(key, message)))
+                    {
+                        Flash.Success("The licensed application was updated.");
+                        return RedirectToAction("Index");
+                    }
+                }
+
+                var model = CustomerAppCreateViewModel.ForEdit(context, viewModel.ApplicationId.Value);
                 model.ApplicationName = viewModel.ApplicationName;
                 model.SelectedLicenseGUIDs = viewModel.SelectedLicenseGUIDs;
 
@@ -287,14 +199,6 @@ namespace KeyHub.Web.Controllers
                 var viewModel = new CustomerAppViewModel(appQuery.FirstOrDefault());
 
                 return View(viewModel);
-            }
-        }
-
-        private void CreateValidationFailed(BusinessRuleValidationException businessRuleValidationException)
-        {
-            foreach (var error in businessRuleValidationException.ValidationResults.Where(x => x != BusinessRuleValidationResult.Success))
-            {
-                ModelState.AddModelError("CustomerApp." + error.PropertyName, error.ErrorMessage);
             }
         }
     }
