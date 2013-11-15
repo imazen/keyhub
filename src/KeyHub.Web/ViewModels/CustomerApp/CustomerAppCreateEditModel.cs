@@ -17,8 +17,6 @@ namespace KeyHub.Web.ViewModels.CustomerApp
     /// </summary>
     public class CustomerAppCreateEditModel
     {
-        private CustomerAppCreateEditModel() {}
-
         public Guid? ApplicationId { get; set; }
 
         [Required]
