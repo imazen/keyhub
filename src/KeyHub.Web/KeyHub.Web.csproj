@@ -554,7 +554,7 @@
     <Content Include="Views\License\Create.cshtml" />
     <Content Include="Views\License\Edit.cshtml" />
     <Content Include="Views\CustomerApp\Index.cshtml" />
-    <Content Include="Views\CustomerApp\Create.cshtml" />
+    <Content Include="Views\CustomerApp\CreateEdit.cshtml" />
     <Content Include="Views\Vendor\Details.cshtml" />
     <Content Include="Views\PrivateKey\IndexPartial.cshtml" />
     <Content Include="Views\PrivateKey\Edit.cshtml" />

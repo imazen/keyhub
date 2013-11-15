@@ -89,7 +89,7 @@ namespace KeyHub.Web.Controllers
         {
             using (var context = dataContextFactory.CreateByUser())
             {
-                return View(CustomerAppCreateEditModel.ForCreate(context));
+                return View("CreateEdit", CustomerAppCreateEditModel.ForCreate(context));
             }
         }
 
@@ -116,7 +116,7 @@ namespace KeyHub.Web.Controllers
                 model.ApplicationName = viewModel.ApplicationName;
                 model.SelectedLicenseGUIDs = viewModel.SelectedLicenseGUIDs;
 
-                return View(model);
+                return View("CreateEdit", model);
             }
         }
 
@@ -134,7 +134,7 @@ namespace KeyHub.Web.Controllers
                 if (model == null)
                     return new HttpStatusCodeResult(HttpStatusCode.NotFound);
 
-                return View("Create", model);
+                return View("CreateEdit", model);
             }
         }
 
@@ -161,7 +161,7 @@ namespace KeyHub.Web.Controllers
                 model.ApplicationName = viewModel.ApplicationName;
                 model.SelectedLicenseGUIDs = viewModel.SelectedLicenseGUIDs;
 
-                return View("Create", model);
+                return View("CreateEdit", model);
             }
         }
 
