@@ -1,8 +1,9 @@
 ﻿@model KeyHub.Web.ViewModels.CustomerApp.CustomerAppCreateViewModel
 
 @{
+    var action = Model.ApplicationId.HasValue ? "Edit" : "Create";
     ViewBag.ItemName = "Licensed application";
-    ViewBag.Title = "Create";
+    ViewBag.Title = action;
 }
 
 <h2>@ViewBag.Title <span>@ViewBag.ItemName</span></h2>
@@ -32,7 +33,7 @@
         </div>
 
         <p>
-            <input type="submit" value="Create @ViewBag.ItemName " />
+            <input type="submit" value="@action @ViewBag.ItemName " />
         </p>
     </fieldset>
 }

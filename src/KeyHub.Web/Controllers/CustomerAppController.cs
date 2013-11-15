@@ -111,13 +111,15 @@ namespace KeyHub.Web.Controllers
 
         private ActionResult TryToSaveCustomerApp(CustomerAppCreateViewModel viewModel)
         {
+            bool doingCreate = viewModel.ApplicationId.HasValue;
+
             if (ModelState.IsValid)
             {
                 using (var context = dataContextFactory.CreateByUser())
                 {
                     CustomerApp customerApp;
 
-                    if (!viewModel.ApplicationId.HasValue)
+                    if (!doingCreate)
                     {
                         customerApp = new Model.CustomerApp();
                         customerApp.CustomerAppKeys.Add(new CustomerAppKey() {});
@@ -152,7 +154,7 @@ namespace KeyHub.Web.Controllers
 
                         if (context.SaveChanges(CreateValidationFailed))
                         {
-                            Flash.Success("The licensed application was created.");
+                            Flash.Success(doingCreate ? "The licensed application was created." : "The licensed application was updated.");
 
                             {
                                 return RedirectToAction("Index");
