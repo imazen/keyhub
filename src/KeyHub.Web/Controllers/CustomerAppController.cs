@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using DotNetOpenAuth.Messaging;
@@ -216,16 +217,12 @@ namespace KeyHub.Web.Controllers
         /// <returns>Edit CustomerApp view</returns>
         public ActionResult Edit(Guid key)
         {
-            using (var context = dataContextFactory.CreateByUser())
-            {
-                var customerAppQuery = from x in context.CustomerApps where x.CustomerAppId == key select x;
-                var licenseQuery = from x in context.Licenses select x;
+            var model = GetEditModel(key);
 
-                var viewModel = new CustomerAppEditViewModel(customerAppQuery.FirstOrDefault(), licenseQuery.ToList()) 
-                        { RedirectUrl = (Request.UrlReferrer != null) ? Request.UrlReferrer.ToString() : "" };
+            if (model == null)
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
 
-                return View(viewModel);
-            }
+            return View("Create", model);
         }
 
         /// <summary>
@@ -234,34 +231,17 @@ namespace KeyHub.Web.Controllers
         /// <param name="viewModel">Edited CustomerAppEditViewModel</param>
         /// <returns>Redirectaction to index if successfull</returns>
         [HttpPost, ValidateAntiForgeryToken]
-        public ActionResult Edit(CustomerAppEditViewModel viewModel)
+        public ActionResult Edit(CustomerAppCreateViewModel viewModel)
         {
-            if (ModelState.IsValid)
-            {
-                using (var context = dataContextFactory.CreateByUser())
-                {
-                    CustomerApp customerApp = (from x in context.CustomerApps where x.CustomerAppId == viewModel.CustomerApp.CustomerAppId select x).FirstOrDefault();
-                    viewModel.ToEntity(customerApp);
+            var result = TryToSaveCustomerApp(viewModel);
+            if (result != null)
+                return result;
 
-                    //Offload adding and removing LicenseCustomerApps to Dynamic CustomerApp Model
-                    customerApp.AddLicenses(viewModel.GetNewLicenseGUIDs(customerApp));
-                    customerApp.RemoveLicenses(viewModel.GetRemovedLicenseGUIDs(customerApp));
+            var model = GetCreateModel();
+            model.ApplicationName = viewModel.ApplicationName;
+            model.SelectedLicenseGUIDs = viewModel.SelectedLicenseGUIDs;
 
-                    if (context.SaveChanges(CreateValidationFailed))
-                    {
-                        Flash.Success("The licensed application was edited.");
-
-                        if (!string.IsNullOrEmpty(viewModel.RedirectUrl))
-                        {
-                            return Redirect(viewModel.RedirectUrl);
-                        }
-
-                        return RedirectToAction("Index");
-                    }
-                }
-            }
-
-            return Edit(viewModel.CustomerApp.CustomerAppId);
+            return View("Create", model);
         }
 
         /// <summary>

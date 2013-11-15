@@ -270,7 +270,6 @@
     <Compile Include="ViewModels\Mail\IssueMailViewModel.cs" />
     <Compile Include="ViewModels\User\ChangePasswordViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModels\CustomerApp\CustomerAppEditViewModel.cs" />
     <Compile Include="ViewModels\CustomerApp\CustomerAppViewModel.cs" />
     <Compile Include="ViewModels\CustomerApp\CustomerAppIndexViewModel.cs" />
     <Compile Include="ViewModels\CustomerApp\CustomerAppCreateViewModel.cs" />
@@ -556,7 +555,6 @@
     <Content Include="Views\License\Edit.cshtml" />
     <Content Include="Views\CustomerApp\Index.cshtml" />
     <Content Include="Views\CustomerApp\Create.cshtml" />
-    <Content Include="Views\CustomerApp\Edit.cshtml" />
     <Content Include="Views\Vendor\Details.cshtml" />
     <Content Include="Views\PrivateKey\IndexPartial.cshtml" />
     <Content Include="Views\PrivateKey\Edit.cshtml" />
