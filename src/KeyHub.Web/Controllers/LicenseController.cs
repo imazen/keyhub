@@ -58,7 +58,7 @@ namespace KeyHub.Web.Controllers
 
                 LicenseDetailsViewModel viewModel = new LicenseDetailsViewModel(licenseQuery.FirstOrDefault());
 
-                viewModel.RedirectUrl = Request.UrlReferrer != null ? Request.UrlReferrer.ToString() : string.Empty;
+                viewModel.UseLocalReferrerAsRedirectUrl(Request);
 
                 return View(viewModel);
             }
@@ -77,7 +77,7 @@ namespace KeyHub.Web.Controllers
 
                 LicenseCreateViewModel viewModel = new LicenseCreateViewModel(skuQuery.ToList(), customerQuery.ToList());
 
-                viewModel.RedirectUrl = Request.UrlReferrer.ToString();
+                viewModel.UseLocalReferrerAsRedirectUrl(Request);
 
                 return View(viewModel);
             }
@@ -140,7 +140,7 @@ namespace KeyHub.Web.Controllers
                 LicenseEditViewModel viewModel = new LicenseEditViewModel(licenseQuery.FirstOrDefault(),
                     skuQuery.ToList(), customerQuery.ToList());
 
-                viewModel.RedirectUrl = Request.UrlReferrer.ToString();
+                viewModel.UseLocalReferrerAsRedirectUrl(Request);
 
                 return View(viewModel);
             }

@@ -81,7 +81,7 @@ namespace KeyHub.Web.Controllers
 
                 var viewModel = new UserObjectRightCreateViewModel(userObjectRight, objectType, objectList);
 
-                viewModel.RedirectUrl = (Request.UrlReferrer != null) ? Request.UrlReferrer.ToString() : "";
+                viewModel.UseLocalReferrerAsRedirectUrl(Request);
 
                 return View(viewModel);
             }

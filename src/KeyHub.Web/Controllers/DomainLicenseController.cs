@@ -109,7 +109,7 @@ namespace KeyHub.Web.Controllers
 
                 var viewModel = new DomainLicenseEditViewModel(domainLicenseQuery.FirstOrDefault());
 
-                viewModel.RedirectUrl = Request.UrlReferrer.ToString();
+                viewModel.UseLocalReferrerAsRedirectUrl(Request);
 
                 return View(viewModel);
             }
