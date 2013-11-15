@@ -15,9 +15,9 @@ namespace KeyHub.Web.ViewModels.CustomerApp
     /// <summary>
     /// Viewmodel for creating an CustomerApp
     /// </summary>
-    public class CustomerAppCreateViewModel
+    public class CustomerAppCreateEditModel
     {
-        private CustomerAppCreateViewModel() {}
+        private CustomerAppCreateEditModel() {}
 
         public Guid? ApplicationId { get; set; }
 
@@ -32,16 +32,16 @@ namespace KeyHub.Web.ViewModels.CustomerApp
         /// </summary>
         public IEnumerable<SelectListItem> LicenseList { get; set; }
 
-        public static CustomerAppCreateViewModel ForCreate(IDataContextByUser context)
+        public static CustomerAppCreateEditModel ForCreate(IDataContextByUser context)
         {
-            CustomerAppCreateViewModel viewModel;
+            CustomerAppCreateEditModel viewModel;
 
             var availableLicenses = (from x in context.Licenses select x)
                 .Include(x => x.Sku)
                 .Include(x => x.OwningCustomer)
                 .ToList();
 
-            viewModel = new CustomerAppCreateViewModel()
+            viewModel = new CustomerAppCreateEditModel()
             {
                 LicenseList = availableLicenses.Select(l => new SelectListItem()
                 {
@@ -54,7 +54,7 @@ namespace KeyHub.Web.ViewModels.CustomerApp
             return viewModel;
         }
 
-        public static CustomerAppCreateViewModel ForEdit(IDataContextByUser context, Guid key)
+        public static CustomerAppCreateEditModel ForEdit(IDataContextByUser context, Guid key)
         {
             var model = ForCreate(context);
 

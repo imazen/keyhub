@@ -89,7 +89,7 @@ namespace KeyHub.Web.Controllers
         {
             using (var context = dataContextFactory.CreateByUser())
             {
-                return View(CustomerAppCreateViewModel.ForCreate(context));
+                return View(CustomerAppCreateEditModel.ForCreate(context));
             }
         }
 
@@ -99,7 +99,7 @@ namespace KeyHub.Web.Controllers
         /// <param name="viewModel">Created CustomerAppCreateViewModel</param>
         /// <returns>Redirectaction to index if successfull</returns>
         [HttpPost, ValidateAntiForgeryToken]
-        public ActionResult Create(CustomerAppCreateViewModel viewModel)
+        public ActionResult Create(CustomerAppCreateEditModel viewModel)
         {
             using (var context = this.dataContextFactory.CreateByUser())
             {
@@ -112,7 +112,7 @@ namespace KeyHub.Web.Controllers
                     }
                 }
 
-                var model = CustomerAppCreateViewModel.ForCreate(context);
+                var model = CustomerAppCreateEditModel.ForCreate(context);
                 model.ApplicationName = viewModel.ApplicationName;
                 model.SelectedLicenseGUIDs = viewModel.SelectedLicenseGUIDs;
 
@@ -129,7 +129,7 @@ namespace KeyHub.Web.Controllers
         {
             using (var context = dataContextFactory.CreateByUser())
             {
-                var model = CustomerAppCreateViewModel.ForEdit(context, key);
+                var model = CustomerAppCreateEditModel.ForEdit(context, key);
 
                 if (model == null)
                     return new HttpStatusCodeResult(HttpStatusCode.NotFound);
@@ -144,7 +144,7 @@ namespace KeyHub.Web.Controllers
         /// <param name="viewModel">Edited CustomerAppEditViewModel</param>
         /// <returns>Redirectaction to index if successfull</returns>
         [HttpPost, ValidateAntiForgeryToken]
-        public ActionResult Edit(CustomerAppCreateViewModel viewModel)
+        public ActionResult Edit(CustomerAppCreateEditModel viewModel)
         {
             using (var context = this.dataContextFactory.CreateByUser())
             {
@@ -157,7 +157,7 @@ namespace KeyHub.Web.Controllers
                     }
                 }
 
-                var model = CustomerAppCreateViewModel.ForEdit(context, viewModel.ApplicationId.Value);
+                var model = CustomerAppCreateEditModel.ForEdit(context, viewModel.ApplicationId.Value);
                 model.ApplicationName = viewModel.ApplicationName;
                 model.SelectedLicenseGUIDs = viewModel.SelectedLicenseGUIDs;
 
