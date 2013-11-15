@@ -13,5 +13,18 @@ namespace KeyHub.Web.ViewModels
         { }
 
         public string RedirectUrl { get; set; }
+
+        public void UseLocalReferrerAsRedirectUrl(HttpRequestBase request)
+        {
+            RedirectUrl = null;
+
+            if (request.UrlReferrer == null)
+                return;
+
+            if (request.UrlReferrer.Host != request.Url.Host)
+                return;
+
+            RedirectUrl = request.UrlReferrer.ToString();
+        }
     }
 }
