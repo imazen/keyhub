@@ -10,7 +10,7 @@ namespace KeyHub.Web.ViewModels.License
     /// <summary>
     /// Viewmodel for editing an License
     /// </summary>
-    public class LicenseEditViewModel : BaseViewModel<Model.License>
+    public class LicenseEditViewModel : RedirectUrlModel
     {
         public LicenseEditViewModel() : base() { }
 

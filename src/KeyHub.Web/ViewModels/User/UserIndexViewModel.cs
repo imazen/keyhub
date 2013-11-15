@@ -13,7 +13,7 @@ namespace KeyHub.Web.ViewModels.User
     /// <summary>
     /// Viewmodel for index list of Users
     /// </summary>
-    public class UserIndexViewModel : BaseViewModel<Model.User>
+    public class UserIndexViewModel : RedirectUrlModel
     {
         public UserIndexViewModel() : base() { }
 

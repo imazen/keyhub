@@ -11,7 +11,7 @@ namespace KeyHub.Web.ViewModels.Transaction
     /// <summary>
     /// Viewmodel for index list of a Transaction
     /// </summary>
-    public class TransactionIndexViewModel : BaseViewModel<Model.Transaction>
+    public class TransactionIndexViewModel : RedirectUrlModel
     {
         public TransactionIndexViewModel() : base() { }
 

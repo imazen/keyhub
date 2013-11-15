@@ -12,7 +12,7 @@ namespace KeyHub.Web.ViewModels.PrivateKey
     /// <summary>
     /// Viewmodel for a single privateKey 
     /// </summary>
-    public class PrivateKeyViewModel : BaseViewModel<Model.PrivateKey>
+    public class PrivateKeyViewModel : RedirectUrlModel
     {
         public PrivateKeyViewModel():base(){ }
 

@@ -9,7 +9,7 @@ namespace KeyHub.Web.ViewModels.PrivateKey
     /// <summary>
     /// Viewmodel for index list of a PrivateKey
     /// </summary>
-    public class PrivateKeyIndexViewModel : BaseViewModel<Model.PrivateKey>
+    public class PrivateKeyIndexViewModel : RedirectUrlModel
     {
         public PrivateKeyIndexViewModel() : base() { }
 

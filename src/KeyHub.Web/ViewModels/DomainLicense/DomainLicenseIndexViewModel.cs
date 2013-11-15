@@ -9,7 +9,7 @@ namespace KeyHub.Web.ViewModels.DomainLicense
     /// <summary>
     /// Viewmodel for index list of DomainLicenses
     /// </summary>
-    public class DomainLicenseIndexViewModel : BaseViewModel<Model.DomainLicense>
+    public class DomainLicenseIndexViewModel : RedirectUrlModel
     {
         public DomainLicenseIndexViewModel() : base() { }
 

@@ -322,7 +322,7 @@
     <Compile Include="ViewModels\Vendor\VendorEditViewModel.cs" />
     <Compile Include="ViewModels\Vendor\VendorIndexViewModel.cs" />
     <Compile Include="ViewModels\Vendor\VendorViewModel.cs" />
-    <Compile Include="ViewModels\BaseViewModel.cs" />
+    <Compile Include="ViewModels\RedirectUrlModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Images\bgChosenSprite.png" />

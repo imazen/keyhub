@@ -9,7 +9,7 @@ namespace KeyHub.Web.ViewModels.PrivateKey
     /// <summary>
     /// Viewmodel for editing a PrivateKey
     /// </summary>
-    public class PrivateKeyEditViewModel : BaseViewModel<Model.PrivateKey>
+    public class PrivateKeyEditViewModel : RedirectUrlModel
     {
         public PrivateKeyEditViewModel() : base() { }
 

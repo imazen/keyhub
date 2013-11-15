@@ -11,7 +11,7 @@ namespace KeyHub.Web.ViewModels.Feature
     /// <summary>
     /// Viewmodel for a single feature 
     /// </summary>
-    public class FeatureViewModel : BaseViewModel<Model.Feature>
+    public class FeatureViewModel : RedirectUrlModel
     {
         public FeatureViewModel() : base() { }
 

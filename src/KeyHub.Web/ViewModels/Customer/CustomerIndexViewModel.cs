@@ -10,7 +10,7 @@ namespace KeyHub.Web.ViewModels.Customer
     /// <summary>
     /// Viewmodel for index list of Customers
     /// </summary>
-    public class CustomerIndexViewModel : BaseViewModel<Model.Customer>
+    public class CustomerIndexViewModel : RedirectUrlModel
     {
         public CustomerIndexViewModel() : base()
         { }

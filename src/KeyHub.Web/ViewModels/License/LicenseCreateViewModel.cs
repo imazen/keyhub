@@ -10,7 +10,7 @@ namespace KeyHub.Web.ViewModels.License
     /// <summary>
     /// Viewmodel for creating an License
     /// </summary>
-    public class LicenseCreateViewModel : BaseViewModel<Model.License>
+    public class LicenseCreateViewModel : RedirectUrlModel
     {
         public LicenseCreateViewModel() : base() { }
 

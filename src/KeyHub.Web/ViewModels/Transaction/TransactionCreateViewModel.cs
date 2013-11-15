@@ -10,7 +10,7 @@ namespace KeyHub.Web.ViewModels.Transaction
     /// <summary>
     /// Viewmodel for creating an Transaction
     /// </summary>
-    public class TransactionCreateViewModel : BaseViewModel<Model.Transaction>
+    public class TransactionCreateViewModel : RedirectUrlModel
     {
         public TransactionCreateViewModel() : base() { }
 

@@ -10,7 +10,7 @@ namespace KeyHub.Web.ViewModels.SKU
     /// <summary>
     /// Viewmodel for index list of SKUs
     /// </summary>
-    public class SKUIndexViewModel : BaseViewModel<Model.SKU>
+    public class SKUIndexViewModel : RedirectUrlModel
     {
         public SKUIndexViewModel() : base() { }
 

@@ -12,7 +12,7 @@ namespace KeyHub.Web.ViewModels.Transaction
     /// <summary>
     /// Viewmodel for checkout of a Transaction
     /// </summary>
-    public class TransactionCheckoutViewModel : BaseViewModel<Model.Transaction>
+    public class TransactionCheckoutViewModel : RedirectUrlModel
     {
         public TransactionCheckoutViewModel() : base() { }
 

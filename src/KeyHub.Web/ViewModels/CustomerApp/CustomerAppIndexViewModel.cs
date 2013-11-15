@@ -10,7 +10,7 @@ namespace KeyHub.Web.ViewModels.CustomerApp
     /// <summary>
     /// Viewmodel for index list of CustomerApps
     /// </summary>
-    public class CustomerAppIndexViewModel : BaseViewModel<Model.CustomerApp>
+    public class CustomerAppIndexViewModel : RedirectUrlModel
     {
         public CustomerAppIndexViewModel() : base() { }
 

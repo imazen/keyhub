@@ -11,7 +11,7 @@ namespace KeyHub.Web.ViewModels.UserObjectRight
     /// <summary>
     /// ViewModel for index list of rights
     /// </summary>
-    public class UserObjectRightIndexViewModel : BaseViewModel<Model.UserObjectRight>
+    public class UserObjectRightIndexViewModel : RedirectUrlModel
     {
         public UserObjectRightIndexViewModel()
         {

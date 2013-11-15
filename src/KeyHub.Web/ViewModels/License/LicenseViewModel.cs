@@ -11,7 +11,7 @@ namespace KeyHub.Web.ViewModels.License
     /// <summary>
     /// Viewmodel for a single License 
     /// </summary>
-    public class LicenseViewModel : BaseViewModel<Model.License>
+    public class LicenseViewModel : RedirectUrlModel
     {
         public LicenseViewModel() : base() { }
 

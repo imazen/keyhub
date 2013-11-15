@@ -11,7 +11,7 @@ namespace KeyHub.Web.ViewModels.User
     /// <summary>
     /// Viewmodel for creating of a User
     /// </summary>
-    public class UserCreateViewModel : BaseViewModel<Model.User>
+    public class UserCreateViewModel : RedirectUrlModel
     {
         public UserCreateViewModel() : base() { }
 

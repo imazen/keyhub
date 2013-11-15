@@ -11,7 +11,7 @@ namespace KeyHub.Web.ViewModels.SKU
     /// <summary>
     /// Viewmodel for creating an SKU
     /// </summary>
-    public class SKUCreateViewModel : BaseViewModel<Model.SKU>
+    public class SKUCreateViewModel : RedirectUrlModel
     {
         public SKUCreateViewModel() : base() { }
 

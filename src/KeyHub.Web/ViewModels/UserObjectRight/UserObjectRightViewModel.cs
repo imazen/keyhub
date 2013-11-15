@@ -7,7 +7,7 @@ using KeyHub.Model;
 
 namespace KeyHub.Web.ViewModels.UserObjectRight
 {
-    public class UserObjectRightViewModel : BaseViewModel<Model.UserObjectRight>
+    public class UserObjectRightViewModel : RedirectUrlModel
     {
         public UserObjectRightViewModel() {}
 

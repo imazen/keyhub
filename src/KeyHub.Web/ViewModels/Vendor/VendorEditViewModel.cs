@@ -10,7 +10,7 @@ namespace KeyHub.Web.ViewModels.Vendor
     /// <summary>
     /// Viewmodel for editing a Vendor
     /// </summary>
-    public class VendorEditViewModel : BaseViewModel<Model.Vendor>
+    public class VendorEditViewModel : RedirectUrlModel
     {
         public VendorEditViewModel() : base() { }
 

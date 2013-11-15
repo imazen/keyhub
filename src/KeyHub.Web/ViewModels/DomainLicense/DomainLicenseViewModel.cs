@@ -12,7 +12,7 @@ namespace KeyHub.Web.ViewModels.DomainLicense
     /// <summary>
     /// Viewmodel for a single domainLicense 
     /// </summary>
-    public class DomainLicenseViewModel : BaseViewModel<Model.DomainLicense>
+    public class DomainLicenseViewModel : RedirectUrlModel
     {
         public DomainLicenseViewModel():base(){ }
 

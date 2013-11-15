@@ -12,7 +12,7 @@ namespace KeyHub.Web.ViewModels.Home
     /// <summary>
     /// Viewmodel for Homepage
     /// </summary>
-    public class HomeViewModel : BaseViewModel<Model.User>
+    public class HomeViewModel : RedirectUrlModel
     {
         public HomeViewModel() : base() { }
 

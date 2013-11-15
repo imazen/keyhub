@@ -6,7 +6,7 @@ using KeyHub.Model;
 
 namespace KeyHub.Web.ViewModels.CustomerAppIssue
 {
-    public class CustomerAppIssueViewModel : BaseViewModel<Model.CustomerAppIssue>
+    public class CustomerAppIssueViewModel : RedirectUrlModel
     {
         public CustomerAppIssueViewModel() : base() { }
 

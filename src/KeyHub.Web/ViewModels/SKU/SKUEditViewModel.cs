@@ -11,7 +11,7 @@ namespace KeyHub.Web.ViewModels.SKU
     /// <summary>
     /// Viewmodel for editing an SKU
     /// </summary>
-    public class SKUEditViewModel : BaseViewModel<Model.SKU>
+    public class SKUEditViewModel : RedirectUrlModel
     {
         public SKUEditViewModel() : base() { }
 

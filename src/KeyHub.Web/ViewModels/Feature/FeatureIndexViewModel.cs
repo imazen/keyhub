@@ -9,7 +9,7 @@ namespace KeyHub.Web.ViewModels.Feature
     /// <summary>
     /// Viewmodel for index list of Features
     /// </summary>
-    public class FeatureIndexViewModel : BaseViewModel<Model.Feature>
+    public class FeatureIndexViewModel : RedirectUrlModel
     {
         public FeatureIndexViewModel() : base() { }
 

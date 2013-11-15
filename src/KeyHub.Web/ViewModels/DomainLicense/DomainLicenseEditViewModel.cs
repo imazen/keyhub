@@ -10,7 +10,7 @@ namespace KeyHub.Web.ViewModels.DomainLicense
     /// <summary>
     /// Viewmodel for creation of a DomainLicense
     /// </summary>
-    public class DomainLicenseEditViewModel : BaseViewModel<Model.DomainLicense>
+    public class DomainLicenseEditViewModel : RedirectUrlModel
     {
         public DomainLicenseEditViewModel() : base() { }
 

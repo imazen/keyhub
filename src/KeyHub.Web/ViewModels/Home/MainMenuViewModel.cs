@@ -12,7 +12,7 @@ namespace KeyHub.Web.ViewModels.Home
     /// <summary>
     /// Viewmodel for MainMenu
     /// </summary>
-    public class MainMenuViewModel : BaseViewModel<Model.User>
+    public class MainMenuViewModel : RedirectUrlModel
     {
         public MainMenuViewModel(Model.User currentUser, string controllerName)
             : base()

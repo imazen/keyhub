@@ -10,7 +10,7 @@ namespace KeyHub.Web.ViewModels.Feature
     /// <summary>
     /// Viewmodel for creation of a Feature
     /// </summary>
-    public class FeatureCreateViewModel : BaseViewModel<Model.Feature>
+    public class FeatureCreateViewModel : RedirectUrlModel
     {
         public FeatureCreateViewModel() : base() { }
 

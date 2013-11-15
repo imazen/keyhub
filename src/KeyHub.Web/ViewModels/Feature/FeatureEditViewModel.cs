@@ -13,7 +13,7 @@ namespace KeyHub.Web.ViewModels.Feature
     /// <summary>
     /// Viewmodel for editing a Vendor
     /// </summary>
-    public class FeatureEditViewModel : BaseViewModel<Model.Feature>
+    public class FeatureEditViewModel : RedirectUrlModel
     {
         public FeatureEditViewModel() : base() { }
 

@@ -10,7 +10,7 @@ namespace KeyHub.Web.ViewModels.Customer
     /// <summary>
     /// Viewmodel for creating a Customer
     /// </summary>
-    public class CustomerCreateViewModel : BaseViewModel<Model.Customer>
+    public class CustomerCreateViewModel : RedirectUrlModel
     {
         public CustomerCreateViewModel() : base() { }
 

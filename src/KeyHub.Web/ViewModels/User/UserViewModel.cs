@@ -13,7 +13,7 @@ namespace KeyHub.Web.ViewModels.User
     /// <summary>
     /// Viewmodel for a single user 
     /// </summary>
-    public class UserViewModel : BaseViewModel<Model.User>
+    public class UserViewModel : RedirectUrlModel
     {
         public UserViewModel(){ }
 

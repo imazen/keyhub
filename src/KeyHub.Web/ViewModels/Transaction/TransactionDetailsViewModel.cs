@@ -11,7 +11,7 @@ namespace KeyHub.Web.ViewModels.Transaction
     /// <summary>
     /// Viewmodel for details of a single Transaction
     /// </summary>
-    public class TransactionDetailsViewModel : BaseViewModel<Model.Transaction>
+    public class TransactionDetailsViewModel : RedirectUrlModel
     {
         public TransactionDetailsViewModel() : base() { }
 
