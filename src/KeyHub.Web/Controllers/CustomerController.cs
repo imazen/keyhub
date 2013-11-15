@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web.Mvc;
 using KeyHub.Model;
 using KeyHub.Web.ViewModels.Customer;
@@ -49,6 +50,8 @@ namespace KeyHub.Web.Controllers
         {
             using (var context = dataContextFactory.CreateByUser())
             {
+                CheckAuthorizedToCreate(context);
+
                 var countryQuery = from x in context.Countries select x;
 
                 var viewModel = new CustomerCreateViewModel(countryQuery.ToList());
@@ -62,13 +65,15 @@ namespace KeyHub.Web.Controllers
         /// </summary>
         /// <param name="viewModel">Created CustomerCreateViewModel</param>
         /// <returns>Redirectaction to index if successfull</returns>
-        [HttpPost]
+        [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Create(CustomerCreateViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
                 using (var context = dataContextFactory.CreateByUser())
                 {
+                    CheckAuthorizedToCreate(context);
+
                     var customer = viewModel.ToEntity(null);
                     context.Customers.Add(customer);
                     context.UserCustomerRights.Add(new UserCustomerRight
@@ -86,6 +91,14 @@ namespace KeyHub.Web.Controllers
             return View(viewModel);
         }
 
+        private void CheckAuthorizedToCreate(IDataContextByUser context)
+        {
+            var user = context.GetUser(HttpContext.User.Identity);
+
+            if (!user.IsVendorAdmin && !user.IsSystemAdmin)
+                throw new UnauthorizedAccessException("Only system or vendor admins may create customers.");
+        }
+
         /// <summary>
         /// Edit a single Customer
         /// </summary>
@@ -95,11 +108,14 @@ namespace KeyHub.Web.Controllers
         {
             using (var context = dataContextFactory.CreateByUser())
             {
-                var customerQuery = from x in context.Customers where x.ObjectId == key select x;
+                var customer = (from x in context.Customers where x.ObjectId == key select x).SingleOrDefault();
+                
+                if (customer == null)
+                    return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+
                 var countryQuery = from x in context.Countries select x;
 
-                var viewModel = new CustomerEditViewModel(customerQuery.FirstOrDefault(),
-                    countryQuery.ToList());
+                var viewModel = new CustomerEditViewModel(customer, countryQuery.ToList());
 
                 return View(viewModel);
             }
@@ -110,14 +126,18 @@ namespace KeyHub.Web.Controllers
         /// </summary>
         /// <param name="viewModel">Edited CustomerEditViewModel</param>
         /// <returns>Redirectaction to index if successfull</returns>
-        [HttpPost]
+        [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Edit(CustomerEditViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
                 using (var context = dataContextFactory.CreateByUser())
                 {
-                    var customer = (from x in context.Customers where x.ObjectId == viewModel.Customer.ObjectId select x).FirstOrDefault();
+                    var customer = (from x in context.Customers where x.ObjectId == viewModel.Customer.ObjectId select x).SingleOrDefault();
+
+                    if (customer == null)
+                        return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+
                     viewModel.ToEntity(customer);
 
                     context.SaveChanges();

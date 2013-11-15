@@ -43,7 +43,7 @@ namespace KeyHub.Web.ViewModels.Customer
         /// <returns>Customer containing viewmodel data </returns>
         public Model.Customer ToEntity(Model.Customer original)
         {
-            return Customer.ToEntity(null);
+            return Customer.ToEntity(new Model.Customer());
         }
     }
 }
