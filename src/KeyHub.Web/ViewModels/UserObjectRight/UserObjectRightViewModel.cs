@@ -26,7 +26,7 @@ namespace KeyHub.Web.ViewModels.UserObjectRight
                 ObjectType = ObjectTypes.License;
         }
 
-        public override Model.UserObjectRight ToEntity(Model.UserObjectRight original)
+        public Model.UserObjectRight ToEntity(Model.UserObjectRight original)
         {
             if (original == null)
             {

@@ -33,7 +33,7 @@ namespace KeyHub.Web.ViewModels.Feature
         /// </summary>
         /// <param name="original">Original Feature. If Null a new instance is created.</param>
         /// <returns>Feature containing viewmodel data </returns>
-        public override Model.Feature ToEntity(Model.Feature original)
+        public Model.Feature ToEntity(Model.Feature original)
         {
             Model.Feature current = original ?? new Model.Feature();
 

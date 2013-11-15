@@ -41,16 +41,6 @@ namespace KeyHub.Web.ViewModels.User
         /// Gets the current user viewmodel
         /// </summary>
         public CurrentUserViewModel CurrentUser { get; private set; }
-
-        /// <summary>
-        /// Convert back to User instance
-        /// </summary>
-        /// <param name="original">Original User. If Null a new instance is created.</param>
-        /// <returns>Not implemented</returns>
-        public override Model.User ToEntity(Model.User original)
-        {
-            throw new NotImplementedException();
-        }
     }
 
     /// <summary>

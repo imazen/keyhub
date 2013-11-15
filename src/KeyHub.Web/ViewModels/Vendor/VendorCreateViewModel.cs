@@ -38,7 +38,7 @@ namespace KeyHub.Web.ViewModels.Vendor
         /// Convert back to Vendor instance
         /// </summary>
         /// <returns>New vendor containing viewmodel data </returns>
-        public override Model.Vendor ToEntity(Model.Vendor original)
+        public Model.Vendor ToEntity(Model.Vendor original)
         {
             return Vendor.ToEntity(null);
         }

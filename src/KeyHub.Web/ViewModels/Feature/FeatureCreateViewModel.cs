@@ -38,7 +38,7 @@ namespace KeyHub.Web.ViewModels.Feature
         /// Convert back to Feature instance
         /// </summary>
         /// <returns>New Feature containing viewmodel data </returns>
-        public override Model.Feature ToEntity(Model.Feature original)
+        public Model.Feature ToEntity(Model.Feature original)
         {
             return Feature.ToEntity(null);
         }

@@ -29,10 +29,5 @@ namespace KeyHub.Web.ViewModels.Home
         /// Gets the current user viewmodel
         /// </summary>
         public CurrentUserViewModel CurrentUser { get; private set; }
-
-        public override Model.User ToEntity(Model.User original)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

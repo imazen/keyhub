@@ -37,16 +37,6 @@ namespace KeyHub.Web.ViewModels.DomainLicense
         /// List of licenses
         /// </summary>
         public List<DomainLicenseIndexViewItem> DomainLicenses { get; set; }
-
-        /// <summary>
-        /// Convert back to DomainLicense instance
-        /// </summary>
-        /// <param name="original">Original DomainLicense. If Null a new instance is created.</param>
-        /// <returns>DomainLicense containing viewmodel data </returns>
-        public override Model.DomainLicense ToEntity(Model.DomainLicense original)
-        {
-            throw new NotImplementedException();
-        }
     }
 
     public class DomainLicenseIndexViewItem : DomainLicenseViewModel

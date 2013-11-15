@@ -32,16 +32,6 @@ namespace KeyHub.Web.ViewModels.Transaction
         /// List of transactions
         /// </summary>
         public List<TransactionIndexViewItem> Transactions { get; set; }
-
-        /// <summary>
-        /// Convert back to Transaction instance
-        /// </summary>
-        /// <param name="original">Original Transaction. If Null a new instance is created.</param>
-        /// <returns>Transaction containing viewmodel data </returns>
-        public override Model.Transaction ToEntity(Model.Transaction original)
-        {
-            throw new NotImplementedException();
-        }
     }
 
     /// <summary>

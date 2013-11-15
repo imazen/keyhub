@@ -33,7 +33,7 @@ namespace KeyHub.Web.ViewModels.User
         /// </summary>
         /// <param name="original">Original User. If Null a new instance is created.</param>
         /// <returns>User containing viewmodel data </returns>
-        public override Model.User ToEntity(Model.User original)
+        public Model.User ToEntity(Model.User original)
         {
             Model.User current = original ?? new Model.User();
 

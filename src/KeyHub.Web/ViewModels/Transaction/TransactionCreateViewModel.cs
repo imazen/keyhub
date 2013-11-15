@@ -41,7 +41,7 @@ namespace KeyHub.Web.ViewModels.Transaction
         /// </summary>
         /// <param name="original">Original Transaction. If Null a new instance is created.</param>
         /// <returns>Transaction containing viewmodel data </returns>
-        public override Model.Transaction ToEntity(Model.Transaction original)
+        public Model.Transaction ToEntity(Model.Transaction original)
         {
             return Transaction.ToEntity(null);
         }

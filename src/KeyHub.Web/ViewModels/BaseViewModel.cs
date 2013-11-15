@@ -27,13 +27,6 @@ namespace KeyHub.Web.ViewModels
         public BaseViewModel()
         { }
 
-        /// <summary>
-        /// Convert self back to entity instance
-        /// </summary>
-        /// <param name="original">Original entity instance. </param>
-        /// <returns>Entity instance containing viewmodel data </returns>
-        public abstract TEntity ToEntity(TEntity original);
-
         public string RedirectUrl { get; set; }
     }
 }

@@ -33,7 +33,7 @@ namespace KeyHub.Web.ViewModels.PrivateKey
         /// </summary>
         /// <param name="original">Original PrivateKey. If Null a new instance is created.</param>
         /// <returns>PrivateKey containing viewmodel data </returns>
-        public override Model.PrivateKey ToEntity(Model.PrivateKey original)
+        public Model.PrivateKey ToEntity(Model.PrivateKey original)
         {
             if (original == null)
             {

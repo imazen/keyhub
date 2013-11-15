@@ -36,7 +36,7 @@ namespace KeyHub.Web.ViewModels.License
         /// </summary>
         /// <param name="original">Original License. If Null a new instance is created.</param>
         /// <returns>License containing viewmodel data </returns>
-        public override Model.License ToEntity(Model.License original)
+        public Model.License ToEntity(Model.License original)
         {
             Model.License current = original ?? new Model.License();
 

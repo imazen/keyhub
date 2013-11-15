@@ -22,11 +22,6 @@ namespace KeyHub.Web.ViewModels.Home
             this.Controller = controllerName;
         }
 
-        public override Model.User ToEntity(Model.User original)
-        {
-            throw new NotImplementedException();
-        }
-
         /// <summary>
         /// Gets the current user viewmodel
         /// </summary>

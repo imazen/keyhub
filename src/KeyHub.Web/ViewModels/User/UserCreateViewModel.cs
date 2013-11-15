@@ -33,7 +33,7 @@ namespace KeyHub.Web.ViewModels.User
         /// Convert back to User instance
         /// </summary>
         /// <returns>New User containing viewmodel data </returns>
-        public override Model.User ToEntity(Model.User original)
+        public Model.User ToEntity(Model.User original)
         {
             return User.ToEntity(null);
         }

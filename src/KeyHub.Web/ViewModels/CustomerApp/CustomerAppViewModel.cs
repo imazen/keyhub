@@ -31,7 +31,7 @@ namespace KeyHub.Web.ViewModels.CustomerApp
         /// </summary>
         /// <param name="original">Original CustomerApp. If Null a new instance is created.</param>
         /// <returns>CustomerApp containing viewmodel data </returns>
-        public override Model.CustomerApp ToEntity(Model.CustomerApp original)
+        public Model.CustomerApp ToEntity(Model.CustomerApp original)
         {
             Model.CustomerApp current = original ?? new Model.CustomerApp();
 

@@ -46,16 +46,6 @@ namespace KeyHub.Web.ViewModels.UserObjectRight
         /// Gets the current user viewmodel
         /// </summary>
         public CurrentUserViewModel CurrentUser { get; private set; }
-
-        /// <summary>
-        /// ToEntity is not implemented
-        /// </summary>
-        /// <param name="original"></param>
-        /// <returns>NotImplementedException</returns>
-        public override Model.UserObjectRight ToEntity(Model.UserObjectRight original)
-        {
-            throw new NotImplementedException();
-        }
     }
 
     /// <summary>

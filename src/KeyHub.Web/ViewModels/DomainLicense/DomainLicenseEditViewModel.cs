@@ -32,7 +32,7 @@ namespace KeyHub.Web.ViewModels.DomainLicense
         /// Convert back to DomainLicense instance
         /// </summary>
         /// <returns>New DomainLicense containing viewmodel data </returns>
-        public override Model.DomainLicense ToEntity(Model.DomainLicense original)
+        public Model.DomainLicense ToEntity(Model.DomainLicense original)
         {
             return DomainLicense.ToEntity(original);
         }

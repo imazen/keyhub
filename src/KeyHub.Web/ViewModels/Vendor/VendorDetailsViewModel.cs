@@ -28,16 +28,6 @@ namespace KeyHub.Web.ViewModels.Vendor
         /// Vendor viewmodel
         /// </summary>
         public VendorDetailsViewItem Vendor { get; set; }
-
-        /// <summary>
-        /// Convert back to Vendor instance
-        /// </summary>
-        /// <param name="original">Original Vendor. If Null a new instance is created.</param>
-        /// <returns>Vendor containing viewmodel data </returns>
-        public override Model.Vendor ToEntity(Model.Vendor original)
-        {
-            throw new NotImplementedException();
-        }
     }
 
     /// <summary>

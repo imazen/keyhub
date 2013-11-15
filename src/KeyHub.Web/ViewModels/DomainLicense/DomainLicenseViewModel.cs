@@ -39,7 +39,7 @@ namespace KeyHub.Web.ViewModels.DomainLicense
         /// </summary>
         /// <param name="original">Original DomainLicense. If Null a new instance is created.</param>
         /// <returns>DomainLicense containing viewmodel data </returns>
-        public override Model.DomainLicense ToEntity(Model.DomainLicense original)
+        public Model.DomainLicense ToEntity(Model.DomainLicense original)
         {
             if (original == null)
             {

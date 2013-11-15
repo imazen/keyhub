@@ -33,16 +33,6 @@ namespace KeyHub.Web.ViewModels.CustomerApp
         /// List of CustomerApps
         /// </summary>
         public List<CustomerAppIndexViewItem> CustomerApps { get; set; }
-
-        /// <summary>
-        /// Convert back to CustomerApp instance
-        /// </summary>
-        /// <param name="original">Original CustomerApp. If Null a new instance is created.</param>
-        /// <returns>CustomerApp containing viewmodel data </returns>
-        public override Model.CustomerApp ToEntity(Model.CustomerApp original)
-        {
-            throw new NotImplementedException();
-        }
     }
 
     /// <summary>

@@ -39,14 +39,5 @@ namespace KeyHub.Web.ViewModels.PrivateKey
         /// </summary>
         public Guid ParentVendorGUID { get; set; }
 
-        /// <summary>
-        /// Convert back to PrivateKey instance
-        /// </summary>
-        /// <param name="original">Original PrivateKey. If Null a new instance is created.</param>
-        /// <returns>PrivateKey containing viewmodel data </returns>
-        public override Model.PrivateKey ToEntity(Model.PrivateKey original)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

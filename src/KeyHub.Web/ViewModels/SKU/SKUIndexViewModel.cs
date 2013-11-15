@@ -33,16 +33,6 @@ namespace KeyHub.Web.ViewModels.SKU
         /// List of SKUs
         /// </summary>
         public List<SKUIndexViewItem> SKUs { get; set; }
-
-        /// <summary>
-        /// Convert back to SKU instance
-        /// </summary>
-        /// <param name="original">Original SKU. If Null a new instance is created.</param>
-        /// <returns>SKU containing viewmodel data </returns>
-        public override Model.SKU ToEntity(Model.SKU original)
-        {
-            throw new NotImplementedException();
-        }
     }
 
     /// <summary>

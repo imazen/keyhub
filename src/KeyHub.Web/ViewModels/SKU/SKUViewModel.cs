@@ -46,7 +46,7 @@ namespace KeyHub.Web.ViewModels.SKU
         /// </summary>
         /// <param name="original">Original SKU. If Null a new instance is created.</param>
         /// <returns>SKU containing viewmodel data </returns>
-        public override Model.SKU ToEntity(Model.SKU original)
+        public Model.SKU ToEntity(Model.SKU original)
         {
             Model.SKU current = original ?? new Model.SKU();
 
