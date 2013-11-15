@@ -1,8 +1,4 @@
 ﻿
-CustomerAppController.Edit needs to respect referrer url
-
-CustomerAppController.Edit / CustomerAppController.Edit should show more of license than sku code... include owningCustomer name?
-
 CustomerApp/Edit  - http://localhost:1335/CustomerApp/Edit?key=962f9f9d-d167-4bff-8dc8-2a00d7ee59df
   if all license is removed from an app, the app disappears from http://localhost:1335/CustomerApp
 

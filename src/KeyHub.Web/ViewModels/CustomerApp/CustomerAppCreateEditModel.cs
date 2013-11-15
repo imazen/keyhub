@@ -15,7 +15,7 @@ namespace KeyHub.Web.ViewModels.CustomerApp
     /// <summary>
     /// Viewmodel for creating an CustomerApp
     /// </summary>
-    public class CustomerAppCreateEditModel
+    public class CustomerAppCreateEditModel : RedirectUrlModel
     {
         public Guid? ApplicationId { get; set; }
 
@@ -68,6 +68,14 @@ namespace KeyHub.Web.ViewModels.CustomerApp
             model.SelectedLicenseGUIDs = customerApp.LicenseCustomerApps.Select(lca => lca.LicenseId).ToList();
 
             return model;
+        }
+
+        public CustomerAppCreateEditModel WithUserInput(CustomerAppCreateEditModel inputModel)
+        {
+            ApplicationName = inputModel.ApplicationName;
+            SelectedLicenseGUIDs = inputModel.SelectedLicenseGUIDs;
+            RedirectUrl = inputModel.RedirectUrl;
+            return this;
         }
 
         public bool TryToSaveCustomerApp(IDataContextByUser context, Action<string, string> modelErrorAccumulator)

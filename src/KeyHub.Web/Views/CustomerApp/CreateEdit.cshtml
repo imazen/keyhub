@@ -11,7 +11,8 @@
 @using (Html.BeginForm()) {
     @Html.ValidationSummary(true)
     @Html.AntiForgeryToken()
-    @Html.HiddenFor(m => m.ApplicationId);
+    @Html.HiddenFor(m => m.ApplicationId)
+    @Html.HiddenFor(m => m.RedirectUrl)
 
     <fieldset>
         <legend>CustomerAppViewModel</legend>

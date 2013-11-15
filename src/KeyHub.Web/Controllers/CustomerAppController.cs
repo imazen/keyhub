@@ -89,7 +89,9 @@ namespace KeyHub.Web.Controllers
         {
             using (var context = dataContextFactory.CreateByUser())
             {
-                return View("CreateEdit", CustomerAppCreateEditModel.ForCreate(context));
+                var model = CustomerAppCreateEditModel.ForCreate(context);
+                model.UseLocalReferrerAsRedirectUrl(Request);
+                return View("CreateEdit", model);
             }
         }
 
@@ -108,13 +110,11 @@ namespace KeyHub.Web.Controllers
                     if (viewModel.TryToSaveCustomerApp(context, (key, message) => ModelState.AddModelError(key, message)))
                     {
                         Flash.Success("The licensed application was created.");
-                        return RedirectToAction("Index");
+                        return Redirect(viewModel.RedirectUrl ?? Url.Action("Index"));
                     }
                 }
 
-                var model = CustomerAppCreateEditModel.ForCreate(context);
-                model.ApplicationName = viewModel.ApplicationName;
-                model.SelectedLicenseGUIDs = viewModel.SelectedLicenseGUIDs;
+                var model = CustomerAppCreateEditModel.ForCreate(context).WithUserInput(viewModel);
 
                 return View("CreateEdit", model);
             }
@@ -133,6 +133,8 @@ namespace KeyHub.Web.Controllers
 
                 if (model == null)
                     return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+
+                model.UseLocalReferrerAsRedirectUrl(Request);
 
                 return View("CreateEdit", model);
             }
@@ -153,13 +155,11 @@ namespace KeyHub.Web.Controllers
                     if (viewModel.TryToSaveCustomerApp(context, (key, message) => ModelState.AddModelError(key, message)))
                     {
                         Flash.Success("The licensed application was updated.");
-                        return RedirectToAction("Index");
+                        return Redirect(viewModel.RedirectUrl ?? Url.Action("Index"));
                     }
                 }
 
-                var model = CustomerAppCreateEditModel.ForEdit(context, viewModel.ApplicationId.Value);
-                model.ApplicationName = viewModel.ApplicationName;
-                model.SelectedLicenseGUIDs = viewModel.SelectedLicenseGUIDs;
+                var model = CustomerAppCreateEditModel.ForEdit(context, viewModel.ApplicationId.Value).WithUserInput(viewModel);
 
                 return View("CreateEdit", model);
             }
