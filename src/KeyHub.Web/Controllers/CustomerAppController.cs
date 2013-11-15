@@ -174,15 +174,36 @@ namespace KeyHub.Web.Controllers
         {
             using (var context = dataContextFactory.CreateByUser())
             {
+                var application = context.CustomerApps.Where(x => x.CustomerAppId == key)
+                    .Include(x => x.LicenseCustomerApps)
+                    .SingleOrDefault();
+
+                if (application == null)
+                    return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+
+                return View(new CustomerAppRemoveModel()
+                {
+                    ApplicationName = application.ApplicationName,
+                    Skus = application.LicenseCustomerApps.Select(lca => lca.License.Sku.SkuCode).ToArray()
+                });
+            }
+        }
+
+        [HttpPost, ActionName("Remove"), ValidateAntiForgeryToken]
+        public ActionResult RemovePost(Guid key)
+        {
+            using (var context = dataContextFactory.CreateByUser())
+            {
                 context.LicenseCustomerApps.Remove(x => x.CustomerAppId == key);
                 context.CustomerAppKeys.Remove(x => x.CustomerAppId == key);
                 context.CustomerApps.Remove(x => x.CustomerAppId == key);
                 context.SaveChanges();
+
+                Flash.Success("The application was deleted.");
             }
 
             return RedirectToAction("Index");
         }
-
 
         /// <summary>
         /// Get details of Licenses

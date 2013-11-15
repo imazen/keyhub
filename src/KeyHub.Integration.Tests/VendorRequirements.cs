@@ -11,6 +11,7 @@ using KeyHub.Model;
 using Moq;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Remote;
+using OpenQA.Selenium.Support.UI;
 using Xunit;
 
 namespace KeyHub.Integration.Tests
@@ -98,7 +99,9 @@ namespace KeyHub.Integration.Tests
 
                     // Remove the customer app
                     browser.FindElementByCssSelector("a[href^='/CustomerApp/Remove']").Click();
-
+                    browser.FindElementByCssSelector("form[action^='/CustomerApp/Remove'] input[type='submit']").Click();
+                    browser.FindElementByCssSelector(".success");
+                    
                     Assert.Equal(0, browser.FindElementsByCssSelector("a[href^='/CustomerApp/Remove']").Count());
                 }
             }

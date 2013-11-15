@@ -267,6 +267,7 @@
     </Compile>
     <Compile Include="ViewModels\CustomerAppIssue\CustomerAppIssueViewModel.cs" />
     <Compile Include="ViewModels\CustomerAppIssue\CustomerAppIssueIndexViewModel.cs" />
+    <Compile Include="ViewModels\CustomerApp\CustomerAppRemoveModel.cs" />
     <Compile Include="ViewModels\Mail\IssueMailViewModel.cs" />
     <Compile Include="ViewModels\User\ChangePasswordViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -594,6 +595,7 @@
     <Content Include="Views\VendorCredential\CreateEdit.cshtml" />
     <Content Include="Views\VendorCredential\Remove.cshtml" />
     <Content Include="Views\AccountRights\Delete.cshtml" />
+    <Content Include="Views\CustomerApp\Remove.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

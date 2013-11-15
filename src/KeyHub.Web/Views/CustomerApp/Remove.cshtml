@@ -1,0 +1,22 @@
+﻿@model KeyHub.Web.ViewModels.CustomerApp.CustomerAppRemoveModel
+
+@{
+    ViewBag.Title = "Remove Licensed Application";
+}
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken();
+
+    <p>
+        Are you sure you want to delete application '@Model.ApplicationName' which has licenses for @string.Join(", ", Model.Skus)?
+        This action cannot be undone.
+    </p>
+        
+    <p>
+        <input type="submit" value="Delete Application" />
+    </p>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index", "CustomerApp")
+</div>
