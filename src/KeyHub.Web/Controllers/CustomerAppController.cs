@@ -87,7 +87,10 @@ namespace KeyHub.Web.Controllers
         /// <returns>Create CustomerApp view</returns>
         public ActionResult Create()
         {
-            return View(GetCreateModel());
+            using (var context = dataContextFactory.CreateByUser())
+            {
+                return View(GetCreateModel(context));
+            }
         }
 
         /// <summary>
@@ -102,11 +105,14 @@ namespace KeyHub.Web.Controllers
             if (result != null)
                 return result;
 
-            var model = GetCreateModel();
-            model.ApplicationName = viewModel.ApplicationName;
-            model.SelectedLicenseGUIDs = viewModel.SelectedLicenseGUIDs;
+            using (var context = this.dataContextFactory.CreateByUser())
+            {
+                var model = GetCreateModel(context);
+                model.ApplicationName = viewModel.ApplicationName;
+                model.SelectedLicenseGUIDs = viewModel.SelectedLicenseGUIDs;
 
-            return View(model);
+                return View(model);
+            }
         }
 
         private ActionResult TryToSaveCustomerApp(CustomerAppCreateViewModel viewModel)
@@ -167,47 +173,42 @@ namespace KeyHub.Web.Controllers
             return null;
         }
 
-        private CustomerAppCreateViewModel GetCreateModel()
+        public static CustomerAppCreateViewModel GetCreateModel(IDataContextByUser context)
         {
             CustomerAppCreateViewModel viewModel;
 
-            using (var context = dataContextFactory.CreateByUser())
-            {
-                var availableLicenses = (from x in context.Licenses select x)
-                    .Include(x => x.Sku)
-                    .Include(x => x.OwningCustomer)
-                    .ToList();
+            var availableLicenses = (from x in context.Licenses select x)
+                .Include(x => x.Sku)
+                .Include(x => x.OwningCustomer)
+                .ToList();
 
-                viewModel = new CustomerAppCreateViewModel()
+            viewModel = new CustomerAppCreateViewModel()
+            {
+                LicenseList = availableLicenses.Select(l => new SelectListItem()
                 {
-                    LicenseList = availableLicenses.Select(l => new SelectListItem()
-                    {
-                        Text = string.Format("{0} owned by {1}", l.Sku.SkuCode, l.OwningCustomer.Name),
-                        Value = l.ObjectId.ToString()
-                    }).ToList(),
-                    SelectedLicenseGUIDs = new List<Guid>()
-                };
-            }
+                    Text = string.Format("{0} owned by {1}", l.Sku.SkuCode, l.OwningCustomer.Name),
+                    Value = l.ObjectId.ToString()
+                }).ToList(),
+                SelectedLicenseGUIDs = new List<Guid>()
+            };
+
             return viewModel;
         }
 
-        private CustomerAppCreateViewModel GetEditModel(Guid key)
+        private static CustomerAppCreateViewModel GetEditModel(IDataContextByUser context, Guid key)
         {
-            var model = GetCreateModel();
+            var model = GetCreateModel(context);
 
-            using (var context = dataContextFactory.CreateByUser())
-            {
-                var customerApp = context.CustomerApps.Where(a => a.CustomerAppId == key)
-                    .Include(a => a.LicenseCustomerApps)
-                    .SingleOrDefault();
+            var customerApp = context.CustomerApps.Where(a => a.CustomerAppId == key)
+                .Include(a => a.LicenseCustomerApps)
+                .SingleOrDefault();
 
-                if (customerApp == null)
-                    return null;
+            if (customerApp == null)
+                return null;
 
-                model.ApplicationId = customerApp.CustomerAppId;
-                model.ApplicationName = customerApp.ApplicationName;
-                model.SelectedLicenseGUIDs = customerApp.LicenseCustomerApps.Select(lca => lca.LicenseId).ToList();
-            }
+            model.ApplicationId = customerApp.CustomerAppId;
+            model.ApplicationName = customerApp.ApplicationName;
+            model.SelectedLicenseGUIDs = customerApp.LicenseCustomerApps.Select(lca => lca.LicenseId).ToList();
 
             return model;
         }
@@ -219,12 +220,15 @@ namespace KeyHub.Web.Controllers
         /// <returns>Edit CustomerApp view</returns>
         public ActionResult Edit(Guid key)
         {
-            var model = GetEditModel(key);
+            using (var context = dataContextFactory.CreateByUser())
+            {
+                var model = GetEditModel(context, key);
 
-            if (model == null)
-                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+                if (model == null)
+                    return new HttpStatusCodeResult(HttpStatusCode.NotFound);
 
-            return View("Create", model);
+                return View("Create", model);
+            }
         }
 
         /// <summary>
@@ -239,11 +243,14 @@ namespace KeyHub.Web.Controllers
             if (result != null)
                 return result;
 
-            var model = GetCreateModel();
-            model.ApplicationName = viewModel.ApplicationName;
-            model.SelectedLicenseGUIDs = viewModel.SelectedLicenseGUIDs;
+            using (var context = this.dataContextFactory.CreateByUser())
+            {
+                var model = GetEditModel(context, viewModel.ApplicationId.Value);
+                model.ApplicationName = viewModel.ApplicationName;
+                model.SelectedLicenseGUIDs = viewModel.SelectedLicenseGUIDs;
 
-            return View("Create", model);
+                return View("Create", model);
+            }
         }
 
         /// <summary>
