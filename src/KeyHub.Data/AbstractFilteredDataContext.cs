@@ -26,6 +26,7 @@ namespace KeyHub.Data
             this.Licenses = new FilteredDbSet<License>(this, l => Enumerable.Contains(authorizedLicenseIds, l.ObjectId));
             this.LicenseCustomerApps = new FilteredDbSet<LicenseCustomerApp>(this,
                 lc => Enumerable.Contains(authorizedLicenseIds, lc.LicenseId));
+            this.DomainLicenses = new FilteredDbSet<DomainLicense>(this, dl => Enumerable.Contains(authorizedLicenseIds, dl.LicenseId));
 
             //SKU dependant entities.
             var authorizedSKUIds = Enumerable.Concat<Guid>(ResolveAuthorizedSKUsByAuthorizedLicenses(), ResolveAuthorizedSKUsByAuthorizedVendors()).ToList();
