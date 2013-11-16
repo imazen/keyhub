@@ -115,6 +115,7 @@ namespace KeyHub.Integration.Tests
 
                     //  Delete a license
                     browser.FindElementByCssSelector("a[href^='/DomainLicense/Remove']").Click();
+                    browser.FindElementByCssSelector("form[action^='/DomainLicense/Remove'] input[type='submit']").Click();
                     browser.FindElementByCssSelector(".success");
                     
                     licensedDomains = GetLicensedDomains(browser);

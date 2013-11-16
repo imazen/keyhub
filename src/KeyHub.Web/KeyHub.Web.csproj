@@ -594,6 +594,7 @@
     <Content Include="Views\VendorCredential\Remove.cshtml" />
     <Content Include="Views\AccountRights\Delete.cshtml" />
     <Content Include="Views\CustomerApp\Remove.cshtml" />
+    <Content Include="Views\DomainLicense\Remove.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

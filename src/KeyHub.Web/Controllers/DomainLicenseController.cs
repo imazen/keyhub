@@ -198,22 +198,53 @@ namespace KeyHub.Web.Controllers
             }
         }
 
-        /// <summary>
-        /// Remove a single domainLicense
-        /// </summary>
-        /// <param name="key">GUID of domainLicense to edit</param>
-        /// <returns></returns>
         public ActionResult Remove(Guid key)
         {
             using (var context = dataContextFactory.CreateByUser())
             {
-                DomainLicense domainLicense = context.DomainLicenses.FirstOrDefault(x => x.DomainLicenseId == key);
+                DomainLicense domainLicense;
+                ActionResult actionResult = LoadDomainLicenseForRemoval(context, key, out domainLicense);
+                if (actionResult != null) return actionResult;
+
+                return View(domainLicense);
+            }
+        }
+
+        [HttpPost, ActionName("Remove"), ValidateAntiForgeryToken]
+        public ActionResult RemovePost(Guid key)
+        {
+            using (var context = dataContextFactory.CreateByUser())
+            {
+                DomainLicense domainLicense;
+                ActionResult actionResult = LoadDomainLicenseForRemoval(context, key, out domainLicense);
+                if (actionResult != null) return actionResult;
+
                 context.DomainLicenses.Remove(domainLicense);
                 context.SaveChanges();
                 Flash.Success("The domain license was deleted.");
 
                 return RedirectToAction("Details", "License", new { key = domainLicense.LicenseId }); ;
             }
+        }
+
+        private static ActionResult LoadDomainLicenseForRemoval(IDataContextByUser context, Guid key, out DomainLicense domainLicense)
+        {
+            domainLicense = context.DomainLicenses
+                .Include(dl => dl.License)
+                .Include(dl => dl.License.Sku)
+                .SingleOrDefault(x => x.DomainLicenseId == key);
+
+            if (domainLicense == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+            }
+
+            if (!domainLicense.CanBeManuallyDeleted)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+            }
+
+            return null;
         }
 
         private void CreateValidationFailed(BusinessRuleValidationException businessRuleValidationException)

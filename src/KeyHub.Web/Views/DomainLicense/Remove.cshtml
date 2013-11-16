@@ -1,0 +1,19 @@
+﻿@model KeyHub.Model.DomainLicense
+
+@{
+    ViewBag.Title = "Remove domain license";
+}
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken();
+
+    <p>Are you sure you want to delete the domain license for @Model.DomainName?  This action cannot be undone.</p>
+        
+    <p>
+        <input type="submit" value="Delete Domain License" />
+    </p>
+}
+
+<div>
+    @Html.ActionLink("Back to license details", "Details","License", new {key = Model.LicenseId}, null)
+</div>
