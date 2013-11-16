@@ -1,4 +1,4 @@
-﻿@model KeyHub.Web.ViewModels.DomainLicense.DomainLicenseEditViewModel
+﻿@model KeyHub.Web.ViewModels.DomainLicense.DomainLicenseViewModel
 
 @{
     ViewBag.ItemName = "Domain license";
@@ -13,40 +13,40 @@
     <fieldset>
         <legend>DomainLicenseViewModel</legend>
         
-        @Html.HiddenFor(model => model.DomainLicense.DomainLicenseId)
-        @Html.HiddenFor(model => model.DomainLicense.AutomaticlyCreated)
-        @Html.HiddenFor(model => model.DomainLicense.LicenseId)
+        @Html.HiddenFor(model => model.DomainLicenseId)
+        @Html.HiddenFor(model => model.AutomaticlyCreated)
+        @Html.HiddenFor(model => model.LicenseId)
         @Html.HiddenFor(model => model.RedirectUrl)
         
         <div class="editor-label">
-            @Html.LabelFor(model => model.DomainLicense.LicenseName)
+            @Html.LabelFor(model => model.LicenseName)
         </div>
         <div class="editor-field">
-            @Html.DisplayFor(model => model.DomainLicense.LicenseName)
+            @Html.DisplayFor(model => model.LicenseName)
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.DomainLicense.DomainName)
+            @Html.LabelFor(model => model.DomainName)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.DomainLicense.DomainName)
-            @Html.ValidationMessageFor(model => model.DomainLicense.DomainName)
+            @Html.EditorFor(model => model.DomainName)
+            @Html.ValidationMessageFor(model => model.DomainName)
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.DomainLicense.DomainLicenseIssued)
+            @Html.LabelFor(model => model.DomainLicenseIssued)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.DomainLicense.DomainLicenseIssued)
-            @Html.ValidationMessageFor(model => model.DomainLicense.DomainLicenseIssued)
+            @Html.EditorFor(model => model.DomainLicenseIssued)
+            @Html.ValidationMessageFor(model => model.DomainLicenseIssued)
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.DomainLicense.DomainLicenseExpires)
+            @Html.LabelFor(model => model.DomainLicenseExpires)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.DomainLicense.DomainLicenseExpires)
-            @Html.ValidationMessageFor(model => model.DomainLicense.DomainLicenseExpires)
+            @Html.EditorFor(model => model.DomainLicenseExpires)
+            @Html.ValidationMessageFor(model => model.DomainLicenseExpires)
         </div>
 
         <p>
@@ -56,7 +56,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to license details", "Details","License", new {key = Model.DomainLicense.LicenseId}, null)
+    @Html.ActionLink("Back to license details", "Details","License", new {key = Model.LicenseId}, null)
 </div>
 
 @section Scripts {

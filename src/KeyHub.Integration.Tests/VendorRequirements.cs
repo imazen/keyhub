@@ -85,10 +85,8 @@ namespace KeyHub.Integration.Tests
                 var scenario = new VendorWithALicensedCustomer();
                 scenario.Setup(site, canDeleteManualDomainsOfLicense:true);
 
-                //using (var browser = BrowserUtil.GetBrowser())
+                using (var browser = BrowserUtil.GetBrowser())
                 {
-                    var browser = BrowserUtil.GetBrowser();
-
                     //  Create a license
                     browser.Navigate().GoToUrl(site.UrlFor("/"));
                     SiteUtil.SubmitLoginForm(browser, scenario.UserEmail, scenario.UserPassword);
@@ -97,7 +95,7 @@ namespace KeyHub.Integration.Tests
                     browser.FindElementByCssSelector("a[href^='/License/Details']").Click();
 
                     browser.FindElementByCssSelector("a[href^='/DomainLicense/Create']").Click();
-                    browser.FindElementByCssSelector("input#DomainLicense_DomainName").SendKeys("example.com");
+                    browser.FindElementByCssSelector("input#DomainName").SendKeys("example.com");
                     browser.FindElementByCssSelector("form[action^='/DomainLicense/Create'] input[type='submit']").Click();
                     browser.FindElementByCssSelector(".success");
 
@@ -106,7 +104,7 @@ namespace KeyHub.Integration.Tests
 
                     //  Edit a license
                     browser.FindElementByCssSelector("a[href^='/DomainLicense/Edit']").Click();
-                    IWebElement domainNameInput = browser.FindElementByCssSelector("input#DomainLicense_DomainName");
+                    IWebElement domainNameInput = browser.FindElementByCssSelector("input#DomainName");
                     domainNameInput.Clear();
                     domainNameInput.SendKeys("example.org");
                     browser.FindElementByCssSelector("form[action^='/DomainLicense/Edit'] input[type='submit']").Click();

@@ -74,12 +74,9 @@ namespace KeyHub.Web.Controllers
                 {
                     domainLicense.DomainLicenseExpires = license.Sku.CalculateManualDomainExpiration();
                 }
-                var viewModel = new DomainLicenseCreateViewModel()
-                {
-                    DomainLicense = new DomainLicenseViewModel(domainLicense)
-                };
+                var viewModel = new DomainLicenseViewModel(domainLicense);
 
-                viewModel.RedirectUrl = new UrlHelper(ControllerContext.RequestContext).Action("Details", "License", new { key = viewModel.DomainLicense.LicenseId });
+                viewModel.RedirectUrl = new UrlHelper(ControllerContext.RequestContext).Action("Details", "License", new { key = viewModel.LicenseId });
 
                 return View(viewModel);
             }
@@ -91,13 +88,13 @@ namespace KeyHub.Web.Controllers
         /// <param name="viewModel">Created DomainLicenseViewModel</param>
         /// <returns>Redirectaction to index if successfull</returns>
         [HttpPost]
-        public ActionResult Create(DomainLicenseCreateViewModel viewModel)
+        public ActionResult Create(DomainLicenseViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
                 using (var context = dataContextFactory.CreateByUser())
                 {
-                    var license = context.Licenses.Where(l => l.ObjectId == viewModel.DomainLicense.LicenseId)
+                    var license = context.Licenses.Where(l => l.ObjectId == viewModel.LicenseId)
                         .Include(l => l.Sku)
                         .Include(l => l.Sku.PrivateKey)
                         .SingleOrDefault();
@@ -110,10 +107,10 @@ namespace KeyHub.Web.Controllers
                     domainLicense.License = license;
                     domainLicense.KeyBytes = license.Sku.PrivateKey.KeyBytes;
 
-                    domainLicense.DomainName = viewModel.DomainLicense.DomainName;
-                    domainLicense.DomainLicenseIssued = viewModel.DomainLicense.DomainLicenseIssued;
-                    domainLicense.DomainLicenseExpires = viewModel.DomainLicense.DomainLicenseExpires;
-                    domainLicense.AutomaticlyCreated = viewModel.DomainLicense.AutomaticlyCreated;
+                    domainLicense.DomainName = viewModel.DomainName;
+                    domainLicense.DomainLicenseIssued = viewModel.DomainLicenseIssued;
+                    domainLicense.DomainLicenseExpires = viewModel.DomainLicenseExpires;
+                    domainLicense.AutomaticlyCreated = viewModel.AutomaticlyCreated;
 
                     context.DomainLicenses.Add(domainLicense);
 
@@ -137,14 +134,14 @@ namespace KeyHub.Web.Controllers
         {
             using (var context = dataContextFactory.CreateByUser())
             {
-                var domainLicenseQuery = (from x in context.DomainLicenses where x.DomainLicenseId == key select x)
+                var domainLicense = (from x in context.DomainLicenses where x.DomainLicenseId == key select x)
                     .Include(x => x.License.Sku)
                     .SingleOrDefault();
 
-                if (domainLicenseQuery == null)
+                if (domainLicense == null)
                     return new HttpStatusCodeResult(HttpStatusCode.NotFound);
 
-                var viewModel = new DomainLicenseEditViewModel(domainLicenseQuery);
+                var viewModel = new DomainLicenseViewModel(domainLicense);
 
                 viewModel.UseLocalReferrerAsRedirectUrl(Request);
 
@@ -158,7 +155,7 @@ namespace KeyHub.Web.Controllers
         /// <param name="viewModel">Edited DomainLicenseViewModel</param>
         /// <returns>Redirectaction to index if successfull</returns>
         [HttpPost]
-        public ActionResult Edit(DomainLicenseEditViewModel viewModel)
+        public ActionResult Edit(DomainLicenseViewModel viewModel)
         {
             try
             {
@@ -166,16 +163,16 @@ namespace KeyHub.Web.Controllers
                 {
                     using (var context = dataContextFactory.CreateByUser())
                     {
-                        var domainLicense = (from x in context.DomainLicenses where x.DomainLicenseId == viewModel.DomainLicense.DomainLicenseId select x)
+                        var domainLicense = (from x in context.DomainLicenses where x.DomainLicenseId == viewModel.DomainLicenseId select x)
                             .SingleOrDefault();
 
                         if (domainLicense == null)
                             return new HttpStatusCodeResult(HttpStatusCode.NotFound);
 
-                        domainLicense.DomainName = viewModel.DomainLicense.DomainName;
-                        domainLicense.DomainLicenseIssued = viewModel.DomainLicense.DomainLicenseIssued;
-                        domainLicense.DomainLicenseExpires = viewModel.DomainLicense.DomainLicenseExpires;
-                        domainLicense.AutomaticlyCreated = viewModel.DomainLicense.AutomaticlyCreated;
+                        domainLicense.DomainName = viewModel.DomainName;
+                        domainLicense.DomainLicenseIssued = viewModel.DomainLicenseIssued;
+                        domainLicense.DomainLicenseExpires = viewModel.DomainLicenseExpires;
+                        domainLicense.AutomaticlyCreated = viewModel.AutomaticlyCreated;
 
                         context.SaveChanges();
                         Flash.Success("The domain license was updated.");
@@ -187,7 +184,7 @@ namespace KeyHub.Web.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Details", "License", new {key = viewModel.DomainLicense.LicenseId});
+                        return RedirectToAction("Details", "License", new {key = viewModel.LicenseId});
                     }
                 }
                 else
