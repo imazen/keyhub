@@ -22,50 +22,19 @@ namespace KeyHub.Integration.Tests
         [CleanDatabase]
         public void VendorCanManuallyCreateLicensedApplicationAndChangeItsSkus()
         {
-            //  The vendor is the user, vendorName is the name of the Vendor object not hte User.
-            var userEmail = "vendor@example.com";
-            var userPassword = "vendorPassword";
-            string vendorName;
-
-            var firstCustomerAppName = "customerApp.name1";
-            var secondCustomerAppName = "customerApp.name2";
+            var vendorAndCustomerScenario = new VendorWithALicensedCustomer();
 
             using (var site = new KeyHubWebDriver())
             {
-                //  The vendor creates their user account
-                SiteUtil.CreateLocalAccount(site, userEmail, userPassword);
+                vendorAndCustomerScenario.Setup(site);
 
-                //  The admin makes that user account a vendor.
-                using (var browser = BrowserUtil.GetBrowser())
-                {
-                    browser.Navigate().GoToUrl(site.UrlFor("/"));
-                    SiteUtil.SubmitLoginForm(browser, "admin", "password");
-
-                    vendorName = AdminUtil.CreateVendor(browser);
-
-                    AdminUtil.CreateAccountRightsFor(browser, userEmail, ObjectTypes.Vendor, vendorName);
-                }
+                var firstCustomerAppName = "customerApp.name1";
+                var secondCustomerAppName = "customerApp.name2";
 
                 using (var browser = BrowserUtil.GetBrowser())
                 {
                     browser.Navigate().GoToUrl(site.UrlFor("/"));
-                    SiteUtil.SubmitLoginForm(browser, userEmail, userPassword);
-
-                    VendorUtil.CreatePrivateKey(browser, vendorName);
-
-                    VendorUtil.CreateFeature(browser, "first feature", vendorName);
-                    VendorUtil.CreateFeature(browser, "second feature", vendorName);
-
-                    VendorUtil.CreateSku(browser, "first sku", vendorName, "first feature");
-                    VendorUtil.CreateSku(browser, "second sku", vendorName, "second feature");
-
-                    //  Create a Customer
-                    var customerName = VendorUtil.CreateCustomer(browser);
-
-                    //  Create a License
-                    VendorUtil.CreateLicense(browser, "first sku", customerName);
-                    VendorUtil.CreateLicense(browser, "second sku", customerName);
-
+                    SiteUtil.SubmitLoginForm(browser, vendorAndCustomerScenario.UserEmail, vendorAndCustomerScenario.UserPassword);
                     //  Create a CustomerApp / Licensed Application
                     browser.Navigate().GoToUrl(site.UrlFor("/"));
                     browser.FindElementByCssSelector("a[href='/CustomerApp']").Click();
@@ -103,6 +72,111 @@ namespace KeyHub.Integration.Tests
                     browser.FindElementByCssSelector(".success");
                     
                     Assert.Equal(0, browser.FindElementsByCssSelector("a[href^='/CustomerApp/Remove']").Count());
+                }
+            }
+        }
+
+        [Fact]
+        [CleanDatabase]
+        public void VendorCanManageDomainLicenses()
+        {
+            using (var site = new KeyHubWebDriver())
+            {
+                var scenario = new VendorWithALicensedCustomer();
+                scenario.Setup(site, canDeleteManualDomainsOfLicense:true);
+
+                //using (var browser = BrowserUtil.GetBrowser())
+                {
+                    var browser = BrowserUtil.GetBrowser();
+
+                    //  Create a license
+                    browser.Navigate().GoToUrl(site.UrlFor("/"));
+                    SiteUtil.SubmitLoginForm(browser, scenario.UserEmail, scenario.UserPassword);
+
+                    browser.FindElementByCssSelector("a[href='/License']").Click();
+                    browser.FindElementByCssSelector("a[href^='/License/Details']").Click();
+
+                    browser.FindElementByCssSelector("a[href^='/DomainLicense/Create']").Click();
+                    browser.FindElementByCssSelector("input#DomainLicense_DomainName").SendKeys("example.com");
+                    browser.FindElementByCssSelector("form[action^='/DomainLicense/Create'] input[type='submit']").Click();
+                    browser.FindElementByCssSelector(".success");
+
+                    var licensedDomains = GetLicensedDomains(browser);
+                    Assert.Contains("example.com", licensedDomains);
+
+                    //  Edit a license
+                    browser.FindElementByCssSelector("a[href^='/DomainLicense/Edit']").Click();
+                    IWebElement domainNameInput = browser.FindElementByCssSelector("input#DomainLicense_DomainName");
+                    domainNameInput.Clear();
+                    domainNameInput.SendKeys("example.org");
+                    browser.FindElementByCssSelector("form[action^='/DomainLicense/Edit'] input[type='submit']").Click();
+                    browser.FindElementByCssSelector(".success");
+                    licensedDomains = GetLicensedDomains(browser);
+                    Assert.Contains("example.org", licensedDomains);
+                    Assert.DoesNotContain("example.com", licensedDomains);
+
+                    //  Delete a license
+                    browser.FindElementByCssSelector("a[href^='/DomainLicense/Remove']").Click();
+                    browser.FindElementByCssSelector(".success");
+                    
+                    licensedDomains = GetLicensedDomains(browser);
+                    Assert.Equal(0, licensedDomains.Count());
+                }
+            }
+        }
+
+        private static IEnumerable<string> GetLicensedDomains(RemoteWebDriver browser)
+        {
+            var licensedDomains = browser.FindElementsByCssSelector("a[href^='/DomainLicense/Edit']")
+                .Select(a => a.FindElement(By.XPath("./ancestor::tr/td[1]")).Text.Trim())
+                .ToArray();
+
+            return licensedDomains;
+        }
+
+        public class VendorWithALicensedCustomer
+        {
+            //  The vendor is the user, VendorName is the name of the Vendor object not the User.
+            public string UserEmail = "vendor@example.com";
+            public string UserPassword = "vendorPassword";
+            public string VendorName;
+
+            public void Setup(KeyHubWebDriver site, bool canDeleteManualDomainsOfLicense = true)
+            {
+                //  The vendor creates their user account
+                SiteUtil.CreateLocalAccount(site, UserEmail, UserPassword);
+
+                //  The admin makes that user account a vendor.
+                using (var browser = BrowserUtil.GetBrowser())
+                {
+                    browser.Navigate().GoToUrl(site.UrlFor("/"));
+                    SiteUtil.SubmitLoginForm(browser, "admin", "password");
+
+                    VendorName = AdminUtil.CreateVendor(browser);
+
+                    AdminUtil.CreateAccountRightsFor(browser, UserEmail, ObjectTypes.Vendor,
+                        VendorName);
+                }
+
+                using (var browser = BrowserUtil.GetBrowser())
+                {
+                    browser.Navigate().GoToUrl(site.UrlFor("/"));
+                    SiteUtil.SubmitLoginForm(browser, UserEmail, UserPassword);
+
+                    VendorUtil.CreatePrivateKey(browser, VendorName);
+
+                    VendorUtil.CreateFeature(browser, "first feature", VendorName);
+                    VendorUtil.CreateFeature(browser, "second feature", VendorName);
+
+                    VendorUtil.CreateSku(browser, "first sku", VendorName, "first feature", canDeleteManualDomainsOfLicense);
+                    VendorUtil.CreateSku(browser, "second sku", VendorName, "second feature", canDeleteManualDomainsOfLicense);
+
+                    //  Create a Customer
+                    var customerName = VendorUtil.CreateCustomer(browser);
+
+                    //  Create a License
+                    VendorUtil.CreateLicense(browser, "first sku", customerName);
+                    VendorUtil.CreateLicense(browser, "second sku", customerName);
                 }
             }
         }

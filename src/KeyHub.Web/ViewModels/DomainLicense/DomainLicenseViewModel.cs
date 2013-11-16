@@ -35,29 +35,6 @@ namespace KeyHub.Web.ViewModels.DomainLicense
         }
 
         /// <summary>
-        /// Convert back to DomainLicense instance
-        /// </summary>
-        /// <param name="original">Original DomainLicense. If Null a new instance is created.</param>
-        /// <returns>DomainLicense containing viewmodel data </returns>
-        public Model.DomainLicense ToEntity(Model.DomainLicense original)
-        {
-            if (original == null)
-            {
-                original = new Model.DomainLicense();
-            }
-            var current = original;
-
-            current.DomainLicenseId = this.DomainLicenseId;
-            current.LicenseId = this.LicenseId;
-            current.DomainName = this.DomainName;
-            current.DomainLicenseIssued = this.DomainLicenseIssued;
-            current.DomainLicenseExpires = this.DomainLicenseExpires;
-            current.AutomaticlyCreated = this.AutomaticlyCreated;
-
-            return current;
-        }
-
-        /// <summary>
         /// Unique LicenseDomainId as identity for a domain
         /// </summary>
         [HiddenInput(DisplayValue = false)]

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Remote;
+using Xunit;
 
 namespace KeyHub.Integration.Tests.TestSetup
 {
@@ -49,7 +50,12 @@ namespace KeyHub.Integration.Tests.TestSetup
             browser.FindElementByCssSelector(".success");
         }
 
-        public static void CreateSku(RemoteWebDriver browser, string skuCode, string vendorName, string featureName)
+        public static void CreateSku(
+            RemoteWebDriver browser, 
+            string skuCode, 
+            string vendorName, 
+            string featureName, 
+            bool canDeleteManualDomains = false)
         {
             browser.FindElementByCssSelector("a[href='/SKU']").Click();
             browser.FindElementByCssSelector("a[href='/SKU/Create']").Click();
@@ -58,6 +64,12 @@ namespace KeyHub.Integration.Tests.TestSetup
             SiteUtil.SetValueForChosenJQueryControl(browser, "#SKU_SelectedFeatureGUIDs_chzn", featureName);
             browser.FindElementByCssSelector("input#SKU_LicenseDuration").SendKeys("100");
             browser.FindElementByCssSelector("input#SKU_AutoDomainDuration").SendKeys("100");
+
+            if (canDeleteManualDomains)
+            {
+                browser.FindElementByCssSelector("#cb_SKU_CanDeleteManualDomains").Click();
+            }
+
             browser.FindElementByCssSelector("form[action='/SKU/Create'] input[type='submit']").Click();
             browser.FindElementByCssSelector(".success");
         }

@@ -27,14 +27,5 @@ namespace KeyHub.Web.ViewModels.DomainLicense
         /// Edited DomainLicense
         /// </summary>
         public DomainLicenseViewModel DomainLicense { get; set; }
-
-        /// <summary>
-        /// Convert back to DomainLicense instance
-        /// </summary>
-        /// <returns>New DomainLicense containing viewmodel data </returns>
-        public Model.DomainLicense ToEntity(Model.DomainLicense original)
-        {
-            return DomainLicense.ToEntity(original);
-        }
     }
 }

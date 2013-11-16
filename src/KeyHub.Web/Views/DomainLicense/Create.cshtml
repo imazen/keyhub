@@ -37,8 +37,8 @@
             @Html.LabelFor(model => model.DomainLicense.DomainLicenseIssued)
         </div>
         <div class="editor-field">
-            @Html.TextBoxFor(model => model.DomainLicense.DomainLicenseIssued, new {disabled = "disabled", @Value = Model.DomainLicense.DomainLicenseIssued.ToString("dd MMMM yyyy")})
-            @Html.ValidationMessageFor(model => model.DomainLicense.DomainLicenseIssued)
+            @Html.DisplayFor(model => model.DomainLicense.DomainLicenseIssued)
+            @Html.HiddenFor(model => model.DomainLicense.DomainLicenseIssued)
         </div>
 
         <div class="editor-label">
@@ -47,7 +47,8 @@
         <div class="editor-field">
             @if (Model.DomainLicense.CanCalculateDomainExpiration)
             {
-                @Html.TextBoxFor(model => model.DomainLicense.DomainLicenseExpires, new {disabled = "disabled", @Value = Model.DomainLicense.DomainLicenseExpires.Value.ToString("dd MMMM yyyy")})
+                @Html.DisplayFor(model => model.DomainLicense.DomainLicenseExpires)
+                @Html.HiddenFor(model => model.DomainLicense.DomainLicenseExpires)
             }
             else
             {
