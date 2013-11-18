@@ -47,6 +47,6 @@ namespace KeyHub.Web.ViewModels.Vendor
         [DisplayName("Country")]
         public string CountryName { get; set; }
 
-        public IEnumerable<VendorCredential> VenderCredentials;
+        public IEnumerable<Model.VendorCredential> VenderCredentials;
     }
 }

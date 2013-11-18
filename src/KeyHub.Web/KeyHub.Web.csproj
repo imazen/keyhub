@@ -315,6 +315,7 @@
     <Compile Include="ViewModels\User\UserEditViewModel.cs" />
     <Compile Include="ViewModels\User\UserIndexViewModel.cs" />
     <Compile Include="ViewModels\User\UserViewModel.cs" />
+    <Compile Include="ViewModels\VendorCredential\VendorCredentialModel.cs" />
     <Compile Include="ViewModels\Vendor\VendorCreateViewModel.cs" />
     <Compile Include="ViewModels\Vendor\VendorDetailsViewModel.cs" />
     <Compile Include="ViewModels\Vendor\VendorEditViewModel.cs" />
