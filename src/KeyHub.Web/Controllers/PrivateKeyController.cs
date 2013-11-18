@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -32,7 +33,7 @@ namespace KeyHub.Web.Controllers
         [ChildActionOnly]
         public ActionResult IndexPartial(Guid parentVendor)
         {
-            using (var context = dataContextFactory.Create())
+            using (var context = dataContextFactory.CreateByUser())
             {
                 var privateKeyQuery = (from x in context.PrivateKeys where x.VendorId == parentVendor orderby x.DisplayName select x);
                 var vendorQuery = (from v in context.Vendors where v.ObjectId == parentVendor select v);
@@ -130,7 +131,7 @@ namespace KeyHub.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    using (var context = dataContextFactory.Create())
+                    using (var context = dataContextFactory.CreateByUser())
                     {
                         var privateKey = context.PrivateKeys.SingleOrDefault(k => k.PrivateKeyId == viewModel.PrivateKey.PrivateKeyId);
 
@@ -162,12 +163,37 @@ namespace KeyHub.Web.Controllers
         /// <returns></returns>
         public ActionResult Remove(Guid key)
         {
-            using (var context = dataContextFactory.Create())
+            using (var context = dataContextFactory.CreateByUser())
             {
-                context.PrivateKeys.Remove(x => x.PrivateKeyId == key);
+                var privateKey = context.PrivateKeys.Where(k => k.PrivateKeyId == key)
+                    .Include(k => k.Vendor)
+                    .SingleOrDefault();
+
+                if (privateKey == null)
+                    return new HttpNotFoundResult();
+
+                var model = new PrivateKeyRemoveModel()
+                {
+                    PrivateKeyId = privateKey.PrivateKeyId,
+                    PrivateKeyName = privateKey.DisplayName,
+                    VendorName = privateKey.Vendor.Name
+                };
+
+                model.UseLocalReferrerAsRedirectUrl(Request);
+
+                return View(model);
+            }
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public ActionResult Remove(PrivateKeyRemoveModel model)
+        {
+            using (var context = dataContextFactory.CreateByUser())
+            {
+                context.PrivateKeys.Remove(x => x.PrivateKeyId == model.PrivateKeyId);
                 context.SaveChanges();
  
-                return Redirect(Request.UrlReferrer.ToString());
+                return Redirect(model.RedirectUrl ?? Url.Action("Index", "Home"));
             }
         }
     }

@@ -1,0 +1,19 @@
+﻿@model KeyHub.Web.ViewModels.PrivateKey.PrivateKeyRemoveModel
+
+@{
+    ViewBag.Title = "Remove Vendor PrivateKey";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.PrivateKeyId)
+    @Html.HiddenFor(m => m.RedirectUrl)
+
+    <p>Are you sure you want to delete PrivateKey '@Model.PrivateKeyName' from vendor @Model.VendorName?  This action cannot be undone.</p>
+
+    <p>
+        <input type="submit" class="Btn" value="Delete PrivateKey" />
+        <a href="@Model.RedirectUrl" class ="Btn">Cancel</a>
+    </p>
+}

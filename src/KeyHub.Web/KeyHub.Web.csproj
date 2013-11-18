@@ -269,6 +269,7 @@
     <Compile Include="ViewModels\CustomerAppIssue\CustomerAppIssueIndexViewModel.cs" />
     <Compile Include="ViewModels\CustomerApp\CustomerAppRemoveModel.cs" />
     <Compile Include="ViewModels\Mail\IssueMailViewModel.cs" />
+    <Compile Include="ViewModels\PrivateKey\PrivateKeyRemoveModel.cs" />
     <Compile Include="ViewModels\User\ChangePasswordViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\CustomerApp\CustomerAppViewModel.cs" />
@@ -595,6 +596,7 @@
     <Content Include="Views\AccountRights\Delete.cshtml" />
     <Content Include="Views\CustomerApp\Remove.cshtml" />
     <Content Include="Views\DomainLicense\Remove.cshtml" />
+    <Content Include="Views\PrivateKey\Remove.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

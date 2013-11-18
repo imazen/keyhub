@@ -185,6 +185,8 @@ namespace KeyHub.Integration.Tests
                     Assert.Equal(1, browser.FindElementsByCssSelector(".private-key-list tbody tr").Count());
                     privateKeyRow.FindElement((By.CssSelector("a[href^='/PrivateKey/Remove']"))).Click();
 
+                    browser.FindElementByCssSelector("form[action^='/PrivateKey/Remove'] input[type='submit']").Click();
+
                     Assert.Equal(1, browser.FindElementsByCssSelector(".private-key-list").Count());
                     Assert.Equal(0, browser.FindElementsByCssSelector(".private-key-list tbody tr").Count());
                 }
