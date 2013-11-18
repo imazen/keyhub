@@ -196,6 +196,8 @@ namespace KeyHub.Integration.Tests
             {
                 using (var browser = BrowserUtil.GetBrowser())
                 {
+                    base.Setup(site);
+
                     browser.Navigate().GoToUrl(site.UrlFor("/"));
                     SiteUtil.SubmitLoginForm(browser, UserEmail, UserPassword);
 

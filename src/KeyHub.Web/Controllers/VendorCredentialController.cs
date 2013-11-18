@@ -41,9 +41,11 @@ namespace KeyHub.Web.Controllers
 
             using (var dataContext = dataContextFactory.Create())
             {
+                var vendor = dataContext.Vendors.Single(v => v.ObjectId == inputModel.VendorId); // ensuring the vendor is authorized
+
                 dataContext.VendorCredentials.Add(new VendorCredential()
                 {
-                    VendorId = inputModel.VendorId,
+                    Vendor = vendor,
                     CredentialName = inputModel.CredentialName,
                     CredentialValue = SymmetricEncryption.EncryptForDatabase(Encoding.UTF8.GetBytes(inputModel.CredentialValue))
                 });
