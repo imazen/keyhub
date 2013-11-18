@@ -80,8 +80,10 @@
     <Compile Include="AdminTests.cs" />
     <Compile Include="TestSetup\AdminUtil.cs" />
     <Compile Include="TestSetup\VendorUtil.cs" />
+    <Compile Include="TestSetup\VendorWithALicensedCustomerScenario.cs" />
+    <Compile Include="TestSetup\WithAVendorDBScenario.cs" />
+    <Compile Include="TestSetup\WithAVendorScenario.cs" />
     <Compile Include="VendorRequirements.cs" />
-    <Compile Include="HasVendorScenario.cs" />
     <Compile Include="LicenseValidationScenario.cs" />
     <Compile Include="LicenseValidatorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -7,7 +7,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using KeyHub.Data;
 using KeyHub.Integration.Tests.TestSetup;
-using KeyHub.Model;
 using Moq;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Remote;
@@ -22,7 +21,7 @@ namespace KeyHub.Integration.Tests
         [CleanDatabase]
         public void VendorCanManuallyCreateLicensedApplicationAndChangeItsSkus()
         {
-            var vendorAndCustomerScenario = new VendorWithALicensedCustomer();
+            var vendorAndCustomerScenario = new VendorWithALicensedCustomerScenario();
 
             using (var site = new KeyHubWebDriver())
             {
@@ -82,7 +81,7 @@ namespace KeyHub.Integration.Tests
         {
             using (var site = new KeyHubWebDriver())
             {
-                var scenario = new VendorWithALicensedCustomer();
+                var scenario = new VendorWithALicensedCustomerScenario();
                 scenario.Setup(site, canDeleteManualDomainsOfLicense:true);
 
                 using (var browser = BrowserUtil.GetBrowser())
@@ -130,7 +129,7 @@ namespace KeyHub.Integration.Tests
         {
             using (var site = new KeyHubWebDriver())
             {
-                var scenario = new WithAVendor();
+                var scenario = new WithAVendorScenario();
                 scenario.Setup(site);
 
                 using (var browser = BrowserUtil.GetBrowser())
@@ -161,7 +160,7 @@ namespace KeyHub.Integration.Tests
         {
             using (var site = new KeyHubWebDriver())
             {
-                var scenario = new WithAVendor();
+                var scenario = new WithAVendorScenario();
                 scenario.Setup(site);
 
                 using (var browser = BrowserUtil.GetBrowser())
@@ -201,61 +200,6 @@ namespace KeyHub.Integration.Tests
                 .ToArray();
 
             return licensedDomains;
-        }
-
-        public class WithAVendor
-        {
-            //  The vendor is the user, VendorName is the name of the Vendor object not the User.
-            public string UserEmail = "vendor@example.com";
-            public string UserPassword = "vendorPassword";
-            public string VendorName;
-
-            public void Setup(KeyHubWebDriver site)
-            {
-                //  The vendor creates their user account
-                SiteUtil.CreateLocalAccount(site, UserEmail, UserPassword);
-
-                //  The admin makes that user account a vendor.
-                using (var browser = BrowserUtil.GetBrowser())
-                {
-                    browser.Navigate().GoToUrl(site.UrlFor("/"));
-                    SiteUtil.SubmitLoginForm(browser, "admin", "password");
-
-                    VendorName = AdminUtil.CreateVendor(browser);
-
-                    AdminUtil.CreateAccountRightsFor(browser, UserEmail, ObjectTypes.Vendor,
-                        VendorName);
-                }
-            }
-        }
-
-        public class VendorWithALicensedCustomer : WithAVendor
-        {
-            public void Setup(KeyHubWebDriver site, bool canDeleteManualDomainsOfLicense = true)
-            {
-                using (var browser = BrowserUtil.GetBrowser())
-                {
-                    base.Setup(site);
-
-                    browser.Navigate().GoToUrl(site.UrlFor("/"));
-                    SiteUtil.SubmitLoginForm(browser, UserEmail, UserPassword);
-
-                    VendorUtil.CreatePrivateKey(browser, VendorName);
-
-                    VendorUtil.CreateFeature(browser, "first feature", VendorName);
-                    VendorUtil.CreateFeature(browser, "second feature", VendorName);
-
-                    VendorUtil.CreateSku(browser, "first sku", VendorName, "first feature", canDeleteManualDomainsOfLicense);
-                    VendorUtil.CreateSku(browser, "second sku", VendorName, "second feature", canDeleteManualDomainsOfLicense);
-
-                    //  Create a Customer
-                    var customerName = VendorUtil.CreateCustomer(browser);
-
-                    //  Create a License
-                    VendorUtil.CreateLicense(browser, "first sku", customerName);
-                    VendorUtil.CreateLicense(browser, "second sku", customerName);
-                }
-            }
         }
 
         private void AssertApplicationNameIs(RemoteWebDriver browser, string expectedName)

@@ -2,12 +2,11 @@
 using System.Text;
 using KeyHub.Common.Utils;
 using KeyHub.Data;
-using KeyHub.Integration.Tests.TestSetup;
 using KeyHub.Model;
 
-namespace KeyHub.Integration.Tests
+namespace KeyHub.Integration.Tests.TestSetup
 {
-    public class HasVendorScenario
+    public class WithAVendorDBScenario
     {
         public Guid VendorId;
         public string VendorName = "vendor.name";
@@ -17,7 +16,7 @@ namespace KeyHub.Integration.Tests
         public string SkuCode;
         public Guid SkuId;
 
-        public HasVendorScenario()
+        public WithAVendorDBScenario()
         {
             using (var dataContext = new DataContext())
             {

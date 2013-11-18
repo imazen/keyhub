@@ -24,7 +24,7 @@ namespace KeyHub.Integration.Tests
         [CleanDatabase]
         public void CanUseALicensePurchasedViaEJunkie()
         {
-            var vendorScenario = new HasVendorScenario();
+            var vendorScenario = new WithAVendorDBScenario();
             var payerEmail = "payerEmail@example.com";
 
             var customerEmail = "customerEmail@example.com";
@@ -102,7 +102,7 @@ namespace KeyHub.Integration.Tests
         [CleanDatabase]
         public void VendorCanManuallyCreateTransaction()
         {
-            var vendorScenario = new HasVendorScenario();
+            var vendorScenario = new WithAVendorDBScenario();
             var vendorEmail = "vendorEmail@example.com";
             var vendorPassword = "vendorPassword";
 

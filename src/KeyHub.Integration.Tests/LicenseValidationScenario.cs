@@ -27,7 +27,7 @@ namespace KeyHub.Integration.Tests
                     NativeCountryName = "country.nativeCountryName"
                 });
 
-                var vendorScenario = new HasVendorScenario();
+                var vendorScenario = new WithAVendorDBScenario();
                 FeatureCode = vendorScenario.FeatureCode;
                 PublicKeyXml = vendorScenario.PublicKeyXml;
 
