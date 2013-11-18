@@ -187,7 +187,6 @@ namespace KeyHub.Integration.Tests
 
                     Assert.Equal(1, browser.FindElementsByCssSelector(".private-key-list").Count());
                     Assert.Equal(0, browser.FindElementsByCssSelector(".private-key-list tbody tr").Count());
-                    browser.FindElementByCssSelector("foo");
                 }
             }            
         }
