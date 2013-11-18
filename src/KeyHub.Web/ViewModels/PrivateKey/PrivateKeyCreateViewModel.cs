@@ -35,20 +35,5 @@ namespace KeyHub.Web.ViewModels.PrivateKey
         [Required]
         [StringLength(256)]
         public string DisplayName { get; set; }
-
-        /// <summary>
-        /// Convert back to PrivateKey instance
-        /// </summary>
-        /// <returns>New privateKey containing viewmodel data </returns>
-        public Model.PrivateKey ToEntity(Model.PrivateKey original)
-        {
-            var privateKey = new Model.PrivateKey();
-            privateKey.SetKeyBytes();
-
-            privateKey.DisplayName = DisplayName;
-            privateKey.VendorId = VendorId;
-
-            return privateKey;
-        }
     }
 }

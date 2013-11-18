@@ -19,6 +19,7 @@ namespace KeyHub.Data
             var authorizedVendorIds = ResolveAuthorizedVendors();
             this.Vendors = new FilteredDbSet<Vendor>(this, v => authorizedVendorIds.Contains(v.ObjectId));
             this.VendorCredentials = new FilteredDbSet<VendorCredential>(this, vc => authorizedVendorIds.Contains(vc.VendorId));
+            this.PrivateKeys = new FilteredDbSet<PrivateKey>(this, pk => authorizedVendorIds.Contains(pk.VendorId));
             this.Features = new FilteredDbSet<Feature>(this, f => authorizedVendorIds.Contains(f.VendorId));
 
             //License dependant entities.

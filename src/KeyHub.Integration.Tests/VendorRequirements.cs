@@ -155,6 +155,44 @@ namespace KeyHub.Integration.Tests
             }
         }
 
+        [Fact]
+        [CleanDatabase]
+        public void VendorCanRenameAndRemovePrivateKeys()
+        {
+            using (var site = new KeyHubWebDriver())
+            {
+                var scenario = new WithAVendor();
+                scenario.Setup(site);
+
+                using (var browser = BrowserUtil.GetBrowser())
+                {
+                    browser.Navigate().GoToUrl(site.UrlFor("/"));
+                    SiteUtil.SubmitLoginForm(browser, scenario.UserEmail, scenario.UserPassword);
+
+                    var privateKeyName = VendorUtil.CreatePrivateKey(browser, scenario.VendorName);
+
+                    var privateKeyRow = browser.FindElementByXPath("//td[contains(text(),'" + privateKeyName + "')]/ancestor::tr");
+                    privateKeyRow.FindElement((By.CssSelector("a[href^='/PrivateKey/Edit']"))).Click();
+
+                    var nameInput = browser.FindElementByCssSelector("input#PrivateKey_DisplayName");
+                    nameInput.Clear();
+                    nameInput.SendKeys("second name");
+                    browser.FindElementByCssSelector("form[action^='/PrivateKey/Edit'] input[type='submit']").Click();
+
+                    privateKeyRow = browser.FindElementByXPath("//td[contains(text(),'second name')]/ancestor::tr");
+
+                    Assert.Equal(1, browser.FindElementsByCssSelector(".private-key-list").Count());
+                    Assert.Equal(1, browser.FindElementsByCssSelector(".private-key-list tbody tr").Count());
+                    privateKeyRow.FindElement((By.CssSelector("a[href^='/PrivateKey/Remove']"))).Click();
+
+                    Assert.Equal(1, browser.FindElementsByCssSelector(".private-key-list").Count());
+                    Assert.Equal(0, browser.FindElementsByCssSelector(".private-key-list tbody tr").Count());
+                    browser.FindElementByCssSelector("foo");
+                }
+            }            
+        }
+
+
         private static IEnumerable<string> GetLicensedDomains(RemoteWebDriver browser)
         {
             var licensedDomains = browser.FindElementsByCssSelector("a[href^='/DomainLicense/Edit']")

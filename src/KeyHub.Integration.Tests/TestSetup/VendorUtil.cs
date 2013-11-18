@@ -11,13 +11,17 @@ namespace KeyHub.Integration.Tests.TestSetup
 {
     class VendorUtil
     {
-        public static void CreatePrivateKey(RemoteWebDriver browser, string vendorName)
+        public static string CreatePrivateKey(RemoteWebDriver browser, string vendorName)
         {
+            string privatekeyName = "privatekey.Name";
+
             browser.FindElementByCssSelector("a[href='/Vendor']").Click();
             browser.FindElement(By.LinkText(vendorName)).Click();
             browser.FindElementByCssSelector("a[href^='/PrivateKey/Create']").Click();
-            browser.FindElementByCssSelector("input#DisplayName").SendKeys("privatekey.Name");
+            browser.FindElementByCssSelector("input#DisplayName").SendKeys(privatekeyName);
             browser.FindElementByCssSelector("form[action^='/PrivateKey/Create'] input[type='submit']").Click();
+
+            return privatekeyName;
         }
 
         public static string CreateCustomer(RemoteWebDriver browser)

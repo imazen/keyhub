@@ -26,15 +26,5 @@ namespace KeyHub.Web.ViewModels.PrivateKey
         /// Edited privateKey
         /// </summary>
         public PrivateKeyViewModel PrivateKey { get; set; }
-
-        /// <summary>
-        /// Convert back to PrivateKey instance
-        /// </summary>
-        /// <param name="original">Original PrivateKey. If Null a new instance is created.</param>
-        /// <returns>PrivateKey containing viewmodel data </returns>
-        public Model.PrivateKey ToEntity(Model.PrivateKey original)
-        {
-            return PrivateKey.ToEntity(original);
-        }
     }
 }
