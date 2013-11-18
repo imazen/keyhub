@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
@@ -81,11 +82,10 @@ namespace KeyHub.Web.Controllers
         public ActionResult Create()
         {
             using (var context = dataContextFactory.CreateByUser())
-            using (var basket = BasketWrapper.CreateNewByIdentity(dataContextFactory))
             {
-                var skuQuery = from x in context.SKUs orderby x.SkuCode select x;
+                var skus = context.SKUs.OrderBy(s => s.SkuCode).ToList();
 
-                var viewModel = new TransactionCreateViewModel(basket.Transaction, skuQuery.ToList());
+                var viewModel = new TransactionCreateViewModel(new Transaction { CreatedDateTime = DateTime.Now }, skus);
 
                 return View(viewModel);
             }
@@ -105,9 +105,7 @@ namespace KeyHub.Web.Controllers
                 {
                     using (var basket = BasketWrapper.CreateNewByIdentity(dataContextFactory))
                     {
-                        viewModel.ToEntity(basket.Transaction);
-
-                        basket.AddItems(viewModel.GetSelectedSkuGuids());
+                        basket.AddItems(viewModel.Transaction.SelectedSKUGuids.Select(x => x.ToString()).ToList());
 
                         basket.Transaction.PurchaserEmail = "n/a";
                         basket.Transaction.PurchaserName = "n/a";

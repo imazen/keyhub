@@ -35,25 +35,6 @@ namespace KeyHub.Web.ViewModels.Transaction
         /// List of SKUs to select
         /// </summary>
         public SelectList SKUList { get; set; }
-        
-        /// <summary>
-        /// Convert back to Transaction instance
-        /// </summary>
-        /// <param name="original">Original Transaction. If Null a new instance is created.</param>
-        /// <returns>Transaction containing viewmodel data </returns>
-        public Model.Transaction ToEntity(Model.Transaction original)
-        {
-            return Transaction.ToEntity(null);
-        }
-
-        /// <summary>
-        /// Retrieve a list of SKU Guids
-        /// </summary>
-        /// <returns>List of assigned SKU Guids</returns>
-        public IEnumerable<string> GetSelectedSkuGuids()
-        {
-            return Transaction.SelectedSKUGuids.Select(x => x.ToString()).ToList();
-        }
     }
 
     /// <summary>
