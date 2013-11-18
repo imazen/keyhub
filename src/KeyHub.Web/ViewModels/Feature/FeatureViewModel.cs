@@ -29,22 +29,6 @@ namespace KeyHub.Web.ViewModels.Feature
         }
 
         /// <summary>
-        /// Convert back to Feature instance
-        /// </summary>
-        /// <param name="original">Original Feature. If Null a new instance is created.</param>
-        /// <returns>Feature containing viewmodel data </returns>
-        public Model.Feature ToEntity(Model.Feature original)
-        {
-            Model.Feature current = original ?? new Model.Feature();
-
-            current.VendorId = this.VendorId;
-            current.FeatureCode = this.FeatureCode;
-            current.FeatureName = this.FeatureName;
-
-            return current;
-        }
-
-        /// <summary>
         /// Unique identifier
         /// </summary>
         [HiddenInput(DisplayValue = false)]

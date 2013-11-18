@@ -124,6 +124,37 @@ namespace KeyHub.Integration.Tests
             }
         }
 
+        [Fact]
+        [CleanDatabase]
+        public void VendorCanEditAFeature()
+        {
+            using (var site = new KeyHubWebDriver())
+            {
+                var scenario = new WithAVendor();
+                scenario.Setup(site);
+
+                using (var browser = BrowserUtil.GetBrowser())
+                {
+                    browser.Navigate().GoToUrl(site.UrlFor("/"));
+                    SiteUtil.SubmitLoginForm(browser, scenario.UserEmail, scenario.UserPassword);
+
+                    VendorUtil.CreateFeature(browser, "first feature", scenario.VendorName);
+
+                    var featureRow = browser.FindElement(By.XPath("//td[contains(text(),'first feature')]/ancestor::tr"));
+                    featureRow.FindElement(By.CssSelector("a[href^='/Feature/Edit']")).Click();
+
+                    var nameInput = browser.FindElementByCssSelector("#Feature_FeatureName");
+                    nameInput.Clear();
+                    nameInput.SendKeys("second name");
+
+                    browser.FindElementByCssSelector("form[action^='/Feature/Edit'] input[type='submit']").Click();
+                    browser.FindElementByCssSelector(".success");
+
+                    browser.FindElement(By.XPath("//td[contains(text(),'second name')]"));
+                }
+            }
+        }
+
         private static IEnumerable<string> GetLicensedDomains(RemoteWebDriver browser)
         {
             var licensedDomains = browser.FindElementsByCssSelector("a[href^='/DomainLicense/Edit']")
@@ -133,14 +164,14 @@ namespace KeyHub.Integration.Tests
             return licensedDomains;
         }
 
-        public class VendorWithALicensedCustomer
+        public class WithAVendor
         {
             //  The vendor is the user, VendorName is the name of the Vendor object not the User.
             public string UserEmail = "vendor@example.com";
             public string UserPassword = "vendorPassword";
             public string VendorName;
 
-            public void Setup(KeyHubWebDriver site, bool canDeleteManualDomainsOfLicense = true)
+            public void Setup(KeyHubWebDriver site)
             {
                 //  The vendor creates their user account
                 SiteUtil.CreateLocalAccount(site, UserEmail, UserPassword);
@@ -156,7 +187,13 @@ namespace KeyHub.Integration.Tests
                     AdminUtil.CreateAccountRightsFor(browser, UserEmail, ObjectTypes.Vendor,
                         VendorName);
                 }
+            }
+        }
 
+        public class VendorWithALicensedCustomer : WithAVendor
+        {
+            public void Setup(KeyHubWebDriver site, bool canDeleteManualDomainsOfLicense = true)
+            {
                 using (var browser = BrowserUtil.GetBrowser())
                 {
                     browser.Navigate().GoToUrl(site.UrlFor("/"));

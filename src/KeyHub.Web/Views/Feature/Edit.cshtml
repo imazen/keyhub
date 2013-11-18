@@ -1,4 +1,4 @@
-﻿@model KeyHub.Web.ViewModels.Feature.FeatureEditViewModel
+﻿@model KeyHub.Web.ViewModels.Feature.FeatureCreateEditViewModel
 
 @{
     ViewBag.ItemName = "Feature";
@@ -9,6 +9,7 @@
 
 @using (Html.BeginForm()) {
     @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
 
     <fieldset>
         <legend>FeatureViewModel</legend>

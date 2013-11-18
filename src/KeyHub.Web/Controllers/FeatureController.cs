@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using KeyHub.Data.BusinessRules;
+using KeyHub.Model;
 using KeyHub.Web.ViewModels.Feature;
 using KeyHub.Data;
 using MvcFlash.Core;
@@ -54,9 +56,7 @@ namespace KeyHub.Web.Controllers
         {
             using (var context = dataContextFactory.CreateByUser())
             {
-                var vendorQuery = (from c in context.Vendors select c);//.FilterByUser(UserEntity);
-
-                FeatureCreateViewModel viewModel = new FeatureCreateViewModel(vendorQuery.ToList());
+                var viewModel = FeatureCreateEditViewModel.ForCreate(context);
 
                 return View(viewModel);
             }
@@ -67,14 +67,17 @@ namespace KeyHub.Web.Controllers
         /// </summary>
         /// <param name="viewModel">Created <c>FeatureViewModel</c></param>
         /// <returns>Redirectaction to index if successfull</returns>
-        [HttpPost]
-        public ActionResult Create(FeatureCreateViewModel viewModel)
+        [HttpPost, ValidateAntiForgeryToken]
+        public ActionResult Create(FeatureCreateEditViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
                 using (var context = dataContextFactory.CreateByUser())
                 {
-                    var feature = viewModel.ToEntity(null);
+                    var feature = new Feature();
+
+                    viewModel.ApplyToEntity(context, feature);
+
                     context.Features.Add(feature);
 
                     if (context.SaveChanges(CreateValidationFailed))
@@ -106,10 +109,10 @@ namespace KeyHub.Web.Controllers
         {
             using (var context = dataContextFactory.CreateByUser())
             {
-                var featureQuery = from f in context.Features where f.FeatureId == key select f;
-                var vendorQuery = (from v in context.Vendors select v);//;.FilterByUser(UserEntity);
+                var viewModel = FeatureCreateEditViewModel.ForEdit(context, key);
 
-                FeatureEditViewModel viewModel = new FeatureEditViewModel(featureQuery.FirstOrDefault(), vendorQuery.ToList());
+                if (viewModel == null)
+                    return new HttpStatusCodeResult(HttpStatusCode.NotFound);
 
                 return View(viewModel);
             }
@@ -120,20 +123,28 @@ namespace KeyHub.Web.Controllers
         /// </summary>
         /// <param name="viewModel">Edited FeatureViewModel</param>
         /// <returns>Redirectaction to index if successfull</returns>
-        [HttpPost]
-        public ActionResult Edit(FeatureEditViewModel viewModel)
+        [HttpPost, ValidateAntiForgeryToken]
+        public ActionResult Edit(FeatureCreateEditViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
                 using (var context = dataContextFactory.CreateByUser())
                 {
-                    Model.Feature feature = (from f in context.Features where f.FeatureId == viewModel.Feature.FeatureId select f).FirstOrDefault();
-                    viewModel.ToEntity(feature);
+                    Model.Feature feature = (from f in context.Features where f.FeatureId == viewModel.Feature.FeatureId select f).SingleOrDefault();
+
+                    if (feature == null)
+                        return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+                    
+                    viewModel.ApplyToEntity(context, feature);
 
                     if (context.SaveChanges(CreateValidationFailed))
+                    {
+                        Flash.Success("The feature was updated.");
                         return RedirectToAction("Index");
+                    }
                 }
             }
+
             return Edit(viewModel.Feature.FeatureId);
         }
     }
