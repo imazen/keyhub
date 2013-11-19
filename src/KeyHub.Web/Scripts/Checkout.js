@@ -26,13 +26,13 @@ var visible = false;
 
 function ToggleNewOwningCustomer() {
     if (visible == false) {
-        $('#OwningCustomer').slideDown(200, function () {
+        $('#OwningCustomer').show(function () {
             $('#NewOwningCustomer :input').removeAttr('disabled');
             $('#NewOwningCustomer SELECT').trigger("liszt:updated");
         });
         visible = true;
     } else {
-        $('#OwningCustomer').slideUp(200, function () {
+        $('#OwningCustomer').hide(function () {
             $('#NewOwningCustomer :input').attr('disabled', true);
             $('#NewOwningCustomer SELECT').trigger("liszt:updated");
         });

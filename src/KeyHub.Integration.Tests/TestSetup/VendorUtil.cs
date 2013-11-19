@@ -24,10 +24,8 @@ namespace KeyHub.Integration.Tests.TestSetup
             return privatekeyName;
         }
 
-        public static string CreateCustomer(RemoteWebDriver browser)
+        public static string CreateCustomer(RemoteWebDriver browser, string customerName = "customer.name")
         {
-            var customerName = "customer.name";
-
             browser.FindElementByCssSelector("a[href='/Customer']").Click();
             browser.FindElementByCssSelector("a[href='/Customer/Create']").Click();
 

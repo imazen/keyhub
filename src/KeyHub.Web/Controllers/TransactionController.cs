@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web.Mvc;
 using KeyHub.BusinessLogic.Basket;
 using KeyHub.Core;
@@ -191,12 +192,14 @@ namespace KeyHub.Web.Controllers
         /// <param name="viewModel">Created TransactionCheckoutViewModel</param>
         /// <returns>Redirect to purchase if successfull</returns>
         [HttpPost]
-        public ActionResult Checkout(TransactionCheckoutViewModel viewModel)
+        public ActionResult Checkout(string key, TransactionCheckoutViewModel viewModel)
         {
+            var transactionId = Common.Utils.SafeConvert.ToGuid(key.DecryptUrl());
+
             if (ModelState.IsValid)
             {
                 using (var context = dataContextFactory.CreateByUser())
-                using (var basket = BasketWrapper.CreateByTransaction(dataContextFactory, viewModel.Transaction.TransactionId))
+                using (var basket = BasketWrapper.CreateByTransaction(dataContextFactory, transactionId))
                 {
                     if (basket.Transaction == null)
                         throw new EntityNotFoundException("Transaction SKUs are not accessible to current user!");
@@ -210,7 +213,12 @@ namespace KeyHub.Web.Controllers
                     Customer owningCustomer;
 
                     if (viewModel.ExistingPurchasingCustomer)
-                        purchasingCustomer = (from x in context.Customers where x.ObjectId == viewModel.PurchasingCustomerId select x).FirstOrDefault();
+                    {
+                        purchasingCustomer = context.Customers.SingleOrDefault(x => x.ObjectId == viewModel.PurchasingCustomerId);
+
+                        if (purchasingCustomer == null)
+                            return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+                    }
                     else
                         purchasingCustomer = viewModel.NewPurchasingCustomer.ToEntity(null);
 
@@ -221,7 +229,12 @@ namespace KeyHub.Web.Controllers
                     else
                     {
                         if (viewModel.ExistingOwningCustomer)
-                            owningCustomer = (from x in context.Customers where x.ObjectId == viewModel.OwningCustomerId select x).FirstOrDefault();    
+                        {
+                            owningCustomer = context.Customers.SingleOrDefault(x => x.ObjectId == viewModel.OwningCustomerId);
+
+                            if (owningCustomer == null)
+                                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+                        }
                         else
                             owningCustomer = viewModel.NewOwningCustomer.ToEntity(null);    
                             

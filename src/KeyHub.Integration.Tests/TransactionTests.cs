@@ -103,10 +103,42 @@ namespace KeyHub.Integration.Tests
 
         [Fact]
         [CleanDatabase]
-        public void VendorCanManuallyCreateTransaction()
+        public void VendorCanManuallyCreateTransactionForNewCustomers()
+        {
+            VendorManuallyCreatesTransaction(browser => { },
+                SubmitTransactionCheckoutFormWithNewCustomer);
+        }
+
+        [Fact]
+        [CleanDatabase]
+        public void VendorCanManuallyCreateTransactionForExistingCustomers()
+        {
+            string purchasingCustomer = "purchasing customer name";
+            string owningCustomer = "owning customer name";
+
+            VendorManuallyCreatesTransaction(browser =>
+            {
+                VendorUtil.CreateCustomer(browser, purchasingCustomer);
+                VendorUtil.CreateCustomer(browser, owningCustomer);
+            },
+            browser =>
+            {
+                browser.FindElementByCssSelector("#cb_ExistingPurchasingCustomer").Click();
+                SiteUtil.SetValueForChosenJQueryControl(browser, "#PurchasingCustomerId_chzn", purchasingCustomer);
+
+                browser.FindElementByCssSelector("#cb_OwningCustomerIsPurchasingCustomerId").Click();
+
+                browser.FindElementByCssSelector("#cb_ExistingOwningCustomer").Click();
+                SiteUtil.SetValueForChosenJQueryControl(browser, "#OwningCustomerId_chzn", owningCustomer);
+
+                browser.FindElementByCssSelector("form[action^='/Transaction/Checkout']  input[type=submit]").Click();
+            });
+        }
+
+        private static void VendorManuallyCreatesTransaction(Action<RemoteWebDriver> vendorActionBeforeCreatingTransaction, Action<RemoteWebDriver> transactionSubmitHandler)
         {
             var vendorScenario = new WithAVendorDBScenario();
-            var vendorEmail = "vendorEmail@example.com";
+            var vendorEmail = "vendor@example.com";
             var vendorPassword = "vendorPassword";
 
             using (var site = new KeyHubWebDriver())
@@ -136,13 +168,18 @@ namespace KeyHub.Integration.Tests
                 {
                     browser.Navigate().GoToUrl(site.UrlFor("/"));
                     SiteUtil.SubmitLoginForm(browser, vendorEmail, vendorPassword);
+
+                    vendorActionBeforeCreatingTransaction(browser);
+
+                    browser.Navigate().GoToUrl(site.UrlFor("/"));
                     browser.FindElementByCssSelector("a[href='/Transaction/Create']").Click();
 
-                    SiteUtil.SetValueForChosenJQueryControl(browser, "div#Transaction_SelectedSKUGuids_chzn", vendorScenario.SkuCode);
+                    SiteUtil.SetValueForChosenJQueryControl(browser, "div#Transaction_SelectedSKUGuids_chzn",
+                        vendorScenario.SkuCode);
 
                     browser.FindElementByCssSelector("form[action^='/Transaction/Create'] input[type='submit']").Click();
 
-                    SubmitTransactionCheckoutFormWithNewCustomer(browser);
+                    transactionSubmitHandler(browser);
 
                     var appKeyValue = GetAppKeyFromTransactionCompletePage(browser);
 
