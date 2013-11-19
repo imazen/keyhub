@@ -97,7 +97,7 @@ namespace KeyHub.Web.Controllers
         /// </summary>
         /// <param name="viewModel">Created TransactionCreateViewModel</param>
         /// <returns>Redirectaction to checkout if successfull</returns>
-        [HttpPost]
+        [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Create(TransactionCreateViewModel viewModel)
         {
             try
@@ -191,7 +191,7 @@ namespace KeyHub.Web.Controllers
         /// </summary>
         /// <param name="viewModel">Created TransactionCheckoutViewModel</param>
         /// <returns>Redirect to purchase if successfull</returns>
-        [HttpPost]
+        [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Checkout(string key, TransactionCheckoutViewModel viewModel)
         {
             var transactionId = Common.Utils.SafeConvert.ToGuid(key.DecryptUrl());

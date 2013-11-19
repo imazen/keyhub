@@ -10,6 +10,7 @@
 <h2>Select one or several SKU's for this transaction</h2>
 
 @using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
     <fieldset>

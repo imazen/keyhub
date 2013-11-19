@@ -13,6 +13,7 @@
 <h2>@ViewBag.ItemName <span>@ViewBag.Title</span></h2>
 
 @using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
     <fieldset>
