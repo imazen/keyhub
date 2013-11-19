@@ -36,22 +36,7 @@
         </div>
 
         <p>
-            @if (User.Identity.IsAuthenticated)
-            {
-                <input type="submit" value="Proceed to checkout" />
-            }
-            else
-            {
-                UrlHelper u = new UrlHelper(Request.RequestContext);
-                string url = u.Action("Checkout", "Transaction", new { key = Model.Transaction.TransactionId.ToString().EncryptUrl() });
-
-                @Html.ActionLink("Register and proceed to checkout", "Register", "Account", new { returnUrl = url }, new { @class = "Btn" })  
-                
-                <html>&nbsp;</html>
-
-                @Html.ActionLink("Log in and proceed to checkout", "Login", "Account", new { returnUrl = url }, new { @class = "Btn" })    
-                       
-            }
+            @Html.ActionLink("Proceed to checkout", "Checkout", "Transaction", new { key = Model.Transaction.TransactionId.ToString().EncryptUrl()}, new { @class = "Btn"})
         </p>
     </fieldset>
 }

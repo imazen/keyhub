@@ -69,6 +69,9 @@ namespace KeyHub.Integration.Tests
                     using (var browser = BrowserUtil.GetBrowser())
                     {
                         browser.Navigate().GoToUrl(emailLink);
+
+                        browser.FindElementByCssSelector("a[href^='/Transaction/Checkout']").Click();
+
                         browser.FindElementByCssSelector("a[href^='/Account/Register']").Click();
 
                         SiteUtil.SubmitRegistrationForm(browser, customerEmail, customerPassword);

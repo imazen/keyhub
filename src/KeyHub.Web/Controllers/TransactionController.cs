@@ -154,43 +154,6 @@ namespace KeyHub.Web.Controllers
 
                 return View(viewModel);
             }
-
-        }
-
-        /// <summary>
-        /// Process claimed transaction and proceed to checkout
-        /// </summary>
-        /// <param name="viewModel">TransactionDetailsViewModel of transaction to claim</param>
-        /// <returns>Redirect to checkout</returns>
-        [HttpPost]
-        public ActionResult ClaimLicenses(TransactionDetailsViewModel viewModel)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    using (var basket = BasketWrapper.CreateByTransaction(dataContextFactory, viewModel.Transaction.TransactionId))
-                    {
-                        if (basket.Transaction == null)
-                            throw new EntityNotFoundException("Transaction could not be resolved!");
-
-                        if (basket.Transaction.Status == TransactionStatus.Complete)
-                            throw new EntityOperationNotSupportedException("Transaction is already claimed!");
-
-                        viewModel.ToEntity(basket.Transaction);
-
-                        return RedirectToAction("Checkout", new { key = basket.Transaction.TransactionId.ToString().EncryptUrl() });
-                    }
-                }
-                else
-                {
-                    return View(viewModel);
-                }
-            }
-            catch
-            {
-                throw;
-            }
         }
 
         /// <summary>

@@ -39,7 +39,7 @@
                     </div>
                     
                     <h3>
-                        If you don't have an account yet, you can @Html.ActionLink("register here", "Register", "Account").
+                        If you don't have an account yet, you can @Html.ActionLink("register here", "Register", "Account", new { returnUrl = ViewBag.ReturnUrl}, new {})
                     </h3>
                 </fieldset>
             }   
