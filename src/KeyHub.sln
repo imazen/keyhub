@@ -34,10 +34,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{9338D646-1BAF-4B49-BA73-E3E81E2488AB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyHub.Client", "KeyHub.Client\KeyHub.Client.csproj", "{46F597BD-70D9-4A1C-8D91-B4CA2D604C36}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyHub.Integration.Tests", "KeyHub.Integration.Tests\KeyHub.Integration.Tests.csproj", "{A2EA4FF4-7DF9-4782-A9B7-5E4EDA8FF105}"
-	ProjectSection(ProjectDependencies) = postProject
-		{5706BEBF-F361-4845-9514-DC085FBEC39E} = {5706BEBF-F361-4845-9514-DC085FBEC39E}
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
