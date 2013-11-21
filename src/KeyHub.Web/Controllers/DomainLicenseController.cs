@@ -110,7 +110,7 @@ namespace KeyHub.Web.Controllers
                     domainLicense.DomainName = viewModel.DomainName;
                     domainLicense.DomainLicenseIssued = viewModel.DomainLicenseIssued;
                     domainLicense.DomainLicenseExpires = viewModel.DomainLicenseExpires;
-                    domainLicense.AutomaticlyCreated = viewModel.AutomaticlyCreated;
+                    domainLicense.AutomaticallyCreated = viewModel.AutomaticallyCreated;
 
                     context.DomainLicenses.Add(domainLicense);
 
@@ -172,7 +172,7 @@ namespace KeyHub.Web.Controllers
                         domainLicense.DomainName = viewModel.DomainName;
                         domainLicense.DomainLicenseIssued = viewModel.DomainLicenseIssued;
                         domainLicense.DomainLicenseExpires = viewModel.DomainLicenseExpires;
-                        domainLicense.AutomaticlyCreated = viewModel.AutomaticlyCreated;
+                        domainLicense.AutomaticallyCreated = viewModel.AutomaticallyCreated;
 
                         context.SaveChanges();
                         Flash.Success("The domain license was updated.");

@@ -14,9 +14,9 @@ namespace KeyHub.Data.Extensions
             return domainLicenseSet.Any(x => x.DomainName == domainLicense.DomainName && x.LicenseId == domainLicense.LicenseId);
         }
 
-        public static IQueryable<DomainLicense> AutomaticlyCreated(this IQueryable<DomainLicense> domainLicenses)
+        public static IQueryable<DomainLicense> AutomaticallyCreated(this IQueryable<DomainLicense> domainLicenses)
         {
-            return domainLicenses.Where(x => x.AutomaticlyCreated);
+            return domainLicenses.Where(x => x.AutomaticallyCreated);
         }
 
         public static IQueryable<DomainLicense> Expired(this IQueryable<DomainLicense> domainLicenses)

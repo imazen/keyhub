@@ -63,7 +63,7 @@ namespace KeyHub.Model
         /// Should be true if automatically generated
         /// </summary>
         [Required]
-        public bool AutomaticlyCreated { get; set; }
+        public bool AutomaticallyCreated { get; set; }
 
         /// <summary>
         /// The private key in bytes, encrypted with KeyHub.Common.SymmetricEncryption.EncryptForDatabase

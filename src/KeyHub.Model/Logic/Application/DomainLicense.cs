@@ -13,8 +13,8 @@ namespace KeyHub.Model
         {
             get
             {
-                return (AutomaticlyCreated && License.Sku.CanDeleteAutoDomains) ||
-                       (!AutomaticlyCreated && License.Sku.CanDeleteManualDomains);
+                return (AutomaticallyCreated && License.Sku.CanDeleteAutoDomains) ||
+                       (!AutomaticallyCreated && License.Sku.CanDeleteManualDomains);
             }
         }
     }

@@ -137,7 +137,7 @@
 //                .IgnoreInstance()
 //                .ReturnsCollection(new List<License> { license1 });
 
-//            Mock.Arrange(() => context.DomainLicenses.Add(Arg.Matches((DomainLicense d) => d.DomainName == domainName1 && d.AutomaticlyCreated)))
+//            Mock.Arrange(() => context.DomainLicenses.Add(Arg.Matches((DomainLicense d) => d.DomainName == domainName1 && d.AutomaticallyCreated)))
 //                .IgnoreInstance()
 //                .DoInstead((DomainLicense d) => domainLicenses.Add(d));
 

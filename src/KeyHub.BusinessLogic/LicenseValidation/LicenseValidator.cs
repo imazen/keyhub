@@ -93,7 +93,7 @@ namespace KeyHub.BusinessLogic.LicenseValidation
                         domainLicense = new DomainLicense
                             {
                                 DomainName = domainName,
-                                AutomaticlyCreated = true,
+                                AutomaticallyCreated = true,
                                 DomainLicenseIssued = featureLicense.Sku.CalculateDomainIssueDate(),
                                 DomainLicenseExpires = featureLicense.Sku.CalculateAutoDomainExpiration(),
                                 KeyBytes = featureLicense.Sku.PrivateKey.KeyBytes,
@@ -194,7 +194,7 @@ namespace KeyHub.BusinessLogic.LicenseValidation
             using (var context = dataContextFactory.Create())
             {
                 var expiredDomainLicenses = context.DomainLicenses
-                                                   .AutomaticlyCreated()
+                                                   .AutomaticallyCreated()
                                                    .Expired()
                                                    .ToList();
 

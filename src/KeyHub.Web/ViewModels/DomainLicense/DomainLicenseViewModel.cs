@@ -29,7 +29,7 @@ namespace KeyHub.Web.ViewModels.DomainLicense
             this.DomainName = domainLicense.DomainName;
             this.DomainLicenseIssued = domainLicense.DomainLicenseIssued;
             this.DomainLicenseExpires = domainLicense.DomainLicenseExpires;
-            this.AutomaticlyCreated = domainLicense.AutomaticlyCreated;
+            this.AutomaticallyCreated = domainLicense.AutomaticallyCreated;
             this.CanBeManuallyDeleted = domainLicense.CanBeManuallyDeleted;
             this.CanCalculateDomainExpiration = domainLicense.License.Sku.CanCalculateManualDomainExpiration;
         }
@@ -72,7 +72,7 @@ namespace KeyHub.Web.ViewModels.DomainLicense
         /// Should be true if automatically generated
         /// </summary>
         [Required]
-        public bool AutomaticlyCreated { get; set; }
+        public bool AutomaticallyCreated { get; set; }
 
         /// <summary>
         /// The license name this domains is associated with
