@@ -75,21 +75,18 @@ namespace KeyHub.Web
                 return;
             }
 
-            if (HttpContext.Current.Request.IsLocal)
+            var sslPort = ConfigurationManager.AppSettings["sslRedirectPort"];
+
+            if (string.IsNullOrEmpty(sslPort))
             {
-                var sslPort = ConfigurationManager.AppSettings["sslRedirectPort"];
-
-                if (string.IsNullOrEmpty(sslPort))
-                {
-                    return;
-                }
-
-                var newUrl = new UriBuilder(HttpContext.Current.Request.Url);
-                newUrl.Scheme = "https";
-                newUrl.Port = int.Parse(sslPort);
-
-                Response.Redirect(newUrl.ToString(), true);
+                return;
             }
+
+            var newUrl = new UriBuilder(HttpContext.Current.Request.Url);
+            newUrl.Scheme = "https";
+            newUrl.Port = int.Parse(sslPort);
+
+            Response.Redirect(newUrl.ToString(), true);
         }
     }
 }
