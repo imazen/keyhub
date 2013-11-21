@@ -60,7 +60,7 @@ namespace KeyHub.Integration.Tests.TestSetup
 
             selector.Click();
             
-            var wait = new WebDriverWait(browser, TimeSpan.FromSeconds(2));
+            var wait = new WebDriverWait(browser, TimeSpan.FromSeconds(5));
             wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector(cssSelector + " input[type=text]")));
 
             browser.FindElementByCssSelector(cssSelector + " input[type=text]").SendKeys(value + Keys.Enter);
