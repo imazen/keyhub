@@ -309,6 +309,7 @@
     <Compile Include="ViewModels\UserObjectRight\UserObjectRightCreateViewModel.cs" />
     <Compile Include="ViewModels\UserObjectRight\UserObjectRightIndexViewModel.cs" />
     <Compile Include="ViewModels\UserObjectRight\UserObjectRightViewModel.cs" />
+    <Compile Include="ViewModels\User\LinkAccountModel.cs" />
     <Compile Include="ViewModels\User\LoginViewModel.cs" />
     <Compile Include="ViewModels\User\UserCreateViewModel.cs" />
     <Compile Include="ViewModels\User\CurrentUserViewModel.cs" />

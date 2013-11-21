@@ -1,39 +1,62 @@
 ﻿@using MvcFlash.Core.Extensions
-@model KeyHub.Web.Models.LoginViewModel
+@model KeyHub.Web.ViewModels.User.LinkAccountModel
 
 @{
-    ViewBag.Title = "Link OpenID Accounts";
+    ViewBag.Title = "Manage your OpenID logins";
 }
 
-@section featured {
+ @section featured {
     <h2>@ViewBag.Title.</h2>
 }
 
-<table cellpadding="30px">
-    <tr>
-        <td valign="top">
-            <h2>Associate OpenID accounts with your login.</h2>
+<style>
+    .section {
+        padding: 6px;
+        font-size: 18px;
+    }
+     
+</style>
 
-            @using (Html.BeginForm("LinkAccount", "Account"))
+<div class="section">
+    @if (Model.OpenIDProvidersLinked.Count() > 0)
+    {
+        <div>You have the following OpenID logins linked to your account:</div>
+        
+        <ol>
+            @foreach (var provider in Model.OpenIDProvidersLinked)
             {
-                @Html.AntiForgeryToken()
-
-                <fieldset> 
-                    <legend>Associate OpenID accounts with your login.</legend>
-                    <div class="editor-field" style="width: 270px;">
-                    @foreach (AuthenticationClientData p in OAuthWebSecurity.RegisteredClientData.OrderBy(x => x.DisplayName))
-                    {
-                        <input type="submit" name="provider" value="@p.DisplayName" title="Link your @p.DisplayName account" />
-                        <span>&nbsp;</span>
-                    }
-                    </div>
-                </fieldset>
+                <li class="section">
+                    @provider 
+                </li>
             }
-        </td>
-    </tr>
-</table>
+        </ol>
+    }
+    else
+    {
+        <div>No OpenID logins are linked at this time.</div>
+    }
+</div>
 
+@if (Model.OpenIDProvidersAvailable.Count() > 0)
+{
+    <div class="section">
+        <span>Associate OpenID accounts with your login:</span>
+            
+        @using (Html.BeginForm("LinkAccount", "Account"))
+        {
+            @Html.AntiForgeryToken()
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+            <fieldset> 
+                <legend>Associate OpenID accounts with your login:</legend>
+                <ol class="editor-field" style="width: 270px;">
+                    @foreach (var provider in Model.OpenIDProvidersAvailable)
+                    {
+                        <li class="section">
+                            <input type="submit" name="provider" value="@provider" title="Link your @provider account" />
+                        </li>
+                    }
+                </ol>
+            </fieldset>
+        }
+    </div> 
 }

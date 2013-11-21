@@ -12,6 +12,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using DotNetOpenAuth.AspNet;
 using KeyHub.Model;
+using Microsoft.Ajax.Utilities;
 using Microsoft.Web.WebPages.OAuth;
 using KeyHub.Data;
 using KeyHub.Web.Models;
@@ -428,7 +429,26 @@ namespace KeyHub.Web.Controllers
 
         public ActionResult LinkAccount()
         {
-            return View("LinkAccount");
+            using (var context = dataContextFactory.Create())
+            {
+                var user = context.GetUser(User.Identity);
+
+                var allProviders = OAuthWebSecurity.RegisteredClientData.Select(c => c.DisplayName).ToArray();
+
+                //  Match each linked provider to the member of allProviders as allProviders has proper casing (Google, not google)
+                var linkedProviders = OAuthWebSecurity.GetAccountsFromUserName(user.MembershipUserIdentifier)
+                    .Select(lp => allProviders.Single(ap => ap.ToLower() == lp.Provider.ToLower()))
+                    .ToArray();
+
+                var loginMethodCount = linkedProviders.Count() + (OAuthWebSecurity.HasLocalAccount(user.UserId) ? 1 : 0);
+
+                return View("LinkAccount", new LinkAccountModel()
+                {
+                    OpenIDProvidersLinked = linkedProviders,
+                    OpenIDProvidersAvailable = allProviders.Where(p => !linkedProviders.Contains(p)),
+                    AllowRemovingLogin = loginMethodCount > 1
+                });
+            }
         }
 
         [HttpPost]
