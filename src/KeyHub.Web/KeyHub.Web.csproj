@@ -239,6 +239,7 @@
     <Compile Include="Controllers\LicenseController.cs" />
     <Compile Include="Controllers\MailController.cs" />
     <Compile Include="Controllers\PrivateKeyController.cs" />
+    <Compile Include="Controllers\SharedController.cs" />
     <Compile Include="Controllers\SKUController.cs" />
     <Compile Include="Controllers\TransactionController.cs" />
     <Compile Include="Api\Controllers\TransactionController.cs" />
