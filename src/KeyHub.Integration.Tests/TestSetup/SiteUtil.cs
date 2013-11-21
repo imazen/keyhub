@@ -63,11 +63,22 @@ namespace KeyHub.Integration.Tests.TestSetup
             browser.FindElementByCssSelector(cssSelector + " input[type=text]").SendKeys(value + Keys.Tab);
         }
 
-        public static void SetValueForChosenJQueryControlMulti(RemoteWebDriver browser, string cssSelector, string value)
+        public static void SetValueForChosenJQueryControlMulti(
+            RemoteWebDriver browser, 
+            string cssSelector, string value, 
+            bool clearExisting = false)
         {
             var clickTarget = browser.FindElementByCssSelector(cssSelector);
 
             clickTarget.Click();
+
+            if (clearExisting)
+            {
+                foreach (var removeButton in browser.FindElementsByCssSelector(cssSelector + " li .search-choice-close"))
+                {
+                    removeButton.Click();
+                }
+            }
 
             var selection =
                 browser.FindElementsByCssSelector(cssSelector + " li").FirstOrDefault(e => e.Text.Contains(value));

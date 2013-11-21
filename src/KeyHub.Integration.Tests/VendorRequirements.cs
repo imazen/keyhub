@@ -58,7 +58,7 @@ namespace KeyHub.Integration.Tests
 
                     // Switch licenses on the customer app
                     browser.FindElementByCssSelector("a[href^='/CustomerApp/Edit']").Click();
-                    SiteUtil.SetValueForChosenJQueryControlMulti(browser, "#SelectedLicenseGUIDs_chzn", "second sku");
+                    SiteUtil.SetValueForChosenJQueryControlMulti(browser, "#SelectedLicenseGUIDs_chzn", "second sku", clearExisting:true);
                     browser.FindElementByCssSelector("form[action^='/CustomerApp/Edit'] input[type='submit']").Click();
                     browser.FindElementByCssSelector(".success");
 
