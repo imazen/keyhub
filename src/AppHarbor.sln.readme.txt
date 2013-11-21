@@ -1,0 +1,9 @@
+To update AppHarbor.sln:
+
+  1. Delete the current AppHarbor.sln
+  2. Copy file Keyhub.sln to AppHarbor.sln
+  3. Open AppHarbor.sln in Visual Studio
+     - Remove the Key.Integration.Tests project
+	 - Save the solution
+	 
+AppHarbor.sln is added so that AppHarbor can exclude the integration tests, which can not pass in their environment.
