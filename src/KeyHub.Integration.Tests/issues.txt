@@ -1,4 +1,9 @@
 ﻿
+to run tests, need to log in with test account locally manually
+
+how to view errors in newrelic?
+
+
 CustomerApp/Edit  - http://localhost:1335/CustomerApp/Edit?key=962f9f9d-d167-4bff-8dc8-2a00d7ee59df
   if all license is removed from an app, the app disappears from http://localhost:1335/CustomerApp
 
@@ -7,30 +12,11 @@ Firefox25 broke some tests, had to rollback to 24 and disable firefox automatic 
 
 
 
-TransactionByIpnController.PostTransactionByIpn should have tests
-
-  PrivateKeyController.Remove should be an HTTP post
-  PrivateKeyController should use anti-forgery tokens
-
-  
-  - authorization of admin pages is only checked if the user is logged in.
-    It should check that the user is an admin, or the user is editing something that belongs to them.
-
-  - upgrade to entity framework 6.0?
-
-  - what to do about usernames that are in the sourcecode?
-    - have a default admin and warn people to change it
-    - require an appSetting with the admin email, require OpenID login
-
-
 
 - Do we have a bug in the DataContext usage?  The code is calling .Dispose() on the contexts, but Windsor expects factory.Release(context) to be used.
 	Windsor may be tracking all these instances.  (if we are releasing the factories, then windsor is fine)
 
 - is the licensing plugin going to be able to detect the domain?  What if the server is behind a load balancer?
-	
-CSS styling is all over, how do I compile scss files?  Should add styles for Flash (.error, .success, etc)
-
 
 
 Do the integration tests work on other people's machines ok?
@@ -40,13 +26,5 @@ Do the integration tests work on other people's machines ok?
   ->  It may assume that IISEXpress has had a chance to create a config entry for KeyHub in the user's applicationhost.config
 
 
-Low priority:  Vendors should be able to edit their vendor page, but not others.
-
-Poor messaging when registering an existing user account
-   -> we should have a link to /Account/LinkAccount somewhere
-
   
 have test username/password in source control (a test gmail account)
-
-
-resharper test runner stalls if I try to run MSTest tests (it used to work, hmm.  Tests do pass when using VS test runner)
