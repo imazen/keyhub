@@ -88,7 +88,7 @@ namespace KeyHub.Web.Controllers
         /// </summary>
         /// <param name="viewModel">Created LicenseCreateViewModel</param>
         /// <returns>Redirectaction to index if successfull</returns>
-        [HttpPost]
+        [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Create(LicenseCreateViewModel viewModel)
         {
             try
@@ -151,7 +151,7 @@ namespace KeyHub.Web.Controllers
         /// </summary>
         /// <param name="viewModel">Edited LicenseEditViewModel</param>
         /// <returns>Redirectaction to index if successfull</returns>
-        [HttpPost]
+        [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Edit(LicenseEditViewModel viewModel)
         {
             try

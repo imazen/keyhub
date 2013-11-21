@@ -69,7 +69,7 @@ namespace KeyHub.Web.Controllers
         /// </summary>
         /// <param name="viewModel">Created SKUViewModel</param>
         /// <returns>Redirectaction to index if successfull</returns>
-        [HttpPost]
+        [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Create(SKUCreateViewModel viewModel)
         {
             if (ModelState.IsValid)
@@ -130,7 +130,7 @@ namespace KeyHub.Web.Controllers
         /// </summary>
         /// <param name="viewModel">Edited SKUViewModel</param>
         /// <returns>Redirectaction to index if successfull</returns>
-        [HttpPost]
+        [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Edit(SKUEditViewModel viewModel)
         {
             if (ModelState.IsValid)

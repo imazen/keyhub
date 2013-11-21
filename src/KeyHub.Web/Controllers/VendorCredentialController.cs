@@ -26,9 +26,8 @@ namespace KeyHub.Web.Controllers
 
             return View("CreateEdit", model);
         }
-        
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+
+        [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Create(VendorCredentialModel inputModel)
         {
             if (!ModelState.IsValid)
@@ -63,8 +62,7 @@ namespace KeyHub.Web.Controllers
             return View("CreateEdit", model);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Edit(VendorCredentialModel inputModel)
         {
             if (!ModelState.IsValid)
@@ -99,8 +97,7 @@ namespace KeyHub.Web.Controllers
             return View("Remove", model);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Remove(Guid VendorId, Guid VendorCredentialId)
         {
             if (!ModelState.IsValid)

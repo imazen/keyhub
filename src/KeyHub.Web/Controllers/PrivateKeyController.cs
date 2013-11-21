@@ -66,8 +66,7 @@ namespace KeyHub.Web.Controllers
         /// </summary>
         /// <param name="viewModel">Created PrivateKeyViewModel</param>
         /// <returns>Redirectaction to index if successfull</returns>
-        [HttpPost]
-        [ValidateInput(false), ValidateAntiForgeryToken]
+        [HttpPost, ValidateInput(false), ValidateAntiForgeryToken]
         public ActionResult Create(PrivateKeyCreateViewModel viewModel)
         {
             try
@@ -123,8 +122,7 @@ namespace KeyHub.Web.Controllers
         /// </summary>
         /// <param name="viewModel">Edited PrivateKeyViewModel</param>
         /// <returns>Redirectaction to index if successfull</returns>
-        [HttpPost]
-        [ValidateInput(false), ValidateAntiForgeryToken]
+        [HttpPost, ValidateInput(false), ValidateAntiForgeryToken]
         public ActionResult Edit(PrivateKeyEditViewModel viewModel)
         {
             try

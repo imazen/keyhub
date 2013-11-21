@@ -82,7 +82,7 @@ namespace KeyHub.Web.Controllers
         /// </summary>
         /// <param name="viewModel">Created VendorViewModel</param>
         /// <returns>Redirectaction to index if successfull</returns>
-        [HttpPost]
+        [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Create(VendorCreateViewModel viewModel)
         {
             try
@@ -133,7 +133,7 @@ namespace KeyHub.Web.Controllers
         /// </summary>
         /// <param name="viewModel">Edited VendorViewModel</param>
         /// <returns>Redirectaction to index if successfull</returns>
-        [HttpPost]
+        [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Edit(VendorEditViewModel viewModel)
         {
             try

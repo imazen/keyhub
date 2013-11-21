@@ -8,6 +8,7 @@
 <h2><span>@ViewBag.Title</span> @ViewBag.ItemName </h2>
 
 @using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
     <fieldset>

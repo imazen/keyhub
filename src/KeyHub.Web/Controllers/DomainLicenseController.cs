@@ -87,7 +87,7 @@ namespace KeyHub.Web.Controllers
         /// </summary>
         /// <param name="viewModel">Created DomainLicenseViewModel</param>
         /// <returns>Redirectaction to index if successfull</returns>
-        [HttpPost]
+        [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Create(DomainLicenseViewModel viewModel)
         {
             if (ModelState.IsValid)
@@ -154,7 +154,7 @@ namespace KeyHub.Web.Controllers
         /// </summary>
         /// <param name="viewModel">Edited DomainLicenseViewModel</param>
         /// <returns>Redirectaction to index if successfull</returns>
-        [HttpPost]
+        [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Edit(DomainLicenseViewModel viewModel)
         {
             try

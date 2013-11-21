@@ -92,7 +92,7 @@ namespace KeyHub.Web.Controllers
         /// </summary>
         /// <param name="viewModel">Created UserObjectRightCreateViewModel</param>
         /// <returns>Redirectaction to account overview if successfull</returns>
-        [HttpPost]
+        [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Create(UserObjectRightCreateViewModel viewModel)
         {
             if (ModelState.IsValid)
