@@ -60,5 +60,36 @@ namespace KeyHub.Web
         {
             container.Resolve<IKernelContext>().RunKernelEvents(KernelEventsTypes.Shutdown);
         }
+
+        protected void Application_BeginRequest(Object sender, EventArgs e)
+        {
+            if (HttpContext.Current.Request.IsSecureConnection)
+            {
+                return;
+            }
+
+            if (string.Equals(HttpContext.Current.Request.Headers["X-Forwarded-Proto"],
+                "https",
+                StringComparison.InvariantCultureIgnoreCase))
+            {
+                return;
+            }
+
+            if (HttpContext.Current.Request.IsLocal)
+            {
+                var sslPort = ConfigurationManager.AppSettings["sslRedirectPort"];
+
+                if (string.IsNullOrEmpty(sslPort))
+                {
+                    return;
+                }
+
+                var newUrl = new UriBuilder(HttpContext.Current.Request.Url);
+                newUrl.Scheme = "https";
+                newUrl.Port = int.Parse(sslPort);
+
+                Response.Redirect(newUrl.ToString(), true);
+            }
+        }
     }
 }
