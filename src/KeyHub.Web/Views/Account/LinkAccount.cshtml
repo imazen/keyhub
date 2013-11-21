@@ -27,6 +27,10 @@
             {
                 <li class="section">
                     @provider 
+                    @if (Model.AllowRemovingLogin)
+                    {
+                        @Html.ActionLink("remove", "UnlinkLogin", "Account", new { provider = provider}, new {})
+                    }
                 </li>
             }
         </ol>

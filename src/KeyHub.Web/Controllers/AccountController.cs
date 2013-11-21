@@ -7,6 +7,7 @@ using System.Data.Entity.Infrastructure;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
+using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -431,23 +432,8 @@ namespace KeyHub.Web.Controllers
         {
             using (var context = dataContextFactory.Create())
             {
-                var user = context.GetUser(User.Identity);
-
-                var allProviders = OAuthWebSecurity.RegisteredClientData.Select(c => c.DisplayName).ToArray();
-
-                //  Match each linked provider to the member of allProviders as allProviders has proper casing (Google, not google)
-                var linkedProviders = OAuthWebSecurity.GetAccountsFromUserName(user.MembershipUserIdentifier)
-                    .Select(lp => allProviders.Single(ap => ap.ToLower() == lp.Provider.ToLower()))
-                    .ToArray();
-
-                var loginMethodCount = linkedProviders.Count() + (OAuthWebSecurity.HasLocalAccount(user.UserId) ? 1 : 0);
-
-                return View("LinkAccount", new LinkAccountModel()
-                {
-                    OpenIDProvidersLinked = linkedProviders,
-                    OpenIDProvidersAvailable = allProviders.Where(p => !linkedProviders.Contains(p)),
-                    AllowRemovingLogin = loginMethodCount > 1
-                });
+                var model = LinkAccountModel.ForUser(context, User.Identity);
+                return View("LinkAccount", model);
             }
         }
 
@@ -475,6 +461,47 @@ namespace KeyHub.Web.Controllers
 
             OAuthWebSecurity.CreateOrUpdateAccount(authenticationResult.Provider, authenticationResult.ProviderUserId, User.Identity.Name);
             Flash.Success("Your " + authenticationResult.Provider + " login has been linked.");
+            return RedirectToAction("LinkAccount");
+        }
+
+        public class UnlinkLoginModel
+        {
+            public string Provider { get; set; }
+        }
+
+        public ActionResult UnlinkLogin(string provider)
+        {
+            return View(new UnlinkLoginModel() {Provider = provider});
+        }
+
+        [HttpPost, ValidateAntiForgeryToken, ActionName("UnlinkLogin")]
+        public ActionResult UnlinkLogin_Post(string provider)
+        {
+            using (var context = dataContextFactory.Create())
+            {
+                var model = LinkAccountModel.ForUser(context, User.Identity);
+                
+                if (!model.AllowRemovingLogin)
+                {
+                    Flash.Error(
+                        "The login could not be unlinked because it is the last login available for this account.");
+                }
+                else
+                {
+                    var providerAccount = OAuthWebSecurity.GetAccountsFromUserName(User.Identity.Name)
+                        .Single(a => a.Provider.ToLower() == provider.ToLower());
+
+                    if (OAuthWebSecurity.DeleteAccount(providerAccount.Provider, providerAccount.ProviderUserId))
+                    {
+                        Flash.Success("Your " + provider + " login has been unlinked");
+                    }
+                    else
+                    {
+                        Flash.Error("The account could not be unlinked.");
+                    }
+                }
+            }
+
             return RedirectToAction("LinkAccount");
         }
 

@@ -598,6 +598,7 @@
     <Content Include="Views\CustomerApp\Remove.cshtml" />
     <Content Include="Views\DomainLicense\Remove.cshtml" />
     <Content Include="Views\PrivateKey\Remove.cshtml" />
+    <Content Include="Views\Account\UnlinkLogin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

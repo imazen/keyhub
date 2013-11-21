@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using KeyHub.Integration.Tests.TestSetup;
 using OpenQA.Selenium;
@@ -19,7 +20,7 @@ namespace KeyHub.Integration.Tests
     {
         [Fact]
         [CleanDatabase]
-        public void CanRegisterLocallyThenAssociate3rdPartyLogin()
+        public void CanRegisterLocallyThenAssociateAndDisassociate3rdPartyLogin()
         {
             var email = ConfigurationManager.AppSettings.Get("googleTestEmail");
             var password = ConfigurationManager.AppSettings.Get("googleTestPassword");
@@ -27,6 +28,8 @@ namespace KeyHub.Integration.Tests
             using (var site = new KeyHubWebDriver())
             {
                 SiteUtil.CreateLocalAccount(site, email, password);
+
+                int expectedUserID;
 
                 using (var browser = BrowserUtil.GetBrowser())
                 {
@@ -43,11 +46,10 @@ namespace KeyHub.Integration.Tests
                     browser.Navigate().GoToUrl(site.UrlFor("/"));
                     SiteUtil.SubmitLoginForm(browser, email, password);
 
+                    expectedUserID = GetCurrentUserId(browser);
+
                     browser.FindElementByCssSelector("a[href='/Account']").Click();
                     browser.FindElementByCssSelector("a[href='/Account/LinkAccount']").Click();
-
-                    // TODO: verify returnUrl was honored  (need to start auth flow on an authenticated page,
-                    // check that we're there now)
 
                     browser.Navigate().GoToUrl(site.UrlFor("/Account/LinkAccount"));
                     Console.WriteLine("Page is " + browser.Url);
@@ -56,7 +58,45 @@ namespace KeyHub.Integration.Tests
                     var successText = browser.FindElementByCssSelector(".success").Text;
                     Assert.Contains("Your google login has been linked", successText);
                 }
+
+                using (var browser = BrowserUtil.GetBrowser())
+                {
+                    browser.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(5));
+
+                    browser.Navigate().GoToUrl(site.UrlFor("/"));
+                    browser.FindElementByCssSelector("input[type='submit'][value='Google']").Click();
+                    FillGoogleLoginForm(browser, email, password);
+                    SiteUtil.WaitUntilUserIsLoggedIn(browser);
+
+                    Assert.Equal(expectedUserID, GetCurrentUserId(browser));
+
+                    browser.FindElementByCssSelector("a[href='/Account']").Click();
+                    browser.FindElementByCssSelector("a[href='/Account/LinkAccount']").Click();
+                    browser.FindElementByCssSelector("a[href^='/Account/UnlinkLogin']").Click();
+                    browser.FindElementByCssSelector("form[action^='/Account/UnlinkLogin'] input[type='submit']").Click();
+
+                    var successText = browser.FindElementByCssSelector(".success").Text;
+                    Assert.Contains("Your Google login has been unlinked", successText);
+                }
+
+                using (var browser = BrowserUtil.GetBrowser())
+                {
+                    browser.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(5));
+
+                    browser.Navigate().GoToUrl(site.UrlFor("/"));
+                    browser.FindElementByCssSelector("input[type='submit'][value='Google']").Click();
+                    FillGoogleLoginForm(browser, email, password);
+                    var errorText = browser.FindElementByCssSelector(".error").Text;
+                    Assert.Contains("The email address used to login is already in use", errorText);
+                }
             }
+        }
+
+        int GetCurrentUserId(RemoteWebDriver browser)
+        {
+            browser.FindElementByCssSelector("a[href='/Account']").Click();
+            var editLink = browser.FindElementByCssSelector("a[href^='/Account/Edit']").GetAttribute("href");
+            return int.Parse(Regex.Match(editLink, @"(\d+)$").Groups[1].Value);
         }
 
         [Fact]

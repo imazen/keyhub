@@ -1,0 +1,16 @@
+﻿@model KeyHub.Web.Controllers.AccountController.UnlinkLoginModel
+
+@{
+    ViewBag.Title = "Unlink OpenID login";
+}
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken();
+
+    <p>Are you sure you want to unlink OpenID login for @Model.Provider from your account?</p>
+        
+    <p>
+        <input type="submit" class="Btn" value="Unlink Account" />
+        @Html.ActionLink("Cancel", "LinkAccount", "Account", new {}, new { @class = "Btn"})
+    </p>
+}
