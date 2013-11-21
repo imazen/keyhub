@@ -7,6 +7,7 @@ using KeyHub.Model;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.UI;
+using Xunit;
 
 namespace KeyHub.Integration.Tests.TestSetup
 {
@@ -53,17 +54,27 @@ namespace KeyHub.Integration.Tests.TestSetup
 
         public static void SetValueForChosenJQueryControl(RemoteWebDriver browser, string cssSelector, string value)
         {
-            // We're using the jQuery Chosen library for some front-end widgets.  These require special 
-            // handling to get the timing correct.
+            browser.FindElementByCssSelector(cssSelector);  // ensure the form field is present
 
-            var selector = browser.FindElementByCssSelector(cssSelector);
+            //  Click a contained ".chzn-single" element, if available
+            var clickTarget = browser.FindElementByCssSelector(cssSelector + " .chzn-single");
+            clickTarget.Click();
 
-            selector.Click();
-            
-            var wait = new WebDriverWait(browser, TimeSpan.FromSeconds(5));
-            wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector(cssSelector + " input[type=text]")));
+            browser.FindElementByCssSelector(cssSelector + " input[type=text]").SendKeys(value + Keys.Tab);
+        }
 
-            browser.FindElementByCssSelector(cssSelector + " input[type=text]").SendKeys(value + Keys.Enter);
+        public static void SetValueForChosenJQueryControlMulti(RemoteWebDriver browser, string cssSelector, string value)
+        {
+            var clickTarget = browser.FindElementByCssSelector(cssSelector);
+
+            clickTarget.Click();
+
+            var selection =
+                browser.FindElementsByCssSelector(cssSelector + " li").FirstOrDefault(e => e.Text.Contains(value));
+
+            Assert.NotNull(selection);
+
+            selection.Click();
         }
 
         public static void SetDateValueForJQueryDatepicker(RemoteWebDriver browser, string elementSelector, DateTime value)

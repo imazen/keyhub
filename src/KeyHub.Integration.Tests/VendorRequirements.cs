@@ -39,7 +39,7 @@ namespace KeyHub.Integration.Tests
                     browser.FindElementByCssSelector("a[href='/CustomerApp']").Click();
                     browser.FindElementByCssSelector("a[href='/CustomerApp/Create']").Click();
                     browser.FindElementByCssSelector("input#ApplicationName").SendKeys(firstCustomerAppName);
-                    SiteUtil.SetValueForChosenJQueryControl(browser, "#SelectedLicenseGUIDs_chzn", "first sku");
+                    SiteUtil.SetValueForChosenJQueryControlMulti(browser, "#SelectedLicenseGUIDs_chzn", "first sku");
                     browser.FindElementByCssSelector("form[action='/CustomerApp/Create'] input[type=submit]").Click();
                     browser.FindElementByCssSelector(".success");
 
@@ -58,8 +58,7 @@ namespace KeyHub.Integration.Tests
 
                     // Switch licenses on the customer app
                     browser.FindElementByCssSelector("a[href^='/CustomerApp/Edit']").Click();
-                    SiteUtil.SetValueForChosenJQueryControl(browser, "#SelectedLicenseGUIDs_chzn",
-                        Keys.Backspace + Keys.Backspace + "second sku");
+                    SiteUtil.SetValueForChosenJQueryControlMulti(browser, "#SelectedLicenseGUIDs_chzn", "second sku");
                     browser.FindElementByCssSelector("form[action^='/CustomerApp/Edit'] input[type='submit']").Click();
                     browser.FindElementByCssSelector(".success");
 

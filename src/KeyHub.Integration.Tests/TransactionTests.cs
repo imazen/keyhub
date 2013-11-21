@@ -174,7 +174,7 @@ namespace KeyHub.Integration.Tests
                     browser.Navigate().GoToUrl(site.UrlFor("/"));
                     browser.FindElementByCssSelector("a[href='/Transaction/Create']").Click();
 
-                    SiteUtil.SetValueForChosenJQueryControl(browser, "div#Transaction_SelectedSKUGuids_chzn",
+                    SiteUtil.SetValueForChosenJQueryControlMulti(browser, "div#Transaction_SelectedSKUGuids_chzn",
                         vendorScenario.SkuCode);
 
                     browser.FindElementByCssSelector("form[action^='/Transaction/Create'] input[type='submit']").Click();

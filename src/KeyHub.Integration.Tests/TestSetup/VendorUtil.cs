@@ -63,7 +63,7 @@ namespace KeyHub.Integration.Tests.TestSetup
             browser.FindElementByCssSelector("a[href='/SKU/Create']").Click();
             SiteUtil.SetValueForChosenJQueryControl(browser, "#SKU_VendorId_chzn", vendorName);
             browser.FindElementByCssSelector("input#SKU_SkuCode").SendKeys(skuCode);
-            SiteUtil.SetValueForChosenJQueryControl(browser, "#SKU_SelectedFeatureGUIDs_chzn", featureName);
+            SiteUtil.SetValueForChosenJQueryControlMulti(browser, "#SKU_SelectedFeatureGUIDs_chzn", featureName);
             browser.FindElementByCssSelector("input#SKU_LicenseDuration").SendKeys("100");
             browser.FindElementByCssSelector("input#SKU_AutoDomainDuration").SendKeys("100");
 
