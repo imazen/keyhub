@@ -27,7 +27,7 @@ namespace KeyHub.Web.ViewModels.SKU
             VendorId = sku.VendorId;
             PrivateKeyId = sku.PrivateKeyId;
             SkuCode = sku.SkuCode;
-            SkuAternativeCode = sku.SkuAternativeCode;
+            SkuAlternateString = sku.SkuAternativeCode;
             MaxDomains = sku.MaxDomains;
             EditOwnershipDuration = sku.EditOwnershipDuration;
             MaxSupportContacts = sku.MaxSupportContacts;
@@ -55,7 +55,7 @@ namespace KeyHub.Web.ViewModels.SKU
             current.VendorId = this.VendorId;
             current.PrivateKeyId = this.PrivateKeyId;
             current.SkuCode = this.SkuCode;
-            current.SkuAternativeCode = this.SkuAternativeCode;
+            current.SkuAternativeCode = this.SkuAlternateString;
             current.MaxDomains = this.MaxDomains;
             current.EditOwnershipDuration = this.EditOwnershipDuration;
             current.MaxSupportContacts = this.MaxSupportContacts;
@@ -104,7 +104,7 @@ namespace KeyHub.Web.ViewModels.SKU
         /// </summary>
         [StringLength(256)]
         [DisplayName("Alternative name")]
-        public string SkuAternativeCode { get; set; }
+        public string SkuAlternateString { get; set; }
 
         /// <summary>
         /// The maximum number of domain licenses permitted by this license.
