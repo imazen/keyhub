@@ -23,6 +23,7 @@ namespace KeyHub.Web.ViewModels.CustomerApp
         [StringLength(256)]
         public string ApplicationName { get; set; }
 
+        [Required]
         public List<Guid> SelectedLicenseGUIDs { get; set; }
 
         /// <summary>
