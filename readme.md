@@ -1,4 +1,4 @@
-# KeyHub
+# KeyHub [![Bountysource](https://www.bountysource.com/badge/tracker?tracker_id=400599)](https://www.bountysource.com/trackers/400599-imazen-keyhub?utm_source=400599&utm_medium=shield&utm_campaign=TRACKER_BADGE)
 
 KeyHub is a portal for customers to view their purchases, generate license keys,
 access their private downloads, and configure their error and update notification preferences.
